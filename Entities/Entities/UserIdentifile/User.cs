@@ -1,0 +1,23 @@
+﻿using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Entities.Models.UserIdentifile
+{
+    public class User : IdentityUser
+    {
+        public string Guid { get; protected set; } = null!;
+        public string FirstName { get; set; } = String.Empty;
+        public string LastName { get; set; } = String.Empty;
+        public int age { get; set; }
+        public string job { get; set; }
+        public string function { get; set; }
+        public string department { get; set; }
+        public string roomID { get; set; }
+        public DateTime DateJoin { get; set; }
+        public bool IsDeleted { get; set; } = false;
+        public bool IsExpired { get; set; } = false;
+        public virtual ICollection<UserRole> UserRoles { get; set; } = new HashSet<UserRole>();
+    }
+}
