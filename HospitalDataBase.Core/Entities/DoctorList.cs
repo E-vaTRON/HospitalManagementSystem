@@ -1,5 +1,4 @@
 ﻿using Core.Entities.UserIdentifile;
-using System;
 
 namespace HospitalDataBase.Core.Entities
 {

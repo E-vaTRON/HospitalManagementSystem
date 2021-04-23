@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HospitalDataBase.Core.Entities.UnitType
 {
-    public enum Unit
+    public enum Units
     {
         tablets,
         tube
