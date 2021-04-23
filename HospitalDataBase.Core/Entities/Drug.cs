@@ -11,7 +11,7 @@ namespace HospitalDataBase.Core.Entities
         public string GoodID { get; set; }
         public string GoodName { get; set; }             //tên hàng
         public string ActiveIngredientName { get; set; } //tên hoạt chất
-        public Unit Unit { get; set; }                   //đơn vị tính
+        public Units Unit { get; set; }                   //đơn vị tính
         public string GoodType { get; set; }             //loại hàng hóa
         public string UnitPrice { get; set; }            //đơn giá
         public int HealthInsurancePrice { get; set; }    //giá bảo hiểm y tế
