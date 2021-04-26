@@ -16,6 +16,7 @@ namespace HospitalDataBase.Repository
     {
         protected readonly ApplicationDbContext _context;
         protected readonly DbSet<T> _dbSet;
+
         public BaseRepository(ApplicationDbContext context)
         {
             _context = context;
@@ -30,10 +31,12 @@ namespace HospitalDataBase.Repository
             var items = await _dbSet.FindAsync(id);
             return items;
         }
+
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             await _context.SaveChangesAsync(cancellationToken);
         }
+
         public void Add(T entity)
         {
             _dbSet.Add(entity);
@@ -43,6 +46,7 @@ namespace HospitalDataBase.Repository
         {
             _dbSet.Update(entity);
         }
+
         public void Delete(T entity)
         {
             _dbSet.Remove(entity);

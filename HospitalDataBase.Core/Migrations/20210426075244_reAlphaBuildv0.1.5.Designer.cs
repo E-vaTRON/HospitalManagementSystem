@@ -4,14 +4,16 @@ using HospitalDataBase.Core.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HospitalDataBase.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210426075244_reAlphaBuildv0.1.5")]
+    partial class reAlphaBuildv015
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -181,15 +183,30 @@ namespace HospitalDataBase.Core.Migrations
                     b.Property<string>("DSymptom")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DeviceID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeviceServiceID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PatientID")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("ResultFrom")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Sex")
+                        .HasColumnType("bit");
+
                     b.HasKey("ID");
 
-                    b.HasIndex("DeviceID");
+                    b.HasIndex("DeviceServiceID");
 
                     b.HasIndex("PatientID");
 
@@ -198,10 +215,15 @@ namespace HospitalDataBase.Core.Migrations
 
             modelBuilder.Entity("HospitalDataBase.Core.Entities.DeviceService", b =>
                 {
-                    b.Property<string>("DeviceID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeviceID")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DeviceName")
@@ -240,7 +262,7 @@ namespace HospitalDataBase.Core.Migrations
                     b.Property<int>("UnitPrice")
                         .HasColumnType("int");
 
-                    b.HasKey("DeviceID");
+                    b.HasKey("ID");
 
                     b.ToTable("DeviceServices");
                 });
@@ -601,8 +623,7 @@ namespace HospitalDataBase.Core.Migrations
                 {
                     b.HasOne("HospitalDataBase.Core.Entities.DeviceService", "DeviceService")
                         .WithMany("AnalysationTests")
-                        .HasForeignKey("DeviceID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("DeviceServiceID");
 
                     b.HasOne("HospitalDataBase.Core.Entities.Patient", "Patient")
                         .WithMany("AnalysationTests")
