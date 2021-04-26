@@ -12,7 +12,7 @@ namespace HospitalDataBase.DataObjects
         public string Function { get; set; }
         public string Department { get; set; }
         public string RoomID { get; set; }
-        public DateTime DateJoin { get; set; }
+        public string DateJoin { get; set; }
         public bool IsDeleted { get; set; } = false;
         public bool IsExpired { get; set; } = false;
         public bool Verified { get; set; }

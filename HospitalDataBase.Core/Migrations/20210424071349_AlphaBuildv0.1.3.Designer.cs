@@ -4,14 +4,16 @@ using HospitalDataBase.Core.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HospitalDataBase.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210424071349_AlphaBuildv0.1.3")]
+    partial class AlphaBuildv013
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,7 +173,7 @@ namespace HospitalDataBase.Core.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("HospitalDataBase.Core.Entities.AnalysationTest", b =>
+            modelBuilder.Entity("HospitalDataBase.Core.Entities.Analysation", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -181,27 +183,39 @@ namespace HospitalDataBase.Core.Migrations
                     b.Property<string>("DSymptom")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DeviceID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PatientID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("ID");
+                    b.Property<bool>("Sex")
+                        .HasColumnType("bit");
 
-                    b.HasIndex("DeviceID");
+                    b.HasKey("ID");
 
                     b.HasIndex("PatientID");
 
-                    b.ToTable("AnalysationTests");
+                    b.ToTable("Analysations");
                 });
 
             modelBuilder.Entity("HospitalDataBase.Core.Entities.DeviceService", b =>
                 {
-                    b.Property<string>("DeviceID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeviceID")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DeviceName")
@@ -225,8 +239,8 @@ namespace HospitalDataBase.Core.Migrations
                     b.Property<string>("Result")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ResultFromType")
-                        .HasColumnType("int");
+                    b.Property<string>("ResultFromType")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ServicePrice")
                         .HasColumnType("int");
@@ -240,7 +254,7 @@ namespace HospitalDataBase.Core.Migrations
                     b.Property<int>("UnitPrice")
                         .HasColumnType("int");
 
-                    b.HasKey("DeviceID");
+                    b.HasKey("ID");
 
                     b.ToTable("DeviceServices");
                 });
@@ -468,6 +482,38 @@ namespace HospitalDataBase.Core.Migrations
                     b.ToTable("Patients");
                 });
 
+            modelBuilder.Entity("HospitalDataBase.Core.Entities.Test", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DSymptom")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PatientID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("Sex")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("PatientID");
+
+                    b.ToTable("Tests");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -597,19 +643,12 @@ namespace HospitalDataBase.Core.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("HospitalDataBase.Core.Entities.AnalysationTest", b =>
+            modelBuilder.Entity("HospitalDataBase.Core.Entities.Analysation", b =>
                 {
-                    b.HasOne("HospitalDataBase.Core.Entities.DeviceService", "DeviceService")
-                        .WithMany("AnalysationTests")
-                        .HasForeignKey("DeviceID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("HospitalDataBase.Core.Entities.Patient", "Patient")
-                        .WithMany("AnalysationTests")
+                        .WithMany("Analysations")
                         .HasForeignKey("PatientID")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("DeviceService");
 
                     b.Navigation("Patient");
                 });
@@ -652,6 +691,16 @@ namespace HospitalDataBase.Core.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Drug");
+                });
+
+            modelBuilder.Entity("HospitalDataBase.Core.Entities.Test", b =>
+                {
+                    b.HasOne("HospitalDataBase.Core.Entities.Patient", "Patient")
+                        .WithMany("Tests")
+                        .HasForeignKey("PatientID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -700,11 +749,6 @@ namespace HospitalDataBase.Core.Migrations
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("HospitalDataBase.Core.Entities.DeviceService", b =>
-                {
-                    b.Navigation("AnalysationTests");
-                });
-
             modelBuilder.Entity("HospitalDataBase.Core.Entities.Drug", b =>
                 {
                     b.Navigation("Exportations");
@@ -716,9 +760,11 @@ namespace HospitalDataBase.Core.Migrations
 
             modelBuilder.Entity("HospitalDataBase.Core.Entities.Patient", b =>
                 {
-                    b.Navigation("AnalysationTests");
+                    b.Navigation("Analysations");
 
                     b.Navigation("Exams");
+
+                    b.Navigation("Tests");
                 });
 #pragma warning restore 612, 618
         }

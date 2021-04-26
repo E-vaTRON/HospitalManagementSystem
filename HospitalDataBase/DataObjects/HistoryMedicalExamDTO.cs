@@ -1,11 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace HospitalDataBase.DataObjects
 {
-    public class HistoryMedicalExamDTO
+    public class HistoryMedicalExamDTO : BaseDTO
     {
+        public string PatientID { get; set; }           //mã số bệnh nhân
+        public string DateTakeExam { get; set; }      //ngày khám bệnh
+        public string DateReExam { get; set; }        //ngày tái khám
+        public string PatientRecipient { get; set; }    //người nhận bệnh
+        public string DoctorName { get; set; }          //tên bác sĩ
+        public string Diagnose { get; set; }            //chuẩn đoán
+        public int ExamID { get; set; }                 //mã số khám bệnh (bốc số)
     }
 }

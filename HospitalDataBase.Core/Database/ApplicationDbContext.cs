@@ -10,7 +10,7 @@ namespace HospitalDataBase.Core.Database
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public virtual DbSet<Analysation> Analysations { get; set; } = null!;
+        public virtual DbSet<AnalysationTest> AnalysationTests { get; set; } = null!;
         public virtual DbSet<DeviceService> DeviceServices { get; set; } = null!;
         public virtual DbSet<DoctorList> Doctors { get; set; } = null!;
         public virtual DbSet<EmployeeList> Employees { get; set; } = null!;
@@ -20,7 +20,6 @@ namespace HospitalDataBase.Core.Database
         public virtual DbSet<HistoryMedicalExam> Exams { get; set; } = null!;
         public virtual DbSet<Inventory> Inventories { get; set; } = null!;
         public virtual DbSet<Patient> Patients { get; set; } = null!;
-        public virtual DbSet<Test> Tests { get; set; } = null;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -77,21 +76,19 @@ namespace HospitalDataBase.Core.Database
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            builder.Entity<Analysation>(entity =>
+            builder.Entity<AnalysationTest>(entity =>
             {
                 entity.HasOne<Patient>(a => a.Patient)
-                      .WithMany(p => p.Analysations)
+                      .WithMany(p => p.AnalysationTests)
                       .HasForeignKey(a => a.PatientID)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne<DeviceService>(a => a.DeviceService)
+                      .WithMany(d => d.AnalysationTests)
+                      .HasForeignKey(a => a.DeviceID)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            builder.Entity<Test>(entity =>
-            {
-                entity.HasOne<Patient>(t => t.Patient)
-                      .WithMany(p => p.Tests)
-                      .HasForeignKey(t => t.PatientID)
-                      .OnDelete(DeleteBehavior.Restrict);
-            });
         }
     }
 }

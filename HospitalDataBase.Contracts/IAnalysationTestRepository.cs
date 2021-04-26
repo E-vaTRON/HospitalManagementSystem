@@ -2,7 +2,7 @@
 
 namespace HospitalDataBase.Contracts
 {
-    public interface IAnalysationRepository : IBaseRepository<Analysation>
+    public interface IAnalysationTestRepository : IBaseRepository<AnalysationTest>
     {
     }
 }

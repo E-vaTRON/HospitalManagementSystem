@@ -2,12 +2,12 @@
 
 namespace HospitalDataBase.DataObjects
 {
-    public class GoodsExportationDTO
+    public class GoodsExportationDTO :BaseDTO
     {
-        public DateTime RecordDay { get; set; }           //ngày ghi sổ
+        public string RecordDay { get; set; }           //ngày ghi sổ
         public string GoodID { get; set; }                //mã hàng
         public string ShipmentID { get; set; }            //số lô
-        public DateTime ExpiryDate { get; set; }          //hạn dùng
+        public string ExpiryDate { get; set; }          //hạn dùng
         public int Amount { get; set; }                   //số lượng
         public int TotalPrice { get; set; }               //thành tiền
         public int PatientID { get; set; }                //mã số bệnh nhân

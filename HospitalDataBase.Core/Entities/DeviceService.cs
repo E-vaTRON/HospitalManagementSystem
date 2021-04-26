@@ -1,11 +1,12 @@
-﻿
-
-using HospitalDataBase.Core.Entities.UnitType;
+﻿using HospitalDataBase.Core.Entities.UnitType;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace HospitalDataBase.Core.Entities
 {
-    public class DeviceService : BaseEntity
+    public class DeviceService
     {
+        [Key]
         public string DeviceID { get; set; }           //mã hàng
         public string DeviceName { get; set; }         //tên hàng
         public Units Unit { get; set; }                //đơn vị tính
@@ -19,6 +20,8 @@ namespace HospitalDataBase.Core.Entities
         public string GroupID { get; set; }            //mã số nhóm
         public int Min { get; set; }                   //MIN
         public int Max { get; set; }                   //MAX
-        public string ResultFromType { get; set; }     //form kết quả chuẩn đoán (hình ảnh/ kết quả xét nghiệm<bản>)
+        public FormType ResultFromType { get; set; }    //form kết quả chuẩn đoán (hình ảnh/ kết quả xét nghiệm<bản>)
+
+        public virtual ICollection<AnalysationTest> AnalysationTests { get; set; }
     }
 }
