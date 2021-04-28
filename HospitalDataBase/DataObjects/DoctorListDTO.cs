@@ -1,7 +1,10 @@
 ﻿using System;
+using HospitalDataBase.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalDataBase.DataObjects
 {
+    [ModelBinder(typeof(MultipleSourcesModelBinder<DoctorListDTO>))]
     public class DoctorListDTO : BaseDTO
     {
         public string Guid { get; protected set; } = null!;

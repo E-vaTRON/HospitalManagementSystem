@@ -1,8 +1,11 @@
 ﻿using System;
+using HospitalDataBase.Services;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace HospitalDataBase.DataObjects
 {
+    [ModelBinder(typeof(MultipleSourcesModelBinder<HistoryMedicalExamDTO>))]
     public class HistoryMedicalExamDTO : BaseDTO
     {
         public string PatientID { get; set; }           //mã số bệnh nhân

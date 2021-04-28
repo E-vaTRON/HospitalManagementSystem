@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using HospitalDataBase.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalDataBase.DataObjects
 {
+
+    [ModelBinder(typeof(MultipleSourcesModelBinder<PatientDTO>))]
     public class PatientDTO : BaseDTO
     {
         public string PatientID { get; set; }

@@ -1,8 +1,11 @@
 ﻿using System;
+using HospitalDataBase.Services;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace HospitalDataBase.DataObjects
 {
+    [ModelBinder(typeof(MultipleSourcesModelBinder<GoodsImportationDTO>))]
     public class GoodsImportationDTO : BaseDTO
     {
         public string ReceiptID { get; set; }              //số chứng từ
