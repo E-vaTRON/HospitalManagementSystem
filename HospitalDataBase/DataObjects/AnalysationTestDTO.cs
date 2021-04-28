@@ -8,10 +8,9 @@ namespace HospitalDataBase.DataObjects
     public class AnalysationTestDTO : BaseDTO
     {
         public string PatientID { get; set; }       //mã số bệnh nhân
-        public string FirstName { get; set; }       //họ
-        public string LastName { get; set; }        //tên
-        public string DateOfBirth { get; set; }   //năm sinh
-        public bool Sex { get; set; }               //giới tính
+        public string DeviceID { get; set; }
         public string DSymptom { get; set; }        //triệu chứng lâm sàng
+        public string DoctorComment { get; set; }   //chỉ định
+
     }
 }

@@ -4,14 +4,16 @@ using HospitalDataBase.Core.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HospitalDataBase.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210427163608_littleTest")]
+    partial class littleTest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -187,20 +189,14 @@ namespace HospitalDataBase.Core.Migrations
                     b.Property<string>("DoctorComment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ExamID")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("PatientID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ResultFromType")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
                     b.HasIndex("DeviceID");
 
-                    b.HasIndex("ExamID");
+                    b.HasIndex("PatientID");
 
                     b.ToTable("AnalysationTests");
                 });
@@ -231,7 +227,10 @@ namespace HospitalDataBase.Core.Migrations
                     b.Property<int>("Min")
                         .HasColumnType("int");
 
-                    b.Property<int>("Result")
+                    b.Property<string>("Result")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ResultFromType")
                         .HasColumnType("int");
 
                     b.Property<int>("ServicePrice")
@@ -298,17 +297,11 @@ namespace HospitalDataBase.Core.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<string>("ExamID")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("GoodID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("InventoryID")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("PatientID")
                         .HasColumnType("int");
@@ -330,9 +323,7 @@ namespace HospitalDataBase.Core.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ExamID");
-
-                    b.HasIndex("InventoryID");
+                    b.HasIndex("GoodID");
 
                     b.ToTable("GoodsExportations");
                 });
@@ -357,10 +348,7 @@ namespace HospitalDataBase.Core.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("GoodID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("InventoryID")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("ReceiptDay")
                         .HasColumnType("datetime2");
@@ -385,15 +373,17 @@ namespace HospitalDataBase.Core.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("InventoryID");
+                    b.HasIndex("GoodID");
 
                     b.ToTable("GetGoodsImportations");
                 });
 
             modelBuilder.Entity("HospitalDataBase.Core.Entities.HistoryMedicalExam", b =>
                 {
-                    b.Property<string>("ExamID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("DateReExam")
                         .HasColumnType("datetime2");
@@ -407,7 +397,7 @@ namespace HospitalDataBase.Core.Migrations
                     b.Property<string>("DoctorName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LineID")
+                    b.Property<int>("ExamID")
                         .HasColumnType("int");
 
                     b.Property<string>("PatientID")
@@ -416,7 +406,7 @@ namespace HospitalDataBase.Core.Migrations
                     b.Property<string>("PatientRecipient")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ExamID");
+                    b.HasKey("ID");
 
                     b.HasIndex("PatientID");
 
@@ -425,7 +415,7 @@ namespace HospitalDataBase.Core.Migrations
 
             modelBuilder.Entity("HospitalDataBase.Core.Entities.Inventory", b =>
                 {
-                    b.Property<int>("InventoryID")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -442,7 +432,7 @@ namespace HospitalDataBase.Core.Migrations
                     b.Property<string>("ShipmentID")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("InventoryID");
+                    b.HasKey("ID");
 
                     b.HasIndex("GoodID");
 
@@ -619,43 +609,34 @@ namespace HospitalDataBase.Core.Migrations
                         .HasForeignKey("DeviceID")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("HospitalDataBase.Core.Entities.HistoryMedicalExam", "HistoryMedicalExam")
+                    b.HasOne("HospitalDataBase.Core.Entities.Patient", "Patient")
                         .WithMany("AnalysationTests")
-                        .HasForeignKey("ExamID")
+                        .HasForeignKey("PatientID")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("DeviceService");
 
-                    b.Navigation("HistoryMedicalExam");
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("HospitalDataBase.Core.Entities.GoodsExportation", b =>
                 {
-                    b.HasOne("HospitalDataBase.Core.Entities.HistoryMedicalExam", "HistoryMedicalExam")
-                        .WithMany("GoodsExportations")
-                        .HasForeignKey("ExamID")
+                    b.HasOne("HospitalDataBase.Core.Entities.Drug", "Drug")
+                        .WithMany("Exportations")
+                        .HasForeignKey("GoodID")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("HospitalDataBase.Core.Entities.Inventory", "Inventory")
-                        .WithMany("Exportations")
-                        .HasForeignKey("InventoryID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("HistoryMedicalExam");
-
-                    b.Navigation("Inventory");
+                    b.Navigation("Drug");
                 });
 
             modelBuilder.Entity("HospitalDataBase.Core.Entities.GoodsImportation", b =>
                 {
-                    b.HasOne("HospitalDataBase.Core.Entities.Inventory", "Inventory")
+                    b.HasOne("HospitalDataBase.Core.Entities.Drug", "Drug")
                         .WithMany("Importations")
-                        .HasForeignKey("InventoryID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("GoodID")
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Inventory");
+                    b.Navigation("Drug");
                 });
 
             modelBuilder.Entity("HospitalDataBase.Core.Entities.HistoryMedicalExam", b =>
@@ -731,25 +712,17 @@ namespace HospitalDataBase.Core.Migrations
 
             modelBuilder.Entity("HospitalDataBase.Core.Entities.Drug", b =>
                 {
-                    b.Navigation("Inventories");
-                });
-
-            modelBuilder.Entity("HospitalDataBase.Core.Entities.HistoryMedicalExam", b =>
-                {
-                    b.Navigation("AnalysationTests");
-
-                    b.Navigation("GoodsExportations");
-                });
-
-            modelBuilder.Entity("HospitalDataBase.Core.Entities.Inventory", b =>
-                {
                     b.Navigation("Exportations");
 
                     b.Navigation("Importations");
+
+                    b.Navigation("Inventories");
                 });
 
             modelBuilder.Entity("HospitalDataBase.Core.Entities.Patient", b =>
                 {
+                    b.Navigation("AnalysationTests");
+
                     b.Navigation("Exams");
                 });
 #pragma warning restore 612, 618

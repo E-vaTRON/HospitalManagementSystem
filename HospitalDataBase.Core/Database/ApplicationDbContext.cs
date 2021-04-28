@@ -54,17 +54,22 @@ namespace HospitalDataBase.Core.Database
 
             builder.Entity<GoodsExportation>(entity =>
             {
-                entity.HasOne<Drug>(e => e.Drug)
-                      .WithMany(d => d.Exportations)
-                      .HasForeignKey(e => e.GoodID)
+                entity.HasOne<Inventory>(g => g.Inventory)
+                      .WithMany(i => i.Exportations)
+                      .HasForeignKey(g => g.InventoryID)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne<HistoryMedicalExam>(g => g.HistoryMedicalExam)
+                      .WithMany(h => h.GoodsExportations)
+                      .HasForeignKey(g => g.ExamID)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<GoodsImportation>(entity =>
             {
-                entity.HasOne<Drug>(i => i.Drug)
-                      .WithMany(d => d.Importations)
-                      .HasForeignKey(i => i.GoodID)
+                entity.HasOne<Inventory>(g => g.Inventory)
+                      .WithMany(i => i.Importations)
+                      .HasForeignKey(g => g.InventoryID)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
@@ -78,9 +83,9 @@ namespace HospitalDataBase.Core.Database
 
             builder.Entity<AnalysationTest>(entity =>
             {
-                entity.HasOne<Patient>(a => a.Patient)
+                entity.HasOne<HistoryMedicalExam>(a => a.HistoryMedicalExam)
                       .WithMany(p => p.AnalysationTests)
-                      .HasForeignKey(a => a.PatientID)
+                      .HasForeignKey(a => a.ExamID)
                       .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne<DeviceService>(a => a.DeviceService)

@@ -20,7 +20,5 @@ namespace HospitalDataBase.Core.Entities
         public string GroupID { get; set; }              //mã số nhóm
 
         public virtual ICollection<Inventory> Inventories { get; set; } = new HashSet<Inventory>();
-        public virtual ICollection<GoodsExportation> Exportations { get; set; } = new HashSet<GoodsExportation>();
-        public virtual ICollection<GoodsImportation> Importations { get; set; } = new HashSet<GoodsImportation>();
     }
 }

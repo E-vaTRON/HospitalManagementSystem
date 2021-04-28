@@ -1,7 +1,9 @@
-﻿
+﻿using HospitalDataBase.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalDataBase.DataObjects
 {
+    [ModelBinder(typeof(MultipleSourcesModelBinder<DrugDTO>))]
     public class DrugDTO : BaseDTO
     {
         public string GoodID { get; set; }

@@ -19,4 +19,8 @@
     <ProjectReference Include="..\HospitalDataBase.Repository\HospitalDataBase.Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataObjects\DisplayDTO\" />
+  </ItemGroup>
+
 </Project>

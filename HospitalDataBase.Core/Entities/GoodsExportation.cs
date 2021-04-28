@@ -6,6 +6,8 @@ namespace HospitalDataBase.Core.Entities
     {
         public DateTime RecordDay { get; set; }           //ngày ghi sổ
         public string GoodID { get; set; }                //mã hàng
+        public int InventoryID { get; set; }
+        public string ExamID { get; set; }
         public string ShipmentID { get; set; }            //số lô
         public DateTime ExpiryDate { get; set; }          //hạn dùng
         public int Amount { get; set; }                   //số lượng
@@ -14,6 +16,8 @@ namespace HospitalDataBase.Core.Entities
         public string PatientName { get; set; }           //tên bệnh nhân
         public string StorageID { get; set; }             //mã kho
 
-        public Drug Drug { get; set; }
+        public Inventory Inventory { get; set; }
+        public HistoryMedicalExam HistoryMedicalExam { get; set; }
+
     }
 }

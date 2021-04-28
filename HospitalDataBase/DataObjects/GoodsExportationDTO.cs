@@ -1,7 +1,10 @@
 ﻿using System;
+using HospitalDataBase.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalDataBase.DataObjects
 {
+    [ModelBinder(typeof(MultipleSourcesModelBinder<GoodsExportationDTO>))]
     public class GoodsExportationDTO :BaseDTO
     {
         public string RecordDay { get; set; }           //ngày ghi sổ

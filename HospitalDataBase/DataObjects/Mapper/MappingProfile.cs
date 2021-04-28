@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HospitalDataBase.Core.Entities;
 using HospitalDataBase.Core.Entities.UnitType;
+using HospitalDataBase.DataObjects.CreateDTO;
 using System;
 using System.Globalization;
 
@@ -14,6 +15,9 @@ namespace HospitalDataBase.DataObjects.Mapper
             CreateMap<AnalysationTestDTO, AnalysationTest>();
             CreateMap<AnalysationTest, AnalysationTestDTO>()
                 .ForMember(d => d.ID, o => o.Ignore());
+            CreateMap<CreateAnalysationTestDTO, AnalysationTest>()
+                .ForMember(d => d.PatientID, o => o.Ignore())
+                .ForMember(d => d.DeviceID, o => o.Ignore());
 
             CreateMap<DeviceServiceDTO, DeviceService>()
                 .ForMember(d => d.Unit, o => o.MapFrom(s => Enum.GetName(typeof(Units), s.Unit)));
