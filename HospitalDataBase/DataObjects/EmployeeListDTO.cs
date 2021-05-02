@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace HospitalDataBase.DataObjects
 {
     [ModelBinder(typeof(MultipleSourcesModelBinder<EmployeeListDTO>))]
-    public class EmployeeListDTO : BaseDTO
+    public class EmployeeListDTO
     {
+        [FromRoute]
+        public string EmployeeID { get; set; }
         public string Guid { get; protected set; } = null!;
         public string FirstName { get; set; } = String.Empty;
         public string LastName { get; set; } = String.Empty;

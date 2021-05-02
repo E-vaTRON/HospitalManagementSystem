@@ -9,6 +9,8 @@ namespace HospitalDataBase.DataObjects
     {
         public string RecordDay { get; set; }           //ngày ghi sổ
         public string GoodID { get; set; }                //mã hàng
+        public int InventoryID { get; set; }
+        public string ExamID { get; set; }
         public string ShipmentID { get; set; }            //số lô
         public string ExpiryDate { get; set; }          //hạn dùng
         public int Amount { get; set; }                   //số lượng

@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace HospitalDataBase.DataObjects
 {
     [ModelBinder(typeof(MultipleSourcesModelBinder<DeviceServiceDTO>))]
-    public class DeviceServiceDTO : BaseDTO
+    public class DeviceServiceDTO
     {
-        public string DeviceID { get; set; }           //mã hàng
+        [FromRoute]
+        public string DeviceID { get; set; }
         public string DeviceName { get; set; }         //tên hàng
         public string Unit { get; set; }               //đơn vị tính
         public int UnitPrice { get; set; }             //đơn giá
@@ -19,6 +20,5 @@ namespace HospitalDataBase.DataObjects
         public string GroupID { get; set; }            //mã số nhóm
         public int Min { get; set; }                   //MIN
         public int Max { get; set; }                   //MAX
-        public string ResultFromType { get; set; }     //form kết quả chuẩn đoán (hình ảnh/ kết quả xét nghiệm<bản>)
     }
 }

@@ -5,8 +5,9 @@ namespace HospitalDataBase.DataObjects
 {
 
     [ModelBinder(typeof(MultipleSourcesModelBinder<PatientDTO>))]
-    public class PatientDTO : BaseDTO
+    public class PatientDTO
     {
+        [FromRoute]
         public string PatientID { get; set; }
         public string FirstName { get; set; }      //họ
         public string LastName { get; set; }       //tên

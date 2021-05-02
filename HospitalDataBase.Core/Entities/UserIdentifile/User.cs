@@ -11,10 +11,10 @@ namespace Core.Entities.UserIdentifile
         public string FirstName { get; set; } = String.Empty;
         public string LastName { get; set; } = String.Empty;
         public int Age { get; set; }
-        public string Job { get; set; }
-        public string Function { get; set; }
-        public string Department { get; set; }
-        public string RoomID { get; set; }
+        public string Job { get; set; }                        //Công việc
+        public string Function { get; set; }                   //chức năng
+        public string Department { get; set; }                 //Bộ phận
+        public string RoomID { get; set; }                     //Phòng
         public DateTime DateJoin { get; set; }
         public bool IsDeleted { get; set; } = false;
         public bool IsExpired { get; set; } = false;

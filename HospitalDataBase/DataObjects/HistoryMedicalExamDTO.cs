@@ -6,14 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace HospitalDataBase.DataObjects
 {
     [ModelBinder(typeof(MultipleSourcesModelBinder<HistoryMedicalExamDTO>))]
-    public class HistoryMedicalExamDTO : BaseDTO
+    public class HistoryMedicalExamDTO
     {
+        [FromRoute]
+        public string ExamID { get; set; }              //mã số khám bệnh
         public string PatientID { get; set; }           //mã số bệnh nhân
         public string DateTakeExam { get; set; }      //ngày khám bệnh
         public string DateReExam { get; set; }        //ngày tái khám
-        public string PatientRecipient { get; set; }    //người nhận bệnh
-        public string DoctorName { get; set; }          //tên bác sĩ
+        public string EmployeeID { get; set; }
+        public string DoctorID { get; set; }
         public string Diagnose { get; set; }            //chuẩn đoán
-        public int ExamID { get; set; }                 //mã số khám bệnh (bốc số)
+        public int LineID { get; set; }                 //bốc số
     }
 }

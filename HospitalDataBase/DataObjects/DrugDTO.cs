@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace HospitalDataBase.DataObjects
 {
     [ModelBinder(typeof(MultipleSourcesModelBinder<DrugDTO>))]
-    public class DrugDTO : BaseDTO
+    public class DrugDTO
     {
+        [FromRoute]
         public string GoodID { get; set; }
         public string GoodName { get; set; }             //tên hàng
         public string ActiveIngredientName { get; set; } //tên hoạt chất

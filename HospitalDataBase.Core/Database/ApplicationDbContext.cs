@@ -79,6 +79,16 @@ namespace HospitalDataBase.Core.Database
                       .WithMany(p => p.Exams)
                       .HasForeignKey(h => h.PatientID)
                       .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne<DoctorList>(h => h.Doctor)
+                      .WithMany(d => d.Exams)
+                      .HasForeignKey(h => h.DoctorID)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne<EmployeeList>(h => h.Employee)
+                      .WithMany(e => e.Exams)
+                      .HasForeignKey(h => h.EmployeeID)
+                      .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<AnalysationTest>(entity =>

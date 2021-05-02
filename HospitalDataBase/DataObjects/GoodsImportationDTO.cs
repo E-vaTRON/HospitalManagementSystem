@@ -8,6 +8,7 @@ namespace HospitalDataBase.DataObjects
     [ModelBinder(typeof(MultipleSourcesModelBinder<GoodsImportationDTO>))]
     public class GoodsImportationDTO : BaseDTO
     {
+        public int InventoryID { get; set; }
         public string ReceiptID { get; set; }              //số chứng từ
         public string BillID { get; set; }                 //số hóa đơn
         public string RecordDay { get; set; }              //ngày ghi sổ
