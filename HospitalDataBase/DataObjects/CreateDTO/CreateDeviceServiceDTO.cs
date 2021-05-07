@@ -1,27 +1,38 @@
-﻿
-using HospitalDataBase.Core.Entities.UnitType;
-using System.Collections.Generic;
+﻿using HospitalDataBase.DataObjects.UnitType;
 using System.ComponentModel.DataAnnotations;
 
-namespace HospitalDataBase.Core.Entities
+namespace HospitalDataBase.DataObjects.CreateDTO
 {
-    public class DeviceService
+    public class CreateDeviceServiceDTO
     {
-        [Key]
-        public string DeviceID { get; set; } = null!;                   //mã hàng
+        [Required]
         public string DeviceName { get; set; } = string.Empty;          //tên hàng
-        public Units Unit { get; set; }                                 //đơn vị tính
-        public int UnitPrice { get; set; }                              //đơn giá
-        public int ServicePrice { get; set; }                           //giá thu phí
-        public int HealthInsurancePrice { get; set; }                   //giá bảo hiểm y tế
-        public string ManagementID { get; set; } = string.Empty;        //mã quản lí
-        public string Country { get; set; } = string.Empty;             //nước sản xuất 
-        public string SmallID { get; set; } = null!;                    //mã con
-        public string GroupID { get; set; } = null!;                    //mã số nhóm
-        public int Min { get; set; }                                    //MIN
-        public int Max { get; set; }                                    //MAX
-        public FormTypes ResultFromType { get; set; }                   //form kết quả chuẩn đoán
 
-        public virtual ICollection<AnalysationTest> AnalysationTests { get; set; } = new HashSet<AnalysationTest>();
+        [Required]
+        public Units Unit { get; set; }                                 //đơn vị tính
+
+        public int UnitPrice { get; set; }                              //đơn giá
+
+        public int ServicePrice { get; set; }                           //giá thu phí
+
+        public int HealthInsurancePrice { get; set; }                   //giá bảo hiểm y tế
+
+        [Required]
+        public string ManagementID { get; set; } = null!;               //mã quản lí
+
+        public string Country { get; set; } = string.Empty;             //nước sản xuất 
+
+        [Required]
+        public string SmallID { get; set; } = string.Empty;             //mã con
+
+        [Required]
+        public string GroupID { get; set; } = string.Empty;             //mã số nhóm
+
+        public int Min { get; set; }                                    //MIN
+
+        public int Max { get; set; }                                    //MAX
+
+        [Required]
+        public FormTypes ResultFromType { get; set; }
     }
 }

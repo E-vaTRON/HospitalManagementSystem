@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Core.Entities.UserIdentifile;
 using HospitalDataBase.Core.Entities;
 using HospitalDataBase.Core.Entities.UnitType;
 using HospitalDataBase.DataObjects.CreateDTO;
 using System;
 using System.Globalization;
+using System.Linq;
 
 namespace HospitalDataBase.DataObjects.Mapper
 {
@@ -22,9 +24,11 @@ namespace HospitalDataBase.DataObjects.Mapper
 
             CreateMap<DeviceServiceDTO, DeviceService>()
                 .ForMember(d => d.Unit, o => o.MapFrom(s => Enum.GetName(typeof(Units), s.Unit)))
+                .ForMember(d => d.ResultFromType, o => o.MapFrom(s => Enum.GetName(typeof(FormTypes), s.ResultFromType)))
                 .ForMember(d => d.DeviceID, o => o.Ignore());
             CreateMap<DeviceService, DeviceServiceDTO>()
-                .ForMember(d => d.Unit, o => o.MapFrom(s => s.Unit.ToString()));
+                .ForMember(d => d.Unit, o => o.MapFrom(s => s.Unit.ToString()))
+                .ForMember(d => d.ResultFromType, o => o.MapFrom(s => s.ResultFromType.ToString()));
 
             CreateMap<DoctorListDTO, DoctorList>()
                 .ForMember(d => d.DateJoin, o => o.MapFrom(s => DateTime.Parse(s.DateJoin, null, DateTimeStyles.AssumeUniversal)))
@@ -46,11 +50,9 @@ namespace HospitalDataBase.DataObjects.Mapper
 
             CreateMap<GoodsExportationDTO, GoodsExportation>()
                 .ForMember(d => d.RecordDay, o => o.MapFrom(s => DateTime.Parse(s.RecordDay, null, DateTimeStyles.AssumeUniversal)))
-                .ForMember(d => d.ExpiryDate, o => o.MapFrom(s => DateTime.Parse(s.ExpiryDate, null, DateTimeStyles.AssumeUniversal)))
                 .ForMember(d => d.ID, o => o.Ignore());
             CreateMap<GoodsExportation, GoodsExportationDTO>()
-                .ForMember(d => d.RecordDay, o => o.MapFrom(s => s.RecordDay.ToString("yyyy-MM-dd")))
-                .ForMember(d => d.ExpiryDate, o => o.MapFrom(s => s.ExpiryDate.ToString("yyyy-MM-dd")));
+                .ForMember(d => d.RecordDay, o => o.MapFrom(s => s.RecordDay.ToString("yyyy-MM-dd")));
 
             CreateMap<GoodsImportationDTO, GoodsImportation>()
                 .ForMember(d => d.RecordDay, o => o.MapFrom(s => DateTime.Parse(s.RecordDay, null, DateTimeStyles.AssumeUniversal)))
@@ -81,6 +83,12 @@ namespace HospitalDataBase.DataObjects.Mapper
                 .ForMember(d => d.PatientID, o => o.Ignore());
             CreateMap<Patient, PatientDTO>()
                 .ForMember(d => d.DayOfBirth, o => o.MapFrom(s => s.DayOfBirth.ToString("yyyy-MM-dd")));
+
+            CreateMap<User, UserDTO>()
+                .ForMember(d => d.Roles, opt => opt.MapFrom(s => s.UserRoles.Select(ur => ur.Role!.Name)));
+            CreateMap<UserDTO, User>()
+                .ForMember(d => d.Guid, opt => opt.Ignore());
+            //CreateMap<CreateUserDTO, User>();
         }
     }
 }

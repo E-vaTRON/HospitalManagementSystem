@@ -37,7 +37,7 @@ namespace HospitalDataBase.Controllers
         }
 
         [HttpGet("{ID}")]
-        public async Task<IActionResult> Get(int ID, CancellationToken cancellationToken)
+        public async Task<IActionResult> Get(int ID, CancellationToken cancellationToken = default)
         {
             var @class = await _analysationTestRepository.FindByIdAsync(ID, cancellationToken);
             if (@class is null) return NotFound();
