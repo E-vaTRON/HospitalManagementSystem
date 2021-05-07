@@ -5,16 +5,17 @@ namespace HospitalDataBase.DataObjects
 {
 
     [ModelBinder(typeof(MultipleSourcesModelBinder<PatientDTO>))]
-    public class PatientDTO : BaseDTO
+    public class PatientDTO
     {
-        public string PatientID { get; set; }
-        public string FirstName { get; set; }      //họ
-        public string LastName { get; set; }       //tên
-        public string DayOfBirth { get; set; }   //ngày sinh
-        public int Age { get; set; }               //tuổi
-        public bool Sex { get; set; }              //giới tính
-        public string Address { get; set; }        //địa chỉ
-        public string CardID { get; set; }         //mã thẻ
-        public string PnoneNumber { get; set; }    //số điện thoại
+        [FromRoute]
+        public string PatientID { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;       //họ
+        public string LastName { get; set; } = string.Empty;        //tên
+        public string DayOfBirth { get; set; } = string.Empty;      //ngày sinh
+        public int Age { get; set; }                                //tuổi
+        public bool Sex { get; set; }                               //giới tính
+        public string Address { get; set; } = string.Empty;         //địa chỉ
+        public string CardID { get; set; } = string.Empty;          //mã thẻ
+        public string PnoneNumber { get; set; } = string.Empty;     //số điện thoại
     }
 }

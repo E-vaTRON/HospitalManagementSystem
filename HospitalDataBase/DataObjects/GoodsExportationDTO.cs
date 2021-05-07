@@ -7,14 +7,12 @@ namespace HospitalDataBase.DataObjects
     [ModelBinder(typeof(MultipleSourcesModelBinder<GoodsExportationDTO>))]
     public class GoodsExportationDTO :BaseDTO
     {
-        public string RecordDay { get; set; }           //ngày ghi sổ
-        public string GoodID { get; set; }                //mã hàng
-        public string ShipmentID { get; set; }            //số lô
-        public string ExpiryDate { get; set; }          //hạn dùng
-        public int Amount { get; set; }                   //số lượng
-        public int TotalPrice { get; set; }               //thành tiền
-        public int PatientID { get; set; }                //mã số bệnh nhân
-        public string PatientName { get; set; }           //tên bệnh nhân
-        public string StorageID { get; set; }             //mã kho
+        public string GoodID { get; set; } = string.Empty;              //mã hàng
+        public string RecordDay { get; set; } = string.Empty;           //ngày ghi sổ
+        public int InventoryID { get; set; }                            //Mã kho
+        public string ExamID { get; set; } = string.Empty;
+        public int Amount { get; set; }                                 //số lượng
+        public int TotalPrice { get; set; }                             //thành tiền
+        public int PatientID { get; set; }                              //mã số bệnh nhân
     }
 }

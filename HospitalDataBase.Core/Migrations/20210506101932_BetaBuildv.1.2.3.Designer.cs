@@ -4,14 +4,16 @@ using HospitalDataBase.Core.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HospitalDataBase.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210506101932_BetaBuildv.1.2.3")]
+    partial class BetaBuildv123
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,7 +67,6 @@ namespace HospitalDataBase.Core.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Department")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Discriminator")
@@ -80,11 +81,9 @@ namespace HospitalDataBase.Core.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Function")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Guid")
@@ -99,11 +98,9 @@ namespace HospitalDataBase.Core.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Job")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -130,7 +127,6 @@ namespace HospitalDataBase.Core.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("RoomID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
@@ -185,23 +181,18 @@ namespace HospitalDataBase.Core.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("DSymptom")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DeviceID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("DoctorComment")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ExamID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PatientID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
@@ -209,9 +200,6 @@ namespace HospitalDataBase.Core.Migrations
                     b.HasIndex("DeviceID");
 
                     b.HasIndex("ExamID");
-
-                    b.HasIndex("ID")
-                        .IsUnique();
 
                     b.ToTable("AnalysationTests");
                 });
@@ -222,22 +210,18 @@ namespace HospitalDataBase.Core.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DeviceName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GroupID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("HealthInsurancePrice")
                         .HasColumnType("int");
 
                     b.Property<string>("ManagementID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Max")
@@ -253,7 +237,6 @@ namespace HospitalDataBase.Core.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SmallID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Unit")
@@ -273,37 +256,31 @@ namespace HospitalDataBase.Core.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ActiveIngredientName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GoodName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GoodType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GroupID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("HealthInsurancePrice")
                         .HasColumnType("int");
 
                     b.Property<string>("ManagementID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Unit")
                         .HasColumnType("int");
 
-                    b.Property<int>("UnitPrice")
-                        .HasColumnType("int");
+                    b.Property<string>("UnitPrice")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("GoodID");
 
@@ -321,11 +298,12 @@ namespace HospitalDataBase.Core.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ExamID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("GoodID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("InventoryID")
@@ -334,8 +312,17 @@ namespace HospitalDataBase.Core.Migrations
                     b.Property<int>("PatientID")
                         .HasColumnType("int");
 
+                    b.Property<string>("PatientName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("RecordDay")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ShipmentID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StorageID")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TotalPrice")
                         .HasColumnType("int");
@@ -343,9 +330,6 @@ namespace HospitalDataBase.Core.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("ExamID");
-
-                    b.HasIndex("ID")
-                        .IsUnique();
 
                     b.HasIndex("InventoryID");
 
@@ -363,18 +347,15 @@ namespace HospitalDataBase.Core.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("BillID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Company")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("GoodID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("InventoryID")
@@ -384,18 +365,15 @@ namespace HospitalDataBase.Core.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ReceiptID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("RecordDay")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ShipmentID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StorageID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Tax")
@@ -405,9 +383,6 @@ namespace HospitalDataBase.Core.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("ID")
-                        .IsUnique();
 
                     b.HasIndex("InventoryID");
 
@@ -426,22 +401,18 @@ namespace HospitalDataBase.Core.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Diagnose")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DoctorID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("EmployeeID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("LineID")
                         .HasColumnType("int");
 
                     b.Property<string>("PatientID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ExamID");
@@ -449,9 +420,6 @@ namespace HospitalDataBase.Core.Migrations
                     b.HasIndex("DoctorID");
 
                     b.HasIndex("EmployeeID");
-
-                    b.HasIndex("ExamID")
-                        .IsUnique();
 
                     b.HasIndex("PatientID");
 
@@ -472,19 +440,14 @@ namespace HospitalDataBase.Core.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("GoodID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ShipmentID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("InventoryID");
 
                     b.HasIndex("GoodID");
-
-                    b.HasIndex("InventoryID")
-                        .IsUnique();
 
                     b.ToTable("Inventories");
                 });
@@ -495,29 +458,24 @@ namespace HospitalDataBase.Core.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
                     b.Property<string>("CardID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DayOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PnoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Sex")
@@ -622,7 +580,6 @@ namespace HospitalDataBase.Core.Migrations
                     b.HasBaseType("Core.Entities.UserIdentifile.User");
 
                     b.Property<string>("DoctorID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Verified")
@@ -636,7 +593,6 @@ namespace HospitalDataBase.Core.Migrations
                     b.HasBaseType("Core.Entities.UserIdentifile.User");
 
                     b.Property<string>("EmployeeID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Verified")
@@ -670,14 +626,12 @@ namespace HospitalDataBase.Core.Migrations
                     b.HasOne("HospitalDataBase.Core.Entities.DeviceService", "DeviceService")
                         .WithMany("AnalysationTests")
                         .HasForeignKey("DeviceID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HospitalDataBase.Core.Entities.HistoryMedicalExam", "HistoryMedicalExam")
                         .WithMany("AnalysationTests")
                         .HasForeignKey("ExamID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("DeviceService");
 
@@ -689,8 +643,7 @@ namespace HospitalDataBase.Core.Migrations
                     b.HasOne("HospitalDataBase.Core.Entities.HistoryMedicalExam", "HistoryMedicalExam")
                         .WithMany("GoodsExportations")
                         .HasForeignKey("ExamID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HospitalDataBase.Core.Entities.Inventory", "Inventory")
                         .WithMany("Exportations")
@@ -719,20 +672,17 @@ namespace HospitalDataBase.Core.Migrations
                     b.HasOne("HospitalDataBase.Core.Entities.DoctorList", "Doctor")
                         .WithMany("Exams")
                         .HasForeignKey("DoctorID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HospitalDataBase.Core.Entities.EmployeeList", "Employee")
                         .WithMany("Exams")
                         .HasForeignKey("EmployeeID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HospitalDataBase.Core.Entities.Patient", "Patient")
                         .WithMany("Exams")
                         .HasForeignKey("PatientID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Doctor");
 
@@ -746,8 +696,7 @@ namespace HospitalDataBase.Core.Migrations
                     b.HasOne("HospitalDataBase.Core.Entities.Drug", "Drug")
                         .WithMany("Inventories")
                         .HasForeignKey("GoodID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Drug");
                 });

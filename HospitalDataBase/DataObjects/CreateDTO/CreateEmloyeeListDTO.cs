@@ -1,25 +1,36 @@
 ﻿using System;
-using HospitalDataBase.Services;
-using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
-namespace HospitalDataBase.DataObjects
+namespace HospitalDataBase.DataObjects.CreateDTO
 {
-    [ModelBinder(typeof(MultipleSourcesModelBinder<EmployeeListDTO>))]
-    public class EmployeeListDTO
+    public class CreateEmloyeeListDTO
     {
-        [FromRoute]
-        public string EmployeeID { get; set; } = string.Empty;
-        public string Guid { get; protected set; } = string.Empty;
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
+        [Required]
+        public string FirstName { get; set; } = String.Empty;
+
+        [Required]
+        public string LastName { get; set; } = String.Empty;
+
+        [Required]
         public int Age { get; set; }
+
+        [Required]
         public string Job { get; set; } = string.Empty;
+
         public string Function { get; set; } = string.Empty;
+
         public string Department { get; set; } = string.Empty;
+
         public string RoomID { get; set; } = string.Empty;
+
+        [Required]
         public string DateJoin { get; set; } = string.Empty;
+
         public bool IsDeleted { get; set; } = false;
+
         public bool IsExpired { get; set; } = false;
+
+        [Required]
         public bool Verified { get; set; }
     }
 }

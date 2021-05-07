@@ -26,7 +26,7 @@ namespace HospitalDataBase.Repository
         public virtual IQueryable<T> FindAll(Expression<Func<T, bool>>? predicate = null)
             => _dbSet.WhereIf(predicate != null, predicate!);
 
-        public virtual async Task<T> FindByIdAsync(int id, CancellationToken cancellationToken = default)
+        public virtual async Task<T>? FindByIdAsync(int id, CancellationToken cancellationToken = default)
         {
             var items = await _dbSet.FindAsync(id);
             return items;

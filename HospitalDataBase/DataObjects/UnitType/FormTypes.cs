@@ -2,9 +2,9 @@
 
 namespace HospitalDataBase.DataObjects.UnitType
 {
-    public enum Units
+    public enum FormTypes
     {
-        tablets,
-        tube
+        AnalysisForm,
+        TestForm
     }
 }

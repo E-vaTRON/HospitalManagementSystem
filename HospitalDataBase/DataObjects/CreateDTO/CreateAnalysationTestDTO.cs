@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace HospitalDataBase.DataObjects.CreateDTO
 {
-    public class CreateAnalysationTestDTO : BaseDTO
+    public class CreateAnalysationTestDTO
     {
-        public string PatientID { get; set; }
-        public string DeviceID { get; set; }
-        public string DSymptom { get; set; }        //triệu chứng lâm sàng
-        public string DoctorComment { get; set; }   //chỉ định
+        [Required]
+        public string PatientID { get; set; } = string.Empty;
 
-        public PatientDTO PatientDTO { get; set; }
+        [Required]
+        public string DeviceID { get; set; } = string.Empty;
+
+        [Required]
+        public string ExamID { get; set; } = string.Empty;
+
+        [Required]
+        public string DSymptom { get; set; } = string.Empty;     //triệu chứng lâm sàng
+
+        public string DoctorComment { get; set; } = string.Empty;  //chỉ định
     }
 }

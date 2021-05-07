@@ -46,50 +46,70 @@ namespace HospitalDataBase.Core.Database
 
             builder.Entity<Inventory>(entity =>
             {
-                entity.HasOne<Drug>(i => i.Drug)
-                      .WithMany(d => d.Inventories)
-                      .HasForeignKey(i => i.GoodID)
+                entity.HasIndex(i => i.InventoryID).IsUnique();
+
+                entity.HasOne(i => i.Drug)
+                      .WithMany(d => d!.Inventories)
+                      .HasForeignKey(i => i!.GoodID)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<GoodsExportation>(entity =>
             {
-                entity.HasOne<Inventory>(g => g.Inventory)
-                      .WithMany(i => i.Exportations)
+                entity.HasIndex(g => g.ID).IsUnique();
+
+                entity.HasOne(g => g.Inventory)
+                      .WithMany(i => i!.Exportations)
                       .HasForeignKey(g => g.InventoryID)
                       .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne<HistoryMedicalExam>(g => g.HistoryMedicalExam)
-                      .WithMany(h => h.GoodsExportations)
+                entity.HasOne(g => g.HistoryMedicalExam)
+                      .WithMany(h => h!.GoodsExportations)
                       .HasForeignKey(g => g.ExamID)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<GoodsImportation>(entity =>
             {
-                entity.HasOne<Inventory>(g => g.Inventory)
-                      .WithMany(i => i.Importations)
+                entity.HasIndex(g => g.ID).IsUnique();
+
+                entity.HasOne(g => g.Inventory)
+                      .WithMany(i => i!.Importations)
                       .HasForeignKey(g => g.InventoryID)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<HistoryMedicalExam>(entity =>
             {
-                entity.HasOne<Patient>(h => h.Patient)
-                      .WithMany(p => p.Exams)
+                entity.HasIndex(h => h.ExamID).IsUnique();
+
+                entity.HasOne(h => h.Patient)
+                      .WithMany(p => p!.Exams)
                       .HasForeignKey(h => h.PatientID)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(h => h.Doctor)
+                      .WithMany(d => d!.Exams)
+                      .HasForeignKey(h => h.DoctorID)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(h => h.Employee)
+                      .WithMany(e => e!.Exams)
+                      .HasForeignKey(h => h.EmployeeID)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<AnalysationTest>(entity =>
             {
-                entity.HasOne<HistoryMedicalExam>(a => a.HistoryMedicalExam)
-                      .WithMany(p => p.AnalysationTests)
+                entity.HasIndex(a => a.ID).IsUnique();
+
+                entity.HasOne(a => a.HistoryMedicalExam)
+                      .WithMany(p => p!.AnalysationTests)
                       .HasForeignKey(a => a.ExamID)
                       .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne<DeviceService>(a => a.DeviceService)
-                      .WithMany(d => d.AnalysationTests)
+                entity.HasOne(a => a.DeviceService)
+                      .WithMany(d => d!.AnalysationTests)
                       .HasForeignKey(a => a.DeviceID)
                       .OnDelete(DeleteBehavior.Restrict);
             });

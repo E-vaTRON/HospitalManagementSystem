@@ -1,19 +1,20 @@
-﻿using System;
-using HospitalDataBase.Services;
+﻿using HospitalDataBase.Services;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace HospitalDataBase.DataObjects
 {
     [ModelBinder(typeof(MultipleSourcesModelBinder<HistoryMedicalExamDTO>))]
-    public class HistoryMedicalExamDTO : BaseDTO
+    public class HistoryMedicalExamDTO
     {
-        public string PatientID { get; set; }           //mã số bệnh nhân
-        public string DateTakeExam { get; set; }      //ngày khám bệnh
-        public string DateReExam { get; set; }        //ngày tái khám
-        public string PatientRecipient { get; set; }    //người nhận bệnh
-        public string DoctorName { get; set; }          //tên bác sĩ
-        public string Diagnose { get; set; }            //chuẩn đoán
-        public int ExamID { get; set; }                 //mã số khám bệnh (bốc số)
+        [FromRoute]
+        public string ExamID { get; set; } = string.Empty;          //mã số khám bệnh
+        public string PatientID { get; set; } = string.Empty;       //mã số bệnh nhân
+        public string DateTakeExam { get; set; } = string.Empty;    //ngày khám bệnh
+        public string DateReExam { get; set; } = string.Empty;      //ngày tái khám
+        public string EmployeeID { get; set; } = string.Empty;
+        public string DoctorID { get; set; } = string.Empty;
+        public string Diagnose { get; set; } = string.Empty;        //chuẩn đoán
+        public int LineID { get; set; }                             //bốc số
     }
 }

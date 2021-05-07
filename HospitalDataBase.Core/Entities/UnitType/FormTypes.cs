@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HospitalDataBase.Core.Entities.UnitType
 {
-    public enum FormType
+    public enum FormTypes
     {
         AnalysisForm,
         TestForm
