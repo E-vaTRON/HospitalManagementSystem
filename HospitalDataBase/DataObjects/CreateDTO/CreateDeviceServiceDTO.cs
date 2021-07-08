@@ -9,6 +9,9 @@ namespace HospitalDataBase.DataObjects.CreateDTO
         public string DeviceName { get; set; } = string.Empty;          //tên hàng
 
         [Required]
+        public string Service { get; set; } = string.Empty;
+
+        [Required]
         public Units Unit { get; set; }                                 //đơn vị tính
 
         public int UnitPrice { get; set; }                              //đơn giá

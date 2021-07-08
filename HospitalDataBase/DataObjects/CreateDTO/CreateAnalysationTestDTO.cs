@@ -4,13 +4,8 @@ namespace HospitalDataBase.DataObjects.CreateDTO
 {
     public class CreateAnalysationTestDTO
     {
-        [Required]
-        public string PatientID { get; set; } = string.Empty;
+        public string DeviceService { get; set; } = string.Empty;
 
-        [Required]
-        public string DeviceID { get; set; } = string.Empty;
-
-        [Required]
         public string ExamID { get; set; } = string.Empty;
 
         [Required]

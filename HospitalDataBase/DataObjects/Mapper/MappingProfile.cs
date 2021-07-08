@@ -3,6 +3,7 @@ using Core.Entities.UserIdentifile;
 using HospitalDataBase.Core.Entities;
 using HospitalDataBase.Core.Entities.UnitType;
 using HospitalDataBase.DataObjects.CreateDTO;
+using HospitalDataBase.DataObjects.ReceiveDTO;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -18,9 +19,11 @@ namespace HospitalDataBase.DataObjects.Mapper
                 .ForMember(d => d.ID, o => o.Ignore());
             CreateMap<AnalysationTest, AnalysationTestDTO>();
             CreateMap<CreateAnalysationTestDTO, AnalysationTest>()
-                .ForMember(d => d.PatientID, o => o.Ignore())
                 .ForMember(d => d.DeviceID, o => o.Ignore())
                 .ForMember(d => d.ExamID, o => o.Ignore());
+            CreateMap<AnalysationTest, ReceiveAnalysationTestDTO>()
+                .ForMember(d => d.LastName, o => o.MapFrom(s => s.HistoryMedicalExam!.Patient!.LastName))
+                .ForMember(d => d.Service, o => o.MapFrom(s => s.DeviceService!.Service));
 
             CreateMap<DeviceServiceDTO, DeviceService>()
                 .ForMember(d => d.Unit, o => o.MapFrom(s => Enum.GetName(typeof(Units), s.Unit)))

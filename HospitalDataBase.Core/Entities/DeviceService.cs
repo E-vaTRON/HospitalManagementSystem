@@ -10,6 +10,7 @@ namespace HospitalDataBase.Core.Entities
         [Key]
         public string DeviceID { get; set; } = null!;                   //mã hàng
         public string DeviceName { get; set; } = string.Empty;          //tên hàng
+        public string Service { get; set; } = string.Empty;             //tên dich4 vụ
         public Units Unit { get; set; }                                 //đơn vị tính
         public int UnitPrice { get; set; }                              //đơn giá
         public int ServicePrice { get; set; }                           //giá thu phí

@@ -9,6 +9,7 @@ namespace HospitalDataBase.DataObjects
         [FromRoute]
         public string DeviceID { get; set; } = string.Empty;
         public string DeviceName { get; set; } = string.Empty;          //tên hàng
+        public string Service { get; set; } = string.Empty;
         public string Unit { get; set; } = string.Empty;                //đơn vị tính
         public int UnitPrice { get; set; }                              //đơn giá
         public int ServicePrice { get; set; }                           //giá thu phí
