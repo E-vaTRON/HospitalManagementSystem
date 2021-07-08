@@ -12,7 +12,7 @@ namespace HospitalDataBase.Contracts
     {
         IQueryable<T> FindAll(Expression<Func<T, bool>>? predicate = null);
 
-        Task<T>? FindByIdAsync(int id, CancellationToken cancellationToken = default);
+        Task<T?> FindByIdAsync(int id, CancellationToken cancellationToken = default);
 
         void Add(T entity);
 

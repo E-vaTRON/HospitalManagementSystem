@@ -3,10 +3,8 @@ using HospitalDataBase.Core.Database;
 using HospitalDataBase.Repository.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,9 +24,9 @@ namespace HospitalDataBase.Repository
         public virtual IQueryable<T> FindAll(Expression<Func<T, bool>>? predicate = null)
             => _dbSet.WhereIf(predicate != null, predicate!);
 
-        public virtual async Task<T>? FindByIdAsync(int id, CancellationToken cancellationToken = default)
+        public virtual async Task<T?> FindByIdAsync(int ID, CancellationToken cancellationToken = default)
         {
-            var items = await _dbSet.FindAsync(id);
+            var items = await _dbSet.FindAsync(ID);
             return items;
         }
 
