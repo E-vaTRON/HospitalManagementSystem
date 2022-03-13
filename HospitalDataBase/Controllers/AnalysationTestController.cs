@@ -19,15 +19,15 @@ namespace HospitalDataBase.Controllers
     public class AnalysationTestController : ControllerBase
     {
         private readonly IAnalysationTestRepository _analysationTestRepository;
-        private readonly IPatientRepository _patientRepository;
+        private readonly IHistoryMedicalExamRepository _historyMedicalExamRepository;
         private readonly IDeviceServiceRepository _deviceServiceRepository;
         private readonly IMapper _mapper;
 
-        public AnalysationTestController(IAnalysationTestRepository analysationTestRepository, IPatientRepository patientRepository, IDeviceServiceRepository deviceServiceRepository, IMapper mapper)
+        public AnalysationTestController(IAnalysationTestRepository analysationTestRepository, IHistoryMedicalExamRepository historyMedicalExamRepository, IDeviceServiceRepository deviceServiceRepository, IMapper mapper)
         {
             _analysationTestRepository = analysationTestRepository;
             _deviceServiceRepository = deviceServiceRepository;
-            _patientRepository = patientRepository;
+            _historyMedicalExamRepository = historyMedicalExamRepository;
             _mapper = mapper;
         }
 
