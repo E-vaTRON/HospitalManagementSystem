@@ -2,7 +2,7 @@
 
 namespace HospitalDataBase.Contracts
 {
-    public interface IEmployeeListRepository : IBaseRepository<EmployeeList>
+    public interface IDoctorRepository : IBaseRepository<Doctor>
     {
     }
 }

@@ -5,10 +5,8 @@ using System.Text;
 
 namespace HospitalDataBase.Core.Entities
 {
-    public class Patient
+    public class Patient : BaseEntity
     {
-        [Key]
-        public string       PatientID { get; set; } = null!;
         public string       FirstName { get; set; } = string.Empty;     //họ
         public string       LastName { get; set; } = string.Empty;      //tên
         public DateTime     DayOfBirth { get; set; }                    //ngày sinh

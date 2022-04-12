@@ -10,16 +10,16 @@ namespace HospitalDataBase.Core.Database
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public virtual DbSet<AnalysationTest> AnalysationTests { get; set; } = null!;
-        public virtual DbSet<DeviceService> DeviceServices { get; set; } = null!;
-        public virtual DbSet<DoctorList> Doctors { get; set; } = null!;
-        public virtual DbSet<EmployeeList> Employees { get; set; } = null!;
-        public virtual DbSet<Drug> Drugs { get; set; } = null!;
-        public virtual DbSet<GoodsExportation> GoodsExportations { get; set; } = null!;
-        public virtual DbSet<GoodsImportation> GetGoodsImportations { get; set; } = null!;
-        public virtual DbSet<HistoryMedicalExam> Exams { get; set; } = null!;
-        public virtual DbSet<Inventory> Inventories { get; set; } = null!;
-        public virtual DbSet<Patient> Patients { get; set; } = null!;
+        public virtual DbSet<AnalysationTest>               AnalysationTests        { get; set; } = null!;
+        public virtual DbSet<DeviceService>                 DeviceServices          { get; set; } = null!;
+        public virtual DbSet<Doctor>                        Doctors                 { get; set; } = null!;
+        public virtual DbSet<Employee>                      Employees               { get; set; } = null!;
+        public virtual DbSet<Drug>                          Drugs                   { get; set; } = null!;
+        public virtual DbSet<PatientTransactionHistory>     TransactionHistorys     { get; set; } = null!;
+        public virtual DbSet<GoodsImportation>              GetGoodsImportations    { get; set; } = null!;
+        public virtual DbSet<HistoryMedicalExam>            HistoryMedicalExams     { get; set; } = null!;
+        public virtual DbSet<Inventory>                     Inventories             { get; set; } = null!;
+        public virtual DbSet<Patient>                       Patients                { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -46,43 +46,35 @@ namespace HospitalDataBase.Core.Database
 
             builder.Entity<Inventory>(entity =>
             {
-                entity.HasIndex(i => i.InventoryID).IsUnique();
-
                 entity.HasOne(i => i.Drug)
                       .WithMany(d => d!.Inventories)
-                      .HasForeignKey(i => i!.GoodID)
+                      .HasForeignKey(i => i!.DrugID)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-            builder.Entity<GoodsExportation>(entity =>
+            builder.Entity<PatientTransactionHistory>(entity =>
             {
-                entity.HasIndex(g => g.ID).IsUnique();
-
                 entity.HasOne(g => g.Inventory)
                       .WithMany(i => i!.Exportations)
                       .HasForeignKey(g => g.InventoryID)
                       .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(g => g.HistoryMedicalExam)
-                      .WithMany(h => h!.GoodsExportations)
+                      .WithMany(h => h!.Transactions)
                       .HasForeignKey(g => g.ExamID)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<GoodsImportation>(entity =>
             {
-                entity.HasIndex(g => g.ID).IsUnique();
-
                 entity.HasOne(g => g.Inventory)
                       .WithMany(i => i!.Importations)
-                      .HasForeignKey(g => g.InventoryID)
+                      .HasForeignKey(g => g.ID)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<HistoryMedicalExam>(entity =>
             {
-                entity.HasIndex(h => h.ExamID).IsUnique();
-
                 entity.HasOne(h => h.Patient)
                       .WithMany(p => p!.Exams)
                       .HasForeignKey(h => h.PatientID)
@@ -101,8 +93,6 @@ namespace HospitalDataBase.Core.Database
 
             builder.Entity<AnalysationTest>(entity =>
             {
-                entity.HasIndex(a => a.ID).IsUnique();
-
                 entity.HasOne(a => a.HistoryMedicalExam)
                       .WithMany(p => p!.AnalysationTests)
                       .HasForeignKey(a => a.ExamID)

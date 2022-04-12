@@ -54,7 +54,7 @@ namespace HospitalDataBase.Controllers
             var @analy = _mapper.Map<AnalysationTest>(dto);
             _analysationTestRepository.Add(@analy);
             await _analysationTestRepository.SaveChangesAsync(cancellationToken);
-            return CreatedAtAction(nameof(Get), new { @analy.ID }, _mapper.Map<AnalysationTestDTO>(@analy));
+            return CreatedAtAction(nameof(Get), new { @analy.ID}, _mapper.Map<AnalysationTestDTO>(@analy));
         }
 
         [HttpPut("{ID}")]

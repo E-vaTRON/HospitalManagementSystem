@@ -4,10 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HospitalDataBase.Core.Entities
 {
-    public class HistoryMedicalExam
+    public class HistoryMedicalExam : BaseEntity
     {
-        [Key]
-        public string       ExamID          { get; set; } = null!;              //mã số khám bệnh
         public string       PatientID       { get; set; } = string.Empty;       //mã số bệnh nhân
         public DateTime     DateTakeExam    { get; set; }                       //ngày khám bệnh
         public DateTime     DateReExam      { get; set; }                       //ngày tái khám
@@ -17,9 +15,9 @@ namespace HospitalDataBase.Core.Entities
         public int          LineID          { get; set; }                       //bốc số
 
         public Patient?         Patient     { get; set; }
-        public DoctorList?      Doctor      { get; set; }
-        public EmployeeList?    Employee    { get; set; }
-        public virtual ICollection<AnalysationTest>     AnalysationTests    { get; set; } = new HashSet<AnalysationTest>();
-        public virtual ICollection<GoodsExportation>    GoodsExportations   { get; set; } = new HashSet<GoodsExportation>();
+        public Doctor?      Doctor      { get; set; }
+        public Employee?    Employee    { get; set; }
+        public virtual ICollection<AnalysationTest>             AnalysationTests    { get; set; } = new HashSet<AnalysationTest>();
+        public virtual ICollection<PatientTransactionHistory>   Transactions        { get; set; } = new HashSet<PatientTransactionHistory>();
     }
 }
