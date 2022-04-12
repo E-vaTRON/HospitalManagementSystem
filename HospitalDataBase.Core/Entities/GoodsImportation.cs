@@ -5,7 +5,6 @@ namespace HospitalDataBase.Core.Entities
 {
     public class GoodsImportation : BaseEntity
     {
-        public int          InventoryID     { get; set; }
         public string       ReceiptID       { get; set; } = string.Empty;           //số chứng từ
         public string       BillID          { get; set; } = string.Empty;           //số hóa đơn
         public DateTime     RecordDay       { get; set; }                           //ngày ghi sổ

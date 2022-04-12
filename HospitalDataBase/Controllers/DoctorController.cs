@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HospitalDataBase.Controllers
 {
-    public class GoodsExportationController : Controller
+    public class DoctorController : Controller
     {
         public IActionResult Index()
         {

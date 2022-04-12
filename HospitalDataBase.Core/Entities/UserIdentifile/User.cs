@@ -7,7 +7,6 @@ namespace Core.Entities.UserIdentifile
 {
     public class User : IdentityUser
     {
-        [Key]
         public string       Guid        { get; protected set; } = null!;
         public string       FirstName   { get; set; } = string.Empty;
         public string       LastName    { get; set; } = string.Empty;
