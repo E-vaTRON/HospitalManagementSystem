@@ -1,20 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace HospitalDataBase.Core.Entities
 {
     public class PatientTransactionHistory : BaseEntity
     {
-        public string InventoryID { get; set; } = string.Empty;
+        public int          ExamID          { get; set; }
         public DateTime     RecordDay       { get; set; }                       //ngày ghi sổ
-        public string       ExamID          { get; set; } = string.Empty;
-        public int          Amount          { get; set; }                       //số lượng
         public int          TotalPrice      { get; set; }                       //thành tiền
-        public int          PatientID       { get; set; }                       //mã số bệnh nhân
 
+        public HistoryMedicalExam? Exam { get; set; }
 
-        public Inventory?           Inventory           { get; set; }
-        public HistoryMedicalExam?  HistoryMedicalExam  { get; set; }
+        public virtual ICollection<Bill> Bills { get; set; } = new HashSet<Bill>();
 
     }
 }

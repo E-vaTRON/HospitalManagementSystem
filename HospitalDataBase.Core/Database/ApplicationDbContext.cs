@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HospitalDataBase.Core.Database
 {
-    public class ApplicationDbContext : IdentityDbContext<User, Role, string, IdentityUserClaim<string>, UserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -20,6 +20,12 @@ namespace HospitalDataBase.Core.Database
         public virtual DbSet<HistoryMedicalExam>            HistoryMedicalExams     { get; set; } = null!;
         public virtual DbSet<Inventory>                     Inventories             { get; set; } = null!;
         public virtual DbSet<Patient>                       Patients                { get; set; } = null!;
+        public virtual DbSet<Suppling>                      Supplings               { get; set; } = null!;
+        public virtual DbSet<Storage>                       Storages                { get; set; } = null!;
+        public virtual DbSet<Bill>                          Bills                   { get; set; } = null!;
+        public virtual DbSet<User>                          Users                   { get; set; } = null!;
+        public virtual DbSet<Role>                          Roles                   { get; set; } = null!;
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -35,12 +41,12 @@ namespace HospitalDataBase.Core.Database
             {
                 entity.HasOne(ur => ur.Role)
                       .WithMany(r => r!.UserRoles)
-                      .HasForeignKey(ur => ur.RoleId)
+                      .HasForeignKey(ur => ur.ID)
                       .IsRequired().OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(ur => ur.User)
                       .WithMany(u => u!.UserRoles)
-                      .HasForeignKey(ur => ur.UserId)
+                      .HasForeignKey(ur => ur.ID)
                       .IsRequired().OnDelete(DeleteBehavior.Cascade);
             });
 
@@ -50,26 +56,18 @@ namespace HospitalDataBase.Core.Database
                       .WithMany(d => d!.Inventories)
                       .HasForeignKey(i => i!.DrugID)
                       .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(i => i.Storage)
+                      .WithMany(d => d!.Inventories)
+                      .HasForeignKey(i => i!.StorageID)
+                      .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<PatientTransactionHistory>(entity =>
             {
-                entity.HasOne(g => g.Inventory)
-                      .WithMany(i => i!.Exportations)
-                      .HasForeignKey(g => g.InventoryID)
-                      .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasOne(g => g.HistoryMedicalExam)
-                      .WithMany(h => h!.Transactions)
-                      .HasForeignKey(g => g.ExamID)
-                      .OnDelete(DeleteBehavior.Restrict);
-            });
-
-            builder.Entity<GoodsImportation>(entity =>
-            {
-                entity.HasOne(g => g.Inventory)
-                      .WithMany(i => i!.Importations)
-                      .HasForeignKey(g => g.ID)
+                entity.HasOne(p => p.Exam)
+                      .WithOne(e => e.Transaction)
+                      .HasForeignKey<HistoryMedicalExam>(e => e.TransactionID)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
@@ -88,6 +86,11 @@ namespace HospitalDataBase.Core.Database
                 entity.HasOne(h => h.Employee)
                       .WithMany(e => e!.Exams)
                       .HasForeignKey(h => h.EmployeeID)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(e => e.Transaction)
+                      .WithOne(p => p.Exam)
+                      .HasForeignKey<PatientTransactionHistory>(p => p.ExamID)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
