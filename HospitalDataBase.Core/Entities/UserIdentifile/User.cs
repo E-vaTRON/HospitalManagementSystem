@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using HospitalDataBase.Core.Entities;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Core.Entities.UserIdentifile
 {
-    public class User : IdentityUser
+    public class User : BaseEntity
     {
         public string       Guid        { get; protected set; } = null!;
         public string       FirstName   { get; set; } = string.Empty;
@@ -18,6 +17,7 @@ namespace Core.Entities.UserIdentifile
         public DateTime     DateJoin    { get; set; }
         public bool         IsDeleted   { get; set; } = false;
         public bool         IsExpired   { get; set; } = false;
+
         public virtual ICollection<UserRole>    UserRoles   { get; set; } = new HashSet<UserRole>();
     }
 }

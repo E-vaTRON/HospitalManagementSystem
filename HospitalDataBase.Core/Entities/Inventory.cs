@@ -6,13 +6,17 @@ namespace HospitalDataBase.Core.Entities
 {
     public class Inventory : BaseEntity
     {
-        public string       DrugID          { get; set; } = string.Empty;       //mã hàng
-        public string       ShipmentID      { get; set; } = string.Empty;       //số lô
-        public DateTime     ExpiryDate      { get; set; }                       //hạng dùng
-        public int          CurrentAmount   { get; set; }                       //số lượng hiện tại
+        public int          DrugID          { get; set; }       //mã hàng
+        public int          StorageID       { get; set; }       //mã kho
+        public DateTime     ExpiryDate      { get; set; }       //hạng dùng
+        public int          CurrentAmount   { get; set; }       //số lượng hiện tại
+        public int          OrinaryAmount   { get; set; }
 
-        public Drug?        Drug            { get; set; }
-        public virtual ICollection<PatientTransactionHistory>    Exportations    { get; set; } = new HashSet<PatientTransactionHistory>();
-        public virtual ICollection<GoodsImportation>    Importations    { get; set; } = new HashSet<GoodsImportation>();
+
+        public Drug?        Drug        { get; set; }
+        public Storage?     Storage     { get; set; }
+
+        public virtual ICollection<Suppling>    Supplings   { get; set; } = new HashSet<Suppling>();
+        public virtual ICollection<Bill>        Bills       { get; set; } = new HashSet<Bill>();
     }
 }

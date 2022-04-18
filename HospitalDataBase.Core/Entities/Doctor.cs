@@ -6,7 +6,7 @@ namespace HospitalDataBase.Core.Entities
     public class Doctor : User
     {
         public bool     Verified    { get; set; }
-        public string   DoctorID    { get; set; } = null!;
+        public bool     IsDoctor    { get; set; }
 
         public virtual ICollection<HistoryMedicalExam>  Exams   { get; set; } = new HashSet<HistoryMedicalExam>();
     }

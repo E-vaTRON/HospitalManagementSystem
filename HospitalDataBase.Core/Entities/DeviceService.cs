@@ -8,7 +8,7 @@ namespace HospitalDataBase.Core.Entities
     public class DeviceService : BaseEntity
     {
         public string       DeviceName              { get; set; } = string.Empty;       //tên thiết bị
-        public string       Service                 { get; set; } = string.Empty;       //tên dich4 vụ
+        public string       Service                 { get; set; } = string.Empty;       //tên dich vụ
         public Units        Unit                    { get; set; }                       //đơn vị tính
         public int          UnitPrice               { get; set; }                       //đơn giá
         public int          ServicePrice            { get; set; }                       //giá thu phí
