@@ -52,15 +52,11 @@ namespace HospitalDataBase.Core.Database
 
             builder.Entity<Inventory>(entity =>
             {
-                entity.HasOne(i => i.Drug)
-                      .WithMany(d => d!.Inventories)
-                      .HasForeignKey(i => i!.DrugID)
-                      .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(i => i.Storage)
                       .WithMany(d => d!.Inventories)
                       .HasForeignKey(i => i!.StorageID)
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<PatientTransactionHistory>(entity =>
@@ -68,7 +64,7 @@ namespace HospitalDataBase.Core.Database
                 entity.HasOne(p => p.Exam)
                       .WithOne(e => e.Transaction)
                       .HasForeignKey<HistoryMedicalExam>(e => e.TransactionID)
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<HistoryMedicalExam>(entity =>
@@ -81,17 +77,19 @@ namespace HospitalDataBase.Core.Database
                 entity.HasOne(h => h.Doctor)
                       .WithMany(d => d!.Exams)
                       .HasForeignKey(h => h.DoctorID)
+                      .IsRequired()
                       .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(h => h.Employee)
                       .WithMany(e => e!.Exams)
                       .HasForeignKey(h => h.EmployeeID)
+                      .IsRequired()
                       .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(e => e.Transaction)
                       .WithOne(p => p.Exam)
                       .HasForeignKey<PatientTransactionHistory>(p => p.ExamID)
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<AnalysationTest>(entity =>
@@ -99,14 +97,53 @@ namespace HospitalDataBase.Core.Database
                 entity.HasOne(a => a.HistoryMedicalExam)
                       .WithMany(p => p!.AnalysationTests)
                       .HasForeignKey(a => a.ExamID)
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(a => a.DeviceService)
                       .WithMany(d => d!.AnalysationTests)
                       .HasForeignKey(a => a.DeviceID)
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
+            builder.Entity<Suppling>(entity =>
+            {
+                entity.HasOne(s => s.Inventory)
+                      .WithMany(i => i!.Supplings)
+                      .HasForeignKey(s => s.InventoryID)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(s => s.GoodsImportation)
+                      .WithMany(g => g!.Goods)
+                      .HasForeignKey(s => s.ShipmentID)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(s => s.Drug)
+                      .WithMany(d => d!.Supplings)
+                      .HasForeignKey(s => s.DrugID)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<Bill>(entity =>
+            {
+                entity.HasOne(b => b.Inventory)
+                      .WithMany(i => i!.Bills)
+                      .HasForeignKey(b => b.InventoryID)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(b => b.Transaction)
+                      .WithMany(g => g!.Bills)
+                      .HasForeignKey(b => b.TransactionID)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(b => b.Drug)
+                      .WithMany(d => d!.Bills)
+                      .HasForeignKey(b => b.DrugID)
+                      .IsRequired()
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
         }
     }
 }

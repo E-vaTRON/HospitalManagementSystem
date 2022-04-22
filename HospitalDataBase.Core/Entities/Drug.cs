@@ -17,6 +17,7 @@ namespace HospitalDataBase.Core.Entities
         public string       Country                 { get; set; } = string.Empty;       //nước sản xuất
         public string       GroupID                 { get; set; } = string.Empty;       //mã số nhóm
 
-        public virtual ICollection<Inventory> Inventories   { get; set; } = new HashSet<Inventory>();
+        public virtual ICollection<Suppling> Supplings { get; set; } = new HashSet<Suppling>();
+        public virtual ICollection<Bill> Bills { get; set; } = new HashSet<Bill>();
     }
 }
