@@ -35,13 +35,13 @@ namespace HospitalDataBase.DataObjects.Mapper
 
             CreateMap<DoctorListDTO, Doctor>()
                 .ForMember(d => d.DateJoin, o => o.MapFrom(s => DateTime.Parse(s.DateJoin, null, DateTimeStyles.AssumeUniversal)))
-                .ForMember(d => d.DoctorID, o => o.Ignore());
+                .ForMember(d => d.ID, o => o.Ignore());
             CreateMap<Doctor, DoctorListDTO>()
                 .ForMember(d => d.DateJoin, o => o.MapFrom(s => s.DateJoin.ToString("yyyy-MM-dd")));
 
             CreateMap<EmployeeListDTO, Employee>()
                 .ForMember(d => d.DateJoin, o => o.MapFrom(s => DateTime.Parse(s.DateJoin, null, DateTimeStyles.AssumeUniversal)))
-                .ForMember(d => d.EmployeeID, o => o.Ignore());
+                .ForMember(d => d.ID, o => o.Ignore());
             CreateMap<Employee, EmployeeListDTO>()
                 .ForMember(d => d.DateJoin, o => o.MapFrom(s => s.DateJoin.ToString("yyyy-MM-dd")));
 
@@ -86,12 +86,6 @@ namespace HospitalDataBase.DataObjects.Mapper
                 .ForMember(d => d.ID, o => o.Ignore());
             CreateMap<Patient, PatientDTO>()
                 .ForMember(d => d.DayOfBirth, o => o.MapFrom(s => s.DayOfBirth.ToString("yyyy-MM-dd")));
-
-            CreateMap<User, UserDTO>()
-                .ForMember(d => d.Roles, opt => opt.MapFrom(s => s.UserRoles.Select(ur => ur.Role!.Name)));
-            CreateMap<UserDTO, User>()
-                .ForMember(d => d.Guid, opt => opt.Ignore());
-            //CreateMap<CreateUserDTO, User>();
         }
     }
 }

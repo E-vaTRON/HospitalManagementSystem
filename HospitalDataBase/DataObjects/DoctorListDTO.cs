@@ -6,10 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace HospitalDataBase.DataObjects
 {
     [ModelBinder(typeof(MultipleSourcesModelBinder<DoctorListDTO>))]
-    public class DoctorListDTO
+    public class DoctorListDTO : BaseDTO
     {
-        [FromRoute]
-        public string   DoctorID    { get; set; } = string.Empty;
         public string   Guid        { get; protected set; } = string.Empty;
         public string   FirstName   { get; set; } = string.Empty;
         public string   LastName    { get; set; } = string.Empty;
