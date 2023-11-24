@@ -1,6 +1,7 @@
 ﻿namespace HospitalManagementSystem.DataBaseContextProvider;
 
-public class Doctor : User
+public class Doctor 
+    //: User
 {
     public bool     Verified    { get; set; }
     public bool     IsDoctor    { get; set; }

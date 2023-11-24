@@ -1,6 +1,7 @@
 ﻿namespace HospitalManagementSystem.DataBaseContextProvider;
 
-public class Employee : User
+public class Employee 
+    //: User
 {
     public bool     Verified    { get; set; }
     public bool     IsEmployee  { get; set; }

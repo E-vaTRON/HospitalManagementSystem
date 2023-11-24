@@ -17,8 +17,8 @@ public class HospitalManagementSystemDbContext : DbContext
     public virtual DbSet<Suppling>                      Supplings               { get; set; } = null!;
     public virtual DbSet<Storage>                       Storages                { get; set; } = null!;
     public virtual DbSet<Bill>                          Bills                   { get; set; } = null!;
-    public virtual DbSet<User>                          Users                   { get; set; } = null!;
-    public virtual DbSet<Role>                          Roles                   { get; set; } = null!;
+    //public virtual DbSet<User>                          Users                   { get; set; } = null!;
+    //public virtual DbSet<Role>                          Roles                   { get; set; } = null!;
 
 
     protected override void OnModelCreating(ModelBuilder builder)
