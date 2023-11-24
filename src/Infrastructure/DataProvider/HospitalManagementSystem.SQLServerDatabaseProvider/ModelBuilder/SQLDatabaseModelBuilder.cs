@@ -1,7 +1,4 @@
-﻿using HospitalManagementSystem.DataBaseContextProvider;
-using Microsoft.EntityFrameworkCore.Metadata;
-
-namespace HospitalManagementSystem.SQLServerDatabaseProvider;
+﻿namespace HospitalManagementSystem.SQLServerDatabaseProvider;
 
 public class SQLDatabaseModelBuilder
 {
