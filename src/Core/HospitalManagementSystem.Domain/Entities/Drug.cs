@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.Domain;
 
-public class Drug : BaseEntity
+public class Drug : EntityBase
 {
     public string       GoodName                { get; set; } = string.Empty;       //tên hàng
     public string       ActiveIngredientName    { get; set; } = string.Empty;       //tên hoạt chất

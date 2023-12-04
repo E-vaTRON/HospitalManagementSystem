@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.Domain;
 
-public class Bill : BaseEntity
+public class Bill : EntityBase
 {
     public int      TransactionID   { get; set; }
     public int      InventoryID     { get; set; }

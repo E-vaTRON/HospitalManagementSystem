@@ -1,7 +1,7 @@
 ﻿namespace HospitalManagementSystem.Domain;
 
 public class
-    AnalyzationTest : BaseEntity
+    AnalyzationTest : EntityBase
 {
     public string?  DeviceID        { get; set; } = string.Empty;
     public string?  ExamID          { get; set; } = string.Empty;

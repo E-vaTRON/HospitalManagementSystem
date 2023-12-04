@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.Domain;
 
-public class Inventory : BaseEntity
+public class Inventory : EntityBase
 {
     public int          DrugID          { get; set; }       //mã hàng
     public int          StorageID       { get; set; }       //mã kho

@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.Domain;
 
-public class GoodsImportation : BaseEntity
+public class GoodsImportation : EntityBase
 {
     public int          StorageID       { get; set; }                       //mã kho
     public int          GoodID          { get; set; }                       //mã hàng

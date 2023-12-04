@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.Domain;
 
-public class Patient : BaseEntity
+public class Patient : User
 {
     public string       FirstName       { get; set; } = string.Empty;   //họ
     public string       LastName        { get; set; } = string.Empty;   //tên

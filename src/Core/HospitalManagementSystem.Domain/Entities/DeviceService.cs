@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.Domain;
 
-public class DeviceService : BaseEntity
+public class DeviceService : EntityBase
 {
     public string       DeviceName              { get; set; } = string.Empty;       //tên thiết bị
     public string       Service                 { get; set; } = string.Empty;       //tên dich vụ

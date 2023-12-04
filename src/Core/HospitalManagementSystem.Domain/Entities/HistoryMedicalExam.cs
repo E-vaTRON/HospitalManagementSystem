@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.Domain;
 
-public class HistoryMedicalExam : BaseEntity
+public class HistoryMedicalExam : EntityBase
 {
     public int          TransactionID   { get; set; }
     public int          EmployeeID      { get; set; }                       //người nhận bệnh
