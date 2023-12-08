@@ -1,8 +1,8 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IDeviceServiceRepository : IBaseRepository<DeviceService>
+public interface IDeviceServiceRepository : IBaseRepository<MedicalDevice>
 {
-    new IQueryable<DeviceService> FindAll(Expression<Func<DeviceService, bool>>? predicate = null);
+    new IQueryable<MedicalDevice> FindAll(Expression<Func<MedicalDevice, bool>>? predicate = null);
 
-    new Task<DeviceService?> FindByIdAsync(string id, CancellationToken cancellationToken = default);
+    new Task<MedicalDevice?> FindByIdAsync(string id, CancellationToken cancellationToken = default);
 }

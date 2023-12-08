@@ -2,6 +2,6 @@
 
 namespace HospitalManagementSystem.Application;
 
-public interface IInventoryRepository : IBaseRepository<Inventory>
+public interface IInventoryRepository : IBaseRepository<DrugInventory>
 {
 }
