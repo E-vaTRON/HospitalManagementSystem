@@ -1,15 +1,15 @@
 ﻿namespace HospitalManagementSystem.ServiceProvider;
 
-public class DeviceServiceRepository : BaseRepository<Domain.DeviceService>, IDeviceServiceRepository
+public class DeviceServiceRepository : BaseRepository<Domain.MedicalDevice>, IDeviceServiceRepository
 {
     public DeviceServiceRepository(HospitalManagementSystemDbContext context) : base(context) { }
 
-    public override IQueryable<Domain.DeviceService> FindAll(Expression<Func<Domain.DeviceService, bool>>? predicate = null)
+    public override IQueryable<Domain.MedicalDevice> FindAll(Expression<Func<Domain.MedicalDevice, bool>>? predicate = null)
         => _dbSet.WhereIf(predicate != null, predicate!)
                  .Include(b => b.AnalyzationTests);
 
 
-    public override async Task<Domain.DeviceService?> FindByIdAsync(string id, CancellationToken cancellationToken = default)
+    public override async Task<Domain.MedicalDevice?> FindByIdAsync(string id, CancellationToken cancellationToken = default)
         => await FindAll(b => b.Id == id)
                 .FirstOrDefaultAsync(cancellationToken);
 

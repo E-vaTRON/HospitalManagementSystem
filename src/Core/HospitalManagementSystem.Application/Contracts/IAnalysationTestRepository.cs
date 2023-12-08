@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IAnalyzationTestRepository : IBaseRepository<AnalyzationTest>
+public interface IAnalyzationTestRepository : IBaseRepository<AnalysisTest>
 {
     //Task<AnalyzationTest> FindAllID(string patientID, CancellationToken cancellationToken = default);
 
