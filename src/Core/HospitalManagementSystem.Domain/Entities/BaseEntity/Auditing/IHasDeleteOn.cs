@@ -2,6 +2,6 @@
 
 public interface IHasDeleteOn
 {
-    bool IsDeleted { get;}
-    DateTime? DeleteOn { get; }
+    bool        IsDeleted   { get;}
+    DateTime?   DeleteOn    { get; }
 }

@@ -17,4 +17,5 @@ public class User : IdentityUser, IHasCreatedOn, IHasLastUpdatedOn, IHasDeleteOn
     public DateTime?    DeleteOn        { get; set; }
 
     public virtual ICollection<UserRole>    UserRoles   { get; set; } = new HashSet<UserRole>();
+    public virtual ICollection<Alert>       Alerts      { get; set; } = new HashSet<Alert>();
 }
