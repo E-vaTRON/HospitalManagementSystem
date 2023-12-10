@@ -2,8 +2,8 @@
 
 public class MedicalExam : EntityBase
 {
-    public string?  PatientID    { get; set; }       //mã số bệnh nhân
-    public Patient  Patient      { get; set; } = default!;
+    public string? AppointmentId { get; set; }
+    public Appointment Appointment { get; set; } = default!;
 
     public virtual ICollection<MedicalExamEposode> MedicalExamEposodes { get; set; } = new HashSet<MedicalExamEposode>();
 }
