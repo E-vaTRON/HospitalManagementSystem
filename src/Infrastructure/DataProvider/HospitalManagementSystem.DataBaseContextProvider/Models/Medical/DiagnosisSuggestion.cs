@@ -1,6 +1,6 @@
-﻿namespace HospitalManagementSystem.Domain;
+﻿namespace HospitalManagementSystem.DataBaseContextProvider;
 
-public class DiagnosisSuggestion : EntityBase
+public class DiagnosisSuggestion :ModelBase
 {
     public string?  ThresholdValue  { get; set; }
     public bool     IsActive        { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.DataBaseContextProvider;
 
-public class Suppling : BaseModel<Guid>
+public class Suppling : ModelBase
 {
     public int      ShipmentID      { get; set; }
     public int      InventoryID     { get; set; }
@@ -8,7 +8,7 @@ public class Suppling : BaseModel<Guid>
     public string   GooodName       { get; set; } = string.Empty;
     public int      Amount          { get; set; }
 
-    public Inventory?           Inventory           { get; set; }
+    public DrugInventory?       Inventory           { get; set; }
     public GoodsImportation?    GoodsImportation    { get; set; }
     public Drug?                Drug                { get; set; }
 

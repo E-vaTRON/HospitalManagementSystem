@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.DataBaseContextProvider;
 
-public class Drug : BaseModel<Guid>
+public class Drug : ModelBase
 {
     public string       GoodName                { get; set; } = string.Empty;       //tên hàng
     public string       ActiveIngredientName    { get; set; } = string.Empty;       //tên hoạt chất
@@ -12,6 +12,5 @@ public class Drug : BaseModel<Guid>
     public string       Country                 { get; set; } = string.Empty;       //nước sản xuất
     public string       GroupID                 { get; set; } = string.Empty;       //mã số nhóm
 
-    public virtual ICollection<Suppling> Supplings { get; set; } = new HashSet<Suppling>();
-    public virtual ICollection<Bill> Bills { get; set; } = new HashSet<Bill>();
+    public virtual ICollection<DrugInventory> DrugInventories { get; set; } = new HashSet<DrugInventory>();
 }

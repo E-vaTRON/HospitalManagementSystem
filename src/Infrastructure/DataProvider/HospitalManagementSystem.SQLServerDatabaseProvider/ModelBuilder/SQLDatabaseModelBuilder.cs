@@ -39,28 +39,28 @@ public class SQLDatabaseModelBuilder
     #endregion
 
     #region [ Private Method - Base ]
-    private void CreateModel_Base<TEntity>(ModelBuilder modelBuilder, string modelName)
-       where TEntity : BaseModel<Guid>
-    {
-        //Init Primary Key
-        modelBuilder.Entity<TEntity>().HasKey(x => x.Id);
+    //private void CreateModel_Base<TEntity>(ModelBuilder modelBuilder, string modelName)
+    //   where TEntity : BaseModel<Guid>
+    //{
+    //    //Init Primary Key
+    //    modelBuilder.Entity<TEntity>().HasKey(x => x.Id);
 
-        modelBuilder.Entity<TEntity>()
-                    .Property(x => x.Id)
-                    .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
-                    .IsRequired(true);
+    //    modelBuilder.Entity<TEntity>()
+    //                .Property(x => x.Id)
+    //                .HasColumnType("nvarchar")
+    //                .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
+    //                .IsRequired(true);
 
-        modelBuilder.Entity<TEntity>()
-                    .Property(x => x.CreatedOn)
-                    .HasColumnType("datetime")
-                    .IsRequired(true);
+    //    modelBuilder.Entity<TEntity>()
+    //                .Property(x => x.CreatedOn)
+    //                .HasColumnType("datetime")
+    //                .IsRequired(true);
 
-        modelBuilder.Entity<TEntity>()
-                    .Property(x => x.LastUpdatedOn)
-                    .HasColumnType("datetime")
-                    .IsRequired(true);
-    }
+    //    modelBuilder.Entity<TEntity>()
+    //                .Property(x => x.LastUpdatedOn)
+    //                .HasColumnType("datetime")
+    //                .IsRequired(true);
+    //}
     #endregion
 
     //    builder.Entity<User>(entity =>
