@@ -1,6 +1,6 @@
-﻿namespace HospitalManagementSystem.Domain;
+﻿namespace HospitalManagementSystem.DataBaseContextProvider;
 
-public class Diagnosis : EntityBase
+public class Diagnosis : ModelBase
 {
     public string   DiagnosisCode   { get; set; } = string.Empty;
     public string?  Description     { get; set; }

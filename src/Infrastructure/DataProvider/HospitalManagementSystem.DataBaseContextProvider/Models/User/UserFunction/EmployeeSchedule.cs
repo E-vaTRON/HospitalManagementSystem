@@ -1,6 +1,6 @@
-﻿namespace HospitalManagementSystem.Domain;
+﻿namespace HospitalManagementSystem.DataBaseContextProvider;
 
-public class EmployeeSchedule : EntityBase
+public class EmployeeSchedule : ModelBase
 {
     public string? EmployeeId { get; set; }
     public Employee Employee { get; set; } = default!;

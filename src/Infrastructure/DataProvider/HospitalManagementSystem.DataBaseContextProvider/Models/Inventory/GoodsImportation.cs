@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.DataBaseContextProvider;
 
-public class GoodsImportation : BaseModel<Guid>
+public class GoodsImportation : ModelBase
 {
     public int          StorageID       { get; set; }                       //mã kho
     public int          GoodID          { get; set; }                       //mã hàng

@@ -1,6 +1,6 @@
-﻿namespace HospitalManagementSystem.Domain;
+﻿namespace HospitalManagementSystem.DataBaseContextProvider;
 
-public class RoomAssignment : EntityBase
+public class RoomAssignment : ModelBase
 {
     public DateTime     StartTime   { get; set; }
     public DateTime     EndTime     { get; set; }
