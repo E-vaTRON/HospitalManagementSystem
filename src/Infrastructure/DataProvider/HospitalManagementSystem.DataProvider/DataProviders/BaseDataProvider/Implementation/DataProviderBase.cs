@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Security.Cryptography;
-
-namespace HospitalManagementSystem.DataBaseContextProvider;
+﻿namespace HospitalManagementSystem.DataProvider;
 
 public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProviderBase<TEntity, TEId>
     where TEntity : class, IEntity<TEId>
