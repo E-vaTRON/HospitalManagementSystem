@@ -4,7 +4,7 @@ public interface IEntity
 {
 }
 
-public interface IEntity<TId>
+public interface IEntity<TEId>
 {
-    TId Id { get; set; }
+    TEId Id { get; set; }
 }

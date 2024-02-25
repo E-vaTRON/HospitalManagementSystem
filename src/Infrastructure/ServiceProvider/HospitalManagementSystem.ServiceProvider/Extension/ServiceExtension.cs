@@ -55,19 +55,19 @@ public static class ServiceExtension
 
         //services.AddScoped<IPetaverseUserRepository, UserRepository>();
 
-        services.AddScoped<IAnalyzationTestRepository, AnalyzationTestRepository>()
-                .AddScoped<IDeviceServiceRepository, DeviceServiceRepository>()
-                .AddScoped<IDoctorRepository, DoctorRepository>()
-                .AddScoped<IDrugRepository, DrugRepository>()
-                .AddScoped<IEmployeeRepository, EmployeeRepository>()
-                .AddScoped<IGoodsImportationRepository, GoodsImportationRepository>()
-                .AddScoped<IHistoryMedicalExamRepository, HistoryMedicalExamRepository>()
-                .AddScoped<IInventoryRepository, InventoryRepository>()
-                .AddScoped<IPatientRepository, PatientRepository>()
-                .AddScoped<IStorageRepository, StorageRepository>()
-                .AddScoped<IUserRepository, UserRepository>()
-                .AddScoped<ISupplingRepository, SupplingRepository>()
-                .AddScoped<IBillRepository, BillRepository>();
+        //services.AddScoped<IAnalyzationTestRepository, AnalyzationTestRepository>()
+        //        .AddScoped<IDeviceServiceRepository, DeviceServiceRepository>()
+        //        .AddScoped<IDoctorRepository, DoctorRepository>()
+        //        .AddScoped<IDrugRepository, DrugRepository>()
+        //        .AddScoped<IEmployeeRepository, EmployeeRepository>()
+        //        .AddScoped<IGoodsImportationRepository, GoodsImportationRepository>()
+        //        .AddScoped<IHistoryMedicalExamRepository, HistoryMedicalExamRepository>()
+        //        .AddScoped<IInventoryRepository, InventoryRepository>()
+        //        .AddScoped<IPatientRepository, PatientRepository>()
+        //        .AddScoped<IStorageRepository, StorageRepository>()
+        //        .AddScoped<IUserRepository, UserRepository>()
+        //        .AddScoped<ISupplingRepository, SupplingRepository>()
+        //        .AddScoped<IBillRepository, BillRepository>();
 
         return services;
     }

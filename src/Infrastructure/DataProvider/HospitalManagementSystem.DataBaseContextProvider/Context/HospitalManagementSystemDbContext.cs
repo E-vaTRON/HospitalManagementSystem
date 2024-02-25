@@ -2,7 +2,7 @@
 
 public class HospitalManagementSystemDbContext : DbContext
 {
-    public HospitalManagementSystemDbContext(DbContextOptions<HospitalManagementSystemDbContext> options) : base(options) { }
+    public HospitalManagementSystemDbContext(DbContextOptions options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
