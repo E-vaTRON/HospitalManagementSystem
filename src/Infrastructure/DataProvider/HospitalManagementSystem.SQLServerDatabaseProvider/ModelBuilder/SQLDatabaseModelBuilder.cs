@@ -20,7 +20,7 @@ public class SQLDatabaseModelBuilder
     #endregion
 
     #region [ Public Method ]
-    public IModel GetModel()
+    public Microsoft.EntityFrameworkCore.Metadata.IModel GetModel()
     {
         var builder = new ModelBuilder();
 
