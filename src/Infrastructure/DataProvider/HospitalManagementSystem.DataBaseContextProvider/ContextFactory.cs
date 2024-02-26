@@ -1,7 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Design;
+﻿namespace HospitalManagementSystem.DataProvider;
 
-namespace HospitalManagementSystem.DataProvider;
-
-internal class ContextFactory : IDesignTimeDbContextFactory<>
+public class ContextFactory : IDesignTimeDbContextFactory<HospitalManagementSystemDbContext>
 {
+    public HospitalManagementSystemDbContext CreateDbContext(string[] args)
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<HospitalManagementSystemDbContext>();
+        optionsBuilder.UseSqlServer(string.Empty);
+        return new HospitalManagementSystemDbContext(optionsBuilder.Options);
+    }
 }

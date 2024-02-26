@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\HospitalManagementSystem.Domain\HospitalManagementSystem.Domain.csproj" />
-    <ProjectReference Include="..\HospitalManagementSystem.DataBaseContextProvider\HospitalManagementSystem.DataBaseContextProvider.csproj" />
   </ItemGroup>
 
 </Project>

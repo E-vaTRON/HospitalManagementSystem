@@ -1,12 +1,10 @@
 ﻿namespace HospitalManagementSystem.DataProvider;
-
-public static class ServiceExtension
+public static class ServiceExtensions
 {
     #region [ Public Methods - Add ]
     public static void HospitalManagementSystemDataBaseContextProviders<TDbContext>(this IServiceCollection services)
-        where TDbContext : DbContext 
+        where TDbContext : DbContext
     {
-
         //// Core
         //services.AddSingleton<DataContext>();
         //services.AddSingleton<IDatabaseProvider, DatabaseProvider>();
