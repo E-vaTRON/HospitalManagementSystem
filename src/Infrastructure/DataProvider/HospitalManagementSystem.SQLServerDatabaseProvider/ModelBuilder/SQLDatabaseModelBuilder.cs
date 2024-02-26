@@ -1,22 +1,21 @@
-﻿namespace HospitalManagementSystem.DataProvider;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
+namespace HospitalManagementSystem.DataProvider;
 
 public class SQLDatabaseModelBuilder
 {
     //using singleton for sqldatabase
     #region [ Singleton ]
-    private static readonly Lazy<SQLDatabaseModelBuilder> _current = new Lazy<SQLDatabaseModelBuilder>(()
-       => new SQLDatabaseModelBuilder(), LazyThreadSafetyMode.PublicationOnly);
+    private static readonly Lazy<SQLDatabaseModelBuilder> current = new Lazy<SQLDatabaseModelBuilder>(
+        () => new SQLDatabaseModelBuilder(), LazyThreadSafetyMode.PublicationOnly);
     public static SQLDatabaseModelBuilder Current
     {
-        get { return _current.Value; }
+        get => current.Value; 
     }
     #endregion
 
     #region [ CTor ]
-    public SQLDatabaseModelBuilder()
-    {
-
-    }
+    public SQLDatabaseModelBuilder() { }
     #endregion
 
     #region [ Public Method ]
@@ -30,7 +29,7 @@ public class SQLDatabaseModelBuilder
     }
     #endregion
 
-    #region [ Private Methods ]
+    #region [ Private Method ]
     private void CreateModels(ModelBuilder modelBuilder)
     {
         //this.CreateModel_Playlist(modelBuilder);
@@ -38,29 +37,226 @@ public class SQLDatabaseModelBuilder
     }
     #endregion
 
-    #region [ Private Method - Base ]
-    //private void CreateModel_Base<TEntity>(ModelBuilder modelBuilder, string modelName)
-    //   where TEntity : BaseModel<Guid>
-    //{
-    //    //Init Primary Key
-    //    modelBuilder.Entity<TEntity>().HasKey(x => x.Id);
+    #region [ Model Builder Base ]
+    private void BaseModelBuilder<TModel>(ModelBuilder modelBuilder, string modelName)
+        where TModel : ModelBase
+    {
+        //Init Primary Key
+        modelBuilder.Entity<TModel>().HasKey(x => x.Id);
 
-    //    modelBuilder.Entity<TEntity>()
-    //                .Property(x => x.Id)
-    //                .HasColumnType("nvarchar")
-    //                .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
-    //                .IsRequired(true);
+        modelBuilder.Entity<TModel>()
+                    .Property(x => x.Id)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
+                    .IsRequired(true);
 
-    //    modelBuilder.Entity<TEntity>()
-    //                .Property(x => x.CreatedOn)
-    //                .HasColumnType("datetime")
-    //                .IsRequired(true);
+        modelBuilder.Entity<TModel>()
+                    .Property(x => x.CreatedOn)
+                    .HasColumnType("datetime")
+                    .IsRequired(true);
 
-    //    modelBuilder.Entity<TEntity>()
-    //                .Property(x => x.LastUpdatedOn)
-    //                .HasColumnType("datetime")
-    //                .IsRequired(true);
-    //}
+        modelBuilder.Entity<TModel>()
+                    .Property(x => x.LastUpdatedOn)
+                    .HasColumnType("datetime")
+                    .IsRequired(true);
+
+
+        modelBuilder.Entity<TModel>()
+                    .Property(x => x.DeleteOn)
+                    .HasColumnType("datetime")
+                    .IsRequired(true);
+
+        modelBuilder.Entity<TModel>()
+                    .Property(x => x.IsDeleted)
+                    .HasColumnType("bit")
+                    .IsRequired(true);
+    }
+    #endregion
+
+    #region [ Model Builder ]
+    private void RoomModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<Room>(modelBuilder, nameof(Room));
+
+        modelBuilder.Entity<Room>()
+                    .Property(x => x.Name)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<Room>()
+                    .Property(x => x.RoomType)
+                    .HasColumnType("nvarchar")
+                    .HasConversion(new EnumToStringConverter<RoomType>())
+                    .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<Room>()
+                    .Property(x => x.Capacity)
+                    .HasColumnType("int")
+                    .IsRequired(true);
+
+        modelBuilder.Entity<Room>()
+                    .Property(x => x.RoomType)
+                    .HasColumnType("nvarchar")
+                    .HasConversion(new EnumToStringConverter<RoomStatus>())
+                    .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<Room>()
+                    .HasOne(r => r.Department)
+                    .WithMany(d => d.Rooms)
+                    .HasForeignKey(r => r.DepartmentId);
+    }
+    private void RoomAssignmentModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<RoomAssignment>(modelBuilder, nameof(RoomAssignment));
+
+        modelBuilder.Entity<RoomAssignment>()
+                    .Property(x => x.StartTime)
+                    .HasColumnType("datetime")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<RoomAssignment>()
+                    .Property(x => x.EndTime)
+                    .HasColumnType("datetime")
+                    .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<RoomAssignment>()
+                    .HasOne(ra => ra.Employee)
+                    .WithMany(e => e.RoomAssignments)
+                    .HasForeignKey(ra => ra.EmployeeId);
+
+        modelBuilder.Entity<RoomAssignment>()
+                    .HasOne(ra => ra.Room)
+                    .WithMany(r => r.RoomAssignments)
+                    .HasForeignKey(ra => ra.RoomId);
+    }
+    private void RoomAllocationModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<RoomAllocation>(modelBuilder, nameof(RoomAllocation));
+
+        modelBuilder.Entity<RoomAllocation>()
+                    .Property(x => x.StartTime)
+                    .HasColumnType("datetime")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<RoomAllocation>()
+                    .Property(x => x.EndTime)
+                    .HasColumnType("datetime")
+                    .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<RoomAllocation>()
+                    .HasOne(ra => ra.Patient)
+                    .WithMany(p => p.RoomAllocations)
+                    .HasForeignKey(ra => ra.PatientId);
+
+        modelBuilder.Entity<RoomAllocation>()
+                    .HasOne(ra => ra.Room)
+                    .WithMany(r => r.RoomAllocations)
+                    .HasForeignKey(ra => ra.RoomId);
+
+        modelBuilder.Entity<RoomAllocation>()
+                    .HasOne(ra => ra.MedicalExamEposode)
+                    .WithMany(me => me.RoomAllocations)
+                    .HasForeignKey(ra => ra.MedicalExamEposodeId);
+    }
+    private void DepartmentModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<Department>(modelBuilder, nameof(Department));
+
+        modelBuilder.Entity<Room>()
+                    .Property(x => x.Name)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .IsRequired(true);
+    }
+    private void DeviceInventoryModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<DeviceInventory>(modelBuilder, nameof(DeviceInventory));
+
+        modelBuilder.Entity<DeviceInventory>()
+                    .Property(di => di.CurrentAmount)
+                    .HasColumnType("int")
+                    .IsRequired(true);
+
+        modelBuilder.Entity<DeviceInventory>()
+                    .HasOne(di => di.MedicalDevice)
+                    .WithMany(md => md.DeviceInventorys)
+                    .HasForeignKey(di => di.MedicalDeviceId);
+
+        modelBuilder.Entity<DeviceInventory>()
+                    .HasOne(di => di.Storage)
+                    .WithMany(s => s.DeviceInventories)
+                    .HasForeignKey(di => di.StorageId);
+    }
+    private void DrugModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<Drug>(modelBuilder, nameof(Drug));
+
+        modelBuilder.Entity<Drug>()
+                    .Property(d => d.GoodName)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .IsRequired();
+
+        modelBuilder.Entity<Drug>()
+            .Property(d => d.ActiveIngredientName)
+            .HasColumnType("nvarchar")
+            .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+            .IsRequired();
+
+        modelBuilder.Entity<Drug>()
+            .Property(d => d.Unit)
+            .HasColumnType("nvarchar")
+            .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+            .IsRequired();
+
+        modelBuilder.Entity<Drug>()
+            .Property(d => d.GoodType)
+            .HasColumnType("nvarchar")
+            .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+            .IsRequired();
+
+        modelBuilder.Entity<Drug>()
+            .Property(d => d.UnitPrice)
+            .HasColumnType("nvarchar")
+            .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+            .IsRequired();
+
+        modelBuilder.Entity<Drug>()
+            .Property(d => d.HealthInsurancePrice)
+            .HasColumnType("nvarchar")
+            .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+            .IsRequired();
+
+        modelBuilder.Entity<Drug>()
+            .Property(d => d.ManagementId)
+            .HasColumnType("nvarchar")
+            .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+            .IsRequired();
+
+        modelBuilder.Entity<Drug>()
+                    .Property(d => d.Country)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .IsRequired();
+
+        modelBuilder.Entity<Drug>()
+                    .Property(d => d.GroupId)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .IsRequired();
+
+        modelBuilder.Entity<Drug>()
+                    .HasMany(d => d.DrugInventories)
+                    .WithOne(di => di.Drug)
+                    .HasForeignKey(di => di.DrugId);
+    }
     #endregion
 
     //    builder.Entity<User>(entity =>
