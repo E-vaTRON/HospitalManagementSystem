@@ -8,9 +8,9 @@ public class Drug : ModelBase
     public string       GoodType                { get; set; } = string.Empty;       //loại hàng hóa
     public int          UnitPrice               { get; set; }                       //đơn giá
     public int          HealthInsurancePrice    { get; set; }                       //giá bảo hiểm y tế
-    public string       ManagementID            { get; set; } = string.Empty;       //mã quản lý
+    public string       ManagementId            { get; set; } = string.Empty;       //mã quản lý
     public string       Country                 { get; set; } = string.Empty;       //nước sản xuất
-    public string       GroupID                 { get; set; } = string.Empty;       //mã số nhóm
+    public string       GroupId                 { get; set; } = string.Empty;       //mã số nhóm
 
     public virtual ICollection<DrugInventory> DrugInventories { get; set; } = new HashSet<DrugInventory>();
 }
