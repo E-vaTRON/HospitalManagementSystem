@@ -1,4 +1,4 @@
-﻿namespace HospitalManagementSystem.SQLServerDatabaseProvider;
+﻿namespace HospitalManagementSystem.DataProvider;
 
 public class SQLDatabaseModelBuilder
 {

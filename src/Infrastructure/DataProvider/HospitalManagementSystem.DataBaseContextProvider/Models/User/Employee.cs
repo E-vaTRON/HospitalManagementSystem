@@ -1,4 +1,4 @@
-﻿namespace HospitalManagementSystem.DataBaseContextProvider;
+﻿namespace HospitalManagementSystem.DataProvider;
 
 public class Employee : User
 {

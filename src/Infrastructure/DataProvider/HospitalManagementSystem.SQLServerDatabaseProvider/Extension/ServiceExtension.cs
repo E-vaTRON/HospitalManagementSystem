@@ -1,11 +1,9 @@
-﻿namespace HospitalManagementSystem.SQLServerDatabaseProvider;
-
-public static class ServiceExtension
+﻿namespace HospitalManagementSystem.DataProvider;
+public static class ServiceExtensions
 {
     #region [ Public Methods - Add ]
-    public static void AddWave5AcademyExamsSqlServerDataProviders(this IServiceCollection services,
-        IConfiguration configuration,
-        bool usedInWebApp = false)
+    public static void HospitalManagementSystemSqlServerDataProviders(this IServiceCollection services,
+        IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         if (string.IsNullOrEmpty(connectionString))

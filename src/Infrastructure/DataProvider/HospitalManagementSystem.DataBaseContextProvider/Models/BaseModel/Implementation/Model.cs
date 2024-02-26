@@ -1,4 +1,4 @@
-﻿namespace HospitalManagementSystem.DataBaseContextProvider;
+﻿namespace HospitalManagementSystem.DataProvider;
 
 [Serializable]
 public abstract class Model : IModel

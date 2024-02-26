@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace HospitalManagementSystem.DataProvider;
 
-namespace HospitalManagementSystem.DataBaseContextProvider;
-
-internal class ContextFactory
+public class ContextFactory : IDesignTimeDbContextFactory<HospitalManagementSystemDbContext>
 {
+    public HospitalManagementSystemDbContext CreateDbContext(string[] args)
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<HospitalManagementSystemDbContext>();
+        optionsBuilder.UseSqlServer(string.Empty);
+        return new HospitalManagementSystemDbContext(optionsBuilder.Options);
+    }
 }
