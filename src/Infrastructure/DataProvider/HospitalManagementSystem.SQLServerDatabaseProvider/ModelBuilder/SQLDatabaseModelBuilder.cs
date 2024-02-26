@@ -205,40 +205,35 @@ public class SQLDatabaseModelBuilder
                     .IsRequired();
 
         modelBuilder.Entity<Drug>()
-            .Property(d => d.ActiveIngredientName)
-            .HasColumnType("nvarchar")
-            .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
-            .IsRequired();
+                    .Property(d => d.ActiveIngredientName)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .IsRequired();
 
         modelBuilder.Entity<Drug>()
-            .Property(d => d.Unit)
-            .HasColumnType("nvarchar")
-            .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
-            .IsRequired();
+                    .Property(d => d.Unit)
+                    .HasColumnType("nvarchar")
+                    .HasConversion(new EnumToStringConverter<Units>())
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .IsRequired();
 
         modelBuilder.Entity<Drug>()
-            .Property(d => d.GoodType)
-            .HasColumnType("nvarchar")
-            .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
-            .IsRequired();
+                    .Property(d => d.GoodType)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .IsRequired();
 
         modelBuilder.Entity<Drug>()
-            .Property(d => d.UnitPrice)
-            .HasColumnType("nvarchar")
-            .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
-            .IsRequired();
+                    .Property(d => d.UnitPrice)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .IsRequired();
 
         modelBuilder.Entity<Drug>()
-            .Property(d => d.HealthInsurancePrice)
-            .HasColumnType("nvarchar")
-            .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
-            .IsRequired();
-
-        modelBuilder.Entity<Drug>()
-            .Property(d => d.ManagementId)
-            .HasColumnType("nvarchar")
-            .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
-            .IsRequired();
+                    .Property(d => d.HealthInsurancePrice)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .IsRequired();
 
         modelBuilder.Entity<Drug>()
                     .Property(d => d.Country)
@@ -251,11 +246,6 @@ public class SQLDatabaseModelBuilder
                     .HasColumnType("nvarchar")
                     .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
                     .IsRequired();
-
-        modelBuilder.Entity<Drug>()
-                    .HasMany(d => d.DrugInventories)
-                    .WithOne(di => di.Drug)
-                    .HasForeignKey(di => di.DrugId);
     }
     #endregion
 
