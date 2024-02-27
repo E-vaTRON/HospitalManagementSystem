@@ -12,5 +12,4 @@ public class GoodSuppling : ModelBase
     public Importation?     Importation     { get; set; }
     public string?          DrugId          { get; set; }
     public Drug?            Drug            { get; set; }
-
 }
