@@ -10,5 +10,6 @@ public class Diagnosis : ModelBase
     public string?              ICDDId              { get; set; }
     public ICDD                 ICDD                { get; set; } = default!;
 
-    public virtual ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
+    public virtual ICollection<Employee>            Employees               { get; set; } = new HashSet<Employee>();
+    public virtual ICollection<DiagnosisSuggestion> DiagnosisSuggestions    { get; set; } = new HashSet<DiagnosisSuggestion>();
 }

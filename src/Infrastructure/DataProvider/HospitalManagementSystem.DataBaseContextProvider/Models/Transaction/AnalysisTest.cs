@@ -10,4 +10,6 @@ public class AnalysisTest : ModelBase
     public DeviceService    DeviceService   { get; set; } = default!;
     public string?          BillID          { get; set; }
     public Bill             Bill            { get; set; } = default!;
+
+    public virtual ICollection<DiagnosisSuggestion> DiagnosisSuggestions { get; set; } = new HashSet<DiagnosisSuggestion>();
 }

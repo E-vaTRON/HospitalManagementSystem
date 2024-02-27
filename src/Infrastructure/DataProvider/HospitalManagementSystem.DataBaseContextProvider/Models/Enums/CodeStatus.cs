@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.DataProvider;
 
-public enum ICDStatus
+public enum CodeStatus
 {
     Active,
     Inactive,

@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.Domain;
 
-public enum ICDStatus
+public enum CodeStatus
 {
     Active,
     Inactive,
