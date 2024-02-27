@@ -12,5 +12,5 @@ public class Drug : EntityBase
     public string       Country                 { get; set; } = string.Empty;       //nước sản xuất
     public string       GroupId                 { get; set; } = string.Empty;       //mã số nhóm
 
-    public virtual ICollection<DrugInventory> DrugInventories { get; set; } = new HashSet<DrugInventory>();
+    public virtual ICollection<GoodSuppling> GoodSupplings { get; set; } = new HashSet<GoodSuppling>();
 }

@@ -115,13 +115,11 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<RoomAssignment>()
                     .Property(x => x.StartTime)
                     .HasColumnType("datetime")
-                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
                     .IsRequired(true);
 
         modelBuilder.Entity<RoomAssignment>()
                     .Property(x => x.EndTime)
                     .HasColumnType("datetime")
-                    .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH)
                     .IsRequired(true);
 
         modelBuilder.Entity<RoomAssignment>()
@@ -141,13 +139,11 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<RoomAllocation>()
                     .Property(x => x.StartTime)
                     .HasColumnType("datetime")
-                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
                     .IsRequired(true);
 
         modelBuilder.Entity<RoomAllocation>()
                     .Property(x => x.EndTime)
                     .HasColumnType("datetime")
-                    .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH)
                     .IsRequired(true);
 
         modelBuilder.Entity<RoomAllocation>()
@@ -244,8 +240,253 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<Drug>()
                     .Property(d => d.GroupId)
                     .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
+                    .IsRequired();
+    }
+    private void DrugInventoryModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<DrugInventory>(modelBuilder, nameof(DrugInventory));
+
+        modelBuilder.Entity<DrugInventory>()
+                    .Property(d => d.CurrentAmount)
+                    .HasColumnType("int")
+                    .IsRequired();
+
+        modelBuilder.Entity<DrugInventory>()
+                    .HasOne(di => di.Storage)
+                    .WithMany(s => s.DrugInventories)
+                    .HasForeignKey(di => di.StorageId);
+
+        modelBuilder.Entity<DrugInventory>()
+                    .HasOne(di => di.GoodSuppling)
+                    .WithOne(gs => gs.Inventory)
+                    .HasForeignKey<DrugInventory>(di => di.GoodSupplingId);
+
+    }
+    private void GoodSupplingModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<GoodSuppling>(modelBuilder, nameof(GoodSuppling));
+
+        modelBuilder.Entity<GoodSuppling>()
+                    .Property(d => d.GoodInformation)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
+                    .IsRequired(false);
+
+        modelBuilder.Entity<GoodSuppling>()
+                    .Property(d => d.ExpiryDate)
+                    .HasColumnType("datetime")
+                    .IsRequired();
+
+        modelBuilder.Entity<GoodSuppling>()
+                    .Property(d => d.OrinaryAmount)
+                    .HasColumnType("int")
+                    .IsRequired();
+
+        modelBuilder.Entity<GoodSuppling>()
+                    .HasOne(di => di.Importation)
+                    .WithMany(s => s.GoodSupplings)
+                    .HasForeignKey(di => di.ImportationId);
+
+        modelBuilder.Entity<GoodSuppling>()
+                    .HasOne(di => di.Inventory)
+                    .WithOne(gs => gs.GoodSuppling)
+                    .HasForeignKey<GoodSuppling>(di => di.InventoryId);
+        
+        modelBuilder.Entity<GoodSuppling>()
+                    .HasOne(di => di.Drug)
+                    .WithMany(s => s.GoodSupplings)
+                    .HasForeignKey(di => di.DrugId);
+    }
+    private void ImportationModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<Importation>(modelBuilder, nameof(Importation));
+
+        modelBuilder.Entity<Importation>()
+                    .Property(i => i.ReceiptNumber)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
+                    .IsRequired();
+
+        modelBuilder.Entity<Importation>()
+                    .Property(i => i.Billnumber)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
+                    .IsRequired();
+
+        modelBuilder.Entity<Importation>()
+                    .Property(i => i.RecordDay)
+                    .HasColumnType("datetime")
+                    .IsRequired();
+
+        modelBuilder.Entity<Importation>()
+                    .Property(i => i.ReceiptDay)
+                    .HasColumnType("datetime")
+                    .IsRequired();
+
+        modelBuilder.Entity<Importation>()
+                    .Property(i => i.Tax)
+                    .HasColumnType("int")
+                    .IsRequired();
+
+        modelBuilder.Entity<Importation>()
+                    .Property(i => i.TotalPrice)
+                    .HasColumnType("int")
+                    .IsRequired();
+
+        modelBuilder.Entity<Importation>()
+                    .Property(i => i.Company)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
+                    .IsRequired();
+
+        modelBuilder.Entity<Importation>()
+                    .HasMany(i => i.GoodSupplings)
+                    .WithOne(gs => gs.Importation)
+                    .HasForeignKey(gs => gs.ImportationId);
+    }
+    private void StorageModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<Storage>(modelBuilder, nameof(Storage));
+
+        modelBuilder.Entity<Storage>()
+                    .Property(s => s.Location)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.ADDRESS_FIELD_LENGTH)
+                    .IsRequired();
+
+        modelBuilder.Entity<Storage>()
+                    .HasMany(s => s.DrugInventories)
+                    .WithOne(di => di.Storage)
+                    .HasForeignKey(di => di.StorageId);
+
+        modelBuilder.Entity<Storage>()
+                    .HasMany(s => s.DeviceInventories)
+                    .WithOne(di => di.Storage)
+                    .HasForeignKey(di => di.StorageId);
+    }
+    private void DiagnosisModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<Diagnosis>(modelBuilder, nameof(Diagnosis));
+
+        modelBuilder.Entity<Diagnosis>()
+                    .Property(s => s.DiagnosisCode)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
+                    .IsRequired();
+
+        modelBuilder.Entity<Diagnosis>()
+                    .Property(s => s.Description)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
+                    .IsRequired();
+
+        modelBuilder.Entity<Diagnosis>()
+                    .HasOne(d => d.MedicalExamEposode)
+                    .WithMany(me => me.Diagnosis)
+                    .HasForeignKey(d => d.ExamEposodeId);
+
+        modelBuilder.Entity<Diagnosis>()
+                    .HasOne(d => d.ICDD)
+                    .WithMany(i => i.Diagnoses)
+                    .HasForeignKey(d => d.ICDDId);
+    }
+
+    private void DiagnosisSuggestionModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<DiagnosisSuggestion>(modelBuilder, nameof(DiagnosisSuggestion));
+
+        modelBuilder.Entity<DiagnosisSuggestion>()
+                    .Property(s => s.ThresholdValue)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
+                    .IsRequired();
+
+        modelBuilder.Entity<DiagnosisSuggestion>()
+                    .Property(s => s.IsActive)
+                    .HasColumnType("bit")
+                    .IsRequired();
+
+        modelBuilder.Entity<DiagnosisSuggestion>()
+                    .HasOne(ds => ds.AnalysisTest)
+                    .WithMany(a => a.)
+                    .HasForeignKey(ds => ds.AnalysisTestId);
+
+        modelBuilder.Entity<DiagnosisSuggestion>()
+                    .HasOne(ds => ds.Diagnosis)
+                    .WithMany()
+                    .HasForeignKey(ds => ds.DiagnosisId);
+    }
+
+    private void ICDModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<ICD>(modelBuilder, nameof(ICD));
+
+        modelBuilder.Entity<ICD>()
+                    .Property(s => s.Code)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
+                    .IsRequired();
+
+        modelBuilder.Entity<ICD>()
+                    .Property(s => s.Description)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
+                    .IsRequired();
+
+        modelBuilder.Entity<ICD>()
+                    .Property(s => s.Status)
+                    .HasColumnType("nvarchar")
+                    .HasConversion(new EnumToStringConverter<Units>())
                     .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
                     .IsRequired();
+    }
+
+    private void ICDDModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<ICDD>(modelBuilder, nameof(ICDD));
+
+        // Assuming there's no need for a relationship configuration here
+    }
+
+    private void MedicalExamModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<MedicalExam>(modelBuilder, nameof(MedicalExam));
+
+        modelBuilder.Entity<MedicalExam>()
+                    .HasOne(me => me.Appointment)
+                    .WithMany() // Assuming there's no navigation property in Appointment
+                    .HasForeignKey(me => me.AppointmentId);
+    }
+
+    private void TreatmentModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<Treatment>(modelBuilder, nameof(Treatment));
+
+        modelBuilder.Entity<Treatment>()
+                    .HasOne(t => t.MedicalExamEposode)
+                    .WithMany(me => me.Treatments)
+                    .HasForeignKey(t => t.ExamEposodeId);
+
+        modelBuilder.Entity<Treatment>()
+                    .HasOne(t => t.ICD)
+                    .WithMany(i => i.Treatments)
+                    .HasForeignKey(t => t.ICDId);
+    }
+
+    private void MedicalExamEposodeModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<MedicalExamEposode>(modelBuilder, nameof(MedicalExamEposode));
+
+        modelBuilder.Entity<MedicalExamEposode>()
+                    .HasOne(mee => mee.MedicalExam)
+                    .WithMany(me => me.MedicalExamEposodes)
+                    .HasForeignKey(mee => mee.MedicalExamId);
+
+        modelBuilder.Entity<MedicalExamEposode>()
+                    .HasOne(mee => mee.ExamDoctor)
+                    .WithMany() // Assuming there's no navigation property in Doctor
+                    .HasForeignKey(mee => mee.ExamDoctorId);
     }
     #endregion
 
@@ -310,9 +551,7 @@ public class SQLDatabaseModelBuilder
     //          .OnDelete(DeleteBehavior.Cascade);
     //});
 
-    //builder.Entity<
-    //
-    //Test>(entity =>
+    //builder.Entity<Test>(entity =>
     //{
     //    entity.HasOne(a => a.HistoryMedicalExam)
     //          .WithMany(p => p!.AnalyzationTests)

@@ -2,7 +2,7 @@
 
 public class DiagnosisSuggestion :ModelBase
 {
-    public string?  ThresholdValue  { get; set; }
+    public string?  ThresholdValue  { get; set; } // ???
     public bool     IsActive        { get; set; }
 
     public string?      AnalysisTestId  { get; set; }
