@@ -1,6 +1,4 @@
-﻿using HospitalManagementSystem.Domain;
-
-namespace HospitalManagementSystem.Application;
+﻿namespace HospitalManagementSystem.Application;
 
 public interface IInventoryRepository : IBaseRepository<DrugInventory>
 {

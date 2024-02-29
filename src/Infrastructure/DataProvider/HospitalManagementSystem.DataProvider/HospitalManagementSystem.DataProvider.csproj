@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Core\HospitalManagementSystem.Domain\HospitalManagementSystem.Domain.csproj" />
+    <ProjectReference Include="..\HospitalManagementSystem.DataBaseContextProvider\HospitalManagementSystem.DataBaseContextProvider.csproj" />
   </ItemGroup>
 
 </Project>

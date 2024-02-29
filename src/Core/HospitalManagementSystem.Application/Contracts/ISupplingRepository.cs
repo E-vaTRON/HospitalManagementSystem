@@ -1,7 +1,5 @@
-﻿using HospitalManagementSystem.Domain;
+﻿namespace HospitalManagementSystem.Application;
 
-namespace HospitalManagementSystem.Application;
-
-public interface ISupplingRepository : IBaseRepository<Suppling>
+public interface ISupplingRepository : IBaseRepository<GoodSuppling>
 {
 }

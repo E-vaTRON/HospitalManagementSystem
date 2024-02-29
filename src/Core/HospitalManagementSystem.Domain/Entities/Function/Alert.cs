@@ -9,8 +9,8 @@ public class Alert : EntityBase
     public string?  UserId  { get; set; }
     public User     User    { get; set; } = default!;
 
-    public string?          AppointmentId       { get; set; }
-    public Appointment      Appointment         { get; set; } = default!;
+    //public string?          AppointmentId       { get; set; }
+    //public Appointment      Appointment         { get; set; } = default!;
     public string?          RoomAllocationId    { get; set; }
     public RoomAllocation   RoomAllocation      { get; set; } = default!;
     public string?          RoomAssignmentId    { get; set; }

@@ -1,7 +1,5 @@
-﻿using HospitalManagementSystem.Domain;
+﻿namespace HospitalManagementSystem.Application;
 
-namespace HospitalManagementSystem.Application;
-
-public interface IGoodsImportationRepository : IBaseRepository<GoodsImportation>
+public interface IGoodsImportationRepository : IBaseRepository<Importation>
 {
 }

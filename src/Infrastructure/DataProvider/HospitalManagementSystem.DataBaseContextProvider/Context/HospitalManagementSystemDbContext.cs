@@ -17,8 +17,8 @@ public class HospitalManagementSystemDbContext : DbContext
     public virtual DbSet<Drug>                  Drugs                   { get; set; } = null!;
     public virtual DbSet<DrugInventory>         DrugInventorys          { get; set; } = null!;
     public virtual DbSet<Storage>               Storages                { get; set; } = null!;
-    public virtual DbSet<Suppling>              Supplings               { get; set; } = null!;
-    public virtual DbSet<GoodsImportation>      GoodsImportations       { get; set; } = null!;
+    public virtual DbSet<GoodSuppling>          GoodSupplings           { get; set; } = null!;
+    public virtual DbSet<Importation>           Importations            { get; set; } = null!;
     public virtual DbSet<DeviceInventory>       DeviceInventorys        { get; set; } = null!;
     public virtual DbSet<Diagnosis>             Diagnosises             { get; set; } = null!;
     public virtual DbSet<DiagnosisSuggestion>   DiagnosisSuggestions    { get; set; } = null!;
