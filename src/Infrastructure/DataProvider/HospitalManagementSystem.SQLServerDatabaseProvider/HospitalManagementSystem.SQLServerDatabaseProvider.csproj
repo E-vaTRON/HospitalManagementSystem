@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HospitalManagementSystem.DataBaseContextProvider\HospitalManagementSystem.DataBaseContextProvider.csproj" />
+    <ProjectReference Include="..\HospitalManagementSystem.DataProvider\HospitalManagementSystem.DataProvider.csproj" />
   </ItemGroup>
 
 </Project>

@@ -504,10 +504,27 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<MedicalExam>()
                     .HasOne(me => me.Appointment)
-                    .WithMany()
-                    .HasForeignKey(me => me.AppointmentId);
+                    .WithOne(ba => ba.MedicalExam)
+                    .HasForeignKey<MedicalExam>(me => me.AppointmentId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
     }
+    private void MedicalExamEposodeModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<MedicalExamEposode>(modelBuilder, nameof(MedicalExamEposode));
 
+        modelBuilder.Entity<MedicalExamEposode>()
+                    .HasOne(mee => mee.MedicalExam)
+                    .WithMany(me => me.MedicalExamEposodes)
+                    .HasForeignKey(mee => mee.MedicalExamId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+        //modelBuilder.Entity<MedicalExamEposode>()
+        //            .HasOne(mee => mee.ExamDoctor)
+        //            .WithMany()
+        //            .HasForeignKey(mee => mee.ExamDoctorId);
+    }
     private void TreatmentModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<Treatment>(modelBuilder, nameof(Treatment));
@@ -521,21 +538,6 @@ public class SQLDatabaseModelBuilder
                     .HasOne(t => t.ICD)
                     .WithMany(i => i.Treatments)
                     .HasForeignKey(t => t.ICDId);
-    }
-
-    private void MedicalExamEposodeModelBuilder(ModelBuilder modelBuilder)
-    {
-        this.BaseModelBuilder<MedicalExamEposode>(modelBuilder, nameof(MedicalExamEposode));
-
-        modelBuilder.Entity<MedicalExamEposode>()
-                    .HasOne(mee => mee.MedicalExam)
-                    .WithMany(me => me.MedicalExamEposodes)
-                    .HasForeignKey(mee => mee.MedicalExamId);
-
-        modelBuilder.Entity<MedicalExamEposode>()
-                    .HasOne(mee => mee.ExamDoctor)
-                    .WithMany() // Assuming there's no navigation property in Doctor
-                    .HasForeignKey(mee => mee.ExamDoctorId);
     }
     #endregion
     //builder.Entity<Suppling>(entity =>
