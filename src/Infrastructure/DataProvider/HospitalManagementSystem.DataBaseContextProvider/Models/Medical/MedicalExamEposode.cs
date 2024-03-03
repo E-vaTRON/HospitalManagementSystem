@@ -11,9 +11,9 @@ public class MedicalExamEposode : ModelBase
     public string?              ReExamAppointmentId { get; set; }
     public ReExamAppointment?   ReExamAppointment { get; set; }
 
-    public virtual ICollection<Doctor>          Doctors         { get; set; } = new HashSet<Doctor>(); // tạo bản mới
-    public virtual ICollection<Transaction>     Transactions    { get; set; } = new HashSet<Transaction>();
-    public virtual ICollection<Treatment>       Treatments      { get; set; } = new HashSet<Treatment>();
-    public virtual ICollection<Diagnosis>       Diagnosis       { get; set; } = new HashSet<Diagnosis>();
-    public virtual ICollection<RoomAllocation>  RoomAllocations { get; set; } = new HashSet<RoomAllocation>();
+    public virtual ICollection<MedicalExamAssignment>   MedicalExamAssignments  { get; set; } = new HashSet<MedicalExamAssignment>();
+    public virtual ICollection<Transaction>             Transactions            { get; set; } = new HashSet<Transaction>();
+    public virtual ICollection<Treatment>               Treatments              { get; set; } = new HashSet<Treatment>();
+    public virtual ICollection<Diagnosis>               Diagnosis               { get; set; } = new HashSet<Diagnosis>();
+    public virtual ICollection<RoomAllocation>          RoomAllocations         { get; set; } = new HashSet<RoomAllocation>();
 }
