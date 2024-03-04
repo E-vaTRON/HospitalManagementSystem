@@ -1,6 +1,0 @@
-C:\Users\onith\source\repos\HospitalManagementSystem\src\Infrastructure\ServiceProvider\HospitalManagementSystem.ServiceProvider\obj\Debug\net8.0\HospitalManagementSystem.ServiceProvider.csproj.AssemblyReference.cache
-C:\Users\onith\source\repos\HospitalManagementSystem\src\Infrastructure\ServiceProvider\HospitalManagementSystem.ServiceProvider\obj\Debug\net8.0\HospitalManagementSystem.ServiceProvider.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\onith\source\repos\HospitalManagementSystem\src\Infrastructure\ServiceProvider\HospitalManagementSystem.ServiceProvider\obj\Debug\net8.0\HospitalManagementSystem.ServiceProvider.AssemblyInfoInputs.cache
-C:\Users\onith\source\repos\HospitalManagementSystem\src\Infrastructure\ServiceProvider\HospitalManagementSystem.ServiceProvider\obj\Debug\net8.0\HospitalManagementSystem.ServiceProvider.AssemblyInfo.cs
-C:\Users\onith\source\repos\HospitalManagementSystem\src\Infrastructure\ServiceProvider\HospitalManagementSystem.ServiceProvider\obj\Debug\net8.0\HospitalManagementSystem.ServiceProvider.csproj.CoreCompileInputs.cache
-C:\Users\onith\source\repos\HospitalManagementSystem\src\Infrastructure\ServiceProvider\HospitalManagementSystem.ServiceProvider\obj\Debug\net8.0\HospitalManagementSystem.ServiceProvider.sourcelink.json
