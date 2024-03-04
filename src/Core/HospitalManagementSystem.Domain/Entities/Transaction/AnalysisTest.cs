@@ -6,8 +6,8 @@ public class AnalysisTest : EntityBase
     public string?  DoctorComment       { get; set; }
     public string?  Result              { get; set; }
 
-    public string?          DeviceServiceID { get; set; }
+    public string?          DeviceServiceId { get; set; }
     public DeviceService    DeviceService   { get; set; } = default!;
-    public string?          BillID          { get; set; }
+    public string?          BillId          { get; set; }
     public Bill             Bill            { get; set; } = default!;
 }

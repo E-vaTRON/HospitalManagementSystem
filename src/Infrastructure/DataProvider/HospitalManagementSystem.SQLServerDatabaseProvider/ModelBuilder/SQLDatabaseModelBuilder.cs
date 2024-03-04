@@ -667,6 +667,102 @@ public class SQLDatabaseModelBuilder
                     .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
                     .IsRequired(true);
     }
+    private void AnalysisTestModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<AnalysisTest>(modelBuilder, nameof(AnalysisTest));
+
+        modelBuilder.Entity<AnalysisTest>()
+                    .Property(s => s.DSymptom)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<AnalysisTest>()
+                    .Property(s => s.DoctorComment)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<AnalysisTest>()
+                    .Property(s => s.Result)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<AnalysisTest>()
+                    .HasOne(at => at.DeviceService)
+                    .WithMany(ds => ds.AnalysisTests)
+                    .HasForeignKey(at => at.DeviceServiceId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<AnalysisTest>()
+                    .HasOne(at => at.Bill)
+                    .WithMany(b => b.AnalysisTests)
+                    .HasForeignKey(at => at.BillId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
+    }
+    private void BillModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<Bill>(modelBuilder, nameof(Bill));
+
+        modelBuilder.Entity<Bill>()
+                    .Property(s => s.TotalDrugPrice)
+                    .HasColumnType("int")
+                    .IsRequired(true);
+
+        modelBuilder.Entity<Bill>()
+                    .Property(s => s.TotalServicePrice)
+                    .HasColumnType("int")
+                    .IsRequired(true);
+
+        modelBuilder.Entity<Bill>()
+                    .HasOne(b => b.Transaction)
+                    .WithMany(t => t.Bills)
+                    .HasForeignKey(b => b.TransactionId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
+    }
+    private void DrugBillDetailModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<DrugBillDetail>(modelBuilder, nameof(DrugBillDetail));
+
+        modelBuilder.Entity<DrugBillDetail>()
+                    .HasOne(dbd => dbd.Bill)
+                    .WithMany(b => b.DrugBillDetails)
+                    .HasForeignKey(dbd => dbd.BillId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<DrugBillDetail>()
+                    .HasOne(dbd => dbd.Inventory)
+                    .WithMany(t => t.DrugBillDetails)
+                    .HasForeignKey(dbd => dbd.InventoryId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
+    }
+    private void TransactionModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<Transaction>(modelBuilder, nameof(Transaction));
+
+        modelBuilder.Entity<Transaction>()
+                    .Property(s => s.RecordDay)
+                    .HasColumnType("datetime")
+                    .IsRequired(true);
+
+        modelBuilder.Entity<Transaction>()
+                    .Property(s => s.TotalPrice)
+                    .HasColumnType("int")
+                    .IsRequired(true);
+
+        modelBuilder.Entity<Transaction>()
+                    .HasOne(dbd => dbd.MedicalExamEposode)
+                    .WithMany(t => t.Transactions)
+                    .HasForeignKey(dbd => dbd.MedicalExamEposodeId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
+    }
     #endregion
     //builder.Entity<Suppling>(entity =>
     //{
