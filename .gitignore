@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/src/Infrastructure/DataProvider/HospitalManagementSystem.SQLServerDatabaseProvider.Tests/appsettings.json
+/src/Infrastructure/DataProvider/HospitalManagementSystem.SQLServerDatabaseProvider.Tests/appsettings.json
+/src/Infrastructure/DataProvider/HospitalManagementSystem.SQLServerDatabaseProvider.Tests/appsettings.json
