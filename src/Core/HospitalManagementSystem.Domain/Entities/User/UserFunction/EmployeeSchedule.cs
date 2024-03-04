@@ -8,6 +8,6 @@ public class EmployeeSchedule : EntityBase
     public bool         IsFlexible              { get; set; } // cho phép thời gian linh động
     public int          SlotDurationInMinutes   { get; set; } // slot làm việc có khoản thời gian
 
-    public string?  EmployeeId  { get; set; }
-    public Employee Employee    { get; set; } = default!;
+    public string?      EmployeeId  { get; set; }
+    public Employee     Employee    { get; set; } = default!;
 }

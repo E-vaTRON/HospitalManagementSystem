@@ -1,4 +1,6 @@
-﻿namespace HospitalManagementSystem.ServiceProvider;
+﻿using HospitalManagementSystem.DataProvider;
+
+namespace HospitalManagementSystem.ServiceProvider;
 
 public static class ServiceExtension
 {
