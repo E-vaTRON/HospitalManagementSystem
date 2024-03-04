@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HospitalManagementSystem.DataBaseContextProvider")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+abec0dcc3d32d1308f00b041e4a7bfd4a00bdc0a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f79a2ca38b142cf82ed4d70c9282042fcfd120b8")]
 [assembly: System.Reflection.AssemblyProductAttribute("HospitalManagementSystem.DataBaseContextProvider")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HospitalManagementSystem.DataBaseContextProvider")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
