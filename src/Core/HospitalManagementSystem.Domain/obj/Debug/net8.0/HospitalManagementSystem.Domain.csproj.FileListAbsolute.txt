@@ -1,0 +1,13 @@
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Core\HospitalManagementSystem.Domain\bin\Debug\net8.0\HospitalManagementSystem.Domain.deps.json
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Core\HospitalManagementSystem.Domain\bin\Debug\net8.0\HospitalManagementSystem.Domain.dll
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Core\HospitalManagementSystem.Domain\bin\Debug\net8.0\HospitalManagementSystem.Domain.pdb
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Core\HospitalManagementSystem.Domain\obj\Debug\net8.0\HospitalManagementSystem.Domain.csproj.AssemblyReference.cache
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Core\HospitalManagementSystem.Domain\obj\Debug\net8.0\HospitalManagementSystem.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Core\HospitalManagementSystem.Domain\obj\Debug\net8.0\HospitalManagementSystem.Domain.AssemblyInfoInputs.cache
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Core\HospitalManagementSystem.Domain\obj\Debug\net8.0\HospitalManagementSystem.Domain.AssemblyInfo.cs
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Core\HospitalManagementSystem.Domain\obj\Debug\net8.0\HospitalManagementSystem.Domain.csproj.CoreCompileInputs.cache
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Core\HospitalManagementSystem.Domain\obj\Debug\net8.0\HospitalManagementSystem.Domain.sourcelink.json
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Core\HospitalManagementSystem.Domain\obj\Debug\net8.0\HospitalManagementSystem.Domain.dll
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Core\HospitalManagementSystem.Domain\obj\Debug\net8.0\refint\HospitalManagementSystem.Domain.dll
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Core\HospitalManagementSystem.Domain\obj\Debug\net8.0\HospitalManagementSystem.Domain.pdb
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Core\HospitalManagementSystem.Domain\obj\Debug\net8.0\ref\HospitalManagementSystem.Domain.dll

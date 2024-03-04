@@ -1,0 +1,10 @@
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Presentation\REST\HospitalManagementSystem\obj\Debug\net8.0\HospitalManagementSystem.csproj.AssemblyReference.cache
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Presentation\REST\HospitalManagementSystem\obj\Debug\net8.0\HospitalManagementSystem.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Presentation\REST\HospitalManagementSystem\obj\Debug\net8.0\HospitalManagementSystem.AssemblyInfoInputs.cache
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Presentation\REST\HospitalManagementSystem\obj\Debug\net8.0\HospitalManagementSystem.AssemblyInfo.cs
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Presentation\REST\HospitalManagementSystem\obj\Debug\net8.0\HospitalManagementSystem.csproj.CoreCompileInputs.cache
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Presentation\REST\HospitalManagementSystem\obj\Debug\net8.0\HospitalManagementSystem.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Presentation\REST\HospitalManagementSystem\obj\Debug\net8.0\HospitalManagementSystem.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Presentation\REST\HospitalManagementSystem\obj\Debug\net8.0\HospitalManagementSystem.RazorAssemblyInfo.cache
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Presentation\REST\HospitalManagementSystem\obj\Debug\net8.0\HospitalManagementSystem.RazorAssemblyInfo.cs
+C:\Users\onith\source\repos\HospitalManagementSystem\src\Presentation\REST\HospitalManagementSystem\obj\Debug\net8.0\HospitalManagementSystem.sourcelink.json
