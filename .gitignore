@@ -367,3 +367,5 @@ FodyWeavers.xsd
 /src/Infrastructure/DataProvider/HospitalManagementSystem.SQLServerDatabaseProvider.Tests/appsettings.json
 /src/Presentation/REST/HospitalManagementSystem/appsettings.json
 /src/Infrastructure/DataProvider/HospitalManagementSystem.SQLServerDatabaseProvider.Tests/appsettings.json
+/src/Infrastructure/DataProvider/HospitalManagementSystemDataProvider/HospitalManagementSystem.SQLServer.Tests/appsettings.json
+/src/Infrastructure/DataProvider/HospitalManagementSystemDataProvider/HospitalManagementSystem.Tests/appsettings.json
