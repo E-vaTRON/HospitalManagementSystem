@@ -34,6 +34,4 @@ public class HospitalManagementSystemDbContext : DbContext
     public virtual DbSet<Bill>                  Bills                   { get; set; } = null!;
     public virtual DbSet<DrugBillDetail>        DrugBillDetails         { get; set; } = null!;
     public virtual DbSet<Transaction>           Transactions            { get; set; } = null!;
-    //public virtual DbSet<User>                          Users                   { get; set; } = null!;
-    //public virtual DbSet<Role>                          Roles                   { get; set; } = null!;
 }

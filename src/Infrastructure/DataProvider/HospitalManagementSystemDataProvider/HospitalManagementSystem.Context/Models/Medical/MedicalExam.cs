@@ -1,4 +1,6 @@
-﻿namespace HospitalManagementSystem.DataProvider;
+﻿using HospitalManagementSystem.Context.Models.Function.Appointment;
+
+namespace HospitalManagementSystem.DataProvider;
 
 public class MedicalExam : ModelBase
 {

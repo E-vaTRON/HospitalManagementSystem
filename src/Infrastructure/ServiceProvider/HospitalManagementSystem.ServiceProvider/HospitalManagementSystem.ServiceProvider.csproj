@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Configurations>Debug;Release;Test</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\HospitalManagementSystem.Application\HospitalManagementSystem.Application.csproj" />
-    <ProjectReference Include="..\..\DataProvider\HospitalManagementSystem.DataBaseContextProvider\HospitalManagementSystem.DataBaseContextProvider.csproj" />
+    <ProjectReference Include="..\..\DataProvider\HospitalManagementSystemDataProvider\HospitalManagementSystem.Context\HospitalManagementSystem.Context.csproj" />
   </ItemGroup>
 
 
