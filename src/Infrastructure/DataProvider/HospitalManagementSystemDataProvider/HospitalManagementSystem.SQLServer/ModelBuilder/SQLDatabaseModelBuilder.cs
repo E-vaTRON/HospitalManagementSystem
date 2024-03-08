@@ -74,6 +74,32 @@ public class SQLDatabaseModelBuilder
     #endregion
 
     #region [ Model Builder ]
+    private void AlertModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<Alert>(modelBuilder, nameof(Alert));
+
+        modelBuilder.Entity<Alert>()
+                    .Property(x => x.AlertDate)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<Alert>()
+                    .Property(x => x.Status)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<Alert>()
+                    .Property(x => x.Message)
+                    .HasColumnType("int")
+                    .IsRequired(true);
+
+        modelBuilder.Entity<Alert>()
+                    .HasOne(a => a.User)
+                    .WithMany(u => u.Alerts)
+                    .HasForeignKey(a => a.UserId);
+    }
     private void RoomModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<Room>(modelBuilder, nameof(Room));
@@ -108,7 +134,7 @@ public class SQLDatabaseModelBuilder
                     .WithMany(d => d.Rooms)
                     .HasForeignKey(r => r.DepartmentId)
                     .IsRequired(true)
-                    .OnDelete(DeleteBehavior.Cascade); ;
+                    .OnDelete(DeleteBehavior.Cascade);
     }
     private void RoomAssignmentModelBuilder(ModelBuilder modelBuilder)
     {

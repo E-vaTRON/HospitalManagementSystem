@@ -1,6 +1,4 @@
-﻿using HospitalManagementSystem.Context.Models.Function.Appointment;
-
-namespace HospitalManagementSystem.DataProvider;
+﻿namespace HospitalManagementSystem.DataProvider;
 
 public class Doctor : Employee
 {
