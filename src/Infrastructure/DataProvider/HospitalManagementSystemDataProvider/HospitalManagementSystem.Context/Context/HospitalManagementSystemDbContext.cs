@@ -10,6 +10,11 @@ public class HospitalManagementSystemDbContext : DbContext
     }
 
     public virtual DbSet<Alert>                 Alerts                  { get; set; } = null!;
+    public virtual DbSet<AppointmentBase>       AppointmentBases        { get; set; } = null!;
+    //public virtual DbSet<BookingAppointment>    BookingAppointments     { get; set; } = null!;
+    //public virtual DbSet<ReExamAppointment>     ReExamAppointments      { get; set; } = null!;
+    public virtual DbSet<Referral>              Referrals               { get; set; } = null!;
+    public virtual DbSet<EmployeeSchedule>      EmployeeSchedules       { get; set; } = null!;
     public virtual DbSet<Department>            Departments             { get; set; } = null!;
     public virtual DbSet<Room>                  Rooms                   { get; set; } = null!;
     public virtual DbSet<RoomAllocation>        RoomAllocations         { get; set; } = null!;
