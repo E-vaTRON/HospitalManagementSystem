@@ -79,12 +79,6 @@ public class SQLDatabaseModelBuilder
         this.BaseModelBuilder<Alert>(modelBuilder, nameof(Alert));
 
         modelBuilder.Entity<Alert>()
-                    .Property(x => x.AlertDate)
-                    .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
-                    .IsRequired(true);
-
-        modelBuilder.Entity<Alert>()
                     .Property(x => x.Status)
                     .HasColumnType("nvarchar")
                     .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH)
@@ -92,13 +86,118 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<Alert>()
                     .Property(x => x.Message)
-                    .HasColumnType("int")
+                    .HasColumnType("nvarchar")
                     .IsRequired(true);
 
         modelBuilder.Entity<Alert>()
                     .HasOne(a => a.User)
                     .WithMany(u => u.Alerts)
                     .HasForeignKey(a => a.UserId);
+    }
+    private void BookingAppointmentModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<BookingAppointment>(modelBuilder, nameof(BookingAppointment));
+
+        modelBuilder.Entity<BookingAppointment>()
+                    .HasOne(ba => ba.Patient)
+                    .WithMany(u => u.BookingAppointments)
+                    .HasForeignKey(ba => ba.PatientId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<BookingAppointment>()
+                    .HasOne(ba => ba.Doctor)
+                    .WithMany(u => u.BookingAppointments)
+                    .HasForeignKey(ba => ba.DoctorId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<BookingAppointment>()
+                    .HasOne(ba => ba.MedicalExam)
+                    .WithOne(gs => gs.BookingAppointment)
+                    .HasForeignKey<BookingAppointment>(ba => ba.MedicalExamId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
+    }
+    private void ReExamAppointmentModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<ReExamAppointment>(modelBuilder, nameof(ReExamAppointment));
+
+        modelBuilder.Entity<ReExamAppointment>()
+                    .HasOne(ba => ba.MedicalExamEposode)
+                    .WithOne(gs => gs.ReExamAppointment)
+                    .HasForeignKey<ReExamAppointment>(ba => ba.MedicalExamEposodeId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
+    }
+    //private void EmployeeScheduleModelBuilder(ModelBuilder modelBuilder)
+    //{
+    //    this.BaseModelBuilder<EmployeeSchedule>(modelBuilder, nameof(EmployeeSchedule));
+
+    //    modelBuilder.Entity<EmployeeSchedule>()
+    //                .Property(x => x.WorkingDay)
+    //                .HasColumnType("nvarchar")
+    //                .HasConversion(new EnumToStringConverter<DayOfWeek>())
+    //                .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH)
+    //                .IsRequired(true);
+
+    //    modelBuilder.Entity<EmployeeSchedule>()
+    //                .Property(x => x.StartTime)
+    //                .HasColumnType("time")
+    //                .IsRequired(true);
+
+    //    modelBuilder.Entity<EmployeeSchedule>()
+    //                .Property(x => x.EndTime)
+    //                .HasColumnType("time")
+    //                .IsRequired(true);
+
+    //    modelBuilder.Entity<EmployeeSchedule>()
+    //                .Property(x => x.IsFlexible)
+    //                .HasColumnType("bit")
+    //                .IsRequired(true);
+
+    //    modelBuilder.Entity<EmployeeSchedule>()
+    //                .HasOne(r => r.Employee)
+    //                .WithMany(d => d.EmployeeSchedules)
+    //                .HasForeignKey(r => r.EmployeeId)
+    //                .IsRequired(true)
+    //                .OnDelete(DeleteBehavior.Cascade);
+    //}
+    private void ReferralModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<Room>(modelBuilder, nameof(Room));
+
+        modelBuilder.Entity<Room>()
+                    .Property(x => x.Name)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<Room>()
+                    .Property(x => x.RoomType)
+                    .HasColumnType("nvarchar")
+                    .HasConversion(new EnumToStringConverter<RoomType>())
+                    .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<Room>()
+                    .Property(x => x.Capacity)
+                    .HasColumnType("int")
+                    .IsRequired(true);
+
+        modelBuilder.Entity<Room>()
+                    .Property(x => x.RoomType)
+                    .HasColumnType("nvarchar")
+                    .HasConversion(new EnumToStringConverter<RoomStatus>())
+                    .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<Room>()
+                    .HasOne(r => r.Department)
+                    .WithMany(d => d.Rooms)
+                    .HasForeignKey(r => r.DepartmentId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
     }
     private void RoomModelBuilder(ModelBuilder modelBuilder)
     {
@@ -555,19 +654,43 @@ public class SQLDatabaseModelBuilder
                     .IsRequired(true);
 
         modelBuilder.Entity<MedicalExamEposode>()
-                    .HasOne(mee => mee.MedicalExam)
-                    .WithMany(me => me.MedicalExamEposodes)
-                    .HasForeignKey(mee => mee.MedicalExamId)
-                    .IsRequired(true)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<MedicalExamEposode>()
                     .HasOne(mee => mee.ReExamAppointment)
                     .WithOne(rea => rea.MedicalExamEposode)
                     .HasForeignKey<MedicalExamEposode>(mee => mee.ReExamAppointmentId)
                     .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<MedicalExamEposode>()
+                    .HasOne(mee => mee.MedicalExam)
+                    .WithMany(me => me.MedicalExamEposodes)
+                    .HasForeignKey(mee => mee.MedicalExamId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
     }
+    private void AssignmentHistoryModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<AssignmentHistory>(modelBuilder, nameof(AssignmentHistory));
+
+        modelBuilder.Entity<AssignmentHistory>()
+                    .Property(s => s.AssignmentStatus)
+                    .HasColumnType("nvarchar")
+                    .IsRequired(true);
+
+        modelBuilder.Entity<AssignmentHistory>()
+                    .HasOne(ah => ah.Doctor)
+                    .WithMany(d => d.AssignmentHistories)
+                    .HasForeignKey(mee => mee.DoctorId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<AssignmentHistory>()
+                    .HasOne(ah => ah.MedicalExamEposode)
+                    .WithMany(mee => mee.AssignmentHistories)
+                    .HasForeignKey(ah => ah.MedicalExamEposodeId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
+    }
+
     private void TreatmentModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<Treatment>(modelBuilder, nameof(Treatment));
