@@ -8,4 +8,7 @@ public class ReferralDoctor
     public Doctor   ReferringDoctor     { get; set; } = default!;
     public string?  ReferredDoctorId    { get; set; }
     public Doctor   ReferredDoctor      { get; set; } = default!;
+
+    public string?              AssignmentHistoryId { get; set; }
+    public AssignmentHistory?   AssignmentHistory   { get; set; }
 }

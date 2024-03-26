@@ -182,34 +182,34 @@ public class SQLDatabaseModelBuilder
     }
     private void ReferralModelBuilder(ModelBuilder modelBuilder)
     {
-        this.BaseModelBuilder<Room>(modelBuilder, nameof(Room));
+        this.BaseModelBuilder<Referral>(modelBuilder, nameof(Referral));
 
-        modelBuilder.Entity<Room>()
+        modelBuilder.Entity<Referral>()
                     .Property(x => x.Name)
                     .HasColumnType("nvarchar")
                     .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
                     .IsRequired(true);
 
-        modelBuilder.Entity<Room>()
+        modelBuilder.Entity<Referral>()
                     .Property(x => x.RoomType)
                     .HasColumnType("nvarchar")
                     .HasConversion(new EnumToStringConverter<RoomType>())
                     .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH)
                     .IsRequired(true);
 
-        modelBuilder.Entity<Room>()
+        modelBuilder.Entity<Referral>()
                     .Property(x => x.Capacity)
                     .HasColumnType("int")
                     .IsRequired(true);
 
-        modelBuilder.Entity<Room>()
+        modelBuilder.Entity<Referral>()
                     .Property(x => x.RoomType)
                     .HasColumnType("nvarchar")
                     .HasConversion(new EnumToStringConverter<RoomStatus>())
                     .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH)
                     .IsRequired(true);
 
-        modelBuilder.Entity<Room>()
+        modelBuilder.Entity<Referral>()
                     .HasOne(r => r.Department)
                     .WithMany(d => d.Rooms)
                     .HasForeignKey(r => r.DepartmentId)
