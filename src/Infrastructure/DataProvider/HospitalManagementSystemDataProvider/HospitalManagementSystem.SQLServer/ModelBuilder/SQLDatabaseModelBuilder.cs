@@ -6,11 +6,11 @@ public class SQLDatabaseModelBuilder
 {
     //using singleton for sqldatabase
     #region [ Singleton ]
-    private static readonly Lazy<SQLDatabaseModelBuilder> current = new Lazy<SQLDatabaseModelBuilder>(
+    private static readonly Lazy<SQLDatabaseModelBuilder> sQLModelBuilder = new Lazy<SQLDatabaseModelBuilder>(
         () => new SQLDatabaseModelBuilder(), LazyThreadSafetyMode.PublicationOnly);
-    public static SQLDatabaseModelBuilder Current
+    public static SQLDatabaseModelBuilder SQLModelBuilder
     {
-        get => current.Value; 
+        get => sQLModelBuilder.Value; 
     }
     #endregion
 
@@ -32,8 +32,43 @@ public class SQLDatabaseModelBuilder
     #region [ Private Method ]
     private void CreateModels(ModelBuilder modelBuilder)
     {
-        //this.CreateModel_Playlist(modelBuilder);
+        this.AlertModelBuilder(modelBuilder);
+        this.BookingAppointmentModelBuilder(modelBuilder);
+        this.ReExamAppointmentModelBuilder(modelBuilder);
+        this.ScheduleDayModelBuilder(modelBuilder);
+        this.ScheduleSlotModelBuilder(modelBuilder);
+        this.ReferralModelBuilder(modelBuilder);
+        this.ReferralDoctorModelBuilder(modelBuilder);
 
+        this.RoomModelBuilder(modelBuilder);
+        this.RoomAssignmentModelBuilder(modelBuilder);
+        this.RoomAllocationModelBuilder(modelBuilder);
+        this.DepartmentModelBuilder(modelBuilder);
+
+        this.DeviceInventoryModelBuilder(modelBuilder);
+        this.DrugModelBuilder(modelBuilder);
+        this.DrugInventoryModelBuilder(modelBuilder);
+        this.GoodSupplingModelBuilder(modelBuilder);
+        this.ImportationModelBuilder(modelBuilder);
+        this.StorageModelBuilder(modelBuilder);
+
+        this.AssignmentHistoryModelBuilder(modelBuilder);
+        this.DiagnosisModelBuilder(modelBuilder);
+        this.DiagnosisSuggestionModelBuilder(modelBuilder);
+        this.ICDModelBuilder(modelBuilder);
+        this.ICDDModelBuilder(modelBuilder);
+        this.MedicalExamModelBuilder(modelBuilder);
+        this.MedicalExamEposodeModelBuilder(modelBuilder);
+        this.TreatmentModelBuilder(modelBuilder);
+
+        this.DeviceServiceModelBuilder(modelBuilder);
+        this.MedicalDeviceModelBuilder(modelBuilder);
+        this.ServiceModelBuilder(modelBuilder);
+        this.AnalysisTestModelBuilder(modelBuilder);
+
+        this.BillModelBuilder(modelBuilder);
+        this.DrugBillDetailModelBuilder(modelBuilder);
+        this.TransactionModelBuilder(modelBuilder);
     }
     #endregion
 

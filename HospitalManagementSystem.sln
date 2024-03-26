@@ -33,7 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagementSystem.Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagementSystem.SQLServer", "src\Infrastructure\DataProvider\HospitalManagementSystemDataProvider\HospitalManagementSystem.SQLServer\HospitalManagementSystem.SQLServer.csproj", "{80001AC1-5C57-47E1-838E-B9A9FCEC9C0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalManagementSystem.Tests", "src\Infrastructure\DataProvider\HospitalManagementSystemDataProvider\HospitalManagementSystem.Tests\HospitalManagementSystem.Tests.csproj", "{DB654C0F-B5E0-46C0-AE41-C89F77F51CB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagementSystem.Tests", "src\Infrastructure\DataProvider\HospitalManagementSystemDataProvider\HospitalManagementSystem.Tests\HospitalManagementSystem.Tests.csproj", "{DB654C0F-B5E0-46C0-AE41-C89F77F51CB4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagementSystem.DataModel", "src\Infrastructure\DataProvider\HospitalManagementSystemDataProvider\HospitalManagementSystem.DataModel\HospitalManagementSystem.DataModel.csproj", "{B8B41BAB-4341-4A13-9FCE-0597C2859E13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,6 +92,12 @@ Global
 		{DB654C0F-B5E0-46C0-AE41-C89F77F51CB4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DB654C0F-B5E0-46C0-AE41-C89F77F51CB4}.Test|Any CPU.ActiveCfg = Debug|Any CPU
 		{DB654C0F-B5E0-46C0-AE41-C89F77F51CB4}.Test|Any CPU.Build.0 = Debug|Any CPU
+		{B8B41BAB-4341-4A13-9FCE-0597C2859E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8B41BAB-4341-4A13-9FCE-0597C2859E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8B41BAB-4341-4A13-9FCE-0597C2859E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8B41BAB-4341-4A13-9FCE-0597C2859E13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8B41BAB-4341-4A13-9FCE-0597C2859E13}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8B41BAB-4341-4A13-9FCE-0597C2859E13}.Test|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,6 +116,7 @@ Global
 		{ECEFA461-C545-4575-A371-043C356E3026} = {28EBBFD0-76AE-4100-9519-099B95EB9B8E}
 		{80001AC1-5C57-47E1-838E-B9A9FCEC9C0D} = {28EBBFD0-76AE-4100-9519-099B95EB9B8E}
 		{DB654C0F-B5E0-46C0-AE41-C89F77F51CB4} = {28EBBFD0-76AE-4100-9519-099B95EB9B8E}
+		{B8B41BAB-4341-4A13-9FCE-0597C2859E13} = {28EBBFD0-76AE-4100-9519-099B95EB9B8E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FBC29E12-8C5E-46F6-98EC-35D90E2F8144}

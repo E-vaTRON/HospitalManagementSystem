@@ -1,29 +1,26 @@
 ﻿namespace HospitalManagementSystem.DataProvider;
-public static class ServiceExtensions
+public static class ServiceExtension
 {
     #region [ Public Methods - Add ]
-    public static void HospitalManagementSystemSqlServerDataProviders(this IServiceCollection services,
-        IConfiguration configuration)
+    public static void HospitalManagementSystemSqlServerDataProviders<TDbContext>(this IServiceCollection services, IConfiguration configuration)
+        where TDbContext : DbContext
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         if (string.IsNullOrEmpty(connectionString))
             throw new Exception($"{connectionString} is null or empty");
 
-        var options = new DbContextOptions<HospitalManagementSystemDbContext>();
-        var builder = new DbContextOptionsBuilder<HospitalManagementSystemDbContext>(options);
+        var options = new DbContextOptions<TDbContext>();
+        var builder = new DbContextOptionsBuilder<TDbContext>(options);
         builder.UseSqlServer(connectionString);
         builder.EnableSensitiveDataLogging(false);
 
-        services.AddPooledDbContextFactory<HospitalManagementSystemDbContext>(options => {
+        services.AddPooledDbContextFactory<TDbContext>(options => {
             //options.UseModel(HospitalManagementSystemDbContext.Current.GetModel());
             options.UseSqlServer(connectionString, sqlServerOptionsAction => {
                 sqlServerOptionsAction.EnableRetryOnFailure();
             });
             options.EnableSensitiveDataLogging();
         });
-
-        // Providers
-        services.HospitalManagementSystemDataBaseContextProviders<HospitalManagementSystemDbContext>();
     }
     #endregion
 }
