@@ -2,7 +2,7 @@
 public static class ServiceExtension
 {
     #region [ Public Methods - Add ]
-    public static void HospitalManagementSystemDataProviders<TDbContext>(this IServiceCollection services)
+    public static void AddHospitalManagementSystemDataProviders<TDbContext>(this IServiceCollection services)
         where TDbContext : DbContext
     {
         //// Core

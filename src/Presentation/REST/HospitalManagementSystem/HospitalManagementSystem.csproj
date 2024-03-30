@@ -15,7 +15,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\HospitalManagementSystem.Application\HospitalManagementSystem.Application.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\DataProvider\HospitalManagementSystemDataProvider\HospitalManagementSystem.SQLServer\HospitalManagementSystem.SQLServer.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\ServiceProvider\HospitalManagementSystem.ServiceProvider\HospitalManagementSystem.ServiceProvider.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

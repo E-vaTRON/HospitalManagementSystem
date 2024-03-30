@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace HospitalManagementSystem.Application;
+﻿namespace HospitalManagementSystem.Application;
 
 public class MappingProfile : Profile
 {

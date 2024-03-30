@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-
-namespace HospitalManagementSystem.DataProvider;
+﻿namespace HospitalManagementSystem.DataProvider;
 
 public class SQLDatabaseModelBuilder
 {
@@ -38,7 +36,7 @@ public class SQLDatabaseModelBuilder
         this.ScheduleDayModelBuilder(modelBuilder);
         this.ScheduleSlotModelBuilder(modelBuilder);
         this.ReferralModelBuilder(modelBuilder);
-        this.ReferralDoctorModelBuilder(modelBuilder);
+        //this.ReferralDoctorModelBuilder(modelBuilder);
 
         this.RoomModelBuilder(modelBuilder);
         this.RoomAssignmentModelBuilder(modelBuilder);
@@ -52,7 +50,7 @@ public class SQLDatabaseModelBuilder
         this.ImportationModelBuilder(modelBuilder);
         this.StorageModelBuilder(modelBuilder);
 
-        this.AssignmentHistoryModelBuilder(modelBuilder);
+        //this.AssignmentHistoryModelBuilder(modelBuilder);
         this.DiagnosisModelBuilder(modelBuilder);
         this.DiagnosisSuggestionModelBuilder(modelBuilder);
         this.ICDModelBuilder(modelBuilder);
@@ -245,36 +243,36 @@ public class SQLDatabaseModelBuilder
                     .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
-    private void ReferralDoctorModelBuilder(ModelBuilder modelBuilder)
-    {
-        this.BaseModelBuilder<ReferralDoctor>(modelBuilder, nameof(ReferralDoctor));
+    //private void ReferralDoctorModelBuilder(ModelBuilder modelBuilder)
+    //{
+    //    this.BaseModelBuilder<ReferralDoctor>(modelBuilder, nameof(ReferralDoctor));
 
-        modelBuilder.Entity<ReferralDoctor>()
-                    .Property(x => x.ReferralStatus)
-                    .HasColumnType("nvarchar")
-                    .IsRequired(true);
+    //    modelBuilder.Entity<ReferralDoctor>()
+    //                .Property(x => x.ReferralStatus)
+    //                .HasColumnType("nvarchar")
+    //                .IsRequired(true);
 
-        modelBuilder.Entity<ReferralDoctor>()
-                    .HasOne(rd => rd.ReferringDoctor)
-                    .WithMany(d => d.ReferralDoctors)
-                    .HasForeignKey(rd => rd.ReferringDoctorId)
-                    .IsRequired(true)
-                    .OnDelete(DeleteBehavior.Cascade);
+    //    modelBuilder.Entity<ReferralDoctor>()
+    //                .HasOne(rd => rd.Referral)
+    //                .WithMany(r => r.ReferralDoctors)
+    //                .HasForeignKey(rd => rd.ReferralId)
+    //                .IsRequired(true)
+    //                .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<ReferralDoctor>()
-                    .HasOne(rd => rd.ReferredDoctor)
-                    .WithMany(d => d.ReferralDoctors)
-                    .HasForeignKey(rd => rd.ReferredDoctorId)
-                    .IsRequired(true)
-                    .OnDelete(DeleteBehavior.Cascade);
+    //    modelBuilder.Entity<ReferralDoctor>()
+    //                .HasOne(rd => rd.ReferredDoctor)
+    //                .WithMany(d => d.ReferralDoctors)
+    //                .HasForeignKey(rd => rd.ReferredDoctorId)
+    //                .IsRequired(true)
+    //                .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<ReferralDoctor>()
-                    .HasOne(ah => ah.AssignmentHistory)
-                    .WithOne(rd => rd.ReferralDoctor)
-                    .HasForeignKey<ReferralDoctor>(ah => ah.AssignmentHistoryId)
-                    .IsRequired(false)
-                    .OnDelete(DeleteBehavior.Cascade);
-    }
+    //    modelBuilder.Entity<ReferralDoctor>()
+    //                .HasOne(rd => rd.AssignmentHistory)
+    //                .WithOne(ah => ah.ReferralDoctor)
+    //                .HasForeignKey<ReferralDoctor>(rd => rd.AssignmentHistoryId)
+    //                .HasPrincipalKey<AssignmentHistory>(ah => ah.ReferralDoctorId)
+    //                .IsRequired(false);
+    //}
     #endregion
 
     #region [ Infrastructure ]
@@ -606,36 +604,29 @@ public class SQLDatabaseModelBuilder
     #endregion
 
     #region [ Medical ]
-    private void AssignmentHistoryModelBuilder(ModelBuilder modelBuilder)
-    {
-        this.BaseModelBuilder<AssignmentHistory>(modelBuilder, nameof(AssignmentHistory));
+    //private void AssignmentHistoryModelBuilder(ModelBuilder modelBuilder)
+    //{
+    //    this.BaseModelBuilder<AssignmentHistory>(modelBuilder, nameof(AssignmentHistory));
 
-        modelBuilder.Entity<AssignmentHistory>()
-                    .Property(x => x.AssignmentStatus)
-                    .HasColumnType("nvarchar")
-                    .IsRequired(true);
+    //    modelBuilder.Entity<AssignmentHistory>()
+    //                .Property(x => x.AssignmentStatus)
+    //                .HasColumnType("nvarchar")
+    //                .IsRequired(true);
 
-        modelBuilder.Entity<AssignmentHistory>()
-                    .HasOne(rd => rd.MedicalExamEposode)
-                    .WithMany(mee => mee.AssignmentHistories)
-                    .HasForeignKey(rd => rd.MedicalExamEposodeId)
-                    .IsRequired(true)
-                    .OnDelete(DeleteBehavior.Cascade);
+    //    modelBuilder.Entity<AssignmentHistory>()
+    //                .HasOne(rd => rd.MedicalExamEposode)
+    //                .WithMany(mee => mee.AssignmentHistories)
+    //                .HasForeignKey(rd => rd.MedicalExamEposodeId)
+    //                .IsRequired(true)
+    //                .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<AssignmentHistory>()
-                    .HasOne(ah => ah.Doctor)
-                    .WithMany(d => d.AssignmentHistories)
-                    .HasForeignKey(ah => ah.Doctor)
-                    .IsRequired(true)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<AssignmentHistory>()
-                    .HasOne(ah => ah.ReferralDoctor)
-                    .WithOne(rd => rd.AssignmentHistory)
-                    .HasForeignKey<AssignmentHistory>(ah => ah.ReferralDoctorId)
-                    .IsRequired(false)
-                    .OnDelete(DeleteBehavior.Cascade);
-    }
+    //    modelBuilder.Entity<AssignmentHistory>()
+    //                .HasOne(ah => ah.Doctor)
+    //                .WithMany(d => d.AssignmentHistories)
+    //                .HasForeignKey(ah => ah.Doctor)
+    //                .IsRequired(true)
+    //                .OnDelete(DeleteBehavior.Cascade);
+    //}
     private void DiagnosisModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<Diagnosis>(modelBuilder, nameof(Diagnosis));
