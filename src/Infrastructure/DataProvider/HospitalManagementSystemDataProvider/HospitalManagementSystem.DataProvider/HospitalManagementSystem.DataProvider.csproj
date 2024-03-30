@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Core\HospitalManagementSystem.Domain\HospitalManagementSystem.Domain.csproj" />
-    <ProjectReference Include="..\HospitalManagementSystem.Context\HospitalManagementSystem.Context.csproj" />
+    <ProjectReference Include="..\HospitalManagementSystem.DataModel\HospitalManagementSystem.DataModel.csproj" />
   </ItemGroup>
 
 </Project>

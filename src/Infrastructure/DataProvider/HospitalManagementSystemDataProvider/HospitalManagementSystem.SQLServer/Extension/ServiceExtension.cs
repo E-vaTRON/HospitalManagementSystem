@@ -1,29 +1,26 @@
 ﻿namespace HospitalManagementSystem.DataProvider;
-public static class ServiceExtensions
+public static class ServiceExtension
 {
     #region [ Public Methods - Add ]
-    public static void HospitalManagementSystemSqlServerDataProviders(this IServiceCollection services,
-        IConfiguration configuration)
+    public static void AddHospitalManagementSystemSqlServerDataProviders(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        var connectionString = configuration.GetSection("DatabaseConfiguration:ConnectionString").Value;
         if (string.IsNullOrEmpty(connectionString))
-            throw new Exception($"{connectionString} is null or empty");
+            throw new Exception("The connection string is null or empty");
 
         var options = new DbContextOptions<HospitalManagementSystemDbContext>();
-        var builder = new DbContextOptionsBuilder<HospitalManagementSystemDbContext>(options);
-        builder.UseSqlServer(connectionString);
-        builder.EnableSensitiveDataLogging(false);
+        var optionsBuilder = new DbContextOptionsBuilder<HospitalManagementSystemDbContext>(options);
+        optionsBuilder.UseSqlServer(connectionString);
+        optionsBuilder.EnableSensitiveDataLogging(false);
 
         services.AddPooledDbContextFactory<HospitalManagementSystemDbContext>(options => {
-            //options.UseModel(HospitalManagementSystemDbContext.Current.GetModel());
-            options.UseSqlServer(connectionString, sqlServerOptionsAction => {
-                sqlServerOptionsAction.EnableRetryOnFailure();
-            });
+            options.UseModel(SQLDatabaseModelBuilder.SQLModelBuilder.GetModel());
+            options.UseSqlServer(connectionString, 
+                                 sqlServerOptionsAction => {sqlServerOptionsAction.EnableRetryOnFailure();});
             options.EnableSensitiveDataLogging();
         });
-
-        // Providers
-        services.HospitalManagementSystemDataBaseContextProviders<HospitalManagementSystemDbContext>();
+        //Providers
+        services.AddHospitalManagementSystemDataProviders<HospitalManagementSystemDbContext>();
     }
     #endregion
 }

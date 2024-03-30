@@ -19,6 +19,7 @@ builder.Services.AddCors(options =>
 //var mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfile()));
 //IMapper mapper = mapperConfig.CreateMapper();
 //builder.Services.AddSingleton(mapper);
+builder.Services.AddHospitalManagementSystemSqlServerDataProviders(builder.Configuration);
 
 var app = builder.Build();
 

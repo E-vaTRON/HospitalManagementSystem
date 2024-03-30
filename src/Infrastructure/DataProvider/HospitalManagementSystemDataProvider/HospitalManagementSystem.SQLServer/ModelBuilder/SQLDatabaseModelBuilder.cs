@@ -1,16 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-
-namespace HospitalManagementSystem.DataProvider;
+﻿namespace HospitalManagementSystem.DataProvider;
 
 public class SQLDatabaseModelBuilder
 {
     //using singleton for sqldatabase
     #region [ Singleton ]
-    private static readonly Lazy<SQLDatabaseModelBuilder> current = new Lazy<SQLDatabaseModelBuilder>(
+    private static readonly Lazy<SQLDatabaseModelBuilder> sQLModelBuilder = new Lazy<SQLDatabaseModelBuilder>(
         () => new SQLDatabaseModelBuilder(), LazyThreadSafetyMode.PublicationOnly);
-    public static SQLDatabaseModelBuilder Current
+    public static SQLDatabaseModelBuilder SQLModelBuilder
     {
-        get => current.Value; 
+        get => sQLModelBuilder.Value; 
     }
     #endregion
 
@@ -32,8 +30,43 @@ public class SQLDatabaseModelBuilder
     #region [ Private Method ]
     private void CreateModels(ModelBuilder modelBuilder)
     {
-        //this.CreateModel_Playlist(modelBuilder);
+        this.AlertModelBuilder(modelBuilder);
+        this.BookingAppointmentModelBuilder(modelBuilder);
+        this.ReExamAppointmentModelBuilder(modelBuilder);
+        this.ScheduleDayModelBuilder(modelBuilder);
+        this.ScheduleSlotModelBuilder(modelBuilder);
+        this.ReferralModelBuilder(modelBuilder);
+        //this.ReferralDoctorModelBuilder(modelBuilder);
 
+        this.RoomModelBuilder(modelBuilder);
+        this.RoomAssignmentModelBuilder(modelBuilder);
+        this.RoomAllocationModelBuilder(modelBuilder);
+        this.DepartmentModelBuilder(modelBuilder);
+
+        this.DeviceInventoryModelBuilder(modelBuilder);
+        this.DrugModelBuilder(modelBuilder);
+        this.DrugInventoryModelBuilder(modelBuilder);
+        this.GoodSupplingModelBuilder(modelBuilder);
+        this.ImportationModelBuilder(modelBuilder);
+        this.StorageModelBuilder(modelBuilder);
+
+        //this.AssignmentHistoryModelBuilder(modelBuilder);
+        this.DiagnosisModelBuilder(modelBuilder);
+        this.DiagnosisSuggestionModelBuilder(modelBuilder);
+        this.ICDModelBuilder(modelBuilder);
+        this.ICDDModelBuilder(modelBuilder);
+        this.MedicalExamModelBuilder(modelBuilder);
+        this.MedicalExamEposodeModelBuilder(modelBuilder);
+        this.TreatmentModelBuilder(modelBuilder);
+
+        this.DeviceServiceModelBuilder(modelBuilder);
+        this.MedicalDeviceModelBuilder(modelBuilder);
+        this.ServiceModelBuilder(modelBuilder);
+        this.AnalysisTestModelBuilder(modelBuilder);
+
+        this.BillModelBuilder(modelBuilder);
+        this.DrugBillDetailModelBuilder(modelBuilder);
+        this.TransactionModelBuilder(modelBuilder);
     }
     #endregion
 
@@ -74,6 +107,8 @@ public class SQLDatabaseModelBuilder
     #endregion
 
     #region [ Model Builder ]
+
+    #region [ Function ]
     private void AlertModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<Alert>(modelBuilder, nameof(Alert));
@@ -185,37 +220,62 @@ public class SQLDatabaseModelBuilder
         this.BaseModelBuilder<Referral>(modelBuilder, nameof(Referral));
 
         modelBuilder.Entity<Referral>()
-                    .Property(x => x.Name)
-                    .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .Property(x => x.DateOfReferral)
+                    .HasColumnType("datetime")
                     .IsRequired(true);
 
         modelBuilder.Entity<Referral>()
-                    .Property(x => x.RoomType)
-                    .HasColumnType("nvarchar")
-                    .HasConversion(new EnumToStringConverter<RoomType>())
-                    .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH)
-                    .IsRequired(true);
-
-        modelBuilder.Entity<Referral>()
-                    .Property(x => x.Capacity)
+                    .Property(x => x.Reason)
                     .HasColumnType("int")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
                     .IsRequired(true);
 
         modelBuilder.Entity<Referral>()
-                    .Property(x => x.RoomType)
+                    .Property(x => x.Urgency)
                     .HasColumnType("nvarchar")
-                    .HasConversion(new EnumToStringConverter<RoomStatus>())
-                    .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH)
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
                     .IsRequired(true);
 
         modelBuilder.Entity<Referral>()
-                    .HasOne(r => r.Department)
-                    .WithMany(d => d.Rooms)
-                    .HasForeignKey(r => r.DepartmentId)
+                    .HasOne(r => r.MedicalExam)
+                    .WithMany(d => d.Referrals)
+                    .HasForeignKey(r => r.MedicalExamId)
                     .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
+    //private void ReferralDoctorModelBuilder(ModelBuilder modelBuilder)
+    //{
+    //    this.BaseModelBuilder<ReferralDoctor>(modelBuilder, nameof(ReferralDoctor));
+
+    //    modelBuilder.Entity<ReferralDoctor>()
+    //                .Property(x => x.ReferralStatus)
+    //                .HasColumnType("nvarchar")
+    //                .IsRequired(true);
+
+    //    modelBuilder.Entity<ReferralDoctor>()
+    //                .HasOne(rd => rd.Referral)
+    //                .WithMany(r => r.ReferralDoctors)
+    //                .HasForeignKey(rd => rd.ReferralId)
+    //                .IsRequired(true)
+    //                .OnDelete(DeleteBehavior.Cascade);
+
+    //    modelBuilder.Entity<ReferralDoctor>()
+    //                .HasOne(rd => rd.ReferredDoctor)
+    //                .WithMany(d => d.ReferralDoctors)
+    //                .HasForeignKey(rd => rd.ReferredDoctorId)
+    //                .IsRequired(true)
+    //                .OnDelete(DeleteBehavior.Cascade);
+
+    //    modelBuilder.Entity<ReferralDoctor>()
+    //                .HasOne(rd => rd.AssignmentHistory)
+    //                .WithOne(ah => ah.ReferralDoctor)
+    //                .HasForeignKey<ReferralDoctor>(rd => rd.AssignmentHistoryId)
+    //                .HasPrincipalKey<AssignmentHistory>(ah => ah.ReferralDoctorId)
+    //                .IsRequired(false);
+    //}
+    #endregion
+
+    #region [ Infrastructure ]
     private void RoomModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<Room>(modelBuilder, nameof(Room));
@@ -325,6 +385,9 @@ public class SQLDatabaseModelBuilder
                     .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
                     .IsRequired(true);
     }
+    #endregion
+
+    #region [ Inventory ]
     private void DeviceInventoryModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<DeviceInventory>(modelBuilder, nameof(DeviceInventory));
@@ -423,7 +486,6 @@ public class SQLDatabaseModelBuilder
                     .HasForeignKey<DrugInventory>(di => di.GoodSupplingId)
                     .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
-
     }
     private void GoodSupplingModelBuilder(ModelBuilder modelBuilder)
     {
@@ -539,6 +601,32 @@ public class SQLDatabaseModelBuilder
                     .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
+    #endregion
+
+    #region [ Medical ]
+    //private void AssignmentHistoryModelBuilder(ModelBuilder modelBuilder)
+    //{
+    //    this.BaseModelBuilder<AssignmentHistory>(modelBuilder, nameof(AssignmentHistory));
+
+    //    modelBuilder.Entity<AssignmentHistory>()
+    //                .Property(x => x.AssignmentStatus)
+    //                .HasColumnType("nvarchar")
+    //                .IsRequired(true);
+
+    //    modelBuilder.Entity<AssignmentHistory>()
+    //                .HasOne(rd => rd.MedicalExamEposode)
+    //                .WithMany(mee => mee.AssignmentHistories)
+    //                .HasForeignKey(rd => rd.MedicalExamEposodeId)
+    //                .IsRequired(true)
+    //                .OnDelete(DeleteBehavior.Cascade);
+
+    //    modelBuilder.Entity<AssignmentHistory>()
+    //                .HasOne(ah => ah.Doctor)
+    //                .WithMany(d => d.AssignmentHistories)
+    //                .HasForeignKey(ah => ah.Doctor)
+    //                .IsRequired(true)
+    //                .OnDelete(DeleteBehavior.Cascade);
+    //}
     private void DiagnosisModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<Diagnosis>(modelBuilder, nameof(Diagnosis));
@@ -684,29 +772,6 @@ public class SQLDatabaseModelBuilder
                     .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
-    private void AssignmentHistoryModelBuilder(ModelBuilder modelBuilder)
-    {
-        this.BaseModelBuilder<AssignmentHistory>(modelBuilder, nameof(AssignmentHistory));
-
-        modelBuilder.Entity<AssignmentHistory>()
-                    .Property(x => x.AssignmentStatus)
-                    .HasColumnType("nvarchar")
-                    .IsRequired(true);
-
-        modelBuilder.Entity<AssignmentHistory>()
-                    .HasOne(ah => ah.Doctor)
-                    .WithMany(d => d.AssignmentHistories)
-                    .HasForeignKey(ah => ah.DoctorId)
-                    .IsRequired(true)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<AssignmentHistory>()
-                    .HasOne(ah => ah.MedicalExamEposode)
-                    .WithMany(mee => mee.AssignmentHistories)
-                    .HasForeignKey(ah => ah.MedicalExamEposodeId)
-                    .IsRequired(true)
-                    .OnDelete(DeleteBehavior.Cascade);
-    }
     private void TreatmentModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<Treatment>(modelBuilder, nameof(Treatment));
@@ -737,6 +802,9 @@ public class SQLDatabaseModelBuilder
                     .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
+    #endregion
+
+    #region [ Medical Device ]
     private void DeviceServiceModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<DeviceService>(modelBuilder, nameof(DeviceService));
@@ -868,6 +936,9 @@ public class SQLDatabaseModelBuilder
                     .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
+    #endregion
+
+    #region [ Transaction ]
     private void BillModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<Bill>(modelBuilder, nameof(Bill));
@@ -929,23 +1000,6 @@ public class SQLDatabaseModelBuilder
                     .OnDelete(DeleteBehavior.Cascade);
     }
     #endregion
-    //builder.Entity<Suppling>(entity =>
-    //{
-    //    entity.HasOne(s => s.Inventory)
-    //          .WithMany(i => i!.Supplings)
-    //          .HasForeignKey(s => s.InventoryID)
-    //          .OnDelete(DeleteBehavior.Restrict);
 
-    //    entity.HasOne(s => s.GoodsImportation)
-    //          .WithMany(g => g!.Goods)
-    //          .HasForeignKey(s => s.ShipmentID)
-    //          .IsRequired()
-    //          .OnDelete(DeleteBehavior.Cascade);
-
-    //    entity.HasOne(s => s.Drug)
-    //          .WithMany(d => d!.Supplings)
-    //          .HasForeignKey(s => s.DrugID)
-    //          .IsRequired()
-    //          .OnDelete(DeleteBehavior.Cascade);
-    //});
+    #endregion
 }

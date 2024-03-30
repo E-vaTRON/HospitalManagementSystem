@@ -11,5 +11,5 @@ public class AssignmentHistory : ModelBase
 
 
     public string?          ReferralDoctorId    { get; set; }
-    public ReferralDoctor?  ReferralDoctor      { get; set; }
+    public ReferralDoctor   ReferralDoctor      { get; set; } = null!;
 }

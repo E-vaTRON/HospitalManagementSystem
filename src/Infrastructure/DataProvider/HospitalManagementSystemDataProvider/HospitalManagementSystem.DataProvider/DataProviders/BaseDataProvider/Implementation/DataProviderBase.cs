@@ -1,16 +1,17 @@
 ﻿namespace HospitalManagementSystem.DataProvider;
 
-public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProviderBase<TEntity, TEId>
+public abstract class DataProviderBase<TDbContext, TEntity, TEId, TModel, TMId> : IDataProviderBase<TEntity, TEId>
+    where TDbContext : DbContext
     where TEntity : class, IEntity<TEId>
     where TModel : class, IModel<TMId>
 {
     protected IMapper Mapper { get; set; }
 
-    public HospitalManagementSystemDbContext DbContext { get; protected set; }
+    public TDbContext DbContext { get; protected set; }
 
     public DbSet<TModel> DbSet { get; protected set; }
 
-    public DataProviderBase(HospitalManagementSystemDbContext context, IMapper mapper)
+    public DataProviderBase(TDbContext context, IMapper mapper)
     {
         DbContext = context;
         Mapper = mapper;

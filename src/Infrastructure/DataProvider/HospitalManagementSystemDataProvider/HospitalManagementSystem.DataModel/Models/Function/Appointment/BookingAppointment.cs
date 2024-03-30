@@ -1,4 +1,4 @@
-﻿namespace HospitalManagementSystem.Domain;
+﻿namespace HospitalManagementSystem.DataProvider;
 
 public class BookingAppointment : AppointmentBase
 {
