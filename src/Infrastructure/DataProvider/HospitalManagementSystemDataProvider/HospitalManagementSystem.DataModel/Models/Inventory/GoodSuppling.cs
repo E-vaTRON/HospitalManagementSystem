@@ -6,8 +6,8 @@ public class GoodSuppling : ModelBase
     public DateTime ExpiryDate      { get; set; }       //hạng dùng
     public int      OrinaryAmount   { get; set; }
 
-    public string?          InventoryId     { get; set; }
-    public DrugInventory?   Inventory       { get; set; }
+    //public string?          InventoryId     { get; set; }
+    public DrugInventory?   DrugInventory   { get; set; }
     public string?          ImportationId   { get; set; }
     public Importation?     Importation     { get; set; }
     public string?          DrugId          { get; set; }

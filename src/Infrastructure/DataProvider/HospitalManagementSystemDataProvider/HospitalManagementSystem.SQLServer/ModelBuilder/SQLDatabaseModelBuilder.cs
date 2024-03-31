@@ -480,12 +480,12 @@ public class SQLDatabaseModelBuilder
                     .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<DrugInventory>()
-                    .HasOne(di => di.GoodSuppling)
-                    .WithOne(gs => gs.Inventory)
-                    .HasForeignKey<DrugInventory>(di => di.GoodSupplingId)
-                    .IsRequired(true)
-                    .OnDelete(DeleteBehavior.Cascade);
+        //modelBuilder.Entity<DrugInventory>()
+        //            .HasOne(di => di.GoodSuppling)
+        //            .WithOne(gs => gs.DrugInventory)
+        //            .HasPrincipalKey<GoodSuppling>(di => di.InventoryId)
+        //            .IsRequired(true)
+        //            .OnDelete(DeleteBehavior.Cascade);
     }
     private void GoodSupplingModelBuilder(ModelBuilder modelBuilder)
     {
@@ -514,13 +514,13 @@ public class SQLDatabaseModelBuilder
                     .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<GoodSuppling>()
-                    .HasOne(gs => gs.Inventory)
-                    .WithOne(i => i.GoodSuppling)
-                    .HasForeignKey<GoodSuppling>(gs => gs.InventoryId)
-                    .IsRequired(true)
-                    .OnDelete(DeleteBehavior.Cascade);
-        
+        //modelBuilder.Entity<GoodSuppling>()
+        //            .HasOne(gs => gs.Inventory)
+        //            .WithOne(i => i.GoodSuppling)
+        //            .HasForeignKey<DrugInventory>()
+        //            .IsRequired(true)
+        //            .OnDelete(DeleteBehavior.Cascade);
+
         modelBuilder.Entity<GoodSuppling>()
                     .HasOne(gs => gs.Drug)
                     .WithMany(d => d.GoodSupplings)
