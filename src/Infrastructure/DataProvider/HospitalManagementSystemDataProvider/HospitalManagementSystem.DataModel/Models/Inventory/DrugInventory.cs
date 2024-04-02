@@ -9,5 +9,5 @@ public class DrugInventory : ModelBase
     public string?      GoodSupplingId  { get; set; }
     public GoodSuppling GoodSuppling    { get; set; } = default!;
 
-    public virtual ICollection<DrugBillDetail> DrugBillDetails { get; set; } = new HashSet<DrugBillDetail>();
+    public virtual ICollection<DrugDetail> DrugBillDetails { get; set; } = new HashSet<DrugDetail>();
 }
