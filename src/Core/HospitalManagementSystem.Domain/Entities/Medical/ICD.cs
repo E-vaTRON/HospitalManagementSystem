@@ -6,5 +6,5 @@ public class ICD : EntityBase
     public string?      Description { get; set; }
     public CodeStatus   Status      { get; set; }
 
-    public virtual ICollection<Treatment> Treatments { get; set; } = new HashSet<Treatment>();
+    public virtual ICollection<Diagnosis> Diagnoses { get; set; } = new HashSet<Diagnosis>();
 }

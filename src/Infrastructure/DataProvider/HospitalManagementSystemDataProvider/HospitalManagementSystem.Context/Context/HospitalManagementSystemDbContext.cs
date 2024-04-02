@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-
-namespace HospitalManagementSystem.DataProvider;
+﻿namespace HospitalManagementSystem.DataProvider;
 
 public class HospitalManagementSystemDbContext : DbContext
 {
@@ -23,9 +21,10 @@ public class HospitalManagementSystemDbContext : DbContext
     #region [ Properties ]
     public virtual DbSet<Alert>             Alerts              { get; set; } = null!;
     public virtual DbSet<AppointmentBase>   AppointmentBases    { get; set; } = null!;
-    ////public virtual DbSet<BookingAppointment>    BookingAppointments     { get; set; } = null!;
+    //public virtual DbSet<BookingAppointment>    BookingAppointments     { get; set; } = null!;
     //public virtual DbSet<ReExamAppointment>     ReExamAppointments      { get; set; } = null!;
     public virtual DbSet<Referral>          Referrals           { get; set; } = null!;
+    public virtual DbSet<ReferralDoctor>    ReferralDoctors     { get; set; } = null!;
     public virtual DbSet<ScheduleDay>       ScheduleDays        { get; set; } = null!;
     public virtual DbSet<ScheduleSlot>      ScheduleSlots       { get; set; } = null!;
 
@@ -36,26 +35,28 @@ public class HospitalManagementSystemDbContext : DbContext
 
     public virtual DbSet<Drug>              Drugs               { get; set; } = null!;
     public virtual DbSet<DrugInventory>     DrugInventorys      { get; set; } = null!;
+    public virtual DbSet<DrugDetail>        DrugDetails         { get; set; } = null!;
     public virtual DbSet<Storage>           Storages            { get; set; } = null!;
     public virtual DbSet<GoodSuppling>      GoodSupplings       { get; set; } = null!;
     public virtual DbSet<Importation>       Importations        { get; set; } = null!;
     public virtual DbSet<DeviceInventory>   DeviceInventorys    { get; set; } = null!;
 
-    public virtual DbSet<Diagnosis>             Diagnosises             { get; set; } = null!;
+    public virtual DbSet<AssignmentHistory>     AssignmentHistories     { get; set; } = null!;
+    public virtual DbSet<Diagnosis>             Diagnoses               { get; set; } = null!;
     public virtual DbSet<DiagnosisSuggestion>   DiagnosisSuggestions    { get; set; } = null!;
+    public virtual DbSet<DiagnosisTreatment>    DiagnosisTreatments     { get; set; } = null!;
     public virtual DbSet<ICD>                   ICDs                    { get; set; } = null!;
-    public virtual DbSet<ICDD>                  ICDDs                   { get; set; } = null!;
     public virtual DbSet<MedicalExam>           MedicalExams            { get; set; } = null!;
     public virtual DbSet<MedicalExamEposode>    MedicalExamEposodes     { get; set; } = null!;
-    public virtual DbSet<Treatment>             Treatments              { get; set; } = null!;
+    public virtual DbSet<Treatment>             Treatments              { get; set; } = null!; 
+    public virtual DbSet<TreatmentExamEpisode>  TreatmentExamEpisodes   { get; set; } = null!;
 
     public virtual DbSet<DeviceService>     DeviceServices  { get; set; } = null!;
     public virtual DbSet<MedicalDevice>     MedicalDevices  { get; set; } = null!;
     public virtual DbSet<Service>           Services        { get; set; } = null!;
     public virtual DbSet<AnalysisTest>      AnalysisTests   { get; set; } = null!;
 
-    public virtual DbSet<Bill>              Bills           { get; set; } = null!;
-    public virtual DbSet<DrugBillDetail>    DrugBillDetails { get; set; } = null!;
-    public virtual DbSet<Transaction>       Transactions    { get; set; } = null!;
+    //public virtual DbSet<Bill>              Bills           { get; set; } = null!;
+    //public virtual DbSet<Transaction>       Transactions    { get; set; } = null!;
     #endregion
 }

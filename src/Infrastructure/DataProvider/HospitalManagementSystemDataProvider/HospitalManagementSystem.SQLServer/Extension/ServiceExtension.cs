@@ -8,6 +8,7 @@ public static class ServiceExtension
         if (string.IsNullOrEmpty(connectionString))
             throw new Exception("The connection string is null or empty");
 
+        var elo = SQLDatabaseModelBuilder.SQLModelBuilder.GetModel();
         var options = new DbContextOptions<HospitalManagementSystemDbContext>();
         var optionsBuilder = new DbContextOptionsBuilder<HospitalManagementSystemDbContext>(options);
         optionsBuilder.UseSqlServer(connectionString);

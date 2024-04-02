@@ -57,7 +57,6 @@ public abstract class RepositoryTestsBase
             config.CreateMap<Domain.Diagnosis,              Diagnosis>().ReverseMap();
             config.CreateMap<Domain.DiagnosisSuggestion,    DiagnosisSuggestion>().ReverseMap();
             config.CreateMap<Domain.ICD,                    ICD>().ReverseMap();
-            config.CreateMap<Domain.ICDD,                   ICDD>().ReverseMap();
             config.CreateMap<Domain.MedicalExam,            MedicalExam>().ReverseMap();
             config.CreateMap<Domain.MedicalExamEposode,     MedicalExamEposode>().ReverseMap();
             config.CreateMap<Domain.Treatment,              Treatment>().ReverseMap();
@@ -68,7 +67,7 @@ public abstract class RepositoryTestsBase
             config.CreateMap<Domain.AnalysisTest,   AnalysisTest>().ReverseMap();
 
             config.CreateMap<Domain.Bill,           Bill>().ReverseMap();
-            config.CreateMap<Domain.DrugBillDetail, DrugBillDetail>().ReverseMap();
+            config.CreateMap<Domain.DrugBillDetail, DrugDetail>().ReverseMap();
             config.CreateMap<Domain.Transaction,    Transaction>().ReverseMap();
         });
         mapper = new Mapper(configuration);
