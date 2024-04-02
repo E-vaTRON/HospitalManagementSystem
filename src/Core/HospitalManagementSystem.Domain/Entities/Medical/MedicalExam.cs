@@ -2,6 +2,8 @@
 
 public class MedicalExam : EntityBase
 {
+    public int? FinalPrice { get; set; }
+
     public string?              BookingAppointmentId    { get; set; }
     public BookingAppointment?  BookingAppointment      { get; set; } = default!;
 

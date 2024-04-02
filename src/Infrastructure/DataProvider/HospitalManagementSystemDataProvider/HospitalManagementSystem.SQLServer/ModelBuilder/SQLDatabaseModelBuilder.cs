@@ -717,6 +717,12 @@ public class SQLDatabaseModelBuilder
                     .WithMany(d => d.DiagnosisSuggestions)
                     .HasForeignKey(ds => ds.DiagnosisId);
     }
+    private void DiagnosisTreatmentModelBuilder(ModelBuilder modelBuilder)  // Bản này có thể không tạo
+    {
+        this.BaseModelBuilder<DiagnosisTreatment>(modelBuilder, nameof(DiagnosisTreatment));
+
+
+    }
     private void ICDModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<ICD>(modelBuilder, nameof(ICD));
@@ -799,6 +805,10 @@ public class SQLDatabaseModelBuilder
                     .HasColumnType("nvarchar")
                     .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
                     .IsRequired(true);
+    }
+    private void TreatmentExamEpisodeModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<TreatmentExamEpisode>(modelBuilder, nameof(TreatmentExamEpisode));
     }
     #endregion
 
