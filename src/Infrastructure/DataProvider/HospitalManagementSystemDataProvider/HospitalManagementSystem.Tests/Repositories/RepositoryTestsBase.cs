@@ -35,7 +35,7 @@ public abstract class RepositoryTestsBase
             config.CreateMap<Guid, string>().ConvertUsing(x => x.ToString());
             config.CreateMap<Guid?, string>().ConvertUsing(x => x.HasValue ? x.Value.ToString() : null!);
 
-            config.CreateMap<Domain.Alert,              Alert>().ReverseMap();
+            config.CreateMap<Domain.Notification,       Alert>().ReverseMap();
             config.CreateMap<Domain.BookingAppointment, BookingAppointment>().ReverseMap();
             config.CreateMap<Domain.ReExamAppointment,  ReExamAppointment>().ReverseMap();
             config.CreateMap<Domain.Referral,           Referral>().ReverseMap();
@@ -49,7 +49,7 @@ public abstract class RepositoryTestsBase
 
             config.CreateMap<Domain.Drug,               Drug>().ReverseMap();
             config.CreateMap<Domain.DrugInventory,      DrugInventory>().ReverseMap();
-            config.CreateMap<Domain.DrugDetail,         DrugDetail>().ReverseMap();
+            config.CreateMap<Domain.DrugPrescription,         DrugPrescription>().ReverseMap();
             config.CreateMap<Domain.Storage,            Storage>().ReverseMap();
             config.CreateMap<Domain.GoodSuppling,       GoodSuppling>().ReverseMap();
             config.CreateMap<Domain.Importation,        Importation>().ReverseMap();

@@ -1,6 +1,5 @@
-﻿namespace HospitalManagementSystem.Application
+﻿namespace HospitalManagementSystem.Application;
+
+public interface IHistoryMedicalExamRepository : IBaseRepository<MedicalExam>
 {
-    public interface IHistoryMedicalExamRepository : IBaseRepository<MedicalExam>
-    {
-    }
 }
