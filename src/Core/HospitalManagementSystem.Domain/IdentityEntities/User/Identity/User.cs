@@ -17,8 +17,8 @@ public class User : IdentityUser, IHasCreatedOn, IHasLastUpdatedOn, IHasDeleteOn
     public DateTime?    LastUpdatedOn   { get; set; }
     public DateTime?    DeleteOn        { get; set; }
 
-    public virtual ICollection<UserRole>        UserRoles           { get; set; } = new HashSet<UserRole>();
-    public virtual ICollection<Notification>    NotificationAlerts  { get; set; } = new HashSet<Notification>();
-    public virtual ICollection<Specialization>  Specializations     { get; set; } = new HashSet<Specialization>();
-    public virtual ICollection<ScheduleDay>     ScheduleDays        { get; set; } = new HashSet<ScheduleDay>();
+    public virtual ICollection<UserRole>        UserRoles       { get; set; } = new HashSet<UserRole>();
+    public virtual ICollection<Notification>    Notifications   { get; set; } = new HashSet<Notification>();
+    public virtual ICollection<Specialization>  Specializations { get; set; } = new HashSet<Specialization>();
+    public virtual ICollection<ScheduleDay>     ScheduleDays    { get; set; } = new HashSet<ScheduleDay>();
 }

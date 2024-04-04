@@ -3,5 +3,5 @@
 public class ReExamAppointment : AppointmentBase
 {
     public string?              MedicalExamEposodeId    { get; set; }
-    public MedicalExamEposode   MedicalExamEposode { get; set; } = default!;
+    public MedicalExamEposode   MedicalExamEposode      { get; set; } = default!;
 }

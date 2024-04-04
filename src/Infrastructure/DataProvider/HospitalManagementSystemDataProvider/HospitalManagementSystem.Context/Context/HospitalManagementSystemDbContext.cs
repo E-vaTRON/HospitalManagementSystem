@@ -19,14 +19,11 @@ public class HospitalManagementSystemDbContext : DbContext
     #endregion
 
     #region [ Properties ]
-    public virtual DbSet<Alert>             Alerts              { get; set; } = null!;
     public virtual DbSet<AppointmentBase>   AppointmentBases    { get; set; } = null!;
     //public virtual DbSet<BookingAppointment>    BookingAppointments     { get; set; } = null!;
     //public virtual DbSet<ReExamAppointment>     ReExamAppointments      { get; set; } = null!;
     public virtual DbSet<Referral>          Referrals           { get; set; } = null!;
     public virtual DbSet<ReferralDoctor>    ReferralDoctors     { get; set; } = null!;
-    public virtual DbSet<ScheduleDay>       ScheduleDays        { get; set; } = null!;
-    public virtual DbSet<ScheduleSlot>      ScheduleSlots       { get; set; } = null!;
 
     public virtual DbSet<Department>        Departments     { get; set; } = null!;
     public virtual DbSet<Room>              Rooms           { get; set; } = null!;
@@ -55,8 +52,5 @@ public class HospitalManagementSystemDbContext : DbContext
     public virtual DbSet<MedicalDevice>     MedicalDevices  { get; set; } = null!;
     public virtual DbSet<Service>           Services        { get; set; } = null!;
     public virtual DbSet<AnalysisTest>      AnalysisTests   { get; set; } = null!;
-
-    //public virtual DbSet<Bill>              Bills           { get; set; } = null!;
-    //public virtual DbSet<Transaction>       Transactions    { get; set; } = null!;
     #endregion
 }
