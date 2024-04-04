@@ -1,6 +1,6 @@
-﻿namespace HospitalManagementSystem.DataProvider;
+﻿namespace HospitalManagementSystem.Domain;
 
-public class DiagnosisTreatment : ModelBase
+public class DiagnosisTreatment : EntityBase
 {
     public string?      TreatmentId     { get; set; }
     public Treatment    Treatment       { get; set; } = default!;

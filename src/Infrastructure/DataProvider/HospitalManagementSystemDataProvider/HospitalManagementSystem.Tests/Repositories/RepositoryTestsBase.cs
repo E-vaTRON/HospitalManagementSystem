@@ -35,7 +35,7 @@ public abstract class RepositoryTestsBase
             config.CreateMap<Guid, string>().ConvertUsing(x => x.ToString());
             config.CreateMap<Guid?, string>().ConvertUsing(x => x.HasValue ? x.Value.ToString() : null!);
 
-            config.CreateMap<Domain.Alert,              Alert>().ReverseMap();
+            config.CreateMap<Domain.Notification,       Alert>().ReverseMap();
             config.CreateMap<Domain.BookingAppointment, BookingAppointment>().ReverseMap();
             config.CreateMap<Domain.ReExamAppointment,  ReExamAppointment>().ReverseMap();
             config.CreateMap<Domain.Referral,           Referral>().ReverseMap();
@@ -49,6 +49,7 @@ public abstract class RepositoryTestsBase
 
             config.CreateMap<Domain.Drug,               Drug>().ReverseMap();
             config.CreateMap<Domain.DrugInventory,      DrugInventory>().ReverseMap();
+            config.CreateMap<Domain.DrugPrescription,         DrugPrescription>().ReverseMap();
             config.CreateMap<Domain.Storage,            Storage>().ReverseMap();
             config.CreateMap<Domain.GoodSuppling,       GoodSuppling>().ReverseMap();
             config.CreateMap<Domain.Importation,        Importation>().ReverseMap();
@@ -56,19 +57,17 @@ public abstract class RepositoryTestsBase
 
             config.CreateMap<Domain.Diagnosis,              Diagnosis>().ReverseMap();
             config.CreateMap<Domain.DiagnosisSuggestion,    DiagnosisSuggestion>().ReverseMap();
+            config.CreateMap<Domain.DiagnosisTreatment,     DiagnosisTreatment>().ReverseMap();
             config.CreateMap<Domain.ICD,                    ICD>().ReverseMap();
             config.CreateMap<Domain.MedicalExam,            MedicalExam>().ReverseMap();
             config.CreateMap<Domain.MedicalExamEposode,     MedicalExamEposode>().ReverseMap();
             config.CreateMap<Domain.Treatment,              Treatment>().ReverseMap();
+            config.CreateMap<Domain.TreatmentExamEpisode,   TreatmentExamEpisode>().ReverseMap();
 
             config.CreateMap<Domain.DeviceService,  DeviceService>().ReverseMap();
             config.CreateMap<Domain.MedicalDevice,  MedicalDevice>().ReverseMap();
             config.CreateMap<Domain.Service,        Service>().ReverseMap();
             config.CreateMap<Domain.AnalysisTest,   AnalysisTest>().ReverseMap();
-
-            config.CreateMap<Domain.Bill,           Bill>().ReverseMap();
-            config.CreateMap<Domain.DrugBillDetail, DrugDetail>().ReverseMap();
-            config.CreateMap<Domain.Transaction,    Transaction>().ReverseMap();
         });
         mapper = new Mapper(configuration);
     }

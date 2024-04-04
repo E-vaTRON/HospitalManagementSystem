@@ -46,7 +46,7 @@ public class SQLDatabaseModelBuilder
         this.DeviceInventoryModelBuilder(modelBuilder);
         this.DrugModelBuilder(modelBuilder);
         this.DrugInventoryModelBuilder(modelBuilder);
-        this.DrugDetailModelBuilder(modelBuilder);
+        this.DrugPrescriptionModelBuilder(modelBuilder);
         this.GoodSupplingModelBuilder(modelBuilder);
         this.ImportationModelBuilder(modelBuilder);
         this.StorageModelBuilder(modelBuilder);
@@ -54,10 +54,12 @@ public class SQLDatabaseModelBuilder
         this.AssignmentHistoryModelBuilder(modelBuilder);
         this.DiagnosisModelBuilder(modelBuilder);
         this.DiagnosisSuggestionModelBuilder(modelBuilder);
+        this.DiagnosisTreatmentModelBuilder(modelBuilder);
         this.ICDModelBuilder(modelBuilder);
         this.MedicalExamModelBuilder(modelBuilder);
         this.MedicalExamEposodeModelBuilder(modelBuilder);
         this.TreatmentModelBuilder(modelBuilder);
+        this.TreatmentExamEpisodeModelBuilder(modelBuilder);
 
         this.DeviceServiceModelBuilder(modelBuilder);
         this.MedicalDeviceModelBuilder(modelBuilder);
@@ -511,20 +513,20 @@ public class SQLDatabaseModelBuilder
                     .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
-    private void DrugDetailModelBuilder(ModelBuilder modelBuilder)
+    private void DrugPrescriptionModelBuilder(ModelBuilder modelBuilder)
     {
-        this.BaseModelBuilder<DrugDetail>(modelBuilder, nameof(DrugDetail));
+        this.BaseModelBuilder<DrugPrescription>(modelBuilder, nameof(DrugPrescription));
 
-        modelBuilder.Entity<DrugDetail>()
+        modelBuilder.Entity<DrugPrescription>()
                     .HasOne(dd => dd.MedicalExamEposode)
                     .WithMany(mee => mee.DrugDetails)
                     .HasForeignKey(dd => dd.MedicalExamEposodeId)
                     .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<DrugDetail>()
+        modelBuilder.Entity<DrugPrescription>()
                     .HasOne(dd => dd.DrugInventory)
-                    .WithMany(di => di.DrugBillDetails)
+                    .WithMany(di => di.DrugPrescriptions)
                     .HasForeignKey(dd => dd.DrugInventoryId)
                     .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
@@ -717,6 +719,24 @@ public class SQLDatabaseModelBuilder
                     .WithMany(d => d.DiagnosisSuggestions)
                     .HasForeignKey(ds => ds.DiagnosisId);
     }
+    private void DiagnosisTreatmentModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<DiagnosisTreatment>(modelBuilder, nameof(DiagnosisTreatment));
+
+        modelBuilder.Entity<DiagnosisTreatment>()
+                    .HasOne(dt => dt.Treatment)
+                    .WithMany(t => t.DiagnosisTreatments)
+                    .HasForeignKey(dt => dt.TreatmentId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<DiagnosisTreatment>()
+                    .HasOne(dt => dt.Diagnosis)
+                    .WithMany(d => d.DiagnosisTreatments)
+                    .HasForeignKey(dt => dt.DiagnosisId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
+    }
     private void ICDModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<ICD>(modelBuilder, nameof(ICD));
@@ -799,6 +819,24 @@ public class SQLDatabaseModelBuilder
                     .HasColumnType("nvarchar")
                     .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
                     .IsRequired(true);
+    }
+    private void TreatmentExamEpisodeModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<TreatmentExamEpisode>(modelBuilder, nameof(TreatmentExamEpisode));
+
+        modelBuilder.Entity<TreatmentExamEpisode>()
+                    .HasOne(tee => tee.Treatment)
+                    .WithMany(t => t.TreatmentExamEpisodes)
+                    .HasForeignKey(tee => tee.TreatmentId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<TreatmentExamEpisode>()
+                    .HasOne(tee => tee.MedicalExamEposode)
+                    .WithMany(mee => mee.TreatmentExamEpisodes)
+                    .HasForeignKey(tee => tee.MedicalExamEpisodeId)
+                    .IsRequired(true)
+                    .OnDelete(DeleteBehavior.Cascade);
     }
     #endregion
 
