@@ -8,7 +8,8 @@ public class User : IdentityUser
     public DateTime     DayOfBirth      { get; set; }                   //ngày sinh
     public bool         Gender          { get; set; }                   //giới tính
     public string       Address         { get; set; } = string.Empty;   //địa chỉ
-    public string       CardID          { get; set; } = string.Empty;   //mã thẻ
+    public string       CardID          { get; set; } = string.Empty;   //mã thẻ ???
+    public int?         SpecialistLevel { get; set; }                   //có bác sĩ là có thôi
     public bool         Verified        { get; set; }
     public bool         IsDeleted       { get; set; } = false;
     public bool         IsExpired       { get; set; } = false;
@@ -16,6 +17,8 @@ public class User : IdentityUser
     public DateTime?    LastUpdatedOn   { get; set; }
     public DateTime?    DeleteOn        { get; set; }
 
-    public virtual ICollection<UserRole>    UserRoles   { get; set; } = new HashSet<UserRole>();
-    public virtual ICollection<Alert>       Alerts      { get; set; } = new HashSet<Alert>();
+    public virtual ICollection<UserRole>        UserRoles       { get; set; } = new HashSet<UserRole>();
+    public virtual ICollection<Notification>    Notifications   { get; set; } = new HashSet<Notification>();
+    public virtual ICollection<Specialization>  Specializations { get; set; } = new HashSet<Specialization>();
+    public virtual ICollection<ScheduleDay>     ScheduleDays    { get; set; } = new HashSet<ScheduleDay>();
 }

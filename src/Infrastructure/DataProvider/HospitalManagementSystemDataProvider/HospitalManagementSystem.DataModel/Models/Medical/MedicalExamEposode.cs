@@ -11,7 +11,7 @@ public class MedicalExamEposode : ModelBase
     public string?              MedicalExamId       { get; set; }
     public MedicalExam          MedicalExam         { get; set; } = default!;
     public string?              ReExamAppointmentId { get; set; }
-    public ReExamAppointment    ReExamAppointment   { get; set; } = default!;
+    public ReExamAppointment?   ReExamAppointment   { get; set; }
 
     public virtual ICollection<AssignmentHistory>       AssignmentHistories     { get; set; } = new HashSet<AssignmentHistory>();
     public virtual ICollection<TreatmentExamEpisode>    TreatmentExamEpisodes   { get; set; } = new HashSet<TreatmentExamEpisode>();

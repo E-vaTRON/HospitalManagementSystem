@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.DataProvider;
 
-public class Alert : ModelBase
+public class Notification : ModelBase
 {
     public string?  Status      { get; set; } // could be 'sent', 'not sent', etc.
     public string?  Message     { get; set; }

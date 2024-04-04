@@ -35,12 +35,9 @@ public abstract class RepositoryTestsBase
             config.CreateMap<Guid, string>().ConvertUsing(x => x.ToString());
             config.CreateMap<Guid?, string>().ConvertUsing(x => x.HasValue ? x.Value.ToString() : null!);
 
-            config.CreateMap<Domain.Notification,       Alert>().ReverseMap();
             config.CreateMap<Domain.BookingAppointment, BookingAppointment>().ReverseMap();
             config.CreateMap<Domain.ReExamAppointment,  ReExamAppointment>().ReverseMap();
             config.CreateMap<Domain.Referral,           Referral>().ReverseMap();
-            config.CreateMap<Domain.ScheduleDay,        ScheduleDay>().ReverseMap();
-            config.CreateMap<Domain.ScheduleSlot,       ScheduleSlot>().ReverseMap();
 
             config.CreateMap<Domain.Department,     Department>().ReverseMap();
             config.CreateMap<Domain.Room,           Room>().ReverseMap();
