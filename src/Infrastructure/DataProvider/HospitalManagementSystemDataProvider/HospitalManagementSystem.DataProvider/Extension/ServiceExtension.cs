@@ -5,13 +5,8 @@ public static class ServiceExtension
     public static void AddHospitalManagementSystemDataProviders<TDbContext>(this IServiceCollection services)
         where TDbContext : DbContext
     {
-        //// Core
-        //services.AddSingleton<DataContext>();
-        //services.AddSingleton<IDatabaseProvider, DatabaseProvider>();
-
-        //// Core Data
-        //services.AddTransient<ICertificationDataProvider, CertificationDataProvider<TDbContext>>();
-        //services.AddTransient<IResourceDataProvider, ResourceDataProvider<TDbContext>>();
+        services.AddTransient<IBookingAppointmentDataProvider, BookingAppointmentDataProvider>();
+        services.AddTransient<IReExamAppointmentDataProvider, ReExamAppointmentDataProvider>();
         //services.AddTransient<IExamDataProvider, ExamDataProvider<TDbContext>>();
         //services.AddTransient<IExamTopicDataProvider, ExamTopicDataProvider<TDbContext>>();
         //services.AddTransient<IExamQuestionDataProvider, ExamQuestionDataProvider<TDbContext>>();
