@@ -6,16 +6,16 @@ public class MedicalExamEposode : ModelBase
     public DateTime     DateReExam      { get; set; }       //ngày tái khám
     public int          LineNumber      { get; set; }       //bốc số ?????
     public DateTime     RecordDay       { get; set; }       //ngày ghi sổ ?????
-    public long         TotalPrice      { get; set; }       //thành tiền
+    public int          TotalPrice      { get; set; }       //thành tiền
 
     public string?              MedicalExamId       { get; set; }
     public MedicalExam          MedicalExam         { get; set; } = default!;
-    public string?              ReExamAppointmentId { get; set; }
-    public ReExamAppointment?   ReExamAppointment   { get; set; }
+
+    public ReExamAppointment?   ReExamAppointment   { get; set; } // This is Principal Table
 
     public virtual ICollection<AssignmentHistory>       AssignmentHistories     { get; set; } = new HashSet<AssignmentHistory>();
     public virtual ICollection<TreatmentExamEpisode>    TreatmentExamEpisodes   { get; set; } = new HashSet<TreatmentExamEpisode>();
     public virtual ICollection<RoomAllocation>          RoomAllocations         { get; set; } = new HashSet<RoomAllocation>();
-    public virtual ICollection<DrugPrescription>        DrugDetails             { get; set; } = new HashSet<DrugPrescription>();
+    public virtual ICollection<DrugPrescription>        DrugPrescriptions       { get; set; } = new HashSet<DrugPrescription>();
     public virtual ICollection<AnalysisTest>            AnalysisTests           { get; set; } = new HashSet<AnalysisTest>();
 }

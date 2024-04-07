@@ -1,9 +1,9 @@
 ﻿namespace HospitalManagementSystem.DataProvider;
 
-public class HospitalManagementSystemDbContext : DbContext
+public partial class HospitalManagementSystemDbContext : DbContext
 {
     #region [ CTor ]
-    public HospitalManagementSystemDbContext(DbContextOptions<HospitalManagementSystemDbContext> options) : base(options) 
+    public HospitalManagementSystemDbContext(DbContextOptions<HospitalManagementSystemDbContext> options) : base(options)
     {
         base.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
     }
@@ -14,16 +14,14 @@ public class HospitalManagementSystemDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
     }
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.LogTo(Console.WriteLine);
     #endregion
 
     #region [ Properties ]
-    public virtual DbSet<AppointmentBase>   AppointmentBases    { get; set; } = null!;
-    //public virtual DbSet<BookingAppointment>    BookingAppointments     { get; set; } = null!;
-    //public virtual DbSet<ReExamAppointment>     ReExamAppointments      { get; set; } = null!;
-    public virtual DbSet<Referral>          Referrals           { get; set; } = null!;
-    public virtual DbSet<ReferralDoctor>    ReferralDoctors     { get; set; } = null!;
+    //public virtual DbSet<AppointmentBase>       AppointmentBases    { get; set; } = null!;
+    public virtual DbSet<BookingAppointment>    BookingAppointments { get; set; } = null!;
+    public virtual DbSet<ReExamAppointment>     ReExamAppointments  { get; set; } = null!;
+    public virtual DbSet<Referral>              Referrals           { get; set; } = null!;
+    public virtual DbSet<ReferralDoctor>        ReferralDoctors     { get; set; } = null!;
 
     public virtual DbSet<Department>        Departments     { get; set; } = null!;
     public virtual DbSet<Room>              Rooms           { get; set; } = null!;
@@ -32,7 +30,7 @@ public class HospitalManagementSystemDbContext : DbContext
 
     public virtual DbSet<Drug>              Drugs               { get; set; } = null!;
     public virtual DbSet<DrugInventory>     DrugInventorys      { get; set; } = null!;
-    public virtual DbSet<DrugPrescription>        DrugDetails         { get; set; } = null!;
+    public virtual DbSet<DrugPrescription>  DrugPrescriptions   { get; set; } = null!;
     public virtual DbSet<Storage>           Storages            { get; set; } = null!;
     public virtual DbSet<GoodSuppling>      GoodSupplings       { get; set; } = null!;
     public virtual DbSet<Importation>       Importations        { get; set; } = null!;
@@ -40,7 +38,7 @@ public class HospitalManagementSystemDbContext : DbContext
 
     public virtual DbSet<AssignmentHistory>     AssignmentHistories     { get; set; } = null!;
     public virtual DbSet<Diagnosis>             Diagnoses               { get; set; } = null!;
-    public virtual DbSet<DiagnosisSuggestion>   DiagnosisSuggestions    { get; set; } = null!;
+    //public virtual DbSet<DiagnosisSuggestion>   DiagnosisSuggestions    { get; set; } = null!;
     public virtual DbSet<DiagnosisTreatment>    DiagnosisTreatments     { get; set; } = null!;
     public virtual DbSet<ICD>                   ICDs                    { get; set; } = null!;
     public virtual DbSet<MedicalExam>           MedicalExams            { get; set; } = null!;

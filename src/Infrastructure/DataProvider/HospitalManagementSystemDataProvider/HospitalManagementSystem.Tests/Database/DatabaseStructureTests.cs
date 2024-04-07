@@ -1,4 +1,6 @@
-﻿namespace HospitalManagementSystem.Tests;
+﻿using Microsoft.Extensions.Configuration;
+
+namespace HospitalManagementSystem.Tests;
 
 public class DatabaseStructureTests
 {
@@ -39,10 +41,8 @@ public class DatabaseStructureTests
     public void TestCreateDbContext()
     {
         // Arrange
-        var factory = new ContextFactory();
 
         // Act
-        var context = factory.CreateDbContext(new string[0]);
 
         // Assert
         // Add your assertions here

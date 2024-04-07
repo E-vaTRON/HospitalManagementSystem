@@ -13,8 +13,8 @@ public static class ServiceExtension
         //services.AddDbContext<PetaverseIdentityContext>(options =>
         //    options.UseSqlServer(configuration.GetConnectionString("PetaverseUsers")));
 
-        services.AddDbContextPool<HospitalManagementSystemDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+        //services.AddDbContextPool<HospitalManagementSystemDbContext>(options =>
+        //    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
 
         //services.AddIdentity<User, Role>(options =>
