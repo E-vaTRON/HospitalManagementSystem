@@ -117,8 +117,9 @@ public abstract class DataProviderBase<TDbContext, TEntity, TEId, TModel, TMId> 
         => Mapper.Map<IEnumerable<TModel>>(entities);
 }
 
-public abstract class DataProviderBase<TEntity, TModel>(HospitalManagementSystemDbContext context, IMapper mapper)
-    : DataProviderBase<HospitalManagementSystemDbContext, TEntity, string, TModel, string>(context, mapper)
+public abstract class DataProviderBase<TDbContext, TEntity, TModel>(TDbContext context, IMapper mapper)
+    : DataProviderBase<TDbContext, TEntity, string, TModel, string>(context, mapper)
+    where TDbContext : DbContext
     where TEntity : class, Domain.IEntity<string>
     where TModel : class, DataProvider.IModel<string>
 {
