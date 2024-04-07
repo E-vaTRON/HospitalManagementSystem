@@ -3,9 +3,10 @@ using DataReExamAppointment = HospitalManagementSystem.DataProvider.ReExamAppoin
 
 namespace HospitalManagementSystem.DataProvider;
 
-public class ReExamAppointmentDataProvider : DataProviderBase<CoreReExamAppointment, DataReExamAppointment>, IReExamAppointmentDataProvider
+public class ReExamAppointmentDataProvider<TDbContext> : DataProviderBase<TDbContext, CoreReExamAppointment, DataReExamAppointment>, IReExamAppointmentDataProvider
+    where TDbContext : DbContext
 {
-    public ReExamAppointmentDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
+    public ReExamAppointmentDataProvider(TDbContext context, IMapper mapper) : base(context, mapper)
     {
     }
 }

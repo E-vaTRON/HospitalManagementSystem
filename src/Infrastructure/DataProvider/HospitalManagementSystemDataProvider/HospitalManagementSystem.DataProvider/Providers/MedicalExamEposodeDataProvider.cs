@@ -1,12 +1,12 @@
 ﻿using CoreMedicalExamEposode = HospitalManagementSystem.Domain.MedicalExamEposode;
 using DataMedicalExamEposode = HospitalManagementSystem.DataProvider.MedicalExamEposode;
 
-namespace HospitalManagementSystem.DataProvider
+namespace HospitalManagementSystem.DataProvider;
+
+public class MedicalExamEposodeDataProvider<TDbContext> : DataProviderBase<TDbContext, CoreMedicalExamEposode, DataMedicalExamEposode>, IMedicalExamEposodeDataProvider
+    where TDbContext : DbContext
 {
-    public class MedicalExamEposodeDataProvider : DataProviderBase<CoreMedicalExamEposode, DataMedicalExamEposode>, IMedicalExamEposodeDataProvider
+    public MedicalExamEposodeDataProvider(TDbContext context, IMapper mapper) : base(context, mapper)
     {
-        public MedicalExamEposodeDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
-        {
-        }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using CoreDiagnosis = HospitalManagementSystem.Domain.Diagnosis;
 using DataDiagnosis = HospitalManagementSystem.DataProvider.Diagnosis;
 
-namespace HospitalManagementSystem.DataProvider
+namespace HospitalManagementSystem.DataProvider;
+
+public class DiagnosisDataProvider<TDbContext> : DataProviderBase<TDbContext, CoreDiagnosis, DataDiagnosis>, IDiagnosisDataProvider
+    where TDbContext : DbContext
 {
-    public class DiagnosisDataProvider : DataProviderBase<CoreDiagnosis, DataDiagnosis>, IDiagnosisDataProvider
+    public DiagnosisDataProvider(TDbContext context, IMapper mapper) : base(context, mapper)
     {
-        public DiagnosisDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
-        {
-        }
     }
 }

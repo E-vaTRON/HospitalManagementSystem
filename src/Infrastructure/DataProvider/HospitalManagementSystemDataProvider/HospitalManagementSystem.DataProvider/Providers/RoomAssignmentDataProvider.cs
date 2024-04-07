@@ -1,12 +1,12 @@
 ﻿using CoreRoomAssignment = HospitalManagementSystem.Domain.RoomAssignment;
 using DataRoomAssignment = HospitalManagementSystem.DataProvider.RoomAssignment;
 
-namespace HospitalManagementSystem.DataProvider
+namespace HospitalManagementSystem.DataProvider;
+
+public class RoomAssignmentDataProvider<TDbContext> : DataProviderBase<TDbContext, CoreRoomAssignment, DataRoomAssignment>, IRoomAssignmentDataProvider
+    where TDbContext : DbContext
 {
-    public class RoomAssignmentDataProvider : DataProviderBase<CoreRoomAssignment, DataRoomAssignment>, IRoomAssignmentDataProvider
+    public RoomAssignmentDataProvider(TDbContext context, IMapper mapper) : base(context, mapper)
     {
-        public RoomAssignmentDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
-        {
-        }
     }
 }

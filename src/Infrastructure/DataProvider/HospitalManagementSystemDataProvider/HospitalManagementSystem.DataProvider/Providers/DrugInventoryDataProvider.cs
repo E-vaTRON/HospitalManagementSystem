@@ -1,12 +1,13 @@
-﻿using CoreDrugInventory = HospitalManagementSystem.Domain.DrugInventory;
+﻿using Microsoft.EntityFrameworkCore;
+using CoreDrugInventory = HospitalManagementSystem.Domain.DrugInventory;
 using DataDrugInventory = HospitalManagementSystem.DataProvider.DrugInventory;
 
-namespace HospitalManagementSystem.DataProvider
+namespace HospitalManagementSystem.DataProvider;
+
+public class DrugInventoryDataProvider<TDbContext> : DataProviderBase<TDbContext, CoreDrugInventory, DataDrugInventory>, IDrugInventoryDataProvider
+    where TDbContext : DbContext
 {
-    public class DrugInventoryDataProvider : DataProviderBase<CoreDrugInventory, DataDrugInventory>, IDrugInventoryDataProvider
+    public DrugInventoryDataProvider(TDbContext context, IMapper mapper) : base(context, mapper)
     {
-        public DrugInventoryDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
-        {
-        }
     }
 }

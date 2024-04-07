@@ -1,12 +1,12 @@
 ﻿using CoreImportation = HospitalManagementSystem.Domain.Importation;
 using DataImportation = HospitalManagementSystem.DataProvider.Importation;
 
-namespace HospitalManagementSystem.DataProvider
+namespace HospitalManagementSystem.DataProvider;
+
+public class ImportationDataProvider<TDbContext> : DataProviderBase<TDbContext, CoreImportation, DataImportation>, IImportationDataProvider
+    where TDbContext : DbContext
 {
-    public class ImportationDataProvider : DataProviderBase<CoreImportation, DataImportation>, IImportationDataProvider
+    public ImportationDataProvider(TDbContext context, IMapper mapper) : base(context, mapper)
     {
-        public ImportationDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
-        {
-        }
     }
 }

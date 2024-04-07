@@ -1,12 +1,12 @@
 ﻿using CoreTreatmentExamEpisode = HospitalManagementSystem.Domain.TreatmentExamEpisode;
 using DataTreatmentExamEpisode = HospitalManagementSystem.DataProvider.TreatmentExamEpisode;
 
-namespace HospitalManagementSystem.DataProvider
+namespace HospitalManagementSystem.DataProvider;
+
+public class TreatmentExamEpisodeDataProvider<TDbContext> : DataProviderBase<TDbContext, CoreTreatmentExamEpisode, DataTreatmentExamEpisode>, ITreatmentExamEpisodeDataProvider
+    where TDbContext : DbContext
 {
-    public class TreatmentExamEpisodeDataProvider : DataProviderBase<CoreTreatmentExamEpisode, DataTreatmentExamEpisode>, ITreatmentExamEpisodeDataProvider
+    public TreatmentExamEpisodeDataProvider(TDbContext context, IMapper mapper) : base(context, mapper)
     {
-        public TreatmentExamEpisodeDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
-        {
-        }
     }
 }

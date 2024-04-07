@@ -1,12 +1,12 @@
 ﻿using CoreDeviceService = HospitalManagementSystem.Domain.DeviceService;
 using DataDeviceService = HospitalManagementSystem.DataProvider.DeviceService;
 
-namespace HospitalManagementSystem.DataProvider
+namespace HospitalManagementSystem.DataProvider;
+
+public class DeviceServiceDataProvider<TDbContext> : DataProviderBase<TDbContext, CoreDeviceService, DataDeviceService>, IDeviceServiceDataProvider
+    where TDbContext : DbContext
 {
-    public class DeviceServiceDataProvider : DataProviderBase<CoreDeviceService, DataDeviceService>, IDeviceServiceDataProvider
+    public DeviceServiceDataProvider(TDbContext context, IMapper mapper) : base(context, mapper)
     {
-        public DeviceServiceDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
-        {
-        }
     }
 }
