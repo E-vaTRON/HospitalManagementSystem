@@ -8,6 +8,6 @@ public class Diagnosis : ModelBase
     public string?              ICDId               { get; set; }
     public ICD                  ICD                 { get; set; } = default!;
 
-    public virtual ICollection<DiagnosisSuggestion> DiagnosisSuggestions    { get; set; } = new HashSet<DiagnosisSuggestion>();
+    //public virtual ICollection<DiagnosisSuggestion> DiagnosisSuggestions    { get; set; } = new HashSet<DiagnosisSuggestion>();
     public virtual ICollection<DiagnosisTreatment>  DiagnosisTreatments     { get; set; } = new HashSet<DiagnosisTreatment>();
 }

@@ -9,6 +9,5 @@ public class ReferralDoctor : ModelBase
     public string?  ReferralId          { get; set; }
     public Referral Referral            { get; set; } = default!;
 
-    public string?              AssignmentHistoryId { get; set; }
-    public AssignmentHistory?   AssignmentHistory   { get; set; }
+    public AssignmentHistory?   AssignmentHistory   { get; set; } // This is Principal Table
 }

@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.DataProvider;
 
-public class ModelBase : Model<Guid>
+public class ModelBase : Model<string>
 {
     public bool         IsDeleted       { get; set; } = false;
     public DateTime     CreatedOn       { get; set; } = DateTime.Now;
@@ -9,7 +9,7 @@ public class ModelBase : Model<Guid>
 
     public ModelBase()
     {
-        Id = Guid.NewGuid();
+        Id = Guid.NewGuid().ToString();
         IsDeleted = false;
     }
 }

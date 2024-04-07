@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HospitalManagementSystem.Context\HospitalManagementSystem.Context.csproj" />
-    <ProjectReference Include="..\HospitalManagementSystem.DataModel\HospitalManagementSystem.DataModel.csproj" />
     <ProjectReference Include="..\HospitalManagementSystem.DataProvider\HospitalManagementSystem.DataProvider.csproj" />
   </ItemGroup>
 

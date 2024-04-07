@@ -8,15 +8,22 @@ public class ContextFactory : IDesignTimeDbContextFactory<HospitalManagementSyst
                                                       .AddJsonFile(Path.Combine(AppContext.BaseDirectory, "appsettings.json"))
                                                       .Build();
 
-        var connectionString = configuration.GetSection("DatabaseConfiguration:ConnectionString").Value;
+        // Can Use This
+        //var connectionString1 = configuration.GetSection("ConnectionStrings:DefaultConnection").Value;
+        //if (string.IsNullOrEmpty(connectionString1))
+        //    throw new Exception("The connection string is null or empty");
+
+        // Or This
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
         if (string.IsNullOrEmpty(connectionString))
             throw new Exception("The connection string is null or empty");
 
-        var modelBuilder = SQLDatabaseModelBuilder.SQLModelBuilder.GetModel();
-        var optionsBuilder = new DbContextOptionsBuilder<HospitalManagementSystemDbContext>();
-        optionsBuilder.UseSqlServer(connectionString);
+        var modelBuilder = SQLDatabaseModelBuilder.Current.GetModel();
+        var options = new DbContextOptions<HospitalManagementSystemDbContext>();
+        var optionsBuilder = new DbContextOptionsBuilder<HospitalManagementSystemDbContext>(options);
+        optionsBuilder.UseSqlServer(connectionString, sqlServerOptionsAction => sqlServerOptionsAction.EnableRetryOnFailure());
         optionsBuilder.UseModel(modelBuilder);
-        optionsBuilder.EnableSensitiveDataLogging(true);
+        optionsBuilder.EnableSensitiveDataLogging(false);
 
         return new HospitalManagementSystemDbContext(optionsBuilder.Options);
     }

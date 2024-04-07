@@ -1,9 +1,10 @@
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", new OpenApiInfo { Title = "HospitalDataBaseApi", Version = "v1" }));
 builder.Services.AddControllers();
-builder.Services.AddServicesProvider(configuration);
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", new OpenApiInfo { Title = "HospitalDataBaseApi", Version = "v1" }));
+//builder.Services.AddServicesProvider(configuration);
 
 builder.Services.AddCors(options =>
 {
@@ -16,10 +17,11 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddLocalization();
 //var mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfile()));
 //IMapper mapper = mapperConfig.CreateMapper();
 //builder.Services.AddSingleton(mapper);
-builder.Services.AddHospitalManagementSystemSqlServerDataProviders(builder.Configuration);
+builder.Services.AddHospitalManagementSystemSqlServerDataProviders(configuration);
 
 var app = builder.Build();
 
@@ -31,15 +33,14 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseSwagger();
-
 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HospitalDataBase v1"));
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseCors("ClientPermission");
-
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints => endpoints.MapControllers());
