@@ -1,6 +1,10 @@
 ﻿namespace HospitalManagementSystem.DataProvider;
 public static class ServiceExtension
 {
+    #region [ Fields ]
+    private static readonly DatabaseConfiguration DatabaseConfiguration = new();
+    #endregion
+
     #region [ Public Methods - Add ]
     public static void AddHospitalManagementSystemSqlServerDataProviders(this IServiceCollection services, IConfiguration configuration)
     {
@@ -9,20 +13,17 @@ public static class ServiceExtension
         //if (string.IsNullOrEmpty(connectionString))
         //    throw new Exception("The connection string is null or empty");
 
-        // Or This
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-        if (string.IsNullOrEmpty(connectionString))
-            throw new Exception("The connection string is null or empty");
+        configuration.GetSection("DatabaseConfiguration").Bind(DatabaseConfiguration);
 
         var options = new DbContextOptions<HospitalManagementSystemDbContext>();
         var optionsBuilder = new DbContextOptionsBuilder<HospitalManagementSystemDbContext>(options);
-        optionsBuilder.UseSqlServer(connectionString);
+        optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString);
         optionsBuilder.EnableSensitiveDataLogging(false);
 
         services.AddPooledDbContextFactory<HospitalManagementSystemDbContext>(options =>
         {
             options.UseModel(SQLDatabaseModelBuilder.Current.GetModel());
-            options.UseSqlServer(connectionString, sqlServerOptionsAction => sqlServerOptionsAction.EnableRetryOnFailure());
+            options.UseSqlServer(DatabaseConfiguration.ConnectionString, sqlServerOptionsAction => sqlServerOptionsAction.EnableRetryOnFailure());
             options.EnableSensitiveDataLogging(false);
         });
 

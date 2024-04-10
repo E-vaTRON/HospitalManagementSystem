@@ -1,35 +1,33 @@
-﻿using Microsoft.Extensions.Configuration;
-
-namespace HospitalManagementSystem.Tests;
+﻿namespace HospitalManagementSystem.Tests;
 
 public class DatabaseStructureTests
 {
     #region [ Fields ]
-    private readonly DatabaseConfiguration databaseConfig = new();
+    private readonly DatabaseConfiguration DatabaseConfiguration = new();
     #endregion
 
     #region [ CTors ]
 
     public DatabaseStructureTests()
     {
-        var configuration = new ConfigurationBuilder()
-                                    .AddJsonFile(Path.Combine(AppContext.BaseDirectory, "appsettings.json"))
-                                    .Build();
-        configuration.GetSection("DatabaseConfiguration").Bind(this.databaseConfig);
+        var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+                                                      .AddJsonFile(Path.Combine(AppContext.BaseDirectory, "appsettings.json"))
+                                                      .Build();
+        configuration.GetSection("DatabaseConfiguration").Bind(this.DatabaseConfiguration);
     }
     #endregion
 
     #region [ Methods ]
 
     [Fact]
-    public void DatabaseExists()
+    public void DomainDatabaseExists()
     {
         #region [ Arrange ]
-        var expected = "Server=DESKTOP-ULLPH77\\SQLEXPRESS;Database=HospitalDataBase;Integrated Security=True;TrustServerCertificate=true;MultipleActiveResultSets=True;Trusted_Connection=SSPI;Encrypt=false;";
+        var expected = true;
         #endregion
 
         #region [ Act ]
-        var actual = databaseConfig.ConnectionString;
+        var actual = SqlDatabaseHelper.DatabaseExists(DatabaseConfiguration.ConnectionString);
         #endregion
 
         #region [ Assert ]
