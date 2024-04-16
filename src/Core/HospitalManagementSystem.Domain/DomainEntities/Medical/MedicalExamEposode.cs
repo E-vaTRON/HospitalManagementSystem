@@ -6,7 +6,7 @@ public class MedicalExamEposode : EntityBase
     public DateTime     DateReExam      { get; set; }       //ngày tái khám
     public int          LineNumber      { get; set; }       //bốc số ?????
     public DateTime     RecordDay       { get; set; }       //ngày ghi sổ ?????
-    public long         TotalPrice      { get; set; }       //thành tiền
+    public int          TotalPrice      { get; set; }       //thành tiền
 
     public string?              MedicalExamId       { get; set; }
     public MedicalExam          MedicalExam         { get; set; } = default!;

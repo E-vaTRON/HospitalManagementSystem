@@ -3,10 +3,9 @@ using DataDeviceInventory = HospitalManagementSystem.DataProvider.DeviceInventor
 
 namespace HospitalManagementSystem.DataProvider;
 
-public class DeviceInventoryDataProvider<TDbContext> : DataProviderBase<TDbContext, CoreDeviceInventory, DataDeviceInventory>, IDeviceInventoryDataProvider
-    where TDbContext : DbContext
+public class DeviceInventoryDataProvider : DataProviderBase<CoreDeviceInventory, DataDeviceInventory>, IDeviceInventoryDataProvider
 {
-    public DeviceInventoryDataProvider(TDbContext context, IMapper mapper) : base(context, mapper)
+    public DeviceInventoryDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
     {
     }
 }

@@ -3,10 +3,9 @@ using DataReferral = HospitalManagementSystem.DataProvider.Referral;
 
 namespace HospitalManagementSystem.DataProvider;
 
-public class ReferralDataProvider<TDbContext> : DataProviderBase<TDbContext, CoreReferral, DataReferral>, IReferralDataProvider
-    where TDbContext : DbContext
+public class ReferralDataProvider : DataProviderBase<CoreReferral, DataReferral>, IReferralDataProvider
 {
-    public ReferralDataProvider(TDbContext context, IMapper mapper) : base(context, mapper)
+    public ReferralDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
     {
     }
 }

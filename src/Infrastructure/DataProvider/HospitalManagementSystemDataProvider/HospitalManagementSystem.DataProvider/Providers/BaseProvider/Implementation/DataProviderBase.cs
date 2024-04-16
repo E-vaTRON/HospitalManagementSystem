@@ -1,17 +1,16 @@
 ﻿namespace HospitalManagementSystem.DataProvider;
 
-public abstract class DataProviderBase<TDbContext, TEntity, TEId, TModel, TMId> : IDataProviderBase<TEntity, TEId>
-    where TDbContext : DbContext
+public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProviderBase<TEntity, TEId>
     where TEntity : class, IEntity<TEId>
     where TModel : class, IModel<TMId>
 {
     protected IMapper Mapper { get; set; }
 
-    public TDbContext DbContext { get; protected set; }
+    public HospitalManagementSystemDbContext DbContext { get; protected set; }
 
     public DbSet<TModel> DbSet { get; protected set; }
 
-    public DataProviderBase(TDbContext context, IMapper mapper)
+    public DataProviderBase(HospitalManagementSystemDbContext context, IMapper mapper)
     {
         DbContext = context;
         Mapper = mapper;
@@ -52,8 +51,14 @@ public abstract class DataProviderBase<TDbContext, TEntity, TEId, TModel, TMId> 
     public virtual async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         var disableQuickFind = false;
+        //if (entity is null)
+        //    ArgumentNullException.ThrowIfNull(entity, nameof(entity));
         var dbEntity = await InternalFindByIdAsync(entity.Id, disableQuickFind, cancellationToken);
-        Mapper.Map(entity, dbEntity);
+
+        //if (dbEntity is null)
+        //    ArgumentNullException.ThrowIfNull(dbEntity is null);
+        //else
+            Mapper.Map(entity, dbEntity);
         await DbContext.SaveChangesAsync(cancellationToken);
     }
 
@@ -62,11 +67,24 @@ public abstract class DataProviderBase<TDbContext, TEntity, TEId, TModel, TMId> 
 
     public virtual async Task DeleteByIdAsync(TEId id, CancellationToken cancellationToken = default)
     {
-        var disableQuickFind = false;
-        var dbEntity = await InternalFindByIdAsync(id, disableQuickFind, cancellationToken);
-        if (dbEntity == null) return;
-        DbContext.Remove(dbEntity);
-        await DbContext.SaveChangesAsync(cancellationToken);
+        try 
+        {
+            var disableQuickFind = false;
+            var dbEntity = await InternalFindByIdAsync(id, disableQuickFind, cancellationToken);
+            if (dbEntity == null) return;
+            DbContext.Remove(dbEntity);
+            await DbContext.SaveChangesAsync(cancellationToken);
+        }
+        catch(Exception ex)
+        {
+            List<string> tracker = new();
+            foreach (var entry in DbContext.ChangeTracker.Entries())
+            {
+                tracker.Add($"Entity: {entry.Entity.GetType().Name}, State: {entry.State}" + "/r/n");
+            }
+            throw new InvalidOperationException(ex.ToString() + "/r/n" + $"{tracker}");
+        }
+
     }
 
     public virtual async Task DeleteRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
@@ -77,20 +95,22 @@ public abstract class DataProviderBase<TDbContext, TEntity, TEId, TModel, TMId> 
     }
 
     public virtual Task DeleteRangeAsync(CancellationToken cancellationToken = default, params TEntity[] entities)
-    => DeleteRangeAsync(entities, cancellationToken);
+        => DeleteRangeAsync(entities, cancellationToken);
 
     protected virtual async Task<TModel?> InternalFindByIdAsync(TEId id, bool asNoTracking = true, CancellationToken cancellationToken = default)
     {
-        var dbId = ParseId(id!);
+        ArgumentNullException.ThrowIfNull(id is string str && string.IsNullOrEmpty(str) || ParseId(id!) is null);
+        var mId = ParseId(id!);
         var query = DbSet.AsQueryable();
         if (asNoTracking)
             query = query.AsNoTracking();
 
-        var dbEntity = await query.FirstOrDefaultAsync(x => x.Id!.Equals(dbId), cancellationToken);
+        var dbEntity = await query.FirstOrDefaultAsync(x => x.Id!.Equals(mId), cancellationToken);
         return dbEntity;
     }
 
-    protected virtual TMId ParseId(TEId id) => Mapper.Map<TMId>(id);
+    protected virtual TMId ParseId(TEId id) 
+        => Mapper.Map<TMId>(id);
 
     protected virtual Task<IQueryable<TEntity>> GetQueryableAsync(CancellationToken cancellationToken = default)
         => GetQueryableAsync(false, cancellationToken);
@@ -117,10 +137,9 @@ public abstract class DataProviderBase<TDbContext, TEntity, TEId, TModel, TMId> 
         => Mapper.Map<IEnumerable<TModel>>(entities);
 }
 
-public abstract class DataProviderBase<TDbContext, TEntity, TModel>(TDbContext context, IMapper mapper)
-    : DataProviderBase<TDbContext, TEntity, string, TModel, string>(context, mapper)
-    where TDbContext : DbContext
+public abstract class DataProviderBase<TEntity, TModel>(HospitalManagementSystemDbContext context, IMapper mapper)
+    : DataProviderBase<TEntity, string, TModel, Guid>(context, mapper)
     where TEntity : class, Domain.IEntity<string>
-    where TModel : class, DataProvider.IModel<string>
+    where TModel : class, DataProvider.IModel<Guid>
 {
 }

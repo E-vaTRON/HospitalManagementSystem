@@ -6,7 +6,7 @@ public class Referral : ModelBase
     public string?  Reason          { get; set; }
     public string?  Urgency         { get; set; } // ???
 
-    public string?      MedicalExamId   { get; set; }
+    public Guid?        MedicalExamId   { get; set; }
     public MedicalExam  MedicalExam     { get; set; } = default!;
 
     public virtual ICollection<ReferralDoctor> ReferralDoctors { get; set; } = new HashSet<ReferralDoctor>();

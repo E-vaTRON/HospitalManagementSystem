@@ -8,7 +8,7 @@ public class MedicalExamEposode : ModelBase
     public DateTime     RecordDay       { get; set; }       //ngày ghi sổ ?????
     public int          TotalPrice      { get; set; }       //thành tiền
 
-    public string?              MedicalExamId       { get; set; }
+    public Guid?                MedicalExamId       { get; set; }
     public MedicalExam          MedicalExam         { get; set; } = default!;
 
     public ReExamAppointment?   ReExamAppointment   { get; set; } // This is Principal Table

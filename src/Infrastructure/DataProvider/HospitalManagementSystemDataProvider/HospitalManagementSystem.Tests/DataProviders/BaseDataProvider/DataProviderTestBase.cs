@@ -1,26 +1,39 @@
 ﻿namespace HospitalManagementSystem.Tests;
 
-public abstract class RepositoryTestsBase
+public abstract class DataProviderTestBase
 {
     #region [ Fields ]
-    protected readonly HospitalManagementSystemDbContext dbContext;
-
+    protected readonly HospitalManagementSystemDbContext DbContext;
     protected readonly IMapper Mapper;
+    protected readonly Fixture Fixture;
     #endregion
 
     #region [ CTors ]
-    public RepositoryTestsBase(string realConnection = "")
+    public DataProviderTestBase(string realConnection = "")
     {
-        var dbOptionsBuilder = new DbContextOptionsBuilder<HospitalManagementSystemDbContext>();
+        this.Fixture = new Fixture();
+        Fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
+                         .ForEach(b => Fixture.Behaviors.Remove(b));
+        Fixture.Behaviors.Add(new OmitOnRecursionBehavior(recursionDepth: 1));
+
+        //var contextFactory = this.Fixture.Freeze<Mock<IDbContextFactory<HospitalManagementSystemDbContext>>>();
+        var optionsBuilder = new DbContextOptionsBuilder<HospitalManagementSystemDbContext>().UseModel(SQLDatabaseModelBuilder.SQLModel.GetModel())
+                                                                                             .EnableSensitiveDataLogging(true);
 
         if (string.IsNullOrEmpty(realConnection))
-            dbOptionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString());
+            optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString())
+                          .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         else
-            dbOptionsBuilder.UseSqlServer(realConnection);
+            optionsBuilder.UseSqlServer(realConnection);
 
-        var dbOptions = dbOptionsBuilder.Options;
+        var options = optionsBuilder.Options;
 
-        dbContext = new HospitalManagementSystemDbContext(dbOptions);
+        DbContext = new HospitalManagementSystemDbContext(options);
+        //DbContext.Certifications.AddRangeAsync(SeedProvider.Current.Certifications);
+        //DbContext.SaveChangesAsync();
+
+        //contextFactory.Setup(x => x.CreateDbContext())
+        //              .Returns(() => DbContext);
 
         var configuration = new MapperConfiguration(config =>
         {
@@ -53,6 +66,7 @@ public abstract class RepositoryTestsBase
             config.CreateMap<Domain.Importation,        Importation>().ReverseMap();
             config.CreateMap<Domain.DeviceInventory,    DeviceInventory>().ReverseMap();
 
+            config.CreateMap<Domain.AssignmentHistory,      AssignmentHistory>().ReverseMap();
             config.CreateMap<Domain.Diagnosis,              Diagnosis>().ReverseMap();
             config.CreateMap<Domain.DiagnosisSuggestion,    DiagnosisSuggestion>().ReverseMap();
             config.CreateMap<Domain.DiagnosisTreatment,     DiagnosisTreatment>().ReverseMap();

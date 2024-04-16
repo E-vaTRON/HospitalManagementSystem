@@ -7,8 +7,8 @@ public class RoomAllocation : ModelBase
 
     public string?  PatientId   { get; set; } // User Id Role<Patient>
 
-    public string?              RoomId                  { get; set; }
+    public Guid?                RoomId                  { get; set; }
     public Room                 Room                    { get; set; } = default!;
-    public string?              MedicalExamEposodeId    { get; set; }
+    public Guid?                MedicalExamEposodeId    { get; set; }
     public MedicalExamEposode   MedicalExamEposode      { get; set; } = default!;
 }

@@ -1,8 +1,11 @@
-﻿namespace HospitalManagementSystem.Tests;
+﻿using Microsoft.IdentityModel.Tokens;
+
+namespace HospitalManagementSystem.Tests;
 
 public class DatabaseStructureTests
 {
     #region [ Fields ]
+    protected readonly HospitalManagementSystemDbContext DbContext;
     private readonly DatabaseConfiguration DatabaseConfiguration = new();
     #endregion
 
@@ -14,11 +17,23 @@ public class DatabaseStructureTests
                                                       .AddJsonFile(Path.Combine(AppContext.BaseDirectory, "appsettings.json"))
                                                       .Build();
         configuration.GetSection("DatabaseConfiguration").Bind(this.DatabaseConfiguration);
+
+        var optionsBuilder = new DbContextOptionsBuilder<HospitalManagementSystemDbContext>().UseModel(SQLDatabaseModelBuilder.SQLModel.GetModel())
+                                                                                             .EnableSensitiveDataLogging(true);
+
+        if (string.IsNullOrEmpty(DatabaseConfiguration.ConnectionString))
+            optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString())
+                          .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        else
+            optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString);
+
+        var options = optionsBuilder.Options;
+
+        DbContext = new HospitalManagementSystemDbContext(options);
     }
     #endregion
 
     #region [ Methods ]
-
     [Fact]
     public void DomainDatabaseExists()
     {
@@ -33,17 +48,6 @@ public class DatabaseStructureTests
         #region [ Assert ]
         Assert.Equal(expected, actual);
         #endregion
-    }
-
-    [Fact]
-    public void TestCreateDbContext()
-    {
-        // Arrange
-
-        // Act
-
-        // Assert
-        // Add your assertions here
     }
     #endregion
 }

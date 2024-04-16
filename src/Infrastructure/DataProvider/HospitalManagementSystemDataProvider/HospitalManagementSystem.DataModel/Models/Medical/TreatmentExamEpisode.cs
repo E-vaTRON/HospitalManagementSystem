@@ -2,8 +2,8 @@
 
 public class TreatmentExamEpisode : ModelBase
 {
-    public string?              TreatmentId             { get; set; }
+    public Guid?                TreatmentId             { get; set; }
     public Treatment            Treatment               { get; set; } = default!;
-    public string?              MedicalExamEpisodeId    { get; set; }
+    public Guid?                MedicalExamEpisodeId    { get; set; }
     public MedicalExamEposode   MedicalExamEposode      { get; set; } = default!;
 }

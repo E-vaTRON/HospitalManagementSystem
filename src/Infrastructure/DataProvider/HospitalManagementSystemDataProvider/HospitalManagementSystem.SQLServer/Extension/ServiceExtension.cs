@@ -22,16 +22,16 @@ public static class ServiceExtension
 
         services.AddPooledDbContextFactory<HospitalManagementSystemDbContext>(options =>
         {
-            options.UseModel(SQLDatabaseModelBuilder.Current.GetModel());
+            options.UseModel(SQLDatabaseModelBuilder.SQLModel.GetModel());
             options.UseSqlServer(DatabaseConfiguration.ConnectionString, sqlServerOptionsAction => sqlServerOptionsAction.EnableRetryOnFailure());
             options.EnableSensitiveDataLogging(false);
         });
 
         //Context
-        services.AddHospitalManagementSystemDataBaseContextProviders<HospitalManagementSystemDbContext>();
+        services.AddHospitalManagementSystemDataBaseContextProviders();
 
         //Providers
-        services.AddHospitalManagementSystemDataProviders<HospitalManagementSystemDbContext>();
+        services.AddHospitalManagementSystemDataProviders();
     }
     #endregion
 }

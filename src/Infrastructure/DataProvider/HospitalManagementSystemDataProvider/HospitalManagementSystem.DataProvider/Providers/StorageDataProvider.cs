@@ -3,10 +3,9 @@ using DataStorage = HospitalManagementSystem.DataProvider.Storage;
 
 namespace HospitalManagementSystem.DataProvider;
 
-public class StorageDataProvider<TDbContext> : DataProviderBase<TDbContext, CoreStorage, DataStorage>, IStorageDataProvider
-    where TDbContext : DbContext
+public class StorageDataProvider : DataProviderBase<CoreStorage, DataStorage>, IStorageDataProvider
 {
-    public StorageDataProvider(TDbContext context, IMapper mapper) : base(context, mapper)
+    public StorageDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
     {
     }
 }

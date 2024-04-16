@@ -14,7 +14,7 @@ public class ContextFactory : IDesignTimeDbContextFactory<HospitalManagementSyst
                                                       .Build();
         configuration.GetSection("DatabaseConfiguration").Bind(this.DatabaseConfiguration);
 
-        var modelBuilder = SQLDatabaseModelBuilder.Current.GetModel();
+        var modelBuilder = SQLDatabaseModelBuilder.SQLModel.GetModel();
         var options = new DbContextOptions<HospitalManagementSystemDbContext>();
         var optionsBuilder = new DbContextOptionsBuilder<HospitalManagementSystemDbContext>(options);
         optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString, sqlServerOptionsAction => sqlServerOptionsAction.EnableRetryOnFailure());

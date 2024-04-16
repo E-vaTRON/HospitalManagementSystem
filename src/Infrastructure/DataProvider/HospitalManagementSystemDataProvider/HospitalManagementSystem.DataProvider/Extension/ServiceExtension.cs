@@ -2,40 +2,39 @@
 public static class ServiceExtension
 {
     #region [ Public Methods - Add ]
-    public static void AddHospitalManagementSystemDataProviders<TDbContext>(this IServiceCollection services)
-        where TDbContext : DbContext
+    public static void AddHospitalManagementSystemDataProviders(this IServiceCollection services)
     {
-        services.AddTransient<IBookingAppointmentDataProvider, BookingAppointmentDataProvider<TDbContext>>();
-        services.AddTransient<IReExamAppointmentDataProvider, ReExamAppointmentDataProvider<TDbContext>>();
-        services.AddTransient<IReferralDataProvider, ReferralDataProvider<TDbContext>>();
-        services.AddTransient<IReferralDoctorDataProvider, ReferralDoctorDataProvider<TDbContext>>();
+        services.AddTransient<IBookingAppointmentDataProvider, BookingAppointmentDataProvider>();
+        services.AddTransient<IReExamAppointmentDataProvider, ReExamAppointmentDataProvider>();
+        services.AddTransient<IReferralDataProvider, ReferralDataProvider>();
+        services.AddTransient<IReferralDoctorDataProvider, ReferralDoctorDataProvider>();
 
-        services.AddTransient<IRoomAllocationDataProvider, RoomAllocationDataProvider<TDbContext>>();
-        services.AddTransient<IRoomAssignmentDataProvider, RoomAssignmentDataProvider<TDbContext>>();
-        services.AddTransient<IDepartmentDataProvider, DepartmentDataProvider<TDbContext>>();
-        services.AddTransient<IRoomDataProvider, RoomDataProvider<TDbContext>>();
+        services.AddTransient<IRoomAllocationDataProvider, RoomAllocationDataProvider>();
+        services.AddTransient<IRoomAssignmentDataProvider, RoomAssignmentDataProvider>();
+        services.AddTransient<IDepartmentDataProvider, DepartmentDataProvider>();
+        services.AddTransient<IRoomDataProvider, RoomDataProvider>();
 
-        services.AddTransient<IDeviceInventoryDataProvider, DeviceInventoryDataProvider<TDbContext>>();
-        services.AddTransient<IDrugDataProvider, DrugDataProvider<TDbContext>>();
-        services.AddTransient<IDrugInventoryDataProvider, DrugInventoryDataProvider<TDbContext>>();
-        services.AddTransient<IDrugPrescriptionDataProvider, DrugPrescriptionDataProvider<TDbContext>>();
-        services.AddTransient<IGoodSupplingDataProvider, GoodSupplingDataProvider<TDbContext>>();
-        services.AddTransient<IImportationDataProvider, ImportationDataProvider<TDbContext>>();
-        services.AddTransient<IStorageDataProvider, StorageDataProvider<TDbContext>>();
+        services.AddTransient<IDeviceInventoryDataProvider, DeviceInventoryDataProvider>();
+        services.AddTransient<IDrugDataProvider, DrugDataProvider>();
+        services.AddTransient<IDrugInventoryDataProvider, DrugInventoryDataProvider>();
+        services.AddTransient<IDrugPrescriptionDataProvider, DrugPrescriptionDataProvider>();
+        services.AddTransient<IGoodSupplingDataProvider, GoodSupplingDataProvider>();
+        services.AddTransient<IImportationDataProvider, ImportationDataProvider>();
+        services.AddTransient<IStorageDataProvider, StorageDataProvider>();
 
-        services.AddTransient<IAssignmentHistoryDataProvider, AssignmentHistoryDataProvider<TDbContext>>();
-        services.AddTransient<IDiagnosisDataProvider, DiagnosisDataProvider<TDbContext>>();
-        services.AddTransient<IDiagnosisTreatmentDataProvider, DiagnosisTreatmentDataProvider<TDbContext>>();
-        services.AddTransient<IICDDataProvider, ICDDataProvider<TDbContext>>();
-        services.AddTransient<IMedicalExamDataProvider, MedicalExamDataProvider<TDbContext>>();
-        services.AddTransient<IMedicalExamEposodeDataProvider, MedicalExamEposodeDataProvider<TDbContext>>();
-        services.AddTransient<ITreatmentDataProvider, TreatmentDataProvider<TDbContext>>();
-        services.AddTransient<ITreatmentExamEpisodeDataProvider, TreatmentExamEpisodeDataProvider<TDbContext>>();
+        services.AddTransient<IAssignmentHistoryDataProvider, AssignmentHistoryDataProvider>();
+        services.AddTransient<IDiagnosisDataProvider, DiagnosisDataProvider>();
+        services.AddTransient<IDiagnosisTreatmentDataProvider, DiagnosisTreatmentDataProvider>();
+        services.AddTransient<IICDDataProvider, ICDDataProvider>();
+        services.AddTransient<IMedicalExamDataProvider, MedicalExamDataProvider>();
+        services.AddTransient<IMedicalExamEposodeDataProvider, MedicalExamEposodeDataProvider>();
+        services.AddTransient<ITreatmentDataProvider, TreatmentDataProvider>();
+        services.AddTransient<ITreatmentExamEpisodeDataProvider, TreatmentExamEpisodeDataProvider>();
 
-        services.AddTransient<IAnalysisTestDataProvider, AnalysisTestDataProvider<TDbContext>>();
-        services.AddTransient<IDeviceServiceDataProvider, DeviceServiceDataProvider<TDbContext>>();
-        services.AddTransient<IMedicalDeviceDataProvider, MedicalDeviceDataProvider<TDbContext>>();
-        services.AddTransient<IServiceDataProvider, ServiceDataProvider<TDbContext>>();
+        services.AddTransient<IAnalysisTestDataProvider, AnalysisTestDataProvider>();
+        services.AddTransient<IDeviceServiceDataProvider, DeviceServiceDataProvider>();
+        services.AddTransient<IMedicalDeviceDataProvider, MedicalDeviceDataProvider>();
+        services.AddTransient<IServiceDataProvider, ServiceDataProvider>();
     }
     #endregion
 }

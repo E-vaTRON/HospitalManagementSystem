@@ -3,10 +3,9 @@ using DataBookingAppointment = HospitalManagementSystem.DataProvider.BookingAppo
 
 namespace HospitalManagementSystem.DataProvider;
 
-public class BookingAppointmentDataProvider<TDbContext> : DataProviderBase<TDbContext, CoreBookingAppointment, DataBookingAppointment>, IBookingAppointmentDataProvider
-    where TDbContext : DbContext
+public class BookingAppointmentDataProvider : DataProviderBase<CoreBookingAppointment, DataBookingAppointment>, IBookingAppointmentDataProvider
 {
-    public BookingAppointmentDataProvider(TDbContext context, IMapper mapper) : base(context, mapper)
+    public BookingAppointmentDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
     {
     }
 }

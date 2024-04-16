@@ -2,8 +2,8 @@
 
 public class DrugPrescription : ModelBase
 {
-    public string?              MedicalExamEposodeId    { get; set; }
+    public Guid?                MedicalExamEposodeId    { get; set; }
     public MedicalExamEposode   MedicalExamEposode      { get; set; } = default!;
-    public string?              DrugInventoryId         { get; set; }
+    public Guid?                DrugInventoryId         { get; set; }
     public DrugInventory        DrugInventory           { get; set; } = default!;
 }
