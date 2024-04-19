@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HospitalManagementSystem.Context.Migrations
 {
     [DbContext(typeof(HospitalManagementSystemDbContext))]
-    [Migration("20240410135928_Initial")]
-    partial class Initial
+    [Migration("20240415085737_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,9 +21,9 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.AnalysisTest", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
@@ -34,14 +34,12 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("nvarchar");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("DeviceServiceId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("DeviceServiceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DoctorComment")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar");
 
@@ -49,14 +47,12 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("MedicalExamEposodeId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("MedicalExamEposodeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Result")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar");
 
@@ -67,9 +63,9 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.AssignmentHistory", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AssignmentStatus")
                         .IsRequired()
@@ -79,7 +75,6 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("DoctorId")
@@ -90,14 +85,13 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("MedicalExamEposodeId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("MedicalExamEposodeId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ReferralDoctorId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("ReferralDoctorId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -106,9 +100,9 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.BookingAppointment", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("AppointmentDate")
                         .HasColumnType("datetime");
@@ -117,7 +111,6 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("DoctorId")
@@ -128,7 +121,6 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("Notes")
@@ -145,26 +137,23 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.Department", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar");
 
@@ -175,9 +164,9 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.DeviceInventory", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
@@ -186,21 +175,19 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("MedicalDeviceId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("MedicalDeviceId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("StorageId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("StorageId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -209,29 +196,27 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.DeviceService", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("DeviceInventoryId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("DeviceInventoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("ServiceId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("ServiceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -240,19 +225,17 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.Diagnosis", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar");
 
@@ -261,14 +244,13 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar");
 
-                    b.Property<string>("ICDId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("ICDId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.HasKey("Id");
@@ -278,29 +260,27 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.DiagnosisTreatment", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("DiagnosisId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("DiagnosisId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("TreatmentId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("TreatmentId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -309,12 +289,11 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.Drug", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ActiveIngredientName")
-                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar");
 
@@ -327,7 +306,6 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("GoodName")
@@ -341,7 +319,6 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("nvarchar");
 
                     b.Property<string>("GroupId")
-                        .IsRequired()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar");
 
@@ -354,7 +331,6 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("Unit")
@@ -374,9 +350,9 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.DrugInventory", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
@@ -385,21 +361,19 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("GoodSupplingId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("GoodSupplingId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("StorageId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("StorageId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -408,29 +382,27 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.DrugPrescription", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("DrugInventoryId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("DrugInventoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("MedicalExamEposodeId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("MedicalExamEposodeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -439,19 +411,18 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.GoodSuppling", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("DrugId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("DrugId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime");
@@ -460,14 +431,13 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar");
 
-                    b.Property<string>("ImportationId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("ImportationId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<int>("OrinaryAmount")
@@ -480,9 +450,9 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.ICD", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -493,11 +463,9 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar");
 
@@ -505,7 +473,6 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("Status")
@@ -520,17 +487,15 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.Importation", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Billnumber")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar");
 
                     b.Property<string>("Company")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar");
 
@@ -538,21 +503,18 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<DateTime>("ReceiptDay")
                         .HasColumnType("datetime");
 
                     b.Property<string>("ReceiptNumber")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar");
 
@@ -572,12 +534,11 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.MedicalDevice", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar");
 
@@ -585,11 +546,9 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("GroupID")
-                        .IsRequired()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar");
 
@@ -597,7 +556,6 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<int>("Max")
@@ -612,7 +570,6 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("nvarchar");
 
                     b.Property<string>("SmallID")
-                        .IsRequired()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar");
 
@@ -623,29 +580,26 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.MedicalExam", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("BookingAppointmentId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("BookingAppointmentId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<int?>("FinalPrice")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.HasKey("Id");
@@ -655,9 +609,9 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.MedicalExamEposode", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
@@ -669,21 +623,19 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<int>("LineNumber")
                         .HasColumnType("int");
 
-                    b.Property<string>("MedicalExamId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("MedicalExamId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("RecordDay")
                         .HasColumnType("datetime");
@@ -698,9 +650,9 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.ReExamAppointment", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("AppointmentDate")
                         .HasColumnType("datetime");
@@ -709,24 +661,21 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("MedicalExamEposodeId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("MedicalExamEposodeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar");
 
                     b.Property<string>("PatientId")
-                        .IsRequired()
                         .HasColumnType("nvarchar");
 
                     b.HasKey("Id");
@@ -736,9 +685,9 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.Referral", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
@@ -747,26 +696,22 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("MedicalExamId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("MedicalExamId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Reason")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar");
 
                     b.Property<string>("Urgency")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar");
 
@@ -777,29 +722,26 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.ReferralDoctor", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("ReferralId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("ReferralId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ReferralStatus")
-                        .IsRequired()
                         .HasColumnType("nvarchar");
 
                     b.Property<string>("ReferredDoctorId")
@@ -813,9 +755,9 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.Room", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
@@ -824,21 +766,18 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("DepartmentId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar");
 
@@ -859,15 +798,14 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.RoomAllocation", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<DateTime>("EndTime")
@@ -877,18 +815,17 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("MedicalExamEposodeId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("MedicalExamEposodeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PatientId")
                         .IsRequired()
                         .HasColumnType("nvarchar");
 
-                    b.Property<string>("RoomId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("RoomId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime");
@@ -900,15 +837,14 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.RoomAssignment", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("EmployeeId")
@@ -922,11 +858,10 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("RoomId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("RoomId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime");
@@ -938,15 +873,14 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.Service", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<int>("HealthInsurancePrice")
@@ -956,7 +890,6 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("Name")
@@ -987,26 +920,23 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.Storage", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("Location")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar");
 
@@ -1017,19 +947,17 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.Treatment", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar");
 
@@ -1037,11 +965,9 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar");
 
@@ -1052,29 +978,27 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.TreatmentExamEpisode", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("nvarchar");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("DeleteOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
-                    b.Property<string>("MedicalExamEpisodeId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("MedicalExamEpisodeId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("TreatmentId")
-                        .HasColumnType("nvarchar(36)");
+                    b.Property<Guid?>("TreatmentId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -1086,14 +1010,12 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.HasOne("HospitalManagementSystem.DataProvider.DeviceService", "DeviceService")
                         .WithMany("AnalysisTests")
                         .HasForeignKey("DeviceServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HospitalManagementSystem.DataProvider.MedicalExamEposode", "MedicalExamEposode")
                         .WithMany("AnalysisTests")
                         .HasForeignKey("MedicalExamEposodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("DeviceService");
 
@@ -1123,14 +1045,12 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.HasOne("HospitalManagementSystem.DataProvider.MedicalDevice", "MedicalDevice")
                         .WithMany("DeviceInventorys")
                         .HasForeignKey("MedicalDeviceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HospitalManagementSystem.DataProvider.Storage", "Storage")
                         .WithMany("DeviceInventories")
                         .HasForeignKey("StorageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("MedicalDevice");
 
@@ -1142,14 +1062,12 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.HasOne("HospitalManagementSystem.DataProvider.DeviceInventory", "DeviceInventory")
                         .WithMany("DeviceServices")
                         .HasForeignKey("DeviceInventoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HospitalManagementSystem.DataProvider.Service", "Service")
                         .WithMany("DeviceServices")
                         .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("DeviceInventory");
 
@@ -1161,8 +1079,7 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.HasOne("HospitalManagementSystem.DataProvider.ICD", "ICD")
                         .WithMany("Diagnoses")
                         .HasForeignKey("ICDId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("ICD");
                 });
@@ -1172,14 +1089,12 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.HasOne("HospitalManagementSystem.DataProvider.Diagnosis", "Diagnosis")
                         .WithMany("DiagnosisTreatments")
                         .HasForeignKey("DiagnosisId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HospitalManagementSystem.DataProvider.Treatment", "Treatment")
                         .WithMany("DiagnosisTreatments")
                         .HasForeignKey("TreatmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Diagnosis");
 
@@ -1191,14 +1106,12 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.HasOne("HospitalManagementSystem.DataProvider.GoodSuppling", "GoodSuppling")
                         .WithOne("DrugInventory")
                         .HasForeignKey("HospitalManagementSystem.DataProvider.DrugInventory", "GoodSupplingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HospitalManagementSystem.DataProvider.Storage", "Storage")
                         .WithMany("DrugInventories")
                         .HasForeignKey("StorageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("GoodSuppling");
 
@@ -1210,14 +1123,12 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.HasOne("HospitalManagementSystem.DataProvider.DrugInventory", "DrugInventory")
                         .WithMany("DrugPrescriptions")
                         .HasForeignKey("DrugInventoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HospitalManagementSystem.DataProvider.MedicalExamEposode", "MedicalExamEposode")
                         .WithMany("DrugPrescriptions")
                         .HasForeignKey("MedicalExamEposodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("DrugInventory");
 
@@ -1229,14 +1140,12 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.HasOne("HospitalManagementSystem.DataProvider.Drug", "Drug")
                         .WithMany("GoodSupplings")
                         .HasForeignKey("DrugId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HospitalManagementSystem.DataProvider.Importation", "Importation")
                         .WithMany("GoodSupplings")
                         .HasForeignKey("ImportationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Drug");
 
@@ -1258,8 +1167,7 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.HasOne("HospitalManagementSystem.DataProvider.MedicalExam", "MedicalExam")
                         .WithMany("MedicalExamEposodes")
                         .HasForeignKey("MedicalExamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("MedicalExam");
                 });
@@ -1269,8 +1177,7 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.HasOne("HospitalManagementSystem.DataProvider.MedicalExamEposode", "MedicalExamEposode")
                         .WithOne("ReExamAppointment")
                         .HasForeignKey("HospitalManagementSystem.DataProvider.ReExamAppointment", "MedicalExamEposodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("MedicalExamEposode");
                 });
@@ -1280,8 +1187,7 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.HasOne("HospitalManagementSystem.DataProvider.MedicalExam", "MedicalExam")
                         .WithMany("Referrals")
                         .HasForeignKey("MedicalExamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("MedicalExam");
                 });
@@ -1291,8 +1197,7 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.HasOne("HospitalManagementSystem.DataProvider.Referral", "Referral")
                         .WithMany("ReferralDoctors")
                         .HasForeignKey("ReferralId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Referral");
                 });
@@ -1302,8 +1207,7 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.HasOne("HospitalManagementSystem.DataProvider.Department", "Department")
                         .WithMany("Rooms")
                         .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Department");
                 });
@@ -1313,14 +1217,12 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.HasOne("HospitalManagementSystem.DataProvider.MedicalExamEposode", "MedicalExamEposode")
                         .WithMany("RoomAllocations")
                         .HasForeignKey("MedicalExamEposodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HospitalManagementSystem.DataProvider.Room", "Room")
                         .WithMany("RoomAllocations")
                         .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("MedicalExamEposode");
 
@@ -1332,8 +1234,7 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.HasOne("HospitalManagementSystem.DataProvider.Room", "Room")
                         .WithMany("RoomAssignments")
                         .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Room");
                 });
@@ -1343,14 +1244,12 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.HasOne("HospitalManagementSystem.DataProvider.MedicalExamEposode", "MedicalExamEposode")
                         .WithMany("TreatmentExamEpisodes")
                         .HasForeignKey("MedicalExamEpisodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HospitalManagementSystem.DataProvider.Treatment", "Treatment")
                         .WithMany("TreatmentExamEpisodes")
                         .HasForeignKey("TreatmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("MedicalExamEposode");
 

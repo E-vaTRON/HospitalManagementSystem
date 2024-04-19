@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HospitalManagementSystem.Context.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,12 +15,12 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "BookingAppointment",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    DoctorId = table.Column<string>(type: "nvarchar", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    DoctorId = table.Column<string>(type: "nvarchar(36)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true),
                     AppointmentDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar", nullable: true),
                     PatientId = table.Column<string>(type: "nvarchar", nullable: false)
@@ -34,12 +34,12 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "Department",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -50,19 +50,19 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "Drug",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
                     GoodName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    ActiveIngredientName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    ActiveIngredientName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
                     Unit = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     GoodType = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     UnitPrice = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     HealthInsurancePrice = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     Country = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    GroupId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    GroupId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -73,14 +73,14 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "ICD",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
                     Code = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: true),
                     Status = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -91,18 +91,18 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "Importation",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    ReceiptNumber = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
-                    Billnumber = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    ReceiptNumber = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: true),
+                    Billnumber = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: true),
                     RecordDay = table.Column<DateTime>(type: "datetime", nullable: false),
                     ReceiptDay = table.Column<DateTime>(type: "datetime", nullable: false),
                     Tax = table.Column<int>(type: "int", nullable: false),
                     TotalPrice = table.Column<int>(type: "int", nullable: false),
-                    Company = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    Company = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -113,17 +113,17 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "MedicalDevice",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    SmallID = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    GroupID = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    SmallID = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    GroupID = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
                     Min = table.Column<int>(type: "int", nullable: false),
                     Max = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -134,7 +134,7 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "Service",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     Unit = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     UnitPrice = table.Column<int>(type: "int", nullable: false),
@@ -143,8 +143,8 @@ namespace HospitalManagementSystem.Context.Migrations
                     ResultFromType = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -155,12 +155,12 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "Storage",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -171,13 +171,13 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "Treatment",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -188,13 +188,13 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "MedicalExam",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    FinalPrice = table.Column<int>(type: "int", nullable: false),
-                    BookingAppointmentId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    FinalPrice = table.Column<int>(type: "int", nullable: true),
+                    BookingAppointmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -211,16 +211,16 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "Room",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
                     RoomType = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     Capacity = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    DepartmentId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    DepartmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -237,14 +237,14 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "Diagnosis",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
                     DiagnosisCode = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
-                    ICDId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: true),
+                    ICDId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -261,16 +261,16 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "GoodSuppling",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
                     GoodInformation = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: true),
                     ExpiryDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     OrinaryAmount = table.Column<int>(type: "int", nullable: false),
-                    ImportationId = table.Column<string>(type: "nvarchar(36)", nullable: true),
-                    DrugId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    ImportationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DrugId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -293,14 +293,14 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "DeviceInventory",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
                     CurrentAmount = table.Column<int>(type: "int", nullable: false),
-                    MedicalDeviceId = table.Column<string>(type: "nvarchar(36)", nullable: true),
-                    StorageId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    MedicalDeviceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    StorageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -323,17 +323,17 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "MedicalExamEposode",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
                     DateTakeExam = table.Column<DateTime>(type: "datetime", nullable: false),
                     DateReExam = table.Column<DateTime>(type: "datetime", nullable: false),
                     LineNumber = table.Column<int>(type: "int", nullable: false),
                     RecordDay = table.Column<DateTime>(type: "datetime", nullable: false),
                     TotalPrice = table.Column<int>(type: "int", nullable: false),
-                    MedicalExamId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    MedicalExamId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -350,15 +350,15 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "Referral",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
                     DateOfReferral = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Reason = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
-                    Urgency = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
-                    MedicalExamId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    Reason = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: true),
+                    Urgency = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: true),
+                    MedicalExamId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -375,15 +375,15 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "RoomAssignment",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime", nullable: false),
                     EmployeeId = table.Column<string>(type: "nvarchar", nullable: false),
-                    RoomId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -400,13 +400,13 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "DiagnosisTreatment",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    TreatmentId = table.Column<string>(type: "nvarchar(36)", nullable: true),
-                    DiagnosisId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    TreatmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DiagnosisId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -429,14 +429,14 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "DrugInventory",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
                     CurrentAmount = table.Column<int>(type: "int", nullable: false),
-                    StorageId = table.Column<string>(type: "nvarchar(36)", nullable: true),
-                    GoodSupplingId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    StorageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    GoodSupplingId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -459,13 +459,13 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "DeviceService",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    DeviceInventoryId = table.Column<string>(type: "nvarchar(36)", nullable: true),
-                    ServiceId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    DeviceInventoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ServiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -488,15 +488,15 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "ReExamAppointment",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    MedicalExamEposodeId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    MedicalExamEposodeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false),
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true),
                     AppointmentDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar", nullable: true),
-                    PatientId = table.Column<string>(type: "nvarchar", nullable: false)
+                    PatientId = table.Column<string>(type: "nvarchar", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -513,16 +513,16 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "RoomAllocation",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime", nullable: false),
                     PatientId = table.Column<string>(type: "nvarchar", nullable: false),
-                    RoomId = table.Column<string>(type: "nvarchar(36)", nullable: true),
-                    MedicalExamEposodeId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    MedicalExamEposodeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -545,13 +545,13 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "TreatmentExamEpisode",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    TreatmentId = table.Column<string>(type: "nvarchar(36)", nullable: true),
-                    MedicalExamEpisodeId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    TreatmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    MedicalExamEpisodeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -574,14 +574,14 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "ReferralDoctor",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    ReferralStatus = table.Column<string>(type: "nvarchar", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    ReferralStatus = table.Column<string>(type: "nvarchar", nullable: true),
                     ReferredDoctorId = table.Column<string>(type: "nvarchar", nullable: false),
-                    ReferralId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    ReferralId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -598,13 +598,13 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "DrugPrescription",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    MedicalExamEposodeId = table.Column<string>(type: "nvarchar(36)", nullable: true),
-                    DrugInventoryId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
+                    MedicalExamEposodeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DrugInventoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -627,16 +627,16 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "AnalysisTest",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
                     DSymptom = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    DoctorComment = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
-                    Result = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
-                    DeviceServiceId = table.Column<string>(type: "nvarchar(36)", nullable: true),
-                    MedicalExamEposodeId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    DoctorComment = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: true),
+                    Result = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: true),
+                    DeviceServiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    MedicalExamEposodeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -659,15 +659,15 @@ namespace HospitalManagementSystem.Context.Migrations
                 name: "AssignmentHistory",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
                     AssignmentStatus = table.Column<string>(type: "nvarchar", nullable: false),
                     DoctorId = table.Column<string>(type: "nvarchar", nullable: false),
-                    MedicalExamEposodeId = table.Column<string>(type: "nvarchar(36)", nullable: true),
-                    ReferralDoctorId = table.Column<string>(type: "nvarchar(36)", nullable: true),
+                    MedicalExamEposodeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ReferralDoctorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: false)
+                    LastUpdatedOn = table.Column<DateTime>(type: "datetime", nullable: true),
+                    DeleteOn = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {

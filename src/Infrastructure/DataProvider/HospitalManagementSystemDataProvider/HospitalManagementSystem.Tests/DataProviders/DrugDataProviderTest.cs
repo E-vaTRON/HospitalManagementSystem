@@ -13,10 +13,7 @@ public class DrugDataProviderTest : DataProviderTestBase
     public async void DeleteByIdAsync_Success()
     {
         // Arrange
-        var drugAdd = this.Fixture.Create<Drug>();
-        Drug drug = new()
-        {
-        };
+        var drugAdd = this.Fixture.Create<DataProvider.Drug>();
         await DbContext.Drugs.AddAsync(drugAdd);
         await DbContext.SaveChangesAsync();
 

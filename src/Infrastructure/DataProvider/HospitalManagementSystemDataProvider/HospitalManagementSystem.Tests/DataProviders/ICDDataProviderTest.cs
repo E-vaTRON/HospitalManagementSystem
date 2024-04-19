@@ -9,76 +9,70 @@ public class ICDDataProviderTest : DataProviderTestBase
     #endregion
 
     #region [ Methods ]
+
+    #region [ Add ]
     [Fact]
     public async void AddAsync_Success()
     {
         // Arrange
-        var icd = this.Fixture.Create<Domain.ICD>();
+        var icdAdd = Fixture.Build<Domain.ICD>()
+                            .With(i => i.Id, Guid.NewGuid().ToString())
+                            .Create();
 
         // Act
         var icdProvider = new ICDDataProvider(DbContext, Mapper);
-        //async Task Result() => 
-            await icdProvider.AddAsync(icd, new());
+        var add = icdProvider.AddAsync(icdAdd, new());
 
         // Assert
-        var result = await DbContext.ICDs.FirstOrDefaultAsync();
-        //Assert.True(Result().IsCompletedSuccessfully);
-        Assert.Equal(icd.Code, result?.Code);
-        Assert.Equal(icd.Description, result?.Description);
-        Assert.Equal(icd.Status.ToString(), result?.Status.ToString());
+        var result = await DbContext.ICDs.FirstOrDefaultAsync(d => d.Id == Guid.Parse(icdAdd.Id!));
+        Assert.True(add.IsCompletedSuccessfully);
+        Assert.Equal(icdAdd.Code, result?.Code);
+        Assert.Equal(icdAdd.Description, result?.Description);
+        Assert.Equal(icdAdd.Status.ToString(), result?.Status.ToString());
     }
 
     [Fact]
     public async void AddAsync_EntityIsNull_Exception()
     {
         // Arrange
-        var icd = default(Domain.ICD);
+        var icdAdd = default(Domain.ICD);
 
         // Act
         var icdProvider = new ICDDataProvider(DbContext, Mapper);
-        async Task Result() => await icdProvider.AddAsync(icd, new());
+        Task Add() => icdProvider.AddAsync(icdAdd, new());
 
         // Assert
-        var result = await DbContext.ICDs.FirstOrDefaultAsync();
-        await Assert.ThrowsAsync<ArgumentNullException>(Result);
-        Assert.Null(result);
+        await Assert.ThrowsAsync<ArgumentNullException>(Add);
+        Assert.True(Add().IsCompleted);
     }
+    #endregion
 
+    #region [ Update ]
     [Fact]
     public async void UpdateAsync_Success()
     {
         // Arrange
-        //var icdAdd = this.Fixture.Create<ICD>();
+        var icdAdd = Fixture.Build<DataProvider.ICD>()
+                            .Create();
 
-        ICD icdAdd = new()
-        {
-            Code = "Code",
-            Description = "Description",
-            Status = CodeStatus.Active
-        };
-
-        await DbContext.ICDs.AddRangeAsync(icdAdd);
+        await DbContext.ICDs.AddAsync(icdAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(icdAdd).State = EntityState.Detached;
 
-        //var icdUpdate = this.Fixture.Create<Domain.ICD>();
+        var icdUpdate = Fixture.Build<Domain.ICD>()
+                               .Without(i => i.IsDeleted)
+                               .Without(i => i.Id)
+                               .Create();
 
-        Domain.ICD icdUpdate = new()
-        {
-            Code = "CodeUp",
-            Description = "DescriptionUp",
-            Status = Domain.CodeStatus.Active
-        };
         icdUpdate.Id = icdAdd.Id.ToString();
 
         // Act
         var icdProvider = new ICDDataProvider(DbContext, Mapper);
-        //async Task Result() =>
-        await icdProvider.UpdateAsync(icdUpdate);
+        var update = icdProvider.UpdateAsync(icdUpdate);
 
         // Assert
-        var result = await DbContext.ICDs.FirstOrDefaultAsync();
-        //Assert.True(Result().IsCompletedSuccessfully);
+        var result = await DbContext.ICDs.FirstOrDefaultAsync(d => d.Id == icdAdd.Id);
+        Assert.True(update.IsCompletedSuccessfully);
         Assert.Equal(icdUpdate.Code, result?.Code);
         Assert.Equal(icdUpdate.Description, result?.Description);
         Assert.Equal(icdUpdate.Status.ToString(), result?.Status.ToString());
@@ -88,19 +82,22 @@ public class ICDDataProviderTest : DataProviderTestBase
     public async void UpdateAsync_NotFound_Exception()
     {
         // Arrange
-        var icdAdd = this.Fixture.Create<ICD>();
+        var icdAdd = this.Fixture.Build<DataProvider.ICD>()
+                                 .Create();
 
         await DbContext.ICDs.AddRangeAsync(icdAdd);
         await DbContext.SaveChangesAsync();
+        DbContext.Entry(icdAdd).State = EntityState.Detached;
 
         var icdUpdate = this.Fixture.Create<Domain.ICD>();
 
         // Act
         var icdProvider = new ICDDataProvider(DbContext, Mapper);
-        await icdProvider.UpdateAsync(icdUpdate);
+        var update = icdProvider.UpdateAsync(icdUpdate);
 
         // Assert
-        var result = await DbContext.ICDs.FirstOrDefaultAsync();
+        var result = await DbContext.ICDs.FirstOrDefaultAsync(d => d.Id == icdAdd.Id);
+        Assert.True(update.IsCompleted);
         Assert.Equal(icdAdd.Code, result?.Code);
         Assert.Equal(icdAdd.Description, result?.Description);
         Assert.Equal(icdAdd.Status.ToString(), result?.Status.ToString());
@@ -110,7 +107,8 @@ public class ICDDataProviderTest : DataProviderTestBase
     public async void UpdateAsync_EntityIsNull_Exception()
     {
         // Arrange
-        var icdAdd = this.Fixture.Create<ICD>();
+        var icdAdd = this.Fixture.Build<DataProvider.ICD>()
+                                 .Create();
 
         await DbContext.ICDs.AddRangeAsync(icdAdd);
         await DbContext.SaveChangesAsync();
@@ -122,34 +120,32 @@ public class ICDDataProviderTest : DataProviderTestBase
         async Task Result() => await icdProvider.UpdateAsync(icdUpdate);
 
         // Assert
-        var result = await DbContext.ICDs.FirstOrDefaultAsync();
+        var result = await DbContext.ICDs.FirstOrDefaultAsync(d => d.Id == icdAdd.Id);
         await Assert.ThrowsAsync<ArgumentNullException>(Result);
         Assert.Equal(icdAdd.Code, result?.Code);
         Assert.Equal(icdAdd.Description, result?.Description);
         Assert.Equal(icdAdd.Status.ToString(), result?.Status.ToString());
     }
+    #endregion
 
+    #region [ Delete ]
     [Fact]
     public async void DeleteByIdAsync_Success()
     {
         // Arrange
-        //var icdAdd = this.Fixture.Create<ICD>();
-        ICD icd = new()
-        {
-            Code = "Code",
-            Description = "Description",
-            Status = CodeStatus.Active
-        };
-        await base.DbContext.ICDs.AddAsync(icd);
+        var icdAdd = this.Fixture.Build<DataProvider.ICD>()
+                                 .Create();
+
+        await base.DbContext.ICDs.AddAsync(icdAdd);
         await base.DbContext.SaveChangesAsync();
-        DbContext.Entry(icd).State = EntityState.Detached;
+        DbContext.Entry(icdAdd).State = EntityState.Detached;
 
         // Act
         var icdProvider = new ICDDataProvider(base.DbContext, Mapper);
-        await icdProvider.DeleteByIdAsync(icd.Id.ToString(), new());
+        await icdProvider.DeleteByIdAsync(icdAdd.Id.ToString(), new());
 
         // Assert
-        var result = await DbContext.ICDs.FirstOrDefaultAsync(d => d.Id == icd.Id);
+        var result = await DbContext.ICDs.FirstOrDefaultAsync(d => d.Id == icdAdd.Id);
         Assert.Null(result);
     }
 
@@ -157,44 +153,51 @@ public class ICDDataProviderTest : DataProviderTestBase
     public async Task DeleteByIdAsync_IdIsNullOrEmpty_Exception()
     {
         // Arrange
-        var id = string.Empty;
+        var id = new Guid();
 
         // Act
         var icdProvider = new ICDDataProvider(DbContext, Mapper);
-        await icdProvider.DeleteByIdAsync(id);
+        await icdProvider.DeleteByIdAsync(id.ToString());
 
         // Assert
+        var result = await DbContext.ICDs.FirstOrDefaultAsync(d => d.Id == id);
+        Assert.Null(result);
     }
 
     [Fact]
     public async void DeleteByIdAsync_NotFound()
     {
         // Arrange
-        var icdAdd = this.Fixture.Create<ICD>();
+        var icdAdd = this.Fixture.Build<DataProvider.ICD>()
+                                 .Create();
 
         await DbContext.ICDs.AddAsync(icdAdd);
         await DbContext.SaveChangesAsync();
+        DbContext.Entry(icdAdd).State = EntityState.Detached;
 
-        var id = this.Fixture.Create<Guid>().ToString();
+        var id = this.Fixture.Create<Guid>();
 
         // Act
         var icdProvider = new ICDDataProvider(DbContext, Mapper);
         await icdProvider.DeleteByIdAsync(icdAdd.Id.ToString());
 
-        // Assert
+        // Assert 
+        var result = await DbContext.ICDs.FirstOrDefaultAsync(d => d.Id == id);
+        Assert.Null(result);
     }
+    #endregion
 
+    #region [ Get ]
     [Fact]
     public async void FindAll()
     {
         #region [ Arrange ]
 
-        List<ICD> icdList = Fixture.Create<List<ICD>>();
+        List<DataProvider.ICD> icdList = Fixture.Build<DataProvider.ICD>()
+                                                .CreateMany().ToList();
 
-        await DbContext.ICDs.AddRangeAsync(icdList);
+        await DbContext.ICDs.AddRangeAsync(icdList.ToArray());
         await DbContext.SaveChangesAsync();
-
-        var icdIds = DbContext.ICDs.Select(x => x.Id).ToList();
         #endregion
 
         #region [ Act ]
@@ -242,7 +245,8 @@ public class ICDDataProviderTest : DataProviderTestBase
     public async void FindByIdAsync_DisableQuickFind()
     {
         #region [ Arrange ]
-        ICD icd = Fixture.Create<ICD>();
+        var icd = Fixture.Build<DataProvider.ICD>()
+                         .Create();
 
         await DbContext.ICDs.AddAsync(icd);
         await DbContext.SaveChangesAsync();
@@ -265,7 +269,8 @@ public class ICDDataProviderTest : DataProviderTestBase
     public async void FindByIdAsync_NotExit()
     {
         #region [ Arrange ]
-        ICD icd = Fixture.Create<ICD>();
+        var icd = Fixture.Build<DataProvider.ICD>()
+                         .Create();
 
         await DbContext.ICDs.AddAsync(icd);
         await DbContext.SaveChangesAsync();
@@ -285,10 +290,13 @@ public class ICDDataProviderTest : DataProviderTestBase
     public async void FindByIdAsync_IdIsNullOrEmpty_Exception()
     {
         #region [ Arrange ]
-        ICD icd = Fixture.Create<ICD>();
+        var icdAdd = Fixture.Build<DataProvider.ICD>()
+                            .With(i => i.Id, Guid.NewGuid())
+                            .Create();
 
-        await DbContext.ICDs.AddAsync(icd);
+        await DbContext.ICDs.AddAsync(icdAdd);
         await DbContext.SaveChangesAsync();
+        DbContext.Entry(icdAdd).State = EntityState.Detached;
         #endregion
 
         #region [ Act ]
@@ -299,8 +307,10 @@ public class ICDDataProviderTest : DataProviderTestBase
 
         #region [ Assert ]
         await Assert.ThrowsAsync<ArgumentNullException>(NullResult);
-        await Assert.ThrowsAsync<ArgumentNullException>(EmptyResult);
+        await Assert.ThrowsAsync<ArgumentException>(EmptyResult);
         #endregion
     }
+    #endregion
+
     #endregion
 }

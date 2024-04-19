@@ -1,4 +1,6 @@
-﻿namespace HospitalManagementSystem.DataProvider;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace HospitalManagementSystem.DataProvider;
 
 public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProviderBase<TEntity, TEId>
     where TEntity : class, IEntity<TEId>
@@ -24,13 +26,13 @@ public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProvi
         return await query.WhereIf(predicate != null, predicate!).ToListAsync(cancellationToken);
     }
 
-    public virtual async Task<TEntity?> FindByIdAsync(TEId id, CancellationToken cancellationToken = default, bool isQuickFind = true)
+    public virtual async Task<TEntity?> FindByIdAsync(TEId? id, CancellationToken cancellationToken = default, bool isQuickFind = true)
     {
         var dbEntity = await InternalFindByIdAsync(id, isQuickFind, cancellationToken);
         return MapToEntity(dbEntity);
     }
 
-    public virtual async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public virtual async Task AddAsync(TEntity? entity, CancellationToken cancellationToken = default)
     {
         var dbEntity = MapToDataModel(entity);
         ArgumentNullException.ThrowIfNull(dbEntity, nameof(dbEntity));
@@ -48,43 +50,33 @@ public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProvi
     public virtual Task AddRangeAsync(CancellationToken cancellationToken = default, params TEntity[] entities)
         => AddRangeAsync(entities, cancellationToken);
 
-    public virtual async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public virtual async Task UpdateAsync(TEntity? entity, CancellationToken cancellationToken = default)
     {
         var disableQuickFind = false;
-        //if (entity is null)
-        //    ArgumentNullException.ThrowIfNull(entity, nameof(entity));
+        if (entity is null)
+            ArgumentNullException.ThrowIfNull(entity, nameof(entity));
         var dbEntity = await InternalFindByIdAsync(entity.Id, disableQuickFind, cancellationToken);
 
-        //if (dbEntity is null)
-        //    ArgumentNullException.ThrowIfNull(dbEntity is null);
-        //else
+        if (dbEntity is null)
+            ArgumentNullException.ThrowIfNull(dbEntity, nameof(dbEntity));
+        else
+        {
             Mapper.Map(entity, dbEntity);
+            DbSet.Update(dbEntity);
+        }
         await DbContext.SaveChangesAsync(cancellationToken);
     }
 
     public virtual Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
         => DeleteByIdAsync(entity.Id, cancellationToken);
 
-    public virtual async Task DeleteByIdAsync(TEId id, CancellationToken cancellationToken = default)
+    public virtual async Task DeleteByIdAsync(TEId? id, CancellationToken cancellationToken = default)
     {
-        try 
-        {
-            var disableQuickFind = false;
-            var dbEntity = await InternalFindByIdAsync(id, disableQuickFind, cancellationToken);
-            if (dbEntity == null) return;
-            DbContext.Remove(dbEntity);
-            await DbContext.SaveChangesAsync(cancellationToken);
-        }
-        catch(Exception ex)
-        {
-            List<string> tracker = new();
-            foreach (var entry in DbContext.ChangeTracker.Entries())
-            {
-                tracker.Add($"Entity: {entry.Entity.GetType().Name}, State: {entry.State}" + "/r/n");
-            }
-            throw new InvalidOperationException(ex.ToString() + "/r/n" + $"{tracker}");
-        }
-
+        var disableQuickFind = false;
+        var dbEntity = await InternalFindByIdAsync(id, disableQuickFind, cancellationToken);
+        if (dbEntity == null) return;
+        DbContext.Remove(dbEntity);
+        await DbContext.SaveChangesAsync(cancellationToken);
     }
 
     public virtual async Task DeleteRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
@@ -97,9 +89,13 @@ public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProvi
     public virtual Task DeleteRangeAsync(CancellationToken cancellationToken = default, params TEntity[] entities)
         => DeleteRangeAsync(entities, cancellationToken);
 
-    protected virtual async Task<TModel?> InternalFindByIdAsync(TEId id, bool asNoTracking = true, CancellationToken cancellationToken = default)
+    protected virtual async Task<TModel?> InternalFindByIdAsync(TEId? id, bool asNoTracking = true, CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(id is string str && string.IsNullOrEmpty(str) || ParseId(id!) is null);
+        if (id == null)
+            ArgumentNullException.ThrowIfNull(id, "Id Is null");
+        if (id is string str)
+            ArgumentException.ThrowIfNullOrEmpty(str, "Id Is null or empty");
+
         var mId = ParseId(id!);
         var query = DbSet.AsQueryable();
         if (asNoTracking)
