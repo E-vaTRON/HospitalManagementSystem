@@ -3,7 +3,7 @@ using DataTreatmentExamEpisode = HospitalManagementSystem.DataProvider.Treatment
 
 namespace HospitalManagementSystem.DataProvider;
 
-public class TreatmentExamEpisodeDataProvider : DataProviderBase<CoreTreatmentExamEpisode, DataTreatmentExamEpisode>, ITreatmentExamEpisodeDataProvider
+public class TreatmentExamEpisodeDataProvider : DataProviderBase<CoreTreatmentExamEpisode, DataTreatmentExamEpisode>, ITreatmentExamEpisodeServiceProvider
 {
     public TreatmentExamEpisodeDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
     {

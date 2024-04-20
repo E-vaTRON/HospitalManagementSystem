@@ -3,7 +3,7 @@ using DataDiagnosis = HospitalManagementSystem.DataProvider.Diagnosis;
 
 namespace HospitalManagementSystem.DataProvider;
 
-public class DiagnosisDataProvider : DataProviderBase<CoreDiagnosis, DataDiagnosis>, IDiagnosisDataProvider
+public class DiagnosisDataProvider : DataProviderBase<CoreDiagnosis, DataDiagnosis>, IDiagnosisServiceProvider
 {
     public DiagnosisDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
     {

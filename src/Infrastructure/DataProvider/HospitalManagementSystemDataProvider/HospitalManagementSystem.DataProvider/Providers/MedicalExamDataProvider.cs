@@ -3,7 +3,7 @@ using DataMedicalExam = HospitalManagementSystem.DataProvider.MedicalExam;
 
 namespace HospitalManagementSystem.DataProvider;
 
-public class MedicalExamDataProvider : DataProviderBase<CoreMedicalExam, DataMedicalExam>, IMedicalExamDataProvider
+public class MedicalExamDataProvider : DataProviderBase<CoreMedicalExam, DataMedicalExam>, IMedicalExamServiceProvider
 {
     public MedicalExamDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
     {
