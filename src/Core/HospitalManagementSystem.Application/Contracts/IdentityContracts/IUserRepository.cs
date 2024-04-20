@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IUserRepository : IBaseRepository<User>
+public interface IUserRepository
 {
 }
