@@ -3,10 +3,9 @@ using DataDrug = HospitalManagementSystem.DataProvider.Drug;
 
 namespace HospitalManagementSystem.DataProvider;
 
-public class DrugDataProvider<TDbContext> : DataProviderBase<TDbContext, CoreDrug, DataDrug>, IDrugDataProvider
-    where TDbContext : DbContext
+public class DrugDataProvider : DataProviderBase<CoreDrug, DataDrug>, IDrugServiceProvider
 {
-    public DrugDataProvider(TDbContext context, IMapper mapper) : base(context, mapper)
+    public DrugDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
     {
     }
 }

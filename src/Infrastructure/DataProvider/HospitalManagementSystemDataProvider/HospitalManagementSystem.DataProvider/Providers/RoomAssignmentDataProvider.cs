@@ -3,10 +3,9 @@ using DataRoomAssignment = HospitalManagementSystem.DataProvider.RoomAssignment;
 
 namespace HospitalManagementSystem.DataProvider;
 
-public class RoomAssignmentDataProvider<TDbContext> : DataProviderBase<TDbContext, CoreRoomAssignment, DataRoomAssignment>, IRoomAssignmentDataProvider
-    where TDbContext : DbContext
+public class RoomAssignmentDataProvider : DataProviderBase<CoreRoomAssignment, DataRoomAssignment>, IRoomAssignmentServiceProvider
 {
-    public RoomAssignmentDataProvider(TDbContext context, IMapper mapper) : base(context, mapper)
+    public RoomAssignmentDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
     {
     }
 }

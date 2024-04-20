@@ -3,10 +3,9 @@ using DataAssignmentHistory = HospitalManagementSystem.DataProvider.AssignmentHi
 
 namespace HospitalManagementSystem.DataProvider;
 
-public class AssignmentHistoryDataProvider<TDbContext> : DataProviderBase<TDbContext, CoreAssignmentHistory, DataAssignmentHistory>, IAssignmentHistoryDataProvider
-    where TDbContext : DbContext
+public class AssignmentHistoryDataProvider : DataProviderBase<CoreAssignmentHistory, DataAssignmentHistory>, IAssignmentHistoryServiceProvider
 {
-    public AssignmentHistoryDataProvider(TDbContext context, IMapper mapper) : base(context, mapper)
+    public AssignmentHistoryDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
     {
     }
 }

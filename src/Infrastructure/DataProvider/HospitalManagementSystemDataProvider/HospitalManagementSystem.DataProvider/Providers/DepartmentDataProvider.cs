@@ -3,10 +3,9 @@ using DataDepartment = HospitalManagementSystem.DataProvider.Department;
 
 namespace HospitalManagementSystem.DataProvider;
 
-public class DepartmentDataProvider<TDbContext> : DataProviderBase<TDbContext, CoreDepartment, DataDepartment>, IDepartmentDataProvider
-    where TDbContext : DbContext
+public class DepartmentDataProvider : DataProviderBase<CoreDepartment, DataDepartment>, IDepartmentServiceProvider
 {
-    public DepartmentDataProvider(TDbContext context, IMapper mapper) : base(context, mapper)
+    public DepartmentDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
     {
     }
 }

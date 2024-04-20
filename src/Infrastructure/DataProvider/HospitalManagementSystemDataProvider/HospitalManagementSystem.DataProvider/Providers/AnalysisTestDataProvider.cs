@@ -3,10 +3,9 @@ using DataAnalysisTest = HospitalManagementSystem.DataProvider.AnalysisTest;
 
 namespace HospitalManagementSystem.DataProvider;
 
-public class AnalysisTestDataProvider<TDbContext> : DataProviderBase<TDbContext, CoreAnalysisTest, DataAnalysisTest>, IAnalysisTestDataProvider
-    where TDbContext : DbContext
+public class AnalysisTestDataProvider : DataProviderBase<CoreAnalysisTest, DataAnalysisTest>, IAnalysisTestServiceProvider
 {
-    public AnalysisTestDataProvider(TDbContext context, IMapper mapper) : base(context, mapper)
+    public AnalysisTestDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
     {
     }
 }

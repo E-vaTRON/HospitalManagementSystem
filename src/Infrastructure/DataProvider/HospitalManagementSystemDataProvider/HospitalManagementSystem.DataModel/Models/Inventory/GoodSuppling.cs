@@ -8,8 +8,8 @@ public class GoodSuppling : ModelBase
 
     public DrugInventory?   DrugInventory   { get; set; } // This is Principal Table
 
-    public string?      ImportationId   { get; set; }
+    public Guid?        ImportationId   { get; set; }
     public Importation? Importation     { get; set; }
-    public string?      DrugId          { get; set; }
+    public Guid?        DrugId          { get; set; }
     public Drug?        Drug            { get; set; }
 }

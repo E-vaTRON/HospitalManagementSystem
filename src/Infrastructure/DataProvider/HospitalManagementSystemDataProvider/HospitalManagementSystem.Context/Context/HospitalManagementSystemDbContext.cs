@@ -6,6 +6,7 @@ public partial class HospitalManagementSystemDbContext : DbContext
     public HospitalManagementSystemDbContext(DbContextOptions<HospitalManagementSystemDbContext> options) : base(options)
     {
         base.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+        base.ChangeTracker.AutoDetectChangesEnabled = false;
     }
     #endregion
 

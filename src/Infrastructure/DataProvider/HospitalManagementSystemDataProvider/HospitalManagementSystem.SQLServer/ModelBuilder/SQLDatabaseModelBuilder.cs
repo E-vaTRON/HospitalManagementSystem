@@ -4,11 +4,11 @@ public class SQLDatabaseModelBuilder
 {
     //using singleton for sqldatabase
     #region [ Singleton ]
-    private static readonly Lazy<SQLDatabaseModelBuilder> _current = new Lazy<SQLDatabaseModelBuilder>(
+    private static readonly Lazy<SQLDatabaseModelBuilder> sqlModel = new Lazy<SQLDatabaseModelBuilder>(
         () => new SQLDatabaseModelBuilder(), LazyThreadSafetyMode.PublicationOnly);
-    public static SQLDatabaseModelBuilder Current
+    public static SQLDatabaseModelBuilder SQLModel
     {
-        get { return _current.Value; }  
+        get => sqlModel.Value;
     }
     #endregion
 
@@ -74,7 +74,7 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<TModel>()
                     .Property(x => x.Id)
-                    .HasColumnType("nvarchar")
+                    .HasColumnType("uniqueidentifier")
                     .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
                     .IsRequired(true);
 
@@ -85,14 +85,12 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<TModel>()
                     .Property(x => x.LastUpdatedOn)
-                    .HasColumnType("datetime")
-                    .IsRequired(true);
+                    .HasColumnType("datetime");
 
 
         modelBuilder.Entity<TModel>()
                     .Property(x => x.DeleteOn)
-                    .HasColumnType("datetime")
-                    .IsRequired(true);
+                    .HasColumnType("datetime");
 
         modelBuilder.Entity<TModel>()
                     .Property(x => x.IsDeleted)
@@ -115,8 +113,7 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<BookingAppointment>()
                     .Property(x => x.Notes)
-                    .HasColumnType("nvarchar")
-                    .IsRequired(false);
+                    .HasColumnType("nvarchar");
 
         modelBuilder.Entity<BookingAppointment>()
                     .Property(x => x.PatientId)
@@ -144,19 +141,16 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<ReExamAppointment>()
                     .Property(x => x.Notes)
-                    .HasColumnType("nvarchar")
-                    .IsRequired(false);
+                    .HasColumnType("nvarchar");
 
         modelBuilder.Entity<ReExamAppointment>()
                     .Property(x => x.PatientId)
-                    .HasColumnType("nvarchar")
-                    .IsRequired(true);
+                    .HasColumnType("nvarchar");
 
         modelBuilder.Entity<ReExamAppointment>()
                     .HasOne(ra => ra.MedicalExamEposode)
                     .WithOne(mee => mee.ReExamAppointment)
-                    .HasForeignKey<ReExamAppointment>(ra => ra.MedicalExamEposodeId)
-                    .IsRequired(true);
+                    .HasForeignKey<ReExamAppointment>(ra => ra.MedicalExamEposodeId);
     }
     private void ReferralModelBuilder(ModelBuilder modelBuilder)
     {
@@ -170,20 +164,17 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<Referral>()
                     .Property(x => x.Reason)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<Referral>()
                     .Property(x => x.Urgency)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<Referral>()
                     .HasOne(r => r.MedicalExam)
                     .WithMany(d => d.Referrals)
                     .HasForeignKey(r => r.MedicalExamId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
     private void ReferralDoctorModelBuilder(ModelBuilder modelBuilder)
@@ -192,8 +183,7 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<ReferralDoctor>()
                     .Property(x => x.ReferralStatus)
-                    .HasColumnType("nvarchar")
-                    .IsRequired(true);
+                    .HasColumnType("nvarchar");
 
         modelBuilder.Entity<ReferralDoctor>()
                     .Property(x => x.ReferredDoctorId)
@@ -204,13 +194,11 @@ public class SQLDatabaseModelBuilder
                     .HasOne(rd => rd.Referral)
                     .WithMany(r => r.ReferralDoctors)
                     .HasForeignKey(rd => rd.ReferralId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<ReferralDoctor>()
                     .HasOne(rd => rd.AssignmentHistory)
                     .WithOne(ah => ah.ReferralDoctor)
-                    .IsRequired(false)
                     .OnDelete(DeleteBehavior.Cascade);
     }
     #endregion
@@ -223,33 +211,28 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<Room>()
                     .Property(x => x.Name)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<Room>()
                     .Property(x => x.RoomType)
                     .HasColumnType("nvarchar")
                     .HasConversion(new EnumToStringConverter<RoomType>())
-                    .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH);
 
         modelBuilder.Entity<Room>()
                     .Property(x => x.Capacity)
-                    .HasColumnType("int")
-                    .IsRequired(true);
+                    .HasColumnType("int");
 
         modelBuilder.Entity<Room>()
                     .Property(x => x.Status)
                     .HasColumnType("nvarchar")
                     .HasConversion(new EnumToStringConverter<RoomStatus>())
-                    .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH);
 
         modelBuilder.Entity<Room>()
                     .HasOne(r => r.Department)
                     .WithMany(d => d.Rooms)
                     .HasForeignKey(r => r.DepartmentId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
     private void RoomAssignmentModelBuilder(ModelBuilder modelBuilder)
@@ -258,13 +241,11 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<RoomAssignment>()
                     .Property(x => x.StartTime)
-                    .HasColumnType("datetime")
-                    .IsRequired(true);
+                    .HasColumnType("datetime");
 
         modelBuilder.Entity<RoomAssignment>()
                     .Property(x => x.EndTime)
-                    .HasColumnType("datetime")
-                    .IsRequired(true);
+                    .HasColumnType("datetime");
 
         modelBuilder.Entity<RoomAssignment>()
                     .Property(x => x.EmployeeId)
@@ -275,7 +256,6 @@ public class SQLDatabaseModelBuilder
                     .HasOne(ra => ra.Room)
                     .WithMany(r => r.RoomAssignments)
                     .HasForeignKey(ra => ra.RoomId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
     private void RoomAllocationModelBuilder(ModelBuilder modelBuilder)
@@ -284,13 +264,11 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<RoomAllocation>()
                     .Property(x => x.StartTime)
-                    .HasColumnType("datetime")
-                    .IsRequired(true);
+                    .HasColumnType("datetime");
 
         modelBuilder.Entity<RoomAllocation>()
                     .Property(x => x.EndTime)
-                    .HasColumnType("datetime")
-                    .IsRequired(true);
+                    .HasColumnType("datetime");
 
         modelBuilder.Entity<RoomAllocation>()
                     .Property(x => x.PatientId)
@@ -301,14 +279,12 @@ public class SQLDatabaseModelBuilder
                     .HasOne(ra => ra.Room)
                     .WithMany(r => r.RoomAllocations)
                     .HasForeignKey(ra => ra.RoomId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<RoomAllocation>()
                     .HasOne(ra => ra.MedicalExamEposode)
                     .WithMany(mee => mee.RoomAllocations)
                     .HasForeignKey(ra => ra.MedicalExamEposodeId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
     private void DepartmentModelBuilder(ModelBuilder modelBuilder)
@@ -318,8 +294,7 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<Department>()
                     .Property(x => x.Name)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
     }
     #endregion
 
@@ -330,21 +305,18 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<DeviceInventory>()
                     .Property(x => x.CurrentAmount)
-                    .HasColumnType("int")
-                    .IsRequired(true);
+                    .HasColumnType("int");
 
         modelBuilder.Entity<DeviceInventory>()
                     .HasOne(di => di.MedicalDevice)
                     .WithMany(md => md.DeviceInventorys)
                     .HasForeignKey(di => di.MedicalDeviceId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<DeviceInventory>()
                     .HasOne(di => di.Storage)
                     .WithMany(s => s.DeviceInventories)
                     .HasForeignKey(di => di.StorageId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
     private void DrugModelBuilder(ModelBuilder modelBuilder)
@@ -360,8 +332,7 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<Drug>()
                     .Property(x => x.ActiveIngredientName)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<Drug>()
                     .Property(x => x.Unit)
@@ -397,8 +368,7 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<Drug>()
                     .Property(x => x.GroupId)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH);
     }
     private void DrugInventoryModelBuilder(ModelBuilder modelBuilder)
     {
@@ -406,21 +376,18 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<DrugInventory>()
                     .Property(x => x.CurrentAmount)
-                    .HasColumnType("int")
-                    .IsRequired();
+                    .HasColumnType("int");
 
         modelBuilder.Entity<DrugInventory>()
                     .HasOne(di => di.Storage)
                     .WithMany(s => s.DrugInventories)
                     .HasForeignKey(di => di.StorageId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<DrugInventory>()
                     .HasOne(di => di.GoodSuppling)
                     .WithOne(gs => gs.DrugInventory)
-                    .HasForeignKey<DrugInventory>(di => di.GoodSupplingId)
-                    .IsRequired(true);
+                    .HasForeignKey<DrugInventory>(di => di.GoodSupplingId);
     }
     private void DrugPrescriptionModelBuilder(ModelBuilder modelBuilder)
     {
@@ -430,14 +397,12 @@ public class SQLDatabaseModelBuilder
                     .HasOne(dd => dd.MedicalExamEposode)
                     .WithMany(mee => mee.DrugPrescriptions)
                     .HasForeignKey(dd => dd.MedicalExamEposodeId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<DrugPrescription>()
                     .HasOne(dd => dd.DrugInventory)
                     .WithMany(di => di.DrugPrescriptions)
                     .HasForeignKey(dd => dd.DrugInventoryId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
     private void GoodSupplingModelBuilder(ModelBuilder modelBuilder)
@@ -447,8 +412,7 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<GoodSuppling>()
                     .Property(x => x.GoodInformation)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
-                    .IsRequired(false);
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<GoodSuppling>()
                     .Property(x => x.ExpiryDate)
@@ -457,27 +421,23 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<GoodSuppling>()
                     .Property(x => x.OrinaryAmount)
-                    .HasColumnType("int")
-                    .IsRequired(true);
+                    .HasColumnType("int");
 
         modelBuilder.Entity<GoodSuppling>()
                     .HasOne(gs => gs.Importation)
                     .WithMany(i => i.GoodSupplings)
                     .HasForeignKey(gs => gs.ImportationId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<GoodSuppling>()
                     .HasOne(gs => gs.DrugInventory)
                     .WithOne(i => i.GoodSuppling)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<GoodSuppling>()
                     .HasOne(gs => gs.Drug)
                     .WithMany(d => d.GoodSupplings)
                     .HasForeignKey(gs => gs.DrugId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
     private void ImportationModelBuilder(ModelBuilder modelBuilder)
@@ -487,14 +447,12 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<Importation>()
                     .Property(x => x.ReceiptNumber)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<Importation>()
                     .Property(x => x.Billnumber)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<Importation>()
                     .Property(x => x.RecordDay)
@@ -503,24 +461,20 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<Importation>()
                     .Property(x => x.ReceiptDay)
-                    .HasColumnType("datetime")
-                    .IsRequired(true);
+                    .HasColumnType("datetime");
 
         modelBuilder.Entity<Importation>()
                     .Property(x => x.Tax)
-                    .HasColumnType("int")
-                    .IsRequired(true);
+                    .HasColumnType("int");
 
         modelBuilder.Entity<Importation>()
                     .Property(x => x.TotalPrice)
-                    .HasColumnType("int")
-                    .IsRequired(true);
+                    .HasColumnType("int");
 
         modelBuilder.Entity<Importation>()
                     .Property(x => x.Company)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
     }
     private void StorageModelBuilder(ModelBuilder modelBuilder)
     {
@@ -529,8 +483,7 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<Storage>()
                     .Property(x => x.Location)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.ADDRESS_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.ADDRESS_FIELD_LENGTH);
     }
     #endregion
 
@@ -575,14 +528,12 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<Diagnosis>()
                     .Property(x => x.Description)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<Diagnosis>()
                     .HasOne(t => t.ICD)
                     .WithMany(i => i.Diagnoses)
                     .HasForeignKey(t => t.ICDId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
     //private void DiagnosisSuggestionModelBuilder(ModelBuilder modelBuilder)  // Bản này có thể không tạo
@@ -618,14 +569,12 @@ public class SQLDatabaseModelBuilder
                     .HasOne(dt => dt.Treatment)
                     .WithMany(t => t.DiagnosisTreatments)
                     .HasForeignKey(dt => dt.TreatmentId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<DiagnosisTreatment>()
                     .HasOne(dt => dt.Diagnosis)
                     .WithMany(d => d.DiagnosisTreatments)
                     .HasForeignKey(dt => dt.DiagnosisId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
     private void ICDModelBuilder(ModelBuilder modelBuilder)
@@ -641,8 +590,7 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<ICD>()
                     .Property(x => x.Description)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<ICD>()
                     .Property(x => x.Status)
@@ -657,21 +605,18 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<MedicalExam>()
                     .Property(x => x.FinalPrice)
-                    .HasColumnType("int")
-                    .IsRequired(true);
+                    .HasColumnType("int");
 
         modelBuilder.Entity<MedicalExam>()
                     .HasOne(me => me.BookingAppointment)
                     .WithOne(ba => ba.MedicalExam)
                     .HasForeignKey<MedicalExam>(me => me.BookingAppointmentId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<MedicalExam>()
                     .HasOne(me => me.BookingAppointment)
                     .WithOne(ba => ba.MedicalExam)
-                    .HasForeignKey<MedicalExam>(me => me.BookingAppointmentId)
-                    .IsRequired(false);
+                    .HasForeignKey<MedicalExam>(me => me.BookingAppointmentId);
     }
     private void MedicalExamEposodeModelBuilder(ModelBuilder modelBuilder)
     {
@@ -684,35 +629,29 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<MedicalExamEposode>()
                     .Property(x => x.DateReExam)
-                    .HasColumnType("datetime")
-                    .IsRequired(true);
+                    .HasColumnType("datetime");
 
         modelBuilder.Entity<MedicalExamEposode>()
                     .Property(x => x.LineNumber)
-                    .HasColumnType("int")
-                    .IsRequired(true);
+                    .HasColumnType("int");
 
         modelBuilder.Entity<MedicalExamEposode>()
                     .Property(x => x.RecordDay)
-                    .HasColumnType("datetime")
-                    .IsRequired(true);
+                    .HasColumnType("datetime");
 
         modelBuilder.Entity<MedicalExamEposode>()
                     .Property(x => x.TotalPrice)
-                    .HasColumnType("int")
-                    .IsRequired(true);
+                    .HasColumnType("int");
 
         modelBuilder.Entity<MedicalExamEposode>()
                     .HasOne(rd => rd.ReExamAppointment)
                     .WithOne(ah => ah.MedicalExamEposode)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<MedicalExamEposode>()
                     .HasOne(mee => mee.MedicalExam)
                     .WithMany(me => me.MedicalExamEposodes)
                     .HasForeignKey(mee => mee.MedicalExamId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
 
     }
@@ -723,14 +662,12 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<Treatment>()
                     .Property(x => x.Name)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH);
 
         modelBuilder.Entity<Treatment>()
                     .Property(x => x.Description)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
     }
     private void TreatmentExamEpisodeModelBuilder(ModelBuilder modelBuilder)
     {
@@ -740,14 +677,12 @@ public class SQLDatabaseModelBuilder
                     .HasOne(tee => tee.Treatment)
                     .WithMany(t => t.TreatmentExamEpisodes)
                     .HasForeignKey(tee => tee.TreatmentId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<TreatmentExamEpisode>()
                     .HasOne(tee => tee.MedicalExamEposode)
                     .WithMany(mee => mee.TreatmentExamEpisodes)
                     .HasForeignKey(tee => tee.MedicalExamEpisodeId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
     #endregion
@@ -761,14 +696,12 @@ public class SQLDatabaseModelBuilder
                     .HasOne(ds => ds.DeviceInventory)
                     .WithMany(di => di.DeviceServices)
                     .HasForeignKey(ds => ds.DeviceInventoryId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<DeviceService>()
                     .HasOne(ds => ds.Service)
                     .WithMany(s => s.DeviceServices)
                     .HasForeignKey(ds => ds.ServiceId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
     private void MedicalDeviceModelBuilder(ModelBuilder modelBuilder)
@@ -784,30 +717,25 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<MedicalDevice>()
                     .Property(x => x.Country)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<MedicalDevice>()
                     .Property(x => x.SmallID)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH);
 
         modelBuilder.Entity<MedicalDevice>()
                     .Property(x => x.GroupID)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH);
 
         modelBuilder.Entity<MedicalDevice>()
                     .Property(x => x.Min)
-                    .HasColumnType("int")
-                    .IsRequired(true);
+                    .HasColumnType("int");
 
         modelBuilder.Entity<MedicalDevice>()
                     .Property(x => x.Max)
-                    .HasColumnType("int")
-                    .IsRequired(true);
+                    .HasColumnType("int");
     }
     private void ServiceModelBuilder(ModelBuilder modelBuilder)
     {
@@ -828,25 +756,21 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<Service>()
                     .Property(x => x.UnitPrice)
-                    .HasColumnType("int")
-                    .IsRequired(true);
+                    .HasColumnType("int");
 
         modelBuilder.Entity<Service>()
                     .Property(x => x.ServicePrice)
-                    .HasColumnType("int")
-                    .IsRequired(true);
+                    .HasColumnType("int");
 
         modelBuilder.Entity<Service>()
                     .Property(x => x.HealthInsurancePrice)
-                    .HasColumnType("int")
-                    .IsRequired(true);
+                    .HasColumnType("int");
 
         modelBuilder.Entity<Service>()
                     .Property(x => x.ResultFromType)
                     .HasColumnType("nvarchar")
                     .HasConversion(new EnumToStringConverter<FormTypes>())
-                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
     }
     private void AnalysisTestModelBuilder(ModelBuilder modelBuilder)
     {
@@ -861,27 +785,23 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<AnalysisTest>()
                     .Property(x => x.DoctorComment)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<AnalysisTest>()
                     .Property(x => x.Result)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<AnalysisTest>()
                     .HasOne(at => at.DeviceService)
                     .WithMany(ds => ds.AnalysisTests)
                     .HasForeignKey(at => at.DeviceServiceId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<AnalysisTest>()
                     .HasOne(at => at.MedicalExamEposode)
                     .WithMany(mee => mee.AnalysisTests)
                     .HasForeignKey(at => at.MedicalExamEposodeId)
-                    .IsRequired(true)
                     .OnDelete(DeleteBehavior.Cascade);
     }
     #endregion

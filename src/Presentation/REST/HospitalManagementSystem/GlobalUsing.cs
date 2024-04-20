@@ -1,4 +1,5 @@
-﻿global using Microsoft.EntityFrameworkCore;
+﻿global using AutoMapper;
+global using Microsoft.EntityFrameworkCore;
 global using HospitalManagementSystem.Domain;
 global using HospitalManagementSystem.Application;
 global using HospitalManagementSystem.ServiceProvider;

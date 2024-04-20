@@ -7,6 +7,6 @@ public class RoomAssignment : ModelBase
 
     public string?  EmployeeId  { get; set; } // User Id Role<Employee>
 
-    public string?      RoomId      { get; set; }
+    public Guid?        RoomId      { get; set; }
     public Room         Room        { get; set; } = default!;
 }

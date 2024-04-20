@@ -7,7 +7,7 @@ public class Room : ModelBase
     public int          Capacity    { get; set; }
     public RoomStatus   Status      { get; set; }
 
-    public string?      DepartmentId    { get; set;}
+    public Guid?        DepartmentId    { get; set;}
     public Department   Department      { get; set; } = default!;
 
     public virtual ICollection<RoomAllocation>  RoomAllocations     { get; set; } = new HashSet<RoomAllocation>();

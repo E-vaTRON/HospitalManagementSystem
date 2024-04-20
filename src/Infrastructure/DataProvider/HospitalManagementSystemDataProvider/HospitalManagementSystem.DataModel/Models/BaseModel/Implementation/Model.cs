@@ -3,6 +3,7 @@
 [Serializable]
 public abstract class Model : IModel
 {
+    public abstract object[] GetKeys();
 }
 
 [Serializable]
@@ -17,5 +18,10 @@ public abstract class Model<TMId> : Model, IModel<TMId>
     protected Model(TMId id)
     {
         Id = id;
+    }
+
+    public override object[] GetKeys()
+    {
+        return [Id!];
     }
 }
