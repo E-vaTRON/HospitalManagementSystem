@@ -565,6 +565,16 @@ public class SQLDatabaseModelBuilder
     {
         this.BaseModelBuilder<DiagnosisTreatment>(modelBuilder, nameof(DiagnosisTreatment));
 
+        //modelBuilder.Entity<DiagnosisTreatment>()
+        //    .Property(x => x.DiagnosisId)
+        //    .HasColumnType("uniqueidentifier")
+        //    .IsRequired(true);
+
+        //modelBuilder.Entity<DiagnosisTreatment>()
+        //    .Property(x => x.TreatmentId)
+        //    .HasColumnType("uniqueidentifier")
+        //    .IsRequired(true);
+
         modelBuilder.Entity<DiagnosisTreatment>()
                     .HasOne(dt => dt.Treatment)
                     .WithMany(t => t.DiagnosisTreatments)

@@ -32,4 +32,16 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataProviders\Function\Appointment\" />
+    <Folder Include="DataProviders\Infrastructure\RoomAllocation\" />
+    <Folder Include="DataProviders\MedicalDevice\" />
+    <Folder Include="DataProviders\Medical\MedicalAssignment\" />
+    <Folder Include="ServiceProviders\Function\Appointment\" />
+    <Folder Include="ServiceProviders\Infrastructure\RoomAllocation\" />
+    <Folder Include="ServiceProviders\Inventory\" />
+    <Folder Include="ServiceProviders\MedicalDevice\" />
+    <Folder Include="ServiceProviders\Medical\MedicalAssignment\" />
+  </ItemGroup>
+
 </Project>
