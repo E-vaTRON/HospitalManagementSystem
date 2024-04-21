@@ -191,21 +191,18 @@ public class ICDDataProviderTest : DataProviderTestBase
     [Fact]
     public async void FindAll()
     {
-        #region [ Arrange ]
-
+        //Arrange
         List<DataProvider.ICD> icdList = Fixture.Build<DataProvider.ICD>()
                                                 .CreateMany().ToList();
 
         await DbContext.ICDs.AddRangeAsync(icdList.ToArray());
         await DbContext.SaveChangesAsync();
-        #endregion
 
-        #region [ Act ]
+        //Act
         var icdProvider = new ICDDataProvider(DbContext, Mapper);
         var resultList = await icdProvider.FindAllAsync();
-        #endregion
 
-        #region [ Assert ]
+        //Assert
         Assert.Equal(3, resultList.Count());
 
         // Check that each item in the database has the correct properties
@@ -217,79 +214,69 @@ public class ICDDataProviderTest : DataProviderTestBase
             Assert.Equal(icd.Description, result.Description);
             Assert.Equal(icd.Status.ToString(), result.Status.ToString());
         };
-        #endregion
     }
 
     [Fact]
     public async void FindAll_NotFound()
     {
-        #region [ Arrange ]
+        //Arrange
         // Nothing here
         await DbContext.SaveChangesAsync();
 
         var icdIds = DbContext.ICDs.Select(x => x.Id).ToList();
-        #endregion
 
-        #region [ Act ]
+        //Act
         var icdProvider = new ICDDataProvider(DbContext, Mapper);
         var resultList = await icdProvider.FindAllAsync();
-        #endregion
 
-        #region [ Assert ]
+        //Assert
         //Assert.True(!resultList.Any());
         Assert.Empty(resultList);
-        #endregion
     }
 
     [Fact]
     public async void FindByIdAsync_DisableQuickFind()
     {
-        #region [ Arrange ]
+        //Arrange
         var icd = Fixture.Build<DataProvider.ICD>()
                          .Create();
 
         await DbContext.ICDs.AddAsync(icd);
         await DbContext.SaveChangesAsync();
-        #endregion
 
-        #region [ Act ]
+        //Act
         var icdProvider = new ICDDataProvider(DbContext, Mapper);
         var result = await icdProvider.FindByIdAsync(icd.Id.ToString(), new(), false);
-        #endregion
 
-        #region [ Assert ]
+        //Assert
         Assert.NotNull(result);
         Assert.Equal(icd.Code, result.Code);
         Assert.Equal(icd.Description, result.Description);
         Assert.Equal(icd.Status.ToString(), result.Status.ToString());
-        #endregion
     }
 
     [Fact]
     public async void FindByIdAsync_NotExit()
     {
-        #region [ Arrange ]
+        //Arrange
         var icd = Fixture.Build<DataProvider.ICD>()
                          .Create();
 
         await DbContext.ICDs.AddAsync(icd);
         await DbContext.SaveChangesAsync();
-        #endregion
 
-        #region [ Act ]
+        //Act
         var icdProvider = new ICDDataProvider(DbContext, Mapper);
         var result = await icdProvider.FindByIdAsync(Guid.NewGuid().ToString(), new(), false);
-        #endregion
 
-        #region [ Assert ]
+        //Assert
         Assert.Null(result);
-        #endregion
     }
 
     [Fact]
     public async void FindByIdAsync_IdIsNullOrEmpty_Exception()
     {
-        #region [ Arrange ]
+        //Arrange
         var icdAdd = Fixture.Build<DataProvider.ICD>()
                             .With(i => i.Id, Guid.NewGuid())
                             .Create();
@@ -297,18 +284,15 @@ public class ICDDataProviderTest : DataProviderTestBase
         await DbContext.ICDs.AddAsync(icdAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(icdAdd).State = EntityState.Detached;
-        #endregion
 
-        #region [ Act ]
+        //Act
         var icdProvider = new ICDDataProvider(DbContext, Mapper);
         async Task NullResult() => await icdProvider.FindByIdAsync(null);
         async Task EmptyResult() => await icdProvider.FindByIdAsync(string.Empty);
-        #endregion
 
-        #region [ Assert ]
+        //Assert
         await Assert.ThrowsAsync<ArgumentNullException>(NullResult);
         await Assert.ThrowsAsync<ArgumentException>(EmptyResult);
-        #endregion
     }
     #endregion
 

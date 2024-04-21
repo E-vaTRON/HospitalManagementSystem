@@ -15,8 +15,14 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void AddAsync_Success()
     {
         // Arrange
+        var icdAdd = Fixture.Build<DataProvider.ICD>()
+                         .Create();
+
+        await DbContext.ICDs.AddAsync(icdAdd);
+        await DbContext.SaveChangesAsync();
+
         var diagnosisAdd = Fixture.Build<Domain.Diagnosis>()
-                                  .Without(i => i.ICDId)
+                                  .With(i => i.ICDId, icdAdd.Id.ToString())
                                   .With(i => i.Id, Guid.NewGuid().ToString())
                                   .Create();
 
@@ -27,6 +33,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         // Assert
         var result = await DbContext.Diagnoses.FirstOrDefaultAsync(d => d.Id == Guid.Parse(diagnosisAdd.Id!));
         Assert.True(add.IsCompletedSuccessfully);
+        Assert.Equal(diagnosisAdd.ICDId, result?.ICDId.ToString());
         Assert.Equal(diagnosisAdd.DiagnosisCode, result?.DiagnosisCode);
         Assert.Equal(diagnosisAdd.Description, result?.Description);
     }
@@ -55,23 +62,20 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         var icdAdd = Fixture.Build<DataProvider.ICD>()
                          .Create();
 
-        await DbContext.ICDs.AddAsync(icdAdd);
-        await DbContext.SaveChangesAsync();
-
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
                                   .With(i => i.ICDId, icdAdd.Id)
-                                  .With(i => i.ICD, icdAdd)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
+
+        await DbContext.ICDs.AddAsync(icdAdd);
+        await DbContext.Diagnoses.AddAsync(diagnosisAdd);
+        await DbContext.SaveChangesAsync();
+        DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
 
         var diagnosisUpdate = Fixture.Build<Domain.Diagnosis>()
                                      .With(i => i.ICDId, icdAdd.Id.ToString())
                                      .With(i => i.Id, diagnosisAdd.Id.ToString())
                                      .Create();
-
-        await DbContext.Diagnoses.AddAsync(diagnosisAdd);
-        await DbContext.SaveChangesAsync();
-        DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
 
         // Act
         var diagnosisProvider = new DiagnosisDataProvider(DbContext, Mapper);
@@ -82,22 +86,29 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         Assert.True(update.IsCompletedSuccessfully);
         Assert.Equal(diagnosisUpdate.DiagnosisCode, result?.DiagnosisCode);
         Assert.Equal(diagnosisUpdate.Description, result?.Description);
+        Assert.Equal(diagnosisAdd.ICDId.ToString(), result?.ICDId.ToString());
     }
 
     [Fact]
     public async void UpdateAsync_NotFound_Exception()
     {
         // Arrange
+        var icdAdd = Fixture.Build<DataProvider.ICD>()
+                         .Create();
+
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .Without(i => i.ICDId)
+                                  .With(i => i.ICDId, icdAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
-        await DbContext.Diagnoses.AddRangeAsync(diagnosisAdd);
+        await DbContext.ICDs.AddAsync(icdAdd);
+        await DbContext.Diagnoses.AddAsync(diagnosisAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
 
-        var diagnosisUpdate = this.Fixture.Create<Domain.Diagnosis>();
+        var diagnosisUpdate = Fixture.Build<Domain.Diagnosis>()
+                             .With(i => i.ICDId, icdAdd.Id.ToString())
+                             .Create();
 
         // Act
         var diagnosisProvider = new DiagnosisDataProvider(DbContext, Mapper);
@@ -108,18 +119,23 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         Assert.True(update.IsCompleted);
         Assert.Equal(diagnosisAdd.DiagnosisCode, result?.DiagnosisCode);
         Assert.Equal(diagnosisAdd.Description, result?.Description);
+        Assert.Equal(diagnosisAdd.ICDId.ToString(), result?.ICDId.ToString());
     }
 
     [Fact]
     public async void UpdateAsync_EntityIsNull_Exception()
     {
         // Arrange
+        var icdAdd = Fixture.Build<DataProvider.ICD>()
+                         .Create();
+
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .Without(i => i.ICDId)
+                                  .With(i => i.ICDId, icdAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
-        await DbContext.Diagnoses.AddRangeAsync(diagnosisAdd);
+        await DbContext.ICDs.AddAsync(icdAdd);
+        await DbContext.Diagnoses.AddAsync(diagnosisAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
 
@@ -134,6 +150,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         await Assert.ThrowsAsync<ArgumentNullException>(Result);
         Assert.Equal(diagnosisAdd.DiagnosisCode, result?.DiagnosisCode);
         Assert.Equal(diagnosisAdd.Description, result?.Description);
+        Assert.Equal(diagnosisAdd.ICDId.ToString(), result?.ICDId.ToString());
     }
     #endregion
 
@@ -142,13 +159,17 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void DeleteByIdAsync_Success()
     {
         // Arrange
+        var icdAdd = Fixture.Build<DataProvider.ICD>()
+                         .Create();
+
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .Without(i => i.ICDId)
+                                  .With(i => i.ICDId, icdAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
-        await base.DbContext.Diagnoses.AddAsync(diagnosisAdd);
-        await base.DbContext.SaveChangesAsync();
+        await DbContext.ICDs.AddAsync(icdAdd);
+        await DbContext.Diagnoses.AddAsync(diagnosisAdd);
+        await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
 
         // Act
@@ -179,11 +200,15 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void DeleteByIdAsync_NotFound()
     {
         // Arrange
+        var icdAdd = Fixture.Build<DataProvider.ICD>()
+                         .Create();
+
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .Without(i => i.ICDId)
+                                  .With(i => i.ICDId, icdAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
-            
+
+        await DbContext.ICDs.AddAsync(icdAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
@@ -202,30 +227,25 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
 
     #region [ Get ]
     [Fact]
-    public async void FindAll()
+    public async void FindAll_Success()
     {
-        #region [ Arrange ]
-        var icd = Fixture.Build<DataProvider.ICD>()
-                 .Create();
+        //Arrange
+        var icdAdd = Fixture.Build<DataProvider.ICD>()
+                            .Create();
 
-        await DbContext.ICDs.AddAsync(icd);
+        var diagnosisList = Fixture.Build<DataProvider.Diagnosis>()
+                                   .With(i => i.ICDId, icdAdd.Id)
+                                   .CreateMany().ToArray();
+
+        await DbContext.ICDs.AddAsync(icdAdd);
+        await DbContext.Diagnoses.AddRangeAsync(diagnosisList);
         await DbContext.SaveChangesAsync();
 
-        List<DataProvider.Diagnosis> diagnosisList = Fixture.Build<DataProvider.Diagnosis>()
-                                                            .With(i => i.ICD, icd)
-                                                            .With(i => i.ICDId, icd.Id)
-                                                            .CreateMany().ToList();
-
-        await DbContext.Diagnoses.AddRangeAsync(diagnosisList.ToArray());
-        await DbContext.SaveChangesAsync();
-        #endregion
-
-        #region [ Act ]
+        //Act
         var diagnosisProvider = new DiagnosisDataProvider(DbContext, Mapper);
         var resultList = await diagnosisProvider.FindAllAsync();
-        #endregion
 
-        #region [ Assert ]
+        //Assert
         Assert.Equal(3, resultList.Count());
 
         // Check that each item in the database has the correct properties
@@ -237,101 +257,92 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
             Assert.Equal(diagnosis.Description, result.Description);
             Assert.Equal(diagnosis.ICDId.ToString(), result.ICDId);
         };
-        #endregion
     }
 
     [Fact]
     public async void FindAll_NotFound()
     {
-        #region [ Arrange ]
+        //Arrange
         // Nothing here
         await DbContext.SaveChangesAsync();
-        #endregion
 
-        #region [ Act ]
+        //Act
         var diagnosisProvider = new DiagnosisDataProvider(DbContext, Mapper);
         var resultList = await diagnosisProvider.FindAllAsync();
-        #endregion
 
-        #region [ Assert ]
+        //Assert
         //Assert.True(!resultList.Any());
         Assert.Empty(resultList);
-        #endregion
     }
 
     [Fact]
     public async void FindByIdAsync_DisableQuickFind()
     {
-        #region [ Arrange ]
+        //Arrange
+        var icdAdd = Fixture.Build<DataProvider.ICD>()
+                         .Create();
+
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .Without(i => i.ICDId)
+                                  .With(i => i.ICDId, icdAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
+        await DbContext.ICDs.AddAsync(icdAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
         await DbContext.SaveChangesAsync();
-        #endregion
+        DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
 
-        #region [ Act ]
+        //Act
         var diagnosisProvider = new DiagnosisDataProvider(DbContext, Mapper);
         var result = await diagnosisProvider.FindByIdAsync(diagnosisAdd.Id.ToString(), new(), false);
-        #endregion
 
-        #region [ Assert ]
+        //Assert
         Assert.NotNull(result);
         Assert.Equal(diagnosisAdd.DiagnosisCode, result.DiagnosisCode);
         Assert.Equal(diagnosisAdd.Description, result.Description);
-        //Assert.Equal(diagnosis.ICDId, result.ICDId);
-        #endregion
+        Assert.Equal(diagnosisAdd.ICDId.ToString(), result.ICDId);
     }
 
     [Fact]
     public async void FindByIdAsync_NotExit()
     {
-        #region [ Arrange ]
-        var diagnosis = Fixture.Build<DataProvider.Diagnosis>()
-                               .Without(i => i.ICDId)
-                               .With(i => i.Id, Guid.NewGuid())
-                               .Create();
-
-        await DbContext.Diagnoses.AddAsync(diagnosis);
+        //Arrange
+        //Nothing here
         await DbContext.SaveChangesAsync();
-        #endregion
 
-        #region [ Act ]
+        //Act
         var diagnosisProvider = new DiagnosisDataProvider(DbContext, Mapper);
         var result = await diagnosisProvider.FindByIdAsync(Guid.NewGuid().ToString(), new(), false);
-        #endregion
 
-        #region [ Assert ]
+        //Assert
         Assert.Null(result);
-        #endregion
     }
 
     [Fact]
     public async void FindByIdAsync_IdIsNullOrEmpty_Exception()
     {
-        #region [ Arrange ]
+        //Arrange
+        var icdAdd = Fixture.Build<DataProvider.ICD>()
+                         .Create();
+
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .Without(i => i.ICDId)
-                                  .With(d => d.Id, Guid.NewGuid())
+                                  .With(i => i.ICDId, icdAdd.Id)
+                                  .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
+        await DbContext.ICDs.AddAsync(icdAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
-        #endregion
 
-        #region [ Act ]
+        //Act
         var diagnosisProvider = new DiagnosisDataProvider(DbContext, Mapper);
         async Task NullResult() => await diagnosisProvider.FindByIdAsync(null);
         async Task EmptyResult() => await diagnosisProvider.FindByIdAsync(string.Empty);
-        #endregion
 
-        #region [ Assert ]
+        //Assert
         await Assert.ThrowsAsync<ArgumentNullException>(NullResult);
         await Assert.ThrowsAsync<ArgumentException>(EmptyResult);
-        #endregion
     }
     #endregion
 
