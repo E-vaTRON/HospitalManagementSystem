@@ -1,5 +1,18 @@
 ﻿namespace HospitalManagementSystem.Domain;
 
-public class StorageFactory
+public static class StorageFactory
 {
+    public static Storage Create()
+    {
+        return new Storage();
+    }
+
+    public static Storage Create(string location)
+    {
+        return new Storage()
+        {
+            Location = location
+        };
+    }
+
 }

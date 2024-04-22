@@ -1,5 +1,17 @@
 ﻿namespace HospitalManagementSystem.Domain;
 
-public class DepartmentFactory : EntityBase
+public static class DepartmentFactory
 {
+    public static Department Create()
+    {
+        return new Department();
+    }
+
+    public static Department Create(string name)
+    {
+        return new Department()
+        {
+            Name = name
+        };
+    }
 }
