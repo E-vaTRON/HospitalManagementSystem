@@ -3,7 +3,7 @@ using DataDrugPrescription = HospitalManagementSystem.DataProvider.DrugPrescript
 
 namespace HospitalManagementSystem.DataProvider;
 
-public class DrugPrescriptionDataProvider : DataProviderBase<CoreDrugPrescription, DataDrugPrescription>, IDrugPrescriptionServiceProvider
+public class DrugPrescriptionDataProvider : DataProviderBase<CoreDrugPrescription, DataDrugPrescription>, IDrugPrescriptionDataProvider
 {
     public DrugPrescriptionDataProvider(HospitalManagementSystemDbContext context, IMapper mapper) : base(context, mapper)
     {
