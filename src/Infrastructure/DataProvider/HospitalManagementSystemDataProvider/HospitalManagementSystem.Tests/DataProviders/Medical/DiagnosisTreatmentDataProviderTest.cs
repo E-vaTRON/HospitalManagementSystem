@@ -82,10 +82,10 @@ public class DiagnosisTreatmentDataProviderTest : DataProviderTestBase
         DbContext.Entry(diagnosisTreatmentAdd).State = EntityState.Detached;
 
         var diagnosisTreatmentUpdate = Fixture.Build<Domain.DiagnosisTreatment>()
-                                           .With(i => i.DiagnosisId, diagnosisAdd.Id.ToString())
-                                           .With(i => i.TreatmentId, treatmentAdd.Id.ToString())
-                                           .With(i => i.Id, diagnosisTreatmentAdd.Id.ToString())
-                                           .Create();
+                                              .With(i => i.DiagnosisId, diagnosisAdd.Id.ToString())
+                                              .With(i => i.TreatmentId, treatmentAdd.Id.ToString())
+                                              .With(i => i.Id, diagnosisTreatmentAdd.Id.ToString())
+                                              .Create();
         
         // Act
         var diagnosisTreatmentProvider = new DiagnosisTreatmentDataProvider(DbContext, Mapper);

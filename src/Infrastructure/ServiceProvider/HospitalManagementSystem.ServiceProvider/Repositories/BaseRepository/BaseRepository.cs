@@ -2,7 +2,7 @@
 
 namespace HospitalManagementSystem.ServiceProvider;
 
-public class BaseRepository<T> : IBaseRepository<T> where T : class
+public class BaseRepository<T> where T : class
 {
     protected readonly HospitalManagementSystemDbContext _context;
     protected readonly DbSet<T> _dbSet;
