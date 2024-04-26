@@ -51,7 +51,6 @@ public class SQLDatabaseModelBuilder
         this.AssignmentHistoryModelBuilder(modelBuilder);
         this.DiagnosisModelBuilder(modelBuilder);
         //this.DiagnosisSuggestionModelBuilder(modelBuilder);
-        this.DiagnosisTreatmentModelBuilder(modelBuilder);
         this.ICDModelBuilder(modelBuilder);
         this.MedicalExamModelBuilder(modelBuilder);
         this.MedicalExamEposodeModelBuilder(modelBuilder);
@@ -535,6 +534,12 @@ public class SQLDatabaseModelBuilder
                     .WithMany(i => i.Diagnoses)
                     .HasForeignKey(t => t.ICDId)
                     .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Diagnosis>()
+                    .HasOne(t => t.MedicalExamEposode)
+                    .WithMany(i => i.Diagnoses)
+                    .HasForeignKey(t => t.MedicalExamEpisodeId)
+                    .OnDelete(DeleteBehavior.Cascade);
     }
     //private void DiagnosisSuggestionModelBuilder(ModelBuilder modelBuilder)  // Bản này có thể không tạo
     //{
@@ -561,32 +566,7 @@ public class SQLDatabaseModelBuilder
     //                .WithMany(d => d.DiagnosisSuggestions)
     //                .HasForeignKey(ds => ds.DiagnosisId);
     //}
-    private void DiagnosisTreatmentModelBuilder(ModelBuilder modelBuilder)
-    {
-        this.BaseModelBuilder<DiagnosisTreatment>(modelBuilder, nameof(DiagnosisTreatment));
-
-        //modelBuilder.Entity<DiagnosisTreatment>()
-        //    .Property(x => x.DiagnosisId)
-        //    .HasColumnType("uniqueidentifier")
-        //    .IsRequired(true);
-
-        //modelBuilder.Entity<DiagnosisTreatment>()
-        //    .Property(x => x.TreatmentId)
-        //    .HasColumnType("uniqueidentifier")
-        //    .IsRequired(true);
-
-        modelBuilder.Entity<DiagnosisTreatment>()
-                    .HasOne(dt => dt.Treatment)
-                    .WithMany(t => t.DiagnosisTreatments)
-                    .HasForeignKey(dt => dt.TreatmentId)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<DiagnosisTreatment>()
-                    .HasOne(dt => dt.Diagnosis)
-                    .WithMany(d => d.DiagnosisTreatments)
-                    .HasForeignKey(dt => dt.DiagnosisId)
-                    .OnDelete(DeleteBehavior.Cascade);
-    }
+    
     private void ICDModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<ICD>(modelBuilder, nameof(ICD));
@@ -622,11 +602,6 @@ public class SQLDatabaseModelBuilder
                     .WithOne(ba => ba.MedicalExam)
                     .HasForeignKey<MedicalExam>(me => me.BookingAppointmentId)
                     .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<MedicalExam>()
-                    .HasOne(me => me.BookingAppointment)
-                    .WithOne(ba => ba.MedicalExam)
-                    .HasForeignKey<MedicalExam>(me => me.BookingAppointmentId);
     }
     private void MedicalExamEposodeModelBuilder(ModelBuilder modelBuilder)
     {

@@ -7,23 +7,25 @@ public static class DiagnosisFactory
         return new Diagnosis();
     }
 
-    public static Diagnosis Create(string diagnosisCode, string description, string icdId)
+    public static Diagnosis Create(string diagnosisCode, string description, string icdId, string medicalExamEpisodeId)
     {
         return new Diagnosis()
         {
             DiagnosisCode = diagnosisCode,
             Description = description,
-            ICDId = icdId
+            ICDId = icdId,
+            MedicalExamEpisodeId = medicalExamEpisodeId
         };
     }
 
-    public static Diagnosis Create(string diagnosisCode, string icdId)
+    public static Diagnosis Create(string diagnosisCode, string icdId, string medicalExamEpisodeId)
     {
         return new Diagnosis()
         {
             DiagnosisCode = diagnosisCode,
             Description = string.Empty,
-            ICDId = icdId
+            ICDId = icdId,
+            MedicalExamEpisodeId = medicalExamEpisodeId
         };
     }
 }

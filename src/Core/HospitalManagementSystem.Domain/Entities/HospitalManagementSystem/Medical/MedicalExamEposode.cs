@@ -15,6 +15,7 @@ public class MedicalExamEposode : EntityBase
 
     public virtual ICollection<AssignmentHistory>       AssignmentHistories     { get; set; } = new HashSet<AssignmentHistory>();
     public virtual ICollection<TreatmentExamEpisode>    TreatmentExamEpisodes   { get; set; } = new HashSet<TreatmentExamEpisode>();
+    public virtual ICollection<Diagnosis>               Diagnoses               { get; set; } = new HashSet<Diagnosis>();
     public virtual ICollection<RoomAllocation>          RoomAllocations         { get; set; } = new HashSet<RoomAllocation>();
     public virtual ICollection<DrugPrescription>        DrugDetails             { get; set; } = new HashSet<DrugPrescription>();
     public virtual ICollection<AnalysisTest>            AnalysisTests           { get; set; } = new HashSet<AnalysisTest>();

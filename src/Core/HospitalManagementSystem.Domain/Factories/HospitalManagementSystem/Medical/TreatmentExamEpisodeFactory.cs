@@ -7,12 +7,12 @@ public static class TreatmentExamEpisodeFactory
         return new TreatmentExamEpisode();
     }
 
-    public static TreatmentExamEpisode Create(string treatmentId, string medicalExamEpisode)
+    public static TreatmentExamEpisode Create(string treatmentId, string medicalExamEpisodeId)
     {
         return new TreatmentExamEpisode()
         {
             TreatmentId = treatmentId,
-            MedicalExamEpisode = medicalExamEpisode
+            MedicalExamEpisodeId = medicalExamEpisodeId
         };
     }
 }

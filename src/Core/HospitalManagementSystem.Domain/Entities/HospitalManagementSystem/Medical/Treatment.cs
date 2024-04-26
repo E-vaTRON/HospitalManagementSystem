@@ -6,5 +6,4 @@ public class Treatment : EntityBase
     public string?  Description { get; set; }
 
     public virtual ICollection<TreatmentExamEpisode>    TreatmentExamEpisodes   { get; set; } = new HashSet<TreatmentExamEpisode>();
-    public virtual ICollection<DiagnosisTreatment>      DiagnosisTreatments     { get; set; } = new HashSet<DiagnosisTreatment>();
 }

@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\HospitalManagementSystem.Application\HospitalManagementSystem.Application.csproj" />
-    <ProjectReference Include="..\..\..\Infrastructure\DataProvider\HospitalManagementSystemDataProvider\HospitalManagementSystem.SQLServer\HospitalManagementSystem.SQLServer.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\DataProvider\HospitalManagementSystem\HospitalManagementSystem.SQLServer\HospitalManagementSystem.SQLServer.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\ServiceProvider\HospitalManagementSystem.ServiceProvider\HospitalManagementSystem.ServiceProvider.csproj" />
   </ItemGroup>
 
