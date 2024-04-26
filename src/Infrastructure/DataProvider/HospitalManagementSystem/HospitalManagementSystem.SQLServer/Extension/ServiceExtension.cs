@@ -24,7 +24,10 @@ public static class ServiceExtension
         {
             options.UseModel(SQLDatabaseModelBuilder.SQLModel.GetModel());
             options.UseSqlServer(DatabaseConfiguration.ConnectionString, sqlServerOptionsAction => sqlServerOptionsAction.EnableRetryOnFailure());
-            options.EnableSensitiveDataLogging(false);
+#if DEBUG
+            options.EnableDetailedErrors();
+            options.EnableSensitiveDataLogging();
+#endif
         });
 
         //Context

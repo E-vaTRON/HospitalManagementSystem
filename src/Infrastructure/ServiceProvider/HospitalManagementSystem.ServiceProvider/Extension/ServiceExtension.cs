@@ -1,6 +1,4 @@
-﻿using HospitalManagementSystem.DataProvider;
-
-namespace HospitalManagementSystem.ServiceProvider;
+﻿namespace HospitalManagementSystem.ServiceProvider;
 
 public static class ServiceExtension
 {
