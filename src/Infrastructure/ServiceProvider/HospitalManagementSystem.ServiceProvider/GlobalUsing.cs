@@ -1,6 +1,9 @@
-﻿global using Microsoft.EntityFrameworkCore;
+﻿global using AutoMapper;
 global using HospitalManagementSystem.Application;
 global using HospitalManagementSystem.DataProvider;
+global using HospitalManagementSystem.Domain;
+global using System.Diagnostics;
 global using System.Linq.Expressions;
+global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;

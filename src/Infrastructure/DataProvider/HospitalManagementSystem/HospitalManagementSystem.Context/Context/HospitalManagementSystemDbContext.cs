@@ -41,7 +41,7 @@ public partial class HospitalManagementSystemDbContext : DbContext
     public virtual DbSet<Diagnosis>             Diagnoses               { get; set; } = null!;
     //public virtual DbSet<DiagnosisSuggestion>   DiagnosisSuggestions    { get; set; } = null!;
     public virtual DbSet<DiagnosisTreatment>    DiagnosisTreatments     { get; set; } = null!;
-    public virtual DbSet<ICD>                   ICDs                    { get; set; } = null!;
+    public virtual DbSet<Diseases>                   ICDs                    { get; set; } = null!;
     public virtual DbSet<MedicalExam>           MedicalExams            { get; set; } = null!;
     public virtual DbSet<MedicalExamEposode>    MedicalExamEposodes     { get; set; } = null!;
     public virtual DbSet<Treatment>             Treatments              { get; set; } = null!; 

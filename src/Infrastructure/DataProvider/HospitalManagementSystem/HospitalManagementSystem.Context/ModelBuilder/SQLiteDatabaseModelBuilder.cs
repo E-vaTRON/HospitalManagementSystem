@@ -468,18 +468,18 @@ public class SQLiteDatabaseModelBuilder
     }
     private void ICDModelBuilder(ModelBuilder modelBuilder)
     {
-        this.BaseModelBuilder<ICD>(modelBuilder, nameof(ICD));
+        this.BaseModelBuilder<Diseases>(modelBuilder, nameof(Diseases));
 
-        modelBuilder.Entity<ICD>()
+        modelBuilder.Entity<Diseases>()
                     .Property(x => x.Code)
                     .HasColumnType("TEXT")
                     .IsRequired(true);
 
-        modelBuilder.Entity<ICD>()
+        modelBuilder.Entity<Diseases>()
                     .Property(x => x.Description)
                     .HasColumnType("TEXT");
 
-        modelBuilder.Entity<ICD>()
+        modelBuilder.Entity<Diseases>()
                     .Property(x => x.Status)
                     .HasColumnType("TEXT")
                     .IsRequired(true);

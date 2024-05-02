@@ -1,5 +1,5 @@
-﻿using CoreICD = HospitalManagementSystem.Domain.ICD;
-using DataICD = HospitalManagementSystem.DataProvider.ICD;
+﻿using CoreICD = HospitalManagementSystem.Domain.Diseases;
+using DataICD = HospitalManagementSystem.DataProvider.Diseases;
 
 namespace HospitalManagementSystem.DataProvider;
 

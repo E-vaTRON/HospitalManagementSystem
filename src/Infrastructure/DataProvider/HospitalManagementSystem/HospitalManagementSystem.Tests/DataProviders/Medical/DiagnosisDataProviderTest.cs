@@ -15,7 +15,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void AddAsync_Success()
     {
         // Arrange
-        var icdAdd = Fixture.Build<DataProvider.ICD>()
+        var icdAdd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
         await DbContext.ICDs.AddAsync(icdAdd);
@@ -59,7 +59,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void UpdateAsync_Success()
     {
         // Arrange
-        var icdAdd = Fixture.Build<DataProvider.ICD>()
+        var icdAdd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
@@ -93,7 +93,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void UpdateAsync_NotFound_Exception()
     {
         // Arrange
-        var icdAdd = Fixture.Build<DataProvider.ICD>()
+        var icdAdd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
@@ -126,7 +126,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void UpdateAsync_EntityIsNull_Exception()
     {
         // Arrange
-        var icdAdd = Fixture.Build<DataProvider.ICD>()
+        var icdAdd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
@@ -159,7 +159,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void DeleteByIdAsync_Success()
     {
         // Arrange
-        var icdAdd = Fixture.Build<DataProvider.ICD>()
+        var icdAdd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
@@ -200,7 +200,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void DeleteByIdAsync_NotFound()
     {
         // Arrange
-        var icdAdd = Fixture.Build<DataProvider.ICD>()
+        var icdAdd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
@@ -230,7 +230,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void FindAll_Success()
     {
         //Arrange
-        var icdAdd = Fixture.Build<DataProvider.ICD>()
+        var icdAdd = Fixture.Build<DataProvider.Diseases>()
                             .Create();
 
         var diagnosisList = Fixture.Build<DataProvider.Diagnosis>()
@@ -279,7 +279,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void FindByIdAsync_DisableQuickFind()
     {
         //Arrange
-        var icdAdd = Fixture.Build<DataProvider.ICD>()
+        var icdAdd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
@@ -322,7 +322,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void FindByIdAsync_IdIsNullOrEmpty_Exception()
     {
         //Arrange
-        var icdAdd = Fixture.Build<DataProvider.ICD>()
+        var icdAdd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()

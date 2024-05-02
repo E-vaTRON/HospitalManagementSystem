@@ -8,13 +8,6 @@ public static class ServiceExtension
         //services.Configure<JwtTokenConfig>(configuration.GetSection(nameof(JwtTokenConfig)));
         //services.Configure<IdentityAzureStorageConfig>(configuration.GetSection(nameof(IdentityAzureStorageConfig)));
 
-        //services.AddDbContext<PetaverseIdentityContext>(options =>
-        //    options.UseSqlServer(configuration.GetConnectionString("PetaverseUsers")));
-
-        //services.AddDbContextPool<HospitalManagementSystemDbContext>(options =>
-        //    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-
-
         //services.AddIdentity<User, Role>(options =>
         //{
         //    options.Password.RequireDigit = false;

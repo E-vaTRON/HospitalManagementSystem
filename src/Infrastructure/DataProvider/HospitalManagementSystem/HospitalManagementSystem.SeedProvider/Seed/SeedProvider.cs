@@ -73,7 +73,7 @@ public class SeedProvider
     public List<Domain.AssignmentHistory>     AssignmentHistories     { get; private set; }
     public List<Domain.Diagnosis>             Diagnoses               { get; private set; }
     //public virtual DbSet<DiagnosisSuggestion>   DiagnosisSuggestions    { get; set; }
-    public List<Domain.ICD>                   ICDs                    { get; private set; }
+    public List<Domain.Diseases>                   ICDs                    { get; private set; }
     public List<Domain.MedicalExam>           MedicalExams            { get; private set; }
     public List<Domain.MedicalExamEposode>    MedicalExamEposodes     { get; private set; }
     public List<Domain.Treatment>             Treatments              { get; private set; }

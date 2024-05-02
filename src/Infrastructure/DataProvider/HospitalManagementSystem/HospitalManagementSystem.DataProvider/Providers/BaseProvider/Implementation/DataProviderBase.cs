@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace HospitalManagementSystem.DataProvider;
+﻿namespace HospitalManagementSystem.DataProvider;
 
 public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProviderBase<TEntity, TEId>
     where TEntity : class, IEntity<TEId>

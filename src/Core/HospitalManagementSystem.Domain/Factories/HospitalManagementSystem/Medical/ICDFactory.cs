@@ -2,14 +2,14 @@
 
 public static class ICDFactory
 {
-    public static ICD Create()
+    public static Diseases Create()
     {
-        return new ICD();
+        return new Diseases();
     }
 
-    public static ICD Create(string code, string description, CodeStatus status)
+    public static Diseases Create(string code, string description, CodeStatus status)
     {
-        return new ICD()
+        return new Diseases()
         {
             Code = code,
             Description = description,
