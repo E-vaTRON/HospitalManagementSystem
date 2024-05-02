@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface ITreatmentExamEpisodeDataProvider : IContractBase<TreatmentExamEpisode>
+public interface ITreatmentExamEpisodeDataProvider
 {
 }
