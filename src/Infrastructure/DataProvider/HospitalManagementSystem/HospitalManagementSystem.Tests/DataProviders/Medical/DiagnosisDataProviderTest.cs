@@ -22,7 +22,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         await DbContext.SaveChangesAsync();
 
         var diagnosisAdd = Fixture.Build<Domain.Diagnosis>()
-                                  .With(i => i.ICDId, icdAdd.Id.ToString())
+                                  .With(i => i.DiseasesId, icdAdd.Id.ToString())
                                   .With(i => i.Id, Guid.NewGuid().ToString())
                                   .Create();
 
@@ -33,7 +33,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         // Assert
         var result = await DbContext.Diagnoses.FirstOrDefaultAsync(d => d.Id == Guid.Parse(diagnosisAdd.Id!));
         Assert.True(add.IsCompletedSuccessfully);
-        Assert.Equal(diagnosisAdd.ICDId, result?.ICDId.ToString());
+        Assert.Equal(diagnosisAdd.DiseasesId, result?.DiseasesId.ToString());
         Assert.Equal(diagnosisAdd.DiagnosisCode, result?.DiagnosisCode);
         Assert.Equal(diagnosisAdd.Description, result?.Description);
     }
@@ -63,7 +63,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
                          .Create();
 
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .With(i => i.ICDId, icdAdd.Id)
+                                  .With(i => i.DiseasesId, icdAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
@@ -73,7 +73,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
 
         var diagnosisUpdate = Fixture.Build<Domain.Diagnosis>()
-                                     .With(i => i.ICDId, icdAdd.Id.ToString())
+                                     .With(i => i.DiseasesId, icdAdd.Id.ToString())
                                      .With(i => i.Id, diagnosisAdd.Id.ToString())
                                      .Create();
 
@@ -86,7 +86,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         Assert.True(update.IsCompletedSuccessfully);
         Assert.Equal(diagnosisUpdate.DiagnosisCode, result?.DiagnosisCode);
         Assert.Equal(diagnosisUpdate.Description, result?.Description);
-        Assert.Equal(diagnosisAdd.ICDId.ToString(), result?.ICDId.ToString());
+        Assert.Equal(diagnosisAdd.DiseasesId.ToString(), result?.DiseasesId.ToString());
     }
 
     [Fact]
@@ -97,7 +97,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
                          .Create();
 
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .With(i => i.ICDId, icdAdd.Id)
+                                  .With(i => i.DiseasesId, icdAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
@@ -107,7 +107,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
 
         var diagnosisUpdate = Fixture.Build<Domain.Diagnosis>()
-                             .With(i => i.ICDId, icdAdd.Id.ToString())
+                             .With(i => i.DiseasesId, icdAdd.Id.ToString())
                              .Create();
 
         // Act
@@ -119,7 +119,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         Assert.True(update.IsCompleted);
         Assert.Equal(diagnosisAdd.DiagnosisCode, result?.DiagnosisCode);
         Assert.Equal(diagnosisAdd.Description, result?.Description);
-        Assert.Equal(diagnosisAdd.ICDId.ToString(), result?.ICDId.ToString());
+        Assert.Equal(diagnosisAdd.DiseasesId.ToString(), result?.DiseasesId.ToString());
     }
 
     [Fact]
@@ -130,7 +130,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
                          .Create();
 
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .With(i => i.ICDId, icdAdd.Id)
+                                  .With(i => i.DiseasesId, icdAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
@@ -150,7 +150,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         await Assert.ThrowsAsync<ArgumentNullException>(Result);
         Assert.Equal(diagnosisAdd.DiagnosisCode, result?.DiagnosisCode);
         Assert.Equal(diagnosisAdd.Description, result?.Description);
-        Assert.Equal(diagnosisAdd.ICDId.ToString(), result?.ICDId.ToString());
+        Assert.Equal(diagnosisAdd.DiseasesId.ToString(), result?.DiseasesId.ToString());
     }
     #endregion
 
@@ -163,7 +163,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
                          .Create();
 
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .With(i => i.ICDId, icdAdd.Id)
+                                  .With(i => i.DiseasesId, icdAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
@@ -188,7 +188,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         var id = new Guid();
 
         // Act
-        var icdProvider = new ICDDataProvider(DbContext, Mapper);
+        var icdProvider = new DiseasesDataProvider(DbContext, Mapper);
         await icdProvider.DeleteByIdAsync(id.ToString());
 
         // Assert
@@ -204,7 +204,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
                          .Create();
 
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .With(i => i.ICDId, icdAdd.Id)
+                                  .With(i => i.DiseasesId, icdAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
@@ -216,7 +216,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         var id = this.Fixture.Create<Guid>();
 
         // Act
-        var icdProvider = new ICDDataProvider(DbContext, Mapper);
+        var icdProvider = new DiseasesDataProvider(DbContext, Mapper);
         await icdProvider.DeleteByIdAsync(diagnosisAdd.Id.ToString());
 
         // Assert 
@@ -234,7 +234,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
                             .Create();
 
         var diagnosisList = Fixture.Build<DataProvider.Diagnosis>()
-                                   .With(i => i.ICDId, icdAdd.Id)
+                                   .With(i => i.DiseasesId, icdAdd.Id)
                                    .CreateMany().ToArray();
 
         await DbContext.ICDs.AddAsync(icdAdd);
@@ -255,7 +255,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
             Assert.NotNull(result);
             Assert.Equal(diagnosis.DiagnosisCode, result.DiagnosisCode);
             Assert.Equal(diagnosis.Description, result.Description);
-            Assert.Equal(diagnosis.ICDId.ToString(), result.ICDId);
+            Assert.Equal(diagnosis.DiseasesId.ToString(), result.DiseasesId);
         };
     }
 
@@ -283,7 +283,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
                          .Create();
 
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .With(i => i.ICDId, icdAdd.Id)
+                                  .With(i => i.DiseasesId, icdAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
@@ -300,7 +300,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         Assert.NotNull(result);
         Assert.Equal(diagnosisAdd.DiagnosisCode, result.DiagnosisCode);
         Assert.Equal(diagnosisAdd.Description, result.Description);
-        Assert.Equal(diagnosisAdd.ICDId.ToString(), result.ICDId);
+        Assert.Equal(diagnosisAdd.DiseasesId.ToString(), result.DiseasesId);
     }
 
     [Fact]
@@ -326,7 +326,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
                          .Create();
 
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .With(i => i.ICDId, icdAdd.Id)
+                                  .With(i => i.DiseasesId, icdAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 

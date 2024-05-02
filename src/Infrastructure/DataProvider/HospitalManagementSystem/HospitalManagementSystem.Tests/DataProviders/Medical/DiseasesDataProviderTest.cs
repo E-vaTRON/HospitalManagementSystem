@@ -20,7 +20,7 @@ public class DiseasesDataProviderTest : DataProviderTestBase
                             .Create();
 
         // Act
-        var icdProvider = new ICDDataProvider(DbContext, Mapper);
+        var icdProvider = new DiseasesDataProvider(DbContext, Mapper);
         var add = icdProvider.AddAsync(icdAdd, new());
 
         // Assert
@@ -38,7 +38,7 @@ public class DiseasesDataProviderTest : DataProviderTestBase
         var icdAdd = default(Domain.Diseases);
 
         // Act
-        var icdProvider = new ICDDataProvider(DbContext, Mapper);
+        var icdProvider = new DiseasesDataProvider(DbContext, Mapper);
         Task Add() => icdProvider.AddAsync(icdAdd, new());
 
         // Assert
@@ -67,7 +67,7 @@ public class DiseasesDataProviderTest : DataProviderTestBase
         icdUpdate.Id = icdAdd.Id.ToString();
 
         // Act
-        var icdProvider = new ICDDataProvider(DbContext, Mapper);
+        var icdProvider = new DiseasesDataProvider(DbContext, Mapper);
         var update = icdProvider.UpdateAsync(icdUpdate);
 
         // Assert
@@ -92,7 +92,7 @@ public class DiseasesDataProviderTest : DataProviderTestBase
         var icdUpdate = this.Fixture.Create<Domain.Diseases>();
 
         // Act
-        var icdProvider = new ICDDataProvider(DbContext, Mapper);
+        var icdProvider = new DiseasesDataProvider(DbContext, Mapper);
         var update = icdProvider.UpdateAsync(icdUpdate);
 
         // Assert
@@ -116,7 +116,7 @@ public class DiseasesDataProviderTest : DataProviderTestBase
         var icdUpdate = default(Domain.Diseases);
 
         // Act
-        var icdProvider = new ICDDataProvider(DbContext, Mapper);
+        var icdProvider = new DiseasesDataProvider(DbContext, Mapper);
         async Task Result() => await icdProvider.UpdateAsync(icdUpdate);
 
         // Assert
@@ -141,7 +141,7 @@ public class DiseasesDataProviderTest : DataProviderTestBase
         DbContext.Entry(icdAdd).State = EntityState.Detached;
 
         // Act
-        var icdProvider = new ICDDataProvider(base.DbContext, Mapper);
+        var icdProvider = new DiseasesDataProvider(base.DbContext, Mapper);
         await icdProvider.DeleteByIdAsync(icdAdd.Id.ToString(), new());
 
         // Assert
@@ -156,7 +156,7 @@ public class DiseasesDataProviderTest : DataProviderTestBase
         var id = new Guid();
 
         // Act
-        var icdProvider = new ICDDataProvider(DbContext, Mapper);
+        var icdProvider = new DiseasesDataProvider(DbContext, Mapper);
         await icdProvider.DeleteByIdAsync(id.ToString());
 
         // Assert
@@ -178,7 +178,7 @@ public class DiseasesDataProviderTest : DataProviderTestBase
         var id = this.Fixture.Create<Guid>();
 
         // Act
-        var icdProvider = new ICDDataProvider(DbContext, Mapper);
+        var icdProvider = new DiseasesDataProvider(DbContext, Mapper);
         await icdProvider.DeleteByIdAsync(icdAdd.Id.ToString());
 
         // Assert 
@@ -199,7 +199,7 @@ public class DiseasesDataProviderTest : DataProviderTestBase
         await DbContext.SaveChangesAsync();
 
         //Act
-        var icdProvider = new ICDDataProvider(DbContext, Mapper);
+        var icdProvider = new DiseasesDataProvider(DbContext, Mapper);
         var resultList = await icdProvider.FindAllAsync();
 
         //Assert
@@ -226,7 +226,7 @@ public class DiseasesDataProviderTest : DataProviderTestBase
         var icdIds = DbContext.ICDs.Select(x => x.Id).ToList();
 
         //Act
-        var icdProvider = new ICDDataProvider(DbContext, Mapper);
+        var icdProvider = new DiseasesDataProvider(DbContext, Mapper);
         var resultList = await icdProvider.FindAllAsync();
 
         //Assert
@@ -245,7 +245,7 @@ public class DiseasesDataProviderTest : DataProviderTestBase
         await DbContext.SaveChangesAsync();
 
         //Act
-        var icdProvider = new ICDDataProvider(DbContext, Mapper);
+        var icdProvider = new DiseasesDataProvider(DbContext, Mapper);
         var result = await icdProvider.FindByIdAsync(icd.Id.ToString(), new(), false);
 
         //Assert
@@ -266,7 +266,7 @@ public class DiseasesDataProviderTest : DataProviderTestBase
         await DbContext.SaveChangesAsync();
 
         //Act
-        var icdProvider = new ICDDataProvider(DbContext, Mapper);
+        var icdProvider = new DiseasesDataProvider(DbContext, Mapper);
         var result = await icdProvider.FindByIdAsync(Guid.NewGuid().ToString(), new(), false);
 
         //Assert
@@ -286,7 +286,7 @@ public class DiseasesDataProviderTest : DataProviderTestBase
         DbContext.Entry(icdAdd).State = EntityState.Detached;
 
         //Act
-        var icdProvider = new ICDDataProvider(DbContext, Mapper);
+        var icdProvider = new DiseasesDataProvider(DbContext, Mapper);
         async Task NullResult() => await icdProvider.FindByIdAsync(null);
         async Task EmptyResult() => await icdProvider.FindByIdAsync(string.Empty);
 
