@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IServiceDataProvider : IContractBase<Service>
+public interface IServiceDataProvider : IContractBase<Service, string>
 {
 }

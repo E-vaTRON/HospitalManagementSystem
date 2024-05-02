@@ -317,6 +317,14 @@ public class SQLiteDatabaseModelBuilder
                     .HasColumnType("TEXT");
 
         modelBuilder.Entity<Drug>()
+                    .Property(x => x.Interactions)
+                    .HasColumnType("nvarchar");
+
+        modelBuilder.Entity<Drug>()
+                    .Property(x => x.SideEffects)
+                    .HasColumnType("nvarchar");
+
+        modelBuilder.Entity<Drug>()
                     .Property(x => x.Unit)
                     .HasColumnType("TEXT")
                     .IsRequired(true);
@@ -642,6 +650,10 @@ public class SQLiteDatabaseModelBuilder
 
         modelBuilder.Entity<Treatment>()
                     .Property(x => x.Description)
+                    .HasColumnType("TEXT");
+
+        modelBuilder.Entity<Treatment>()
+                    .Property(x => x.Details)
                     .HasColumnType("TEXT");
     }
     //private void TreatmentExamEpisodeModelBuilder(ModelBuilder modelBuilder)

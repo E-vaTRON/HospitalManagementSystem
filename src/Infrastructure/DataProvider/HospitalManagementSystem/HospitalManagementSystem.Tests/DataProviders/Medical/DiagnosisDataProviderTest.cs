@@ -18,7 +18,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         var icdAdd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
-        await DbContext.ICDs.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(icdAdd);
         await DbContext.SaveChangesAsync();
 
         var diagnosisAdd = Fixture.Build<Domain.Diagnosis>()
@@ -67,7 +67,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
-        await DbContext.ICDs.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(icdAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
@@ -101,7 +101,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
-        await DbContext.ICDs.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(icdAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
@@ -134,7 +134,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
-        await DbContext.ICDs.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(icdAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
@@ -167,7 +167,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
-        await DbContext.ICDs.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(icdAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
@@ -192,7 +192,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         await icdProvider.DeleteByIdAsync(id.ToString());
 
         // Assert
-        var result = await DbContext.ICDs.FirstOrDefaultAsync(d => d.Id == id);
+        var result = await DbContext.Diseases.FirstOrDefaultAsync(d => d.Id == id);
         Assert.Null(result);
     }
 
@@ -208,7 +208,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
-        await DbContext.ICDs.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(icdAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
@@ -220,7 +220,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         await icdProvider.DeleteByIdAsync(diagnosisAdd.Id.ToString());
 
         // Assert 
-        var result = await DbContext.ICDs.FirstOrDefaultAsync(d => d.Id == id);
+        var result = await DbContext.Diseases.FirstOrDefaultAsync(d => d.Id == id);
         Assert.Null(result);
     }
     #endregion
@@ -237,7 +237,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
                                    .With(i => i.DiseasesId, icdAdd.Id)
                                    .CreateMany().ToArray();
 
-        await DbContext.ICDs.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(icdAdd);
         await DbContext.Diagnoses.AddRangeAsync(diagnosisList);
         await DbContext.SaveChangesAsync();
 
@@ -287,7 +287,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
-        await DbContext.ICDs.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(icdAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
@@ -330,7 +330,7 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
-        await DbContext.ICDs.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(icdAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;

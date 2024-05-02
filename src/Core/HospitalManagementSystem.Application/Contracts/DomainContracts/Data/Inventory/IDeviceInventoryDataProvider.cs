@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IDeviceInventoryDataProvider : IContractBase<DeviceInventory>
+public interface IDeviceInventoryDataProvider : IContractBase<DeviceInventory, string>
 {
 }

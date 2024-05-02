@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IAnalysisTestServiceProvider : IContractBase<AnalysisTest>
+public interface IAnalysisTestServiceProvider : IContractBase<AnalysisTest, string>
 {
 }

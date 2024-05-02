@@ -1,4 +1,5 @@
 ﻿namespace HospitalManagementSystem.DataProvider;
+
 public static class ServiceExtension
 {
     #region [ Fields ]

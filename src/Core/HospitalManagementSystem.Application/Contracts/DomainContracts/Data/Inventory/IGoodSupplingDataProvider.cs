@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IGoodSupplingDataProvider : IContractBase<GoodSuppling>
+public interface IGoodSupplingDataProvider : IContractBase<GoodSuppling, string>
 {
 }

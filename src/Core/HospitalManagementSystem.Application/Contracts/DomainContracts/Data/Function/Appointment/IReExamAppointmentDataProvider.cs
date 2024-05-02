@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IReExamAppointmentDataProvider : IContractBase<ReExamAppointment>
+public interface IReExamAppointmentDataProvider : IContractBase<ReExamAppointment, string>
 {
 }

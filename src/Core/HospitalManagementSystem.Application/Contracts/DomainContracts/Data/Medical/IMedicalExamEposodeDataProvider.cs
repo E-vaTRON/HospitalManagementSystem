@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IMedicalExamEposodeDataProvider : IContractBase<MedicalExamEposode>
+public interface IMedicalExamEposodeDataProvider : IContractBase<MedicalExamEposode, string>
 {
 }

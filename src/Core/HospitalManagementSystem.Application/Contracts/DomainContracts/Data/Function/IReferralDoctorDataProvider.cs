@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IReferralDoctorDataProvider : IContractBase<ReferralDoctor>
+public interface IReferralDoctorDataProvider : IContractBase<ReferralDoctor, string>
 {
 }

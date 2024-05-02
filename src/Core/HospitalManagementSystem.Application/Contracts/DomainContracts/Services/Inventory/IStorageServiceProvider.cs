@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IStorageServiceProvider : IContractBase<Storage>
+public interface IStorageServiceProvider : IContractBase<Storage, string>
 {
 }

@@ -69,8 +69,11 @@ public abstract class DataProviderTestBase
 
             config.CreateMap<Domain.AssignmentHistory,      DataProvider.AssignmentHistory>().ReverseMap();
             config.CreateMap<Domain.Diagnosis,              DataProvider.Diagnosis>().ReverseMap();
-            config.CreateMap<Domain.DiagnosisSuggestion,    DataProvider.DiagnosisSuggestion>().ReverseMap();
-            config.CreateMap<Domain.Diseases,                    DataProvider.Diseases>().ReverseMap();
+            config.CreateMap<Domain.DiagnosisTreatment,     DataProvider.DiagnosisTreatment>().ReverseMap();
+            config.CreateMap<Domain.Diseases,               DataProvider.Diseases>().ReverseMap();
+            config.CreateMap<Domain.ICDCode,                DataProvider.ICDCode>().ReverseMap();
+            config.CreateMap<Domain.ICDVersion,             DataProvider.ICDVersion>().ReverseMap();
+            config.CreateMap<Domain.ICDCodeVersion,         DataProvider.ICDCodeVersion>().ReverseMap();
             config.CreateMap<Domain.MedicalExam,            DataProvider.MedicalExam>().ReverseMap();
             config.CreateMap<Domain.MedicalExamEposode,     DataProvider.MedicalExamEposode>().ReverseMap();
             config.CreateMap<Domain.Treatment,              DataProvider.Treatment>().ReverseMap();

@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IRoomDataProvider : IContractBase<Room>
+public interface IRoomDataProvider : IContractBase<Room, string>
 {
 }

@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IDrugPrescriptionDataProvider : IContractBase<DrugPrescription>
+public interface IDrugPrescriptionDataProvider : IContractBase<DrugPrescription, string>
 {
 }

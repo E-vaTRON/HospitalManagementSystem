@@ -252,7 +252,7 @@ public class DiagnosisTreatmentDataProviderTest : DataProviderTestBase
         await diagnosisTreatmentProvider.DeleteByIdAsync(id.ToString(), new()); ;
 
         // Assert 
-        var result = await DbContext.ICDs.FirstOrDefaultAsync(d => d.Id == id);
+        var result = await DbContext.Diseases.FirstOrDefaultAsync(d => d.Id == id);
         Assert.Null(result);
     }
     #endregion
@@ -277,7 +277,7 @@ public class DiagnosisTreatmentDataProviderTest : DataProviderTestBase
                                                .With(i => i.TreatmentId, treatmentAdd.Id)
                                                .CreateMany().ToArray();
 
-        await DbContext.ICDs.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(icdAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
         await DbContext.Treatments.AddAsync(treatmentAdd);
         await DbContext.DiagnosisTreatments.AddRangeAsync(diagnosisTreatmentAddList);

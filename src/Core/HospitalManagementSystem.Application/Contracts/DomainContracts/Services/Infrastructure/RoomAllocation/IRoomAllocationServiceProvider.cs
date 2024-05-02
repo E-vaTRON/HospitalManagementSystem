@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IRoomAllocationServiceProvider : IContractBase<RoomAllocation>
+public interface IRoomAllocationServiceProvider : IContractBase<RoomAllocation, string>
 {
 }

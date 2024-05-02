@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IICDCodeVersionDataProvider : IContractBase<ICDCodeVersion>
+public interface IICDCodeVersionDataProvider : IContractBase<ICDCodeVersion, string>
 {
 }

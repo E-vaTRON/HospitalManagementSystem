@@ -338,6 +338,16 @@ public class SQLDatabaseModelBuilder
                     .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<Drug>()
+                    .Property(x => x.Interactions)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<Drug>()
+                    .Property(x => x.SideEffects)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<Drug>()
                     .Property(x => x.Unit)
                     .HasColumnType("nvarchar")
                     .HasConversion(new EnumToStringConverter<Units>())
@@ -723,6 +733,11 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<Treatment>()
                     .Property(x => x.Description)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<Treatment>()
+                    .Property(x => x.Details)
                     .HasColumnType("nvarchar")
                     .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
     }

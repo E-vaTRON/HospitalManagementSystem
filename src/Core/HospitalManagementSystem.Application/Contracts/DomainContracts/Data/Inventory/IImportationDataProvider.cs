@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IImportationDataProvider : IContractBase<Importation>
+public interface IImportationDataProvider : IContractBase<Importation, string>
 {
 }
