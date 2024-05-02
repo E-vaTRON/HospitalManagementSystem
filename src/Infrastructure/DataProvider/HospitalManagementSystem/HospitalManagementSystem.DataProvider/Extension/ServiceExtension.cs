@@ -25,11 +25,14 @@ public static class ServiceExtension
         services.AddTransient<IAssignmentHistoryDataProvider, AssignmentHistoryDataProvider>();
         services.AddTransient<IDiagnosisDataProvider, DiagnosisDataProvider>();
         services.AddTransient<IDiagnosisTreatmentDataProvider, DiagnosisTreatmentDataProvider>();
+        services.AddTransient<IICDCodeDataProvider, ICDCodeDataProvider>();
+        services.AddTransient<IICDCodeVersionDataProvider, ICDCodeVersionDataProvider>();
+        services.AddTransient<IICDVersionDataProvider, ICDVersionDataProvider>();
         services.AddTransient<IDiseasesDataProvider, DiseasesDataProvider>();
         services.AddTransient<IMedicalExamDataProvider, MedicalExamDataProvider>();
         services.AddTransient<IMedicalExamEposodeDataProvider, MedicalExamEposodeDataProvider>();
         services.AddTransient<ITreatmentDataProvider, TreatmentDataProvider>();
-        services.AddTransient<ITreatmentExamEpisodeDataProvider, TreatmentExamEpisodeDataProvider>();
+        //services.AddTransient<ITreatmentExamEpisodeDataProvider, TreatmentExamEpisodeDataProvider>();
 
         services.AddTransient<IAnalysisTestDataProvider, AnalysisTestDataProvider>();
         services.AddTransient<IDeviceServiceDataProvider, DeviceServiceDataProvider>();
