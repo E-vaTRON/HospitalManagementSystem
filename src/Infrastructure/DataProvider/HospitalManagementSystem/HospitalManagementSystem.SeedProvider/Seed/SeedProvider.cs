@@ -129,36 +129,36 @@ public class SeedProvider
     #region [ Seed Create ]
     private void LoadICDs()
     {
-        ICDs.Add(ICDFactory.Create("A52.74", "Syphilis of liver and other viscera", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("B18.2", "Chronic viral hepatitis C", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("C22.9", "Malignant neoplasm of liver, not specified as primary or secondary", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("C56.9", "Malignant neoplasm of unspecified ovary", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("E78.2", "Mixed hyperlipidemia", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("E83.19", "Other disorders of iron metabolism", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("E84.9", "Cystic fibrosis, unspecified", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("D64.3", "Other sideroblastic anemias", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("K70.30", "Alcoholic cirrhosis of liver without ascites", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("K73.9", "Chronic hepatitis, unspecified", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("K74.60", "Unspecified cirrhosis of liver", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("R97.8", "Other abnormal tumor markers", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("C18.9", "Malignant neoplasm of colon, unspecified", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("C20", "Malignant neoplasm of rectum", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("C26.0", "Malignant neoplasm of intestinal tract, part unspecified", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("C34.90", "Malignant neoplasm of unspecified part of unspecified bronchus or lung", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("C50.919", "Malignant neoplasm of unspecified site of unspecified female breast", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("C56.9", "Malignant neoplasm of unspecified ovary", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("R78.9", "Finding of unspecified substance, not normally found in blood", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("R79.89", "Other specified abnormal findings of blood chemistry", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("R97.0", "Elevated carcinoembryonic antigen [CEA]", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("R97.8", "Other abnormal tumor markers", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("Z85.3", "Personal history of malignant neoplasm of breast", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("Z85.43", "Personal history of malignant neoplasm of ovary", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("C53.0", "Malignant neoplasm of endocervix", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("C54.9", "Malignant neoplasm of corpus uteri, unspecified", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("C56.9", "Malignant neoplasm of unspecified ovary", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("C57.00", "Malignant neoplasm of unspecified fallopian tube", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("C57.4", "Malignant neoplasm of uterine adnexa, unspecified", Domain.CodeStatus.Active));
-        ICDs.Add(ICDFactory.Create("C79.60", "Secondary malignant neoplasm of unspecified ovary", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("A52.74", "Syphilis of liver and other viscera", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("B18.2", "Chronic viral hepatitis C", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("C22.9", "Malignant neoplasm of liver, not specified as primary or secondary", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("C56.9", "Malignant neoplasm of unspecified ovary", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("E78.2", "Mixed hyperlipidemia", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("E83.19", "Other disorders of iron metabolism", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("E84.9", "Cystic fibrosis, unspecified", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("D64.3", "Other sideroblastic anemias", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("K70.30", "Alcoholic cirrhosis of liver without ascites", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("K73.9", "Chronic hepatitis, unspecified", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("K74.60", "Unspecified cirrhosis of liver", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("R97.8", "Other abnormal tumor markers", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("C18.9", "Malignant neoplasm of colon, unspecified", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("C20", "Malignant neoplasm of rectum", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("C26.0", "Malignant neoplasm of intestinal tract, part unspecified", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("C34.90", "Malignant neoplasm of unspecified part of unspecified bronchus or lung", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("C50.919", "Malignant neoplasm of unspecified site of unspecified female breast", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("C56.9", "Malignant neoplasm of unspecified ovary", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("R78.9", "Finding of unspecified substance, not normally found in blood", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("R79.89", "Other specified abnormal findings of blood chemistry", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("R97.0", "Elevated carcinoembryonic antigen [CEA]", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("R97.8", "Other abnormal tumor markers", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("Z85.3", "Personal history of malignant neoplasm of breast", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("Z85.43", "Personal history of malignant neoplasm of ovary", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("C53.0", "Malignant neoplasm of endocervix", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("C54.9", "Malignant neoplasm of corpus uteri, unspecified", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("C56.9", "Malignant neoplasm of unspecified ovary", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("C57.00", "Malignant neoplasm of unspecified fallopian tube", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("C57.4", "Malignant neoplasm of uterine adnexa, unspecified", Domain.CodeStatus.Active));
+        ICDs.Add(DiseasesFactory.Create("C79.60", "Secondary malignant neoplasm of unspecified ovary", Domain.CodeStatus.Active));
     }
 
 

@@ -7,11 +7,10 @@ public static class AnalysisTestFactory
         return new AnalysisTest();
     }
 
-    public static AnalysisTest Create(string dSymptom, string doctorComment, string result, string deviceServiceId, string medicalExamEposodeId)
+    public static AnalysisTest Create(string doctorComment, string result, string deviceServiceId, string medicalExamEposodeId)
     {
         return new AnalysisTest()
         {
-            DSymptom = dSymptom,
             DoctorComment = doctorComment,
             Result = result,
             DeviceServiceId = deviceServiceId,
@@ -23,7 +22,6 @@ public static class AnalysisTestFactory
     {
         return new AnalysisTest()
         {
-            DSymptom = string.Empty,
             DoctorComment = string.Empty,
             Result = result,
             DeviceServiceId = deviceServiceId,
