@@ -1,4 +1,4 @@
-﻿using CoreDiagnosisTreatment = HospitalManagementSystem.Domain.DiagnosisExamEpisode;
+﻿using CoreDiagnosisTreatment = HospitalManagementSystem.Domain.DiagnosisTreatment;
 using DataDiagnosisTreatment = HospitalManagementSystem.DataProvider.DiagnosisTreatment;
 
 namespace HospitalManagementSystem.DataProvider;
