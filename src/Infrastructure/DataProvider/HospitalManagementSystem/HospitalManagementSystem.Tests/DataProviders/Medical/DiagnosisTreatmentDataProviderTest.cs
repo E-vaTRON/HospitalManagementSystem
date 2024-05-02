@@ -266,7 +266,7 @@ public class DiagnosisTreatmentDataProviderTest : DataProviderTestBase
                     .Create();
 
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .With(i => i.ICDId, icdAdd.Id)
+                                  .With(i => i.DiseasesId, icdAdd.Id)
                                   .Create();
 
         var treatmentAdd = Fixture.Build<DataProvider.Treatment>()

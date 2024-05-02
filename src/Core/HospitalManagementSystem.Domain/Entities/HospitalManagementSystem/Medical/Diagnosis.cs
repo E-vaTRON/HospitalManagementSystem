@@ -8,8 +8,8 @@ public class Diagnosis : EntityBase
 
     public string?                      MedicalExamEpisodeId    { get; set; }
     public virtual MedicalExamEposode   MedicalExamEposode      { get; set; } = default!;
-    public string?                      ICDId                   { get; set; }
-    public virtual Diseases                  ICD                     { get; set; } = default!;
+    public string?                      DiseasesId              { get; set; }
+    public virtual Diseases             Diseases                { get; set; } = default!;
 
     public virtual ICollection<DiagnosisTreatment> DiagnosisTreatments { get; set; } = new HashSet<DiagnosisTreatment>();
 }
