@@ -1,9 +1,9 @@
 ﻿namespace HospitalManagementSystem.Tests;
 
-public class ICDDataProviderTest : DataProviderTestBase
+public class DiseasesDataProviderTest : DataProviderTestBase
 {
     #region [ CTors ]
-    public ICDDataProviderTest(string realConnection = "") : base(realConnection)
+    public DiseasesDataProviderTest(string realConnection = "") : base(realConnection)
     {
     }
     #endregion
@@ -26,7 +26,7 @@ public class ICDDataProviderTest : DataProviderTestBase
         // Assert
         var result = await DbContext.ICDs.FirstOrDefaultAsync(d => d.Id == Guid.Parse(icdAdd.Id!));
         Assert.True(add.IsCompletedSuccessfully);
-        Assert.Equal(icdAdd.Name, result?.Code);
+        Assert.Equal(icdAdd.Name, result?.Name);
         Assert.Equal(icdAdd.Description, result?.Description);
         Assert.Equal(icdAdd.Status.ToString(), result?.Status.ToString());
     }
@@ -73,7 +73,7 @@ public class ICDDataProviderTest : DataProviderTestBase
         // Assert
         var result = await DbContext.ICDs.FirstOrDefaultAsync(d => d.Id == icdAdd.Id);
         Assert.True(update.IsCompletedSuccessfully);
-        Assert.Equal(icdUpdate.Name, result?.Code);
+        Assert.Equal(icdUpdate.Name, result?.Name);
         Assert.Equal(icdUpdate.Description, result?.Description);
         Assert.Equal(icdUpdate.Status.ToString(), result?.Status.ToString());
     }
@@ -98,7 +98,7 @@ public class ICDDataProviderTest : DataProviderTestBase
         // Assert
         var result = await DbContext.ICDs.FirstOrDefaultAsync(d => d.Id == icdAdd.Id);
         Assert.True(update.IsCompleted);
-        Assert.Equal(icdAdd.Code, result?.Code);
+        Assert.Equal(icdAdd.Name, result?.Name);
         Assert.Equal(icdAdd.Description, result?.Description);
         Assert.Equal(icdAdd.Status.ToString(), result?.Status.ToString());
     }
@@ -122,7 +122,7 @@ public class ICDDataProviderTest : DataProviderTestBase
         // Assert
         var result = await DbContext.ICDs.FirstOrDefaultAsync(d => d.Id == icdAdd.Id);
         await Assert.ThrowsAsync<ArgumentNullException>(Result);
-        Assert.Equal(icdAdd.Code, result?.Code);
+        Assert.Equal(icdAdd.Name, result?.Name);
         Assert.Equal(icdAdd.Description, result?.Description);
         Assert.Equal(icdAdd.Status.ToString(), result?.Status.ToString());
     }
@@ -210,7 +210,7 @@ public class ICDDataProviderTest : DataProviderTestBase
         {
             var icd = icdList.ElementAt(resultList.ToList().IndexOf(result));
             Assert.NotNull(result);
-            Assert.Equal(icd.Code, result.Name);
+            Assert.Equal(icd.Name, result.Name);
             Assert.Equal(icd.Description, result.Description);
             Assert.Equal(icd.Status.ToString(), result.Status.ToString());
         };
@@ -250,7 +250,7 @@ public class ICDDataProviderTest : DataProviderTestBase
 
         //Assert
         Assert.NotNull(result);
-        Assert.Equal(icd.Code, result.Name);
+        Assert.Equal(icd.Name, result.Name);
         Assert.Equal(icd.Description, result.Description);
         Assert.Equal(icd.Status.ToString(), result.Status.ToString());
     }

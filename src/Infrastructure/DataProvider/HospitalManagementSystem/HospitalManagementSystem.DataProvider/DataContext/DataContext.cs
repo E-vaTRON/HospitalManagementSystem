@@ -25,7 +25,7 @@ public class DataContext
         IAssignmentHistoryDataProvider assignmentHistoryDataProvider,
         IDiagnosisDataProvider diagnosisDataProvider,
         IDiagnosisTreatmentDataProvider diagnosisTreatmentDataProvider,
-        IICDDataProvider icdDataProvider,
+        IDiseasesDataProvider icdDataProvider,
         IMedicalExamDataProvider medicalExamDataProvider,
         IMedicalExamEposodeDataProvider medicalExamEposodeDataProvider,
         ITreatmentDataProvider treatmentDataProvider,
@@ -100,7 +100,7 @@ public class DataContext
     public IAssignmentHistoryDataProvider AssignmentHistories { get; set; }
     public IDiagnosisDataProvider Diagnoses { get; set; }
     public IDiagnosisTreatmentDataProvider DiagnosisTreatments { get; set; }
-    public IICDDataProvider ICDs { get; set; }
+    public IDiseasesDataProvider ICDs { get; set; }
     public ITreatmentDataProvider Treatments { get; set; }
     public ITreatmentExamEpisodeDataProvider TreatmentExamEpisodes { get; set; }
     public IMedicalExamDataProvider MedicalExams { get; set; }
