@@ -13,7 +13,7 @@ public static class DiagnosisFactory
         {
             DiagnosisCode = diagnosisCode,
             Description = description,
-            ICDId = icdId,
+            DiseasesId = icdId,
             MedicalExamEpisodeId = medicalExamEpisodeId
         };
     }
@@ -24,7 +24,7 @@ public static class DiagnosisFactory
         {
             DiagnosisCode = diagnosisCode,
             Description = string.Empty,
-            ICDId = icdId,
+            DiseasesId = icdId,
             MedicalExamEpisodeId = medicalExamEpisodeId
         };
     }
