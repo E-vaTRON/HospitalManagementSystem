@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IICDServiceProvider : IContractBase<ICD>
+public interface IICDServiceProvider : IContractBase<Diseases>
 {
 }

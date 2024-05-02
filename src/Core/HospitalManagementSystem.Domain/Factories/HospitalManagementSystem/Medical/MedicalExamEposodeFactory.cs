@@ -7,7 +7,7 @@ public static class MedicalExamEposodeFactory
         return new MedicalExamEposode();
     }
 
-    public static MedicalExamEposode Create(DateTime dateTakeExam, DateTime dateReExam, int lineNumber, DateTime recordDay, int totalPrice, string medicalExamId, string reExamAppointmentId)
+    public static MedicalExamEposode Create(DateTime dateTakeExam, DateTime dateReExam, int lineNumber, DateTime recordDay, int totalPrice, string medicalExamId)
     {
         return new MedicalExamEposode()
         {
@@ -16,12 +16,11 @@ public static class MedicalExamEposodeFactory
             LineNumber = lineNumber,
             RecordDay = recordDay,
             TotalPrice = totalPrice,
-            MedicalExamId = medicalExamId,
-            ReExamAppointmentId = reExamAppointmentId
+            MedicalExamId = medicalExamId
         };
     }
 
-    public static MedicalExamEposode Create(DateTime dateReExam, int lineNumber, DateTime recordDay, int totalPrice, string medicalExamId, string reExamAppointmentId)
+    public static MedicalExamEposode Create(DateTime dateReExam, int lineNumber, DateTime recordDay, int totalPrice, string medicalExamId)
     {
         return new MedicalExamEposode()
         {
@@ -30,8 +29,7 @@ public static class MedicalExamEposodeFactory
             LineNumber = lineNumber,
             RecordDay = recordDay,
             TotalPrice = totalPrice,
-            MedicalExamId = medicalExamId,
-            ReExamAppointmentId = reExamAppointmentId
+            MedicalExamId = medicalExamId
         };
     }
 }

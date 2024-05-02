@@ -11,8 +11,6 @@ public static class TreatmentExamEpisodeFactory
     {
         return new TreatmentExamEpisode()
         {
-            TreatmentId = treatmentId,
-            MedicalExamEpisodeId = medicalExamEpisodeId
         };
     }
 }

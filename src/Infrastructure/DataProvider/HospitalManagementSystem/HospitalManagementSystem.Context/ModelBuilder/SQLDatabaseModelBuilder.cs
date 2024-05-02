@@ -569,20 +569,20 @@ public class SQLDatabaseModelBuilder
     
     private void ICDModelBuilder(ModelBuilder modelBuilder)
     {
-        this.BaseModelBuilder<ICD>(modelBuilder, nameof(ICD));
+        this.BaseModelBuilder<Diseases>(modelBuilder, nameof(Diseases));
 
-        modelBuilder.Entity<ICD>()
+        modelBuilder.Entity<Diseases>()
                     .Property(x => x.Code)
                     .HasColumnType("nvarchar")
                     .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
                     .IsRequired(true);
 
-        modelBuilder.Entity<ICD>()
+        modelBuilder.Entity<Diseases>()
                     .Property(x => x.Description)
                     .HasColumnType("nvarchar")
                     .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
 
-        modelBuilder.Entity<ICD>()
+        modelBuilder.Entity<Diseases>()
                     .Property(x => x.Status)
                     .HasColumnType("nvarchar")
                     .HasConversion(new EnumToStringConverter<CodeStatus>())

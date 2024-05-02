@@ -15,7 +15,7 @@ public class ICDDataProviderTest : DataProviderTestBase
     public async void AddAsync_Success()
     {
         // Arrange
-        var icdAdd = Fixture.Build<Domain.ICD>()
+        var icdAdd = Fixture.Build<Domain.Diseases>()
                             .With(i => i.Id, Guid.NewGuid().ToString())
                             .Create();
 
@@ -26,7 +26,7 @@ public class ICDDataProviderTest : DataProviderTestBase
         // Assert
         var result = await DbContext.ICDs.FirstOrDefaultAsync(d => d.Id == Guid.Parse(icdAdd.Id!));
         Assert.True(add.IsCompletedSuccessfully);
-        Assert.Equal(icdAdd.Code, result?.Code);
+        Assert.Equal(icdAdd.Name, result?.Code);
         Assert.Equal(icdAdd.Description, result?.Description);
         Assert.Equal(icdAdd.Status.ToString(), result?.Status.ToString());
     }
@@ -35,7 +35,7 @@ public class ICDDataProviderTest : DataProviderTestBase
     public async void AddAsync_EntityIsNull_Exception()
     {
         // Arrange
-        var icdAdd = default(Domain.ICD);
+        var icdAdd = default(Domain.Diseases);
 
         // Act
         var icdProvider = new ICDDataProvider(DbContext, Mapper);
@@ -52,14 +52,14 @@ public class ICDDataProviderTest : DataProviderTestBase
     public async void UpdateAsync_Success()
     {
         // Arrange
-        var icdAdd = Fixture.Build<DataProvider.ICD>()
+        var icdAdd = Fixture.Build<DataProvider.Diseases>()
                             .Create();
 
         await DbContext.ICDs.AddAsync(icdAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(icdAdd).State = EntityState.Detached;
 
-        var icdUpdate = Fixture.Build<Domain.ICD>()
+        var icdUpdate = Fixture.Build<Domain.Diseases>()
                                .Without(i => i.IsDeleted)
                                .Without(i => i.Id)
                                .Create();
@@ -73,7 +73,7 @@ public class ICDDataProviderTest : DataProviderTestBase
         // Assert
         var result = await DbContext.ICDs.FirstOrDefaultAsync(d => d.Id == icdAdd.Id);
         Assert.True(update.IsCompletedSuccessfully);
-        Assert.Equal(icdUpdate.Code, result?.Code);
+        Assert.Equal(icdUpdate.Name, result?.Code);
         Assert.Equal(icdUpdate.Description, result?.Description);
         Assert.Equal(icdUpdate.Status.ToString(), result?.Status.ToString());
     }
@@ -82,14 +82,14 @@ public class ICDDataProviderTest : DataProviderTestBase
     public async void UpdateAsync_NotFound_Exception()
     {
         // Arrange
-        var icdAdd = this.Fixture.Build<DataProvider.ICD>()
+        var icdAdd = this.Fixture.Build<DataProvider.Diseases>()
                                  .Create();
 
         await DbContext.ICDs.AddRangeAsync(icdAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(icdAdd).State = EntityState.Detached;
 
-        var icdUpdate = this.Fixture.Create<Domain.ICD>();
+        var icdUpdate = this.Fixture.Create<Domain.Diseases>();
 
         // Act
         var icdProvider = new ICDDataProvider(DbContext, Mapper);
@@ -107,13 +107,13 @@ public class ICDDataProviderTest : DataProviderTestBase
     public async void UpdateAsync_EntityIsNull_Exception()
     {
         // Arrange
-        var icdAdd = this.Fixture.Build<DataProvider.ICD>()
+        var icdAdd = this.Fixture.Build<DataProvider.Diseases>()
                                  .Create();
 
         await DbContext.ICDs.AddRangeAsync(icdAdd);
         await DbContext.SaveChangesAsync();
 
-        var icdUpdate = default(Domain.ICD);
+        var icdUpdate = default(Domain.Diseases);
 
         // Act
         var icdProvider = new ICDDataProvider(DbContext, Mapper);
@@ -133,7 +133,7 @@ public class ICDDataProviderTest : DataProviderTestBase
     public async void DeleteByIdAsync_Success()
     {
         // Arrange
-        var icdAdd = this.Fixture.Build<DataProvider.ICD>()
+        var icdAdd = this.Fixture.Build<DataProvider.Diseases>()
                                  .Create();
 
         await base.DbContext.ICDs.AddAsync(icdAdd);
@@ -168,7 +168,7 @@ public class ICDDataProviderTest : DataProviderTestBase
     public async void DeleteByIdAsync_NotFound()
     {
         // Arrange
-        var icdAdd = this.Fixture.Build<DataProvider.ICD>()
+        var icdAdd = this.Fixture.Build<DataProvider.Diseases>()
                                  .Create();
 
         await DbContext.ICDs.AddAsync(icdAdd);
@@ -192,7 +192,7 @@ public class ICDDataProviderTest : DataProviderTestBase
     public async void FindAll()
     {
         //Arrange
-        List<DataProvider.ICD> icdList = Fixture.Build<DataProvider.ICD>()
+        List<DataProvider.Diseases> icdList = Fixture.Build<DataProvider.Diseases>()
                                                 .CreateMany().ToList();
 
         await DbContext.ICDs.AddRangeAsync(icdList.ToArray());
@@ -210,7 +210,7 @@ public class ICDDataProviderTest : DataProviderTestBase
         {
             var icd = icdList.ElementAt(resultList.ToList().IndexOf(result));
             Assert.NotNull(result);
-            Assert.Equal(icd.Code, result.Code);
+            Assert.Equal(icd.Code, result.Name);
             Assert.Equal(icd.Description, result.Description);
             Assert.Equal(icd.Status.ToString(), result.Status.ToString());
         };
@@ -238,7 +238,7 @@ public class ICDDataProviderTest : DataProviderTestBase
     public async void FindByIdAsync_DisableQuickFind()
     {
         //Arrange
-        var icd = Fixture.Build<DataProvider.ICD>()
+        var icd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
         await DbContext.ICDs.AddAsync(icd);
@@ -250,7 +250,7 @@ public class ICDDataProviderTest : DataProviderTestBase
 
         //Assert
         Assert.NotNull(result);
-        Assert.Equal(icd.Code, result.Code);
+        Assert.Equal(icd.Code, result.Name);
         Assert.Equal(icd.Description, result.Description);
         Assert.Equal(icd.Status.ToString(), result.Status.ToString());
     }
@@ -259,7 +259,7 @@ public class ICDDataProviderTest : DataProviderTestBase
     public async void FindByIdAsync_NotExit()
     {
         //Arrange
-        var icd = Fixture.Build<DataProvider.ICD>()
+        var icd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
         await DbContext.ICDs.AddAsync(icd);
@@ -277,7 +277,7 @@ public class ICDDataProviderTest : DataProviderTestBase
     public async void FindByIdAsync_IdIsNullOrEmpty_Exception()
     {
         //Arrange
-        var icdAdd = Fixture.Build<DataProvider.ICD>()
+        var icdAdd = Fixture.Build<DataProvider.Diseases>()
                             .With(i => i.Id, Guid.NewGuid())
                             .Create();
 
