@@ -17,6 +17,7 @@
     <ProjectReference Include="..\..\..\Core\HospitalManagementSystem.Application\HospitalManagementSystem.Application.csproj" />
     <ProjectReference Include="..\..\DataProvider\HospitalManagementSystem\HospitalManagementSystem.Context\HospitalManagementSystem.Context.csproj" />
     <ProjectReference Include="..\..\DataProvider\HospitalManagementSystem\HospitalManagementSystem.Context\HospitalManagementSystem.Context.csproj" />
+    <ProjectReference Include="..\..\DataProvider\HospitalManagementSystem\HospitalManagementSystem.DataProvider\HospitalManagementSystem.DataProvider.csproj" />
   </ItemGroup>
 
   <ItemGroup>
