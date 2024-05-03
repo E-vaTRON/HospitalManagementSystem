@@ -20,10 +20,5 @@
     <ProjectReference Include="..\..\DataProvider\HospitalManagementSystem\HospitalManagementSystem.DataProvider\HospitalManagementSystem.DataProvider.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Providers\MedicalDevice\" />
-    <Folder Include="Providers\Medical\MedicalAssignment\" />
-  </ItemGroup>
-
 
 </Project>
