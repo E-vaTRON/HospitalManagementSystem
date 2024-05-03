@@ -21,9 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Providers\Function\Appointment\" />
-    <Folder Include="Providers\Infrastructure\RoomAllocation\" />
-    <Folder Include="Providers\Inventory\" />
     <Folder Include="Providers\MedicalDevice\" />
     <Folder Include="Providers\Medical\MedicalAssignment\" />
   </ItemGroup>

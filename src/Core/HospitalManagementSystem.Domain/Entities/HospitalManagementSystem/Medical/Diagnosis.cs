@@ -7,7 +7,7 @@ public class Diagnosis : EntityBase
     public string?  Description     { get; set; }
 
     public string?                      MedicalExamEpisodeId    { get; set; }
-    public virtual MedicalExamEposode   MedicalExamEposode      { get; set; } = default!;
+    public virtual MedicalExamEpisode   MedicalExamEpisode      { get; set; } = default!;
     public string?                      DiseasesId              { get; set; }
     public virtual Diseases             Diseases                { get; set; } = default!;
 

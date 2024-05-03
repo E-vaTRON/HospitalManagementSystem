@@ -1,15 +1,15 @@
 ﻿namespace HospitalManagementSystem.Domain;
 
-public static class MedicalExamEposodeFactory
+public static class MedicalExamEpisodeFactory
 {
-    public static MedicalExamEposode Create()
+    public static MedicalExamEpisode Create()
     {
-        return new MedicalExamEposode();
+        return new MedicalExamEpisode();
     }
 
-    public static MedicalExamEposode Create(DateTime dateTakeExam, DateTime dateReExam, int lineNumber, DateTime recordDay, int totalPrice, string medicalExamId)
+    public static MedicalExamEpisode Create(DateTime dateTakeExam, DateTime dateReExam, int lineNumber, DateTime recordDay, int totalPrice, string medicalExamId)
     {
-        return new MedicalExamEposode()
+        return new MedicalExamEpisode()
         {
             DateTakeExam = dateTakeExam,
             DateReExam = dateReExam,
@@ -20,9 +20,9 @@ public static class MedicalExamEposodeFactory
         };
     }
 
-    public static MedicalExamEposode Create(DateTime dateReExam, int lineNumber, DateTime recordDay, int totalPrice, string medicalExamId)
+    public static MedicalExamEpisode Create(DateTime dateReExam, int lineNumber, DateTime recordDay, int totalPrice, string medicalExamId)
     {
-        return new MedicalExamEposode()
+        return new MedicalExamEpisode()
         {
             DateTakeExam = DateTime.Now,
             DateReExam = dateReExam,

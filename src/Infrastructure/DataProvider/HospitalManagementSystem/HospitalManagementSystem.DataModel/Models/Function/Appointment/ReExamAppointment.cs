@@ -2,6 +2,6 @@
 
 public class ReExamAppointment : AppointmentBase
 {
-    public Guid?                MedicalExamEposodeId    { get; set; }
-    public MedicalExamEposode?  MedicalExamEposode      { get; set; } = default!;
+    public Guid?                MedicalExamEpisodeId    { get; set; }
+    public MedicalExamEpisode?  MedicalExamEpisode      { get; set; } = default!;
 }

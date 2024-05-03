@@ -7,8 +7,8 @@ public class AnalysisTest : EntityBase
 
     public string?              DeviceServiceId         { get; set; }
     public DeviceService        DeviceService           { get; set; } = default!;
-    public string?              MedicalExamEposodeId    { get; set; }
-    public MedicalExamEposode   MedicalExamEposode      { get; set; } = default!;
+    public string?              MedicalExamEpisodeId    { get; set; }
+    public MedicalExamEpisode   MedicalExamEpisode      { get; set; } = default!;
 
     //public virtual ICollection<DiagnosisSuggestion> DiagnosisSuggestions { get; set; } = new HashSet<DiagnosisSuggestion>();
 }

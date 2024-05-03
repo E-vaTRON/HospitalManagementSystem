@@ -7,8 +7,8 @@ public class AnalysisTest : ModelBase
 
     public Guid?                DeviceServiceId         { get; set; }
     public DeviceService        DeviceService           { get; set; } = default!;
-    public Guid?                MedicalExamEposodeId    { get; set; }
-    public MedicalExamEposode   MedicalExamEposode      { get; set; } = default!;
+    public Guid?                MedicalExamEpisodeId    { get; set; }
+    public MedicalExamEpisode   MedicalExamEpisode      { get; set; } = default!;
 
     //public virtual ICollection<DiagnosisSuggestion> DiagnosisSuggestions { get; set; } = new HashSet<DiagnosisSuggestion>();
 }

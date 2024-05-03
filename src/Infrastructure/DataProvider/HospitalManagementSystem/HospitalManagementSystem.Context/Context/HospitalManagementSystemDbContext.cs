@@ -46,7 +46,7 @@ public partial class HospitalManagementSystemDbContext : DbContext
     public virtual DbSet<ICDCodeVersion>        ICDCodeVersions         { get; set; } = null!;
     public virtual DbSet<ICDVersion>            ICDVersions             { get; set; } = null!;
     public virtual DbSet<MedicalExam>           MedicalExams            { get; set; } = null!;
-    public virtual DbSet<MedicalExamEposode>    MedicalExamEposodes     { get; set; } = null!;
+    public virtual DbSet<MedicalExamEpisode>    MedicalExamEpisodes     { get; set; } = null!;
     public virtual DbSet<Treatment>             Treatments              { get; set; } = null!; 
     //public virtual DbSet<TreatmentExamEpisode>  TreatmentExamEpisodes   { get; set; } = null!;
 

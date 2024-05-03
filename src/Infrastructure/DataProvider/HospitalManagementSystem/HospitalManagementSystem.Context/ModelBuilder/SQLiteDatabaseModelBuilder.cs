@@ -55,7 +55,7 @@ public class SQLiteDatabaseModelBuilder
         this.ICDCodeVersionModelBuilder(modelBuilder);
         this.ICDVersionModelBuilder(modelBuilder);
         this.MedicalExamModelBuilder(modelBuilder);
-        this.MedicalExamEposodeModelBuilder(modelBuilder);
+        this.MedicalExamEpisodeModelBuilder(modelBuilder);
         this.TreatmentModelBuilder(modelBuilder);
         //this.TreatmentExamEpisodeModelBuilder(modelBuilder);
 
@@ -147,9 +147,9 @@ public class SQLiteDatabaseModelBuilder
                     .HasColumnType("TEXT");
 
         modelBuilder.Entity<ReExamAppointment>()
-                    .HasOne(ra => ra.MedicalExamEposode)
+                    .HasOne(ra => ra.MedicalExamEpisode)
                     .WithOne(mee => mee.ReExamAppointment)
-                    .HasForeignKey<ReExamAppointment>(ra => ra.MedicalExamEposodeId);
+                    .HasForeignKey<ReExamAppointment>(ra => ra.MedicalExamEpisodeId);
     }
 
     private void ReferralModelBuilder(ModelBuilder modelBuilder)
@@ -475,9 +475,9 @@ public class SQLiteDatabaseModelBuilder
                     .IsRequired(true);
 
         modelBuilder.Entity<AssignmentHistory>()
-                    .HasOne(rd => rd.MedicalExamEposode)
+                    .HasOne(rd => rd.MedicalExamEpisode)
                     .WithMany(mee => mee.AssignmentHistories)
-                    .HasForeignKey(rd => rd.MedicalExamEposodeId)
+                    .HasForeignKey(rd => rd.MedicalExamEpisodeId)
                     .IsRequired(true);
 
         modelBuilder.Entity<AssignmentHistory>()
@@ -605,38 +605,38 @@ public class SQLiteDatabaseModelBuilder
                     .WithOne(ba => ba.MedicalExam)
                     .HasForeignKey<MedicalExam>(me => me.BookingAppointmentId);
     }
-    private void MedicalExamEposodeModelBuilder(ModelBuilder modelBuilder)
+    private void MedicalExamEpisodeModelBuilder(ModelBuilder modelBuilder)
     {
-        this.BaseModelBuilder<MedicalExamEposode>(modelBuilder, nameof(MedicalExamEposode));
+        this.BaseModelBuilder<MedicalExamEpisode>(modelBuilder, nameof(MedicalExamEpisode));
 
-        modelBuilder.Entity<MedicalExamEposode>()
+        modelBuilder.Entity<MedicalExamEpisode>()
                     .Property(x => x.DateTakeExam)
                     .HasColumnType("TEXT")
                     .IsRequired(true);
 
-        modelBuilder.Entity<MedicalExamEposode>()
+        modelBuilder.Entity<MedicalExamEpisode>()
                     .Property(x => x.DateReExam)
                     .HasColumnType("TEXT");
 
-        modelBuilder.Entity<MedicalExamEposode>()
+        modelBuilder.Entity<MedicalExamEpisode>()
                     .Property(x => x.LineNumber)
                     .HasColumnType("INTEGER");
 
-        modelBuilder.Entity<MedicalExamEposode>()
+        modelBuilder.Entity<MedicalExamEpisode>()
                     .Property(x => x.RecordDay)
                     .HasColumnType("TEXT");
 
-        modelBuilder.Entity<MedicalExamEposode>()
+        modelBuilder.Entity<MedicalExamEpisode>()
                     .Property(x => x.TotalPrice)
                     .HasColumnType("INTEGER");
 
-        modelBuilder.Entity<MedicalExamEposode>()
+        modelBuilder.Entity<MedicalExamEpisode>()
                     .HasOne(rd => rd.ReExamAppointment)
-                    .WithOne(ah => ah.MedicalExamEposode);
+                    .WithOne(ah => ah.MedicalExamEpisode);
 
-        modelBuilder.Entity<MedicalExamEposode>()
+        modelBuilder.Entity<MedicalExamEpisode>()
                     .HasOne(mee => mee.MedicalExam)
-                    .WithMany(me => me.MedicalExamEposodes)
+                    .WithMany(me => me.MedicalExamEpisodes)
                     .HasForeignKey(mee => mee.MedicalExamId);
 
     }
@@ -774,9 +774,9 @@ public class SQLiteDatabaseModelBuilder
                     .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<AnalysisTest>()
-                    .HasOne(at => at.MedicalExamEposode)
+                    .HasOne(at => at.MedicalExamEpisode)
                     .WithMany(mee => mee.AnalysisTests)
-                    .HasForeignKey(at => at.MedicalExamEposodeId)
+                    .HasForeignKey(at => at.MedicalExamEpisodeId)
                     .OnDelete(DeleteBehavior.Cascade);
     }
     #endregion

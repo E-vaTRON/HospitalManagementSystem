@@ -1,4 +1,6 @@
-﻿namespace HospitalManagementSystem.DataProvider;
+﻿using HospitalManagementSystem.Domain;
+
+namespace HospitalManagementSystem.DataProvider;
 
 public class DataContext
 {
@@ -27,7 +29,7 @@ public class DataContext
         IDiagnosisTreatmentDataProvider diagnosisTreatmentDataProvider,
         IDiseasesDataProvider icdDataProvider,
         IMedicalExamDataProvider medicalExamDataProvider,
-        IMedicalExamEposodeDataProvider medicalExamEposodeDataProvider,
+        IMedicalExamEpisodeDataProvider medicalExamEpisodeDataProvider,
         ITreatmentDataProvider treatmentDataProvider,
         ITreatmentExamEpisodeDataProvider treatmentExamEpisodeDataProvider,
 
@@ -59,7 +61,7 @@ public class DataContext
         DiagnosisTreatments = diagnosisTreatmentDataProvider;
         ICDs = icdDataProvider;
         MedicalExams = medicalExamDataProvider;
-        MedicalExamEposodes = medicalExamEposodeDataProvider;
+        MedicalExamEpisodes = medicalExamEpisodeDataProvider;
         Treatments = treatmentDataProvider;
         TreatmentExamEpisodes = treatmentExamEpisodeDataProvider;
 
@@ -104,7 +106,7 @@ public class DataContext
     public ITreatmentDataProvider Treatments { get; set; }
     public ITreatmentExamEpisodeDataProvider TreatmentExamEpisodes { get; set; }
     public IMedicalExamDataProvider MedicalExams { get; set; }
-    public IMedicalExamEposodeDataProvider MedicalExamEposodes { get; set; }
+    public IMedicalExamEpisodeDataProvider MedicalExamEpisodes { get; set; }
     #endregion
 
     #region [ MedicalDevice ]

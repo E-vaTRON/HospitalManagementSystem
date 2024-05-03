@@ -8,23 +8,23 @@ public static class ReExamAppointmentFactory
         return new ReExamAppointment();
     }
 
-    public static ReExamAppointment Create(string patientId, string medicalExamEposodeId, string notes, DateTime dateTime)
+    public static ReExamAppointment Create(string patientId, string medicalExamEpisodeId, string notes, DateTime dateTime)
     {
         return new ReExamAppointment()
         {
             AppointmentDate = dateTime,
-            MedicalExamEposodeId = medicalExamEposodeId,
+            MedicalExamEpisodeId = medicalExamEpisodeId,
             PatientId = patientId,
             Notes = notes
         };
     }
 
-    public static ReExamAppointment Create(string patientId, string medicalExamEposodeId, string notes)
+    public static ReExamAppointment Create(string patientId, string medicalExamEpisodeId, string notes)
     {
         return new ReExamAppointment()
         {
             AppointmentDate = DateTime.Now,
-            MedicalExamEposodeId = medicalExamEposodeId,
+            MedicalExamEpisodeId = medicalExamEpisodeId,
             PatientId = patientId,
             Notes = notes
         };

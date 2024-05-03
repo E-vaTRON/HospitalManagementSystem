@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HospitalManagementSystem.Context.Migrations
 {
     [DbContext(typeof(HospitalManagementSystemDbContext))]
-    [Migration("20240415085737_Init")]
-    partial class Init
+    [Migration("20240503091247_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,6 @@ namespace HospitalManagementSystem.Context.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
-
-                    b.Property<string>("DSymptom")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar");
 
                     b.Property<DateTime?>("DeleteOn")
                         .HasColumnType("datetime");
@@ -49,7 +44,7 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.Property<DateTime?>("LastUpdatedOn")
                         .HasColumnType("datetime");
 
-                    b.Property<Guid?>("MedicalExamEposodeId")
+                    b.Property<Guid?>("MedicalExamEpisodeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Result")
@@ -87,7 +82,7 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.Property<DateTime?>("LastUpdatedOn")
                         .HasColumnType("datetime");
 
-                    b.Property<Guid?>("MedicalExamEposodeId")
+                    b.Property<Guid?>("MedicalExamEpisodeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("ReferralDoctorId")
@@ -244,7 +239,7 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar");
 
-                    b.Property<Guid?>("ICDId")
+                    b.Property<Guid?>("DiseasesId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
@@ -252,6 +247,13 @@ namespace HospitalManagementSystem.Context.Migrations
 
                     b.Property<DateTime?>("LastUpdatedOn")
                         .HasColumnType("datetime");
+
+                    b.Property<Guid?>("MedicalExamEpisodeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Symptom")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar");
 
                     b.HasKey("Id");
 
@@ -279,12 +281,57 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.Property<DateTime?>("LastUpdatedOn")
                         .HasColumnType("datetime");
 
+                    b.Property<string>("Note")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar");
+
+                    b.Property<string>("Order")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar");
+
                     b.Property<Guid?>("TreatmentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.ToTable("DiagnosisTreatment");
+                });
+
+            modelBuilder.Entity("HospitalManagementSystem.DataProvider.Diseases", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("DeleteOn")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastUpdatedOn")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Diseases");
                 });
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.Drug", b =>
@@ -327,11 +374,19 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar");
 
+                    b.Property<string>("Interactions")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastUpdatedOn")
                         .HasColumnType("datetime");
+
+                    b.Property<string>("SideEffects")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar");
 
                     b.Property<string>("Unit")
                         .IsRequired()
@@ -448,7 +503,7 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.ToTable("GoodSuppling");
                 });
 
-            modelBuilder.Entity("HospitalManagementSystem.DataProvider.ICD", b =>
+            modelBuilder.Entity("HospitalManagementSystem.DataProvider.ICDCode", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasMaxLength(36)
@@ -456,7 +511,6 @@ namespace HospitalManagementSystem.Context.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasMaxLength(36)
                         .HasColumnType("nvarchar");
 
                     b.Property<DateTime>("CreatedOn")
@@ -465,9 +519,8 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.Property<DateTime?>("DeleteOn")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar");
+                    b.Property<Guid?>("DiseasesId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -475,14 +528,65 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.Property<DateTime?>("LastUpdatedOn")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("Status")
+                    b.HasKey("Id");
+
+                    b.ToTable("ICDCode");
+                });
+
+            modelBuilder.Entity("HospitalManagementSystem.DataProvider.ICDCodeVersion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("DeleteOn")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid?>("ICDCodeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ICDVersionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastUpdatedOn")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ICDCodeVersion");
+                });
+
+            modelBuilder.Entity("HospitalManagementSystem.DataProvider.ICDVersion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("DeleteOn")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastUpdatedOn")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Version")
                         .IsRequired()
-                        .HasMaxLength(64)
                         .HasColumnType("nvarchar");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ICD");
+                    b.ToTable("ICDVersion");
                 });
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.Importation", b =>
@@ -607,7 +711,7 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.ToTable("MedicalExam");
                 });
 
-            modelBuilder.Entity("HospitalManagementSystem.DataProvider.MedicalExamEposode", b =>
+            modelBuilder.Entity("HospitalManagementSystem.DataProvider.MedicalExamEpisode", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasMaxLength(36)
@@ -645,7 +749,7 @@ namespace HospitalManagementSystem.Context.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MedicalExamEposode");
+                    b.ToTable("MedicalExamEpisode");
                 });
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.ReExamAppointment", b =>
@@ -669,7 +773,7 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.Property<DateTime?>("LastUpdatedOn")
                         .HasColumnType("datetime");
 
-                    b.Property<Guid?>("MedicalExamEposodeId")
+                    b.Property<Guid?>("MedicalExamEpisodeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Notes")
@@ -961,6 +1065,10 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar");
 
+                    b.Property<string>("Details")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -976,35 +1084,6 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.ToTable("Treatment");
                 });
 
-            modelBuilder.Entity("HospitalManagementSystem.DataProvider.TreatmentExamEpisode", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasMaxLength(36)
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime?>("DeleteOn")
-                        .HasColumnType("datetime");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastUpdatedOn")
-                        .HasColumnType("datetime");
-
-                    b.Property<Guid?>("MedicalExamEpisodeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("TreatmentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TreatmentExamEpisode");
-                });
-
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.AnalysisTest", b =>
                 {
                     b.HasOne("HospitalManagementSystem.DataProvider.DeviceService", "DeviceService")
@@ -1012,21 +1091,21 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasForeignKey("DeviceServiceId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("HospitalManagementSystem.DataProvider.MedicalExamEposode", "MedicalExamEposode")
+                    b.HasOne("HospitalManagementSystem.DataProvider.MedicalExamEpisode", "MedicalExamEpisode")
                         .WithMany("AnalysisTests")
-                        .HasForeignKey("MedicalExamEposodeId")
+                        .HasForeignKey("MedicalExamEpisodeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("DeviceService");
 
-                    b.Navigation("MedicalExamEposode");
+                    b.Navigation("MedicalExamEpisode");
                 });
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.AssignmentHistory", b =>
                 {
-                    b.HasOne("HospitalManagementSystem.DataProvider.MedicalExamEposode", "MedicalExamEposode")
+                    b.HasOne("HospitalManagementSystem.DataProvider.MedicalExamEpisode", "MedicalExamEpisode")
                         .WithMany("AssignmentHistories")
-                        .HasForeignKey("MedicalExamEposodeId")
+                        .HasForeignKey("MedicalExamEpisodeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1035,7 +1114,7 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasForeignKey("HospitalManagementSystem.DataProvider.AssignmentHistory", "ReferralDoctorId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("MedicalExamEposode");
+                    b.Navigation("MedicalExamEpisode");
 
                     b.Navigation("ReferralDoctor");
                 });
@@ -1076,25 +1155,30 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.Diagnosis", b =>
                 {
-                    b.HasOne("HospitalManagementSystem.DataProvider.ICD", "ICD")
+                    b.HasOne("HospitalManagementSystem.DataProvider.Diseases", "Diseases")
                         .WithMany("Diagnoses")
-                        .HasForeignKey("ICDId")
+                        .HasForeignKey("DiseasesId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("ICD");
+                    b.HasOne("HospitalManagementSystem.DataProvider.MedicalExamEpisode", "MedicalExamEposode")
+                        .WithMany("Diagnoses")
+                        .HasForeignKey("MedicalExamEpisodeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Diseases");
+
+                    b.Navigation("MedicalExamEposode");
                 });
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.DiagnosisTreatment", b =>
                 {
                     b.HasOne("HospitalManagementSystem.DataProvider.Diagnosis", "Diagnosis")
                         .WithMany("DiagnosisTreatments")
-                        .HasForeignKey("DiagnosisId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("DiagnosisId");
 
                     b.HasOne("HospitalManagementSystem.DataProvider.Treatment", "Treatment")
                         .WithMany("DiagnosisTreatments")
-                        .HasForeignKey("TreatmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TreatmentId");
 
                     b.Navigation("Diagnosis");
 
@@ -1125,7 +1209,7 @@ namespace HospitalManagementSystem.Context.Migrations
                         .HasForeignKey("DrugInventoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("HospitalManagementSystem.DataProvider.MedicalExamEposode", "MedicalExamEposode")
+                    b.HasOne("HospitalManagementSystem.DataProvider.MedicalExamEpisode", "MedicalExamEposode")
                         .WithMany("DrugPrescriptions")
                         .HasForeignKey("MedicalExamEposodeId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -1152,6 +1236,30 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.Navigation("Importation");
                 });
 
+            modelBuilder.Entity("HospitalManagementSystem.DataProvider.ICDCode", b =>
+                {
+                    b.HasOne("HospitalManagementSystem.DataProvider.Diseases", "Diseases")
+                        .WithMany("ICDCodes")
+                        .HasForeignKey("DiseasesId");
+
+                    b.Navigation("Diseases");
+                });
+
+            modelBuilder.Entity("HospitalManagementSystem.DataProvider.ICDCodeVersion", b =>
+                {
+                    b.HasOne("HospitalManagementSystem.DataProvider.ICDCode", "ICDCode")
+                        .WithMany("ICDCodeVersions")
+                        .HasForeignKey("ICDCodeId");
+
+                    b.HasOne("HospitalManagementSystem.DataProvider.ICDVersion", "ICDVersion")
+                        .WithMany("ICDCodeVersions")
+                        .HasForeignKey("ICDVersionId");
+
+                    b.Navigation("ICDCode");
+
+                    b.Navigation("ICDVersion");
+                });
+
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.MedicalExam", b =>
                 {
                     b.HasOne("HospitalManagementSystem.DataProvider.BookingAppointment", "BookingAppointment")
@@ -1162,10 +1270,10 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.Navigation("BookingAppointment");
                 });
 
-            modelBuilder.Entity("HospitalManagementSystem.DataProvider.MedicalExamEposode", b =>
+            modelBuilder.Entity("HospitalManagementSystem.DataProvider.MedicalExamEpisode", b =>
                 {
                     b.HasOne("HospitalManagementSystem.DataProvider.MedicalExam", "MedicalExam")
-                        .WithMany("MedicalExamEposodes")
+                        .WithMany("MedicalExamEpisodes")
                         .HasForeignKey("MedicalExamId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -1174,12 +1282,12 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.ReExamAppointment", b =>
                 {
-                    b.HasOne("HospitalManagementSystem.DataProvider.MedicalExamEposode", "MedicalExamEposode")
+                    b.HasOne("HospitalManagementSystem.DataProvider.MedicalExamEpisode", "MedicalExamEpisode")
                         .WithOne("ReExamAppointment")
-                        .HasForeignKey("HospitalManagementSystem.DataProvider.ReExamAppointment", "MedicalExamEposodeId")
+                        .HasForeignKey("HospitalManagementSystem.DataProvider.ReExamAppointment", "MedicalExamEpisodeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("MedicalExamEposode");
+                    b.Navigation("MedicalExamEpisode");
                 });
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.Referral", b =>
@@ -1214,7 +1322,7 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.RoomAllocation", b =>
                 {
-                    b.HasOne("HospitalManagementSystem.DataProvider.MedicalExamEposode", "MedicalExamEposode")
+                    b.HasOne("HospitalManagementSystem.DataProvider.MedicalExamEpisode", "MedicalExamEposode")
                         .WithMany("RoomAllocations")
                         .HasForeignKey("MedicalExamEposodeId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -1237,23 +1345,6 @@ namespace HospitalManagementSystem.Context.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Room");
-                });
-
-            modelBuilder.Entity("HospitalManagementSystem.DataProvider.TreatmentExamEpisode", b =>
-                {
-                    b.HasOne("HospitalManagementSystem.DataProvider.MedicalExamEposode", "MedicalExamEposode")
-                        .WithMany("TreatmentExamEpisodes")
-                        .HasForeignKey("MedicalExamEpisodeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HospitalManagementSystem.DataProvider.Treatment", "Treatment")
-                        .WithMany("TreatmentExamEpisodes")
-                        .HasForeignKey("TreatmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("MedicalExamEposode");
-
-                    b.Navigation("Treatment");
                 });
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.BookingAppointment", b =>
@@ -1281,6 +1372,13 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.Navigation("DiagnosisTreatments");
                 });
 
+            modelBuilder.Entity("HospitalManagementSystem.DataProvider.Diseases", b =>
+                {
+                    b.Navigation("Diagnoses");
+
+                    b.Navigation("ICDCodes");
+                });
+
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.Drug", b =>
                 {
                     b.Navigation("GoodSupplings");
@@ -1296,9 +1394,14 @@ namespace HospitalManagementSystem.Context.Migrations
                     b.Navigation("DrugInventory");
                 });
 
-            modelBuilder.Entity("HospitalManagementSystem.DataProvider.ICD", b =>
+            modelBuilder.Entity("HospitalManagementSystem.DataProvider.ICDCode", b =>
                 {
-                    b.Navigation("Diagnoses");
+                    b.Navigation("ICDCodeVersions");
+                });
+
+            modelBuilder.Entity("HospitalManagementSystem.DataProvider.ICDVersion", b =>
+                {
+                    b.Navigation("ICDCodeVersions");
                 });
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.Importation", b =>
@@ -1313,24 +1416,24 @@ namespace HospitalManagementSystem.Context.Migrations
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.MedicalExam", b =>
                 {
-                    b.Navigation("MedicalExamEposodes");
+                    b.Navigation("MedicalExamEpisodes");
 
                     b.Navigation("Referrals");
                 });
 
-            modelBuilder.Entity("HospitalManagementSystem.DataProvider.MedicalExamEposode", b =>
+            modelBuilder.Entity("HospitalManagementSystem.DataProvider.MedicalExamEpisode", b =>
                 {
                     b.Navigation("AnalysisTests");
 
                     b.Navigation("AssignmentHistories");
+
+                    b.Navigation("Diagnoses");
 
                     b.Navigation("DrugPrescriptions");
 
                     b.Navigation("ReExamAppointment");
 
                     b.Navigation("RoomAllocations");
-
-                    b.Navigation("TreatmentExamEpisodes");
                 });
 
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.Referral", b =>
@@ -1365,8 +1468,6 @@ namespace HospitalManagementSystem.Context.Migrations
             modelBuilder.Entity("HospitalManagementSystem.DataProvider.Treatment", b =>
                 {
                     b.Navigation("DiagnosisTreatments");
-
-                    b.Navigation("TreatmentExamEpisodes");
                 });
 #pragma warning restore 612, 618
         }

@@ -7,7 +7,7 @@ public static class RoomAllocationFactory
         return new RoomAllocation();
     }
 
-    public static RoomAllocation Create(DateTime startTime, DateTime endTime, string patientId, string roomId, string medicalExamEposodeId)
+    public static RoomAllocation Create(DateTime startTime, DateTime endTime, string patientId, string roomId, string medicalExamEpisodeId)
     {
         return new RoomAllocation()
         {
@@ -15,7 +15,7 @@ public static class RoomAllocationFactory
             EndTime = endTime,
             PatientId = patientId,
             RoomId = roomId,
-            MedicalExamEposodeId = medicalExamEposodeId
+            MedicalExamEpisodeId = medicalExamEpisodeId
         };
     }
 

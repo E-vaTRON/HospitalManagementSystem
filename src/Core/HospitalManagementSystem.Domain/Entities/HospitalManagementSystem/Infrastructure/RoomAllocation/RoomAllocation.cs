@@ -9,6 +9,6 @@ public class RoomAllocation : EntityBase
 
     public string?              RoomId                  { get; set; }
     public Room                 Room                    { get; set; } = default!;
-    public string?              MedicalExamEposodeId    { get; set; }
-    public MedicalExamEposode   MedicalExamEposode      { get; set; } = default!;
+    public string?              MedicalExamEpisodeId    { get; set; }
+    public MedicalExamEpisode   MedicalExamEpisode      { get; set; } = default!;
 }

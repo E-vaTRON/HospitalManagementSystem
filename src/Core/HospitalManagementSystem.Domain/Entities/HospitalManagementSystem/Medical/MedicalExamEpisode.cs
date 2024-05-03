@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.Domain;
 
-public class MedicalExamEposode : EntityBase
+public class MedicalExamEpisode : EntityBase
 {
     public DateTime     DateTakeExam    { get; set; }       //ngày khám bệnh ?????
     public DateTime     DateReExam      { get; set; }       //ngày tái khám

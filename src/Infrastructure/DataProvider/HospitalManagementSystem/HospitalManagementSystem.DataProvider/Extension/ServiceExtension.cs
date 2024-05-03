@@ -30,7 +30,7 @@ public static class ServiceExtension
         services.AddTransient<IICDVersionDataProvider, ICDVersionDataProvider>();
         services.AddTransient<IDiseasesDataProvider, DiseasesDataProvider>();
         services.AddTransient<IMedicalExamDataProvider, MedicalExamDataProvider>();
-        services.AddTransient<IMedicalExamEposodeDataProvider, MedicalExamEposodeDataProvider>();
+        services.AddTransient<IMedicalExamEpisodeDataProvider, MedicalExamEpisodeDataProvider>();
         services.AddTransient<ITreatmentDataProvider, TreatmentDataProvider>();
         //services.AddTransient<ITreatmentExamEpisodeDataProvider, TreatmentExamEpisodeDataProvider>();
 

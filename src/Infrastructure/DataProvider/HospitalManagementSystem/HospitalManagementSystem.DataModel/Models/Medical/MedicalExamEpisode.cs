@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.DataProvider;
 
-public class MedicalExamEposode : ModelBase
+public class MedicalExamEpisode : ModelBase
 {
     public DateTime     DateTakeExam    { get; set; }       //ngày khám bệnh ?????
     public DateTime     DateReExam      { get; set; }       //ngày tái khám
