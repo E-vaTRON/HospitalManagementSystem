@@ -3,7 +3,7 @@
 public static class ServiceExtension
 {
     #region [ Public Methods - Add ]
-    public static void AddHospitalManagementSystemServicesProvider(this IServiceCollection services, IConfiguration configuration)
+    public static void AddHospitalManagementSystemServicesProvider(this IServiceCollection services)
     {
         //services.Configure<JwtTokenConfig>(configuration.GetSection(nameof(JwtTokenConfig)));
         //services.Configure<IdentityAzureStorageConfig>(configuration.GetSection(nameof(IdentityAzureStorageConfig)));
@@ -82,6 +82,13 @@ public static class ServiceExtension
                 .AddTransient<IDeviceServiceServiceProvider,    DeviceServiceServiceProvider>()
                 .AddTransient<IMedicalDeviceServiceProvider,    MedicalDeviceServiceProvider>()
                 .AddTransient<IServiceServiceProvider,          ServiceServiceProvider>();
+    }
+
+
+
+    public static void AddHospitalManagementSystemServicesProvider(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddHospitalManagementSystemServicesProvider();
     }
     #endregion
 }

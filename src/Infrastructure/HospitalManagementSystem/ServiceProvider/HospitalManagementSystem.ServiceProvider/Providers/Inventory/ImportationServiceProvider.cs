@@ -4,7 +4,7 @@ namespace HospitalManagementSystem.ServiceProvider;
 
 public class ImportationServiceProvider : ServiceProviderBase<CoreImportation>, IImportationServiceProvider
 {
-    public ImportationServiceProvider(ImportationDataProvider dataProvider) : base(dataProvider)
+    public ImportationServiceProvider(IImportationDataProvider dataProvider) : base(dataProvider)
     {
     }
 }

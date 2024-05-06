@@ -4,7 +4,7 @@ namespace HospitalManagementSystem.ServiceProvider;
 
 public class DiagnosisTreatmentServiceProvider : ServiceProviderBase<CoreDiagnosisTreatment>, IDiagnosisTreatmentServiceProvider
 {
-    public DiagnosisTreatmentServiceProvider(DiagnosisTreatmentDataProvider dataProvider) : base(dataProvider)
+    public DiagnosisTreatmentServiceProvider(IDiagnosisTreatmentDataProvider dataProvider) : base(dataProvider)
     {
     }
 }

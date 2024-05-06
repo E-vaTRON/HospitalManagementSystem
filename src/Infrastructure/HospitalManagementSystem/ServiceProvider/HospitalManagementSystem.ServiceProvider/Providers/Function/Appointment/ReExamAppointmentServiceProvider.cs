@@ -4,7 +4,7 @@ namespace HospitalManagementSystem.ServiceProvider;
 
 public class ReExamAppointmentServiceProvider : ServiceProviderBase<CoreReExamAppointment>, IReExamAppointmentServiceProvider
 {
-    public ReExamAppointmentServiceProvider(ReExamAppointmentDataProvider dataProvider) : base(dataProvider)
+    public ReExamAppointmentServiceProvider(IReExamAppointmentDataProvider dataProvider) : base(dataProvider)
     {
     }
 }

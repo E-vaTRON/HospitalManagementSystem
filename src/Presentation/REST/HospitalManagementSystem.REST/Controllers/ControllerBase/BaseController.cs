@@ -1,4 +1,4 @@
-﻿namespace HospitalManagementSystem.API;
+﻿namespace HospitalManagementSystem.REST;
 
 [ApiController]
 [Route("/api/[controller]/[action]")]

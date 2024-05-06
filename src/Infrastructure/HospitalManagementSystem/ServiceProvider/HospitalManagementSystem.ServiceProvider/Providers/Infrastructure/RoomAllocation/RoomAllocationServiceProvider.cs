@@ -4,7 +4,7 @@ namespace HospitalManagementSystem.ServiceProvider;
 
 public class RoomAllocationServiceProvider : ServiceProviderBase<CoreRoomAllocation>, IRoomAllocationServiceProvider
 {
-    public RoomAllocationServiceProvider(RoomAllocationDataProvider dataProvider) : base(dataProvider)
+    public RoomAllocationServiceProvider(IRoomAllocationDataProvider dataProvider) : base(dataProvider)
     {
     }
 }

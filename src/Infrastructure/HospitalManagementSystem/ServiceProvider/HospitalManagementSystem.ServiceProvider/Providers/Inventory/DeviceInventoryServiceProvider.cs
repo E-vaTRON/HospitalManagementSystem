@@ -4,7 +4,7 @@ namespace HospitalManagementSystem.ServiceProvider;
 
 public class DeviceInventoryServiceProvider : ServiceProviderBase<CoreDeviceInventory>, IDeviceInventoryServiceProvider
 {
-    public DeviceInventoryServiceProvider(DeviceInventoryDataProvider dataProvider) : base(dataProvider)
+    public DeviceInventoryServiceProvider(IDeviceInventoryDataProvider dataProvider) : base(dataProvider)
     {
     }
 }

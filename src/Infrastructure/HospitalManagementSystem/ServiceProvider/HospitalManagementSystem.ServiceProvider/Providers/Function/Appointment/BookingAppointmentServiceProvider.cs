@@ -4,7 +4,7 @@ namespace HospitalManagementSystem.ServiceProvider;
 
 public class BookingAppointmentServiceProvider : ServiceProviderBase<CoreBookingAppointment>, IBookingAppointmentServiceProvider
 {
-    public BookingAppointmentServiceProvider(BookingAppointmentDataProvider dataProvider) : base(dataProvider)
+    public BookingAppointmentServiceProvider(IBookingAppointmentDataProvider dataProvider) : base(dataProvider)
     {
     }
 }

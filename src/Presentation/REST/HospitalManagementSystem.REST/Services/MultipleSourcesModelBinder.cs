@@ -1,13 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Newtonsoft.Json;
-using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HospitalManagementSystem.API;
+﻿namespace HospitalManagementSystem.REST;
 
 public class MultipleSourcesModelBinder<T> : IModelBinder where T : class
 {

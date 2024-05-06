@@ -1,9 +1,13 @@
-﻿namespace HospitalManagementSystem.DataProvider;
+﻿using Microsoft.Extensions.Configuration;
+
+namespace HospitalManagementSystem.DataProvider;
 public static class ServiceExtension
 {
     #region [ Public Methods - Add ]
     public static void AddHospitalManagementSystemDataProviders(this IServiceCollection services)
     {
+        //services.AddSingleton<DataContext>();
+
         services.AddTransient<IBookingAppointmentDataProvider,  BookingAppointmentDataProvider>()
                 .AddTransient<IReExamAppointmentDataProvider,   ReExamAppointmentDataProvider>()
                 .AddTransient<IReferralDataProvider,            ReferralDataProvider>()

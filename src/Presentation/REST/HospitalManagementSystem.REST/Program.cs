@@ -4,7 +4,6 @@ var configuration = builder.Configuration;
 builder.Services.AddControllers();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddSwaggerGen(options => options.SwaggerDoc("v1", new OpenApiInfo { Title = "HospitalDataBaseApi", Version = "v1" }));
-//builder.Services.AddServicesProvider(configuration);
 
 builder.Services.AddCors(options =>
 {

@@ -4,7 +4,7 @@ namespace HospitalManagementSystem.ServiceProvider;
 
 public class ICDCodeServiceProvider : ServiceProviderBase<CoreICDCode>, IICDCodeServiceProvider
 {
-    public ICDCodeServiceProvider(ICDCodeDataProvider dataProvider) : base(dataProvider)
+    public ICDCodeServiceProvider(IICDCodeDataProvider dataProvider) : base(dataProvider)
     {
     }
 }

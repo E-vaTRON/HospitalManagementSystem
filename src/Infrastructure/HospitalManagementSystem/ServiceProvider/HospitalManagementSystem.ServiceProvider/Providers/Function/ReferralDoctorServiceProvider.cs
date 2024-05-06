@@ -4,7 +4,7 @@ namespace HospitalManagementSystem.ServiceProvider;
 
 public class ReferralDoctorServiceProvider : ServiceProviderBase<CoreReferralDoctor>, IReferralDoctorServiceProvider
 {
-    public ReferralDoctorServiceProvider(ReferralDoctorDataProvider dataProvider) : base(dataProvider)
+    public ReferralDoctorServiceProvider(IReferralDoctorDataProvider dataProvider) : base(dataProvider)
     {
     }
 }
