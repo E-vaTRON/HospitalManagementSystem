@@ -1,0 +1,9 @@
+global using Xunit;
+global using Moq;
+global using AutoFixture;
+global using AutoFixture.Kernel;
+global using HospitalManagementSystem.Domain;
+global using HospitalManagementSystem.DataProvider;
+global using HospitalManagementSystem.ServiceProvider;
+global using HospitalManagementSystem.Application;
+global using System.Reflection;
