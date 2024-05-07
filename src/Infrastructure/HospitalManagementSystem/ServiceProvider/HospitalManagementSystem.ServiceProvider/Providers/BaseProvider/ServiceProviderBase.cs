@@ -21,8 +21,9 @@ public abstract class ServiceProviderBase<TEntity, TEId, TDataProvider> : IServi
         return DataProvider.FindByIdAsync(id, cancellationToken, isQuickFind);
     }
 
-    public Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public Task AddAsync(TEntity? entity, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(entity, nameof(entity));
         return DataProvider.AddAsync(entity, cancellationToken);
     }
 
@@ -36,8 +37,9 @@ public abstract class ServiceProviderBase<TEntity, TEId, TDataProvider> : IServi
         return DataProvider.AddRangeAsync(cancellationToken, entities);
     }
 
-    public Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public Task UpdateAsync(TEntity? entity, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(entity, nameof(entity));
         return DataProvider.UpdateAsync(entity, cancellationToken);
     }
 
