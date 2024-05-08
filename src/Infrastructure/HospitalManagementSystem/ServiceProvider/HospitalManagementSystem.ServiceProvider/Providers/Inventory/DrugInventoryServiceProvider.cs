@@ -4,7 +4,7 @@ namespace HospitalManagementSystem.ServiceProvider;
 
 public class DrugInventoryServiceProvider : ServiceProviderBase<CoreDrugInventory>, IDrugInventoryServiceProvider
 {
-    public DrugInventoryServiceProvider(DrugInventoryDataProvider dataProvider) : base(dataProvider)
+    public DrugInventoryServiceProvider(IDrugInventoryDataProvider dataProvider) : base(dataProvider)
     {
     }
 }

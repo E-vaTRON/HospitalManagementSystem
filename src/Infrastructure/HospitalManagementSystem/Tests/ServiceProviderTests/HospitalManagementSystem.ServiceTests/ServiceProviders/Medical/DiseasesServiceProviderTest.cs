@@ -1,4 +1,7 @@
-﻿namespace HospitalManagementSystem.Tests;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+
+namespace HospitalManagementSystem.Tests;
 
 public class DiseasesServiceProviderTest : ServiceProviderTestBase
 {
@@ -23,8 +26,8 @@ public class DiseasesServiceProviderTest : ServiceProviderTestBase
     {
         // Arrange
         var diseasesAdd = Fixture.Build<Domain.Diseases>()
-                            .With(i => i.Id, Guid.NewGuid().ToString())
-                            .Create();
+                                 .With(i => i.Id, Guid.NewGuid().ToString())
+                                 .Create();
         DataProvider.Setup(dp => dp.AddAsync(diseasesAdd, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
         // Act
@@ -37,16 +40,72 @@ public class DiseasesServiceProviderTest : ServiceProviderTestBase
     [Fact]
     public async void AddAsync_EntityIsNull_Exception()
     {
-        //// Arrange
-        //var icdAdd = default(Domain.Diseases);
+        //Arrange
+        var diseasesAdd = default(Domain.Diseases);
+        DataProvider.Setup(dp => dp.AddAsync(It.IsAny<Domain.Diseases>(), It.IsAny<CancellationToken>())).Throws<Exception>();
 
-        //// Act
-        //var icdProvider = new DiseasesDataProvider(DbContext, Mapper);
-        //Task Add() => icdProvider.AddAsync(icdAdd, new());
+        //Act
+        var add = async () => await ServiceProvider.AddAsync(diseasesAdd);
 
-        //// Assert
-        //await Assert.ThrowsAsync<ArgumentNullException>(Add);
-        //Assert.True(Add().IsCompleted);
+        //Assert
+        await Assert.ThrowsAsync<ArgumentNullException>(add);
+        Assert.True(add().IsCompleted);
+    }
+    #endregion
+
+    #region [ Update ]
+    [Fact]
+    public async Task UpdateAsync_Success()
+    {
+        // Arrange
+        var diseasesAdd = Fixture.Build<Domain.Diseases>()
+                                 .With(i => i.Id, Guid.NewGuid().ToString())
+                                 .Create();
+
+        var diseasesUpdate = Fixture.Build<Domain.Diseases>()
+                                    .With(i => i.Id, diseasesAdd.Id)
+                                    .Create();
+
+        DataProvider.Setup(x => x.UpdateAsync(diseasesUpdate, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+
+        // Act
+        await ServiceProvider.UpdateAsync(diseasesUpdate);
+
+        // Assert
+        DataProvider.Verify(dp => dp.UpdateAsync(diseasesUpdate, It.IsAny<CancellationToken>()), Times.Once());
+    }
+    [Fact]
+    public async void UpdateAsync_NotFound_Exception()
+    {
+        // Arrange
+        var diseasesUpdate = Fixture.Build<Domain.Diseases>()
+                                    .With(i => i.Id, Guid.NewGuid().ToString())
+                                    .Create();
+
+        DataProvider.Setup(x => x.UpdateAsync(diseasesUpdate, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+
+        // Act
+        await ServiceProvider.UpdateAsync(diseasesUpdate);
+
+        // Assert
+        DataProvider.Verify(dp => dp.UpdateAsync(diseasesUpdate, It.IsAny<CancellationToken>()), Times.Once());
+        Assert.Null(diseasesUpdate.Id);
+    }
+
+    [Fact]
+    public async void UpdateAsync_EntityIsNull_Exception()
+    {
+        // Arrange
+        var diseasesUpdate = default(Domain.Diseases);
+
+        DataProvider.Setup(x => x.UpdateAsync(It.IsAny<Domain.Diseases>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+
+        // Act
+        var update = async () => await ServiceProvider.UpdateAsync(diseasesUpdate);
+
+        // Assert
+        await Assert.ThrowsAsync<ArgumentNullException>(update);
+        Assert.True(update().IsCompleted);
     }
     #endregion
 

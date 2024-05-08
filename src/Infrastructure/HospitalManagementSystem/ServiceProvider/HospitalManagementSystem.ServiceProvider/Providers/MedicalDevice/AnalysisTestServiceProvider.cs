@@ -4,7 +4,7 @@ namespace HospitalManagementSystem.ServiceProvider;
 
 public class AnalysisTestServiceProvider : ServiceProviderBase<CoreAnalysisTest>, IAnalysisTestServiceProvider
 {
-    public AnalysisTestServiceProvider(AnalysisTestDataProvider dataProvider) : base(dataProvider)
+    public AnalysisTestServiceProvider(IAnalysisTestDataProvider dataProvider) : base(dataProvider)
     {
     }
 }

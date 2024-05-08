@@ -4,7 +4,7 @@ namespace HospitalManagementSystem.ServiceProvider;
 
 public class MedicalExamEpisodeServiceProvider : ServiceProviderBase<CoreMedicalExamEpisode>, IMedicalExamEpisodeServiceProvider
 {
-    public MedicalExamEpisodeServiceProvider(MedicalExamEpisodeDataProvider dataProvider) : base(dataProvider)
+    public MedicalExamEpisodeServiceProvider(IMedicalExamEpisodeDataProvider dataProvider) : base(dataProvider)
     {
     }
 }

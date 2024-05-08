@@ -16,8 +16,4 @@
     <ProjectReference Include="..\HospitalManagementSystem.Context\HospitalManagementSystem.Context.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Providers\BaseProvider\Interface\" />
-  </ItemGroup>
-
 </Project>

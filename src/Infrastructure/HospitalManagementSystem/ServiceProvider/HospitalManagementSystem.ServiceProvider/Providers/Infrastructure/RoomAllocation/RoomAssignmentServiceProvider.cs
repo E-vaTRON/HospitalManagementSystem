@@ -4,7 +4,7 @@ namespace HospitalManagementSystem.ServiceProvider;
 
 public class RoomAssignmentServiceProvider : ServiceProviderBase<CoreRoomAssignment>, IRoomAssignmentServiceProvider
 {
-    public RoomAssignmentServiceProvider(RoomAssignmentDataProvider dataProvider) : base(dataProvider)
+    public RoomAssignmentServiceProvider(IRoomAssignmentDataProvider dataProvider) : base(dataProvider)
     {
     }
 }

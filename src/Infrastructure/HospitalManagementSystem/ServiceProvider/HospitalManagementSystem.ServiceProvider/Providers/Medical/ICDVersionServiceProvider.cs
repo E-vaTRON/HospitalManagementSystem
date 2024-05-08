@@ -4,7 +4,7 @@ namespace HospitalManagementSystem.ServiceProvider;
 
 public class ICDVersionServiceProvider : ServiceProviderBase<CoreICDVersion>, IICDVersionServiceProvider
 {
-    public ICDVersionServiceProvider(ICDVersionDataProvider dataProvider) : base(dataProvider)
+    public ICDVersionServiceProvider(IICDVersionDataProvider dataProvider) : base(dataProvider)
     {
     }
 }

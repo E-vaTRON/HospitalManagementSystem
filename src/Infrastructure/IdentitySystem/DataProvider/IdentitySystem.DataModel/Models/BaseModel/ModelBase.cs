@@ -1,4 +1,4 @@
-﻿namespace HospitalManagementSystem.DataProvider;
+﻿namespace IdentitySystem.DataProvider;
 
 public class ModelBase : Model<Guid>
 {

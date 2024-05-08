@@ -4,7 +4,7 @@ namespace HospitalManagementSystem.ServiceProvider;
 
 public class GoodSupplingServiceProvider : ServiceProviderBase<CoreGoodSuppling>, IGoodSupplingServiceProvider
 {
-    public GoodSupplingServiceProvider(GoodSupplingDataProvider dataProvider) : base(dataProvider)
+    public GoodSupplingServiceProvider(IGoodSupplingDataProvider dataProvider) : base(dataProvider)
     {
     }
 }

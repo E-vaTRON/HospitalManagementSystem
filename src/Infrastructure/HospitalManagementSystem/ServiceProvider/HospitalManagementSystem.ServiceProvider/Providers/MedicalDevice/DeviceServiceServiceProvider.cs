@@ -4,7 +4,7 @@ namespace HospitalManagementSystem.ServiceProvider;
 
 public class DeviceServiceServiceProvider : ServiceProviderBase<CoreDeviceService>, IDeviceServiceServiceProvider
 {
-    public DeviceServiceServiceProvider(DeviceServiceDataProvider dataProvider) : base(dataProvider)
+    public DeviceServiceServiceProvider(IDeviceServiceDataProvider dataProvider) : base(dataProvider)
     {
     }
 }

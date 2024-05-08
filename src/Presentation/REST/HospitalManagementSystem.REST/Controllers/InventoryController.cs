@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace HospitalManagementSystem.API;
+﻿namespace HospitalManagementSystem.REST;
 
 public class InventoryController : Controller
 {

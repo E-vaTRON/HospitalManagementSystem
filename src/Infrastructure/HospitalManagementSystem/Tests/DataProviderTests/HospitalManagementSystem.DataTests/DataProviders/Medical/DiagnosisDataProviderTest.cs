@@ -15,14 +15,19 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void AddAsync_Success()
     {
         // Arrange
-        var icdAdd = Fixture.Build<DataProvider.Diseases>()
-                         .Create();
+        var diseasesAdd = Fixture.Build<DataProvider.Diseases>()
+                                 .Create();
 
-        await DbContext.Diseases.AddAsync(icdAdd);
+        var medicalExamEpisodeAdd = Fixture.Build<DataProvider.MedicalExamEpisode>()
+                                           .Create();
+
+        await DbContext.MedicalExamEpisodes.AddAsync(medicalExamEpisodeAdd);
+        await DbContext.Diseases.AddAsync(diseasesAdd);
         await DbContext.SaveChangesAsync();
 
         var diagnosisAdd = Fixture.Build<Domain.Diagnosis>()
-                                  .With(i => i.DiseasesId, icdAdd.Id.ToString())
+                                  .With(i => i.DiseasesId, diseasesAdd.Id.ToString())
+                                  .With(i => i.MedicalExamEpisodeId, medicalExamEpisodeAdd.Id.ToString())
                                   .With(i => i.Id, Guid.NewGuid().ToString())
                                   .Create();
 
@@ -34,7 +39,9 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         var result = await DbContext.Diagnoses.FirstOrDefaultAsync(d => d.Id == Guid.Parse(diagnosisAdd.Id!));
         Assert.True(add.IsCompletedSuccessfully);
         Assert.Equal(diagnosisAdd.DiseasesId, result?.DiseasesId.ToString());
+        Assert.Equal(diagnosisAdd.MedicalExamEpisodeId, result?.MedicalExamEpisodeId.ToString());
         Assert.Equal(diagnosisAdd.DiagnosisCode, result?.DiagnosisCode);
+        Assert.Equal(diagnosisAdd.Symptom, result?.Symptom);
         Assert.Equal(diagnosisAdd.Description, result?.Description);
     }
 
@@ -59,21 +66,27 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void UpdateAsync_Success()
     {
         // Arrange
-        var icdAdd = Fixture.Build<DataProvider.Diseases>()
+        var diseasesAdd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
+        var medicalExamEpisodeAdd = Fixture.Build<DataProvider.MedicalExamEpisode>()
+                                   .Create();
+
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .With(i => i.DiseasesId, icdAdd.Id)
+                                  .With(i => i.DiseasesId, diseasesAdd.Id)
+                                  .With(i => i.MedicalExamEpisodeId, medicalExamEpisodeAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
-        await DbContext.Diseases.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(diseasesAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
+        await DbContext.MedicalExamEpisodes.AddAsync(medicalExamEpisodeAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
 
         var diagnosisUpdate = Fixture.Build<Domain.Diagnosis>()
-                                     .With(i => i.DiseasesId, icdAdd.Id.ToString())
+                                     .With(i => i.DiseasesId, diseasesAdd.Id.ToString())
+                                     .With(i => i.MedicalExamEpisodeId, medicalExamEpisodeAdd.Id.ToString())
                                      .With(i => i.Id, diagnosisAdd.Id.ToString())
                                      .Create();
 
@@ -84,30 +97,38 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         // Assert
         var result = await DbContext.Diagnoses.FirstOrDefaultAsync(d => d.Id == diagnosisAdd.Id);
         Assert.True(update.IsCompletedSuccessfully);
+        Assert.Equal(diagnosisUpdate.DiseasesId, result?.DiseasesId.ToString());
+        Assert.Equal(diagnosisUpdate.MedicalExamEpisodeId, result?.MedicalExamEpisodeId.ToString());
         Assert.Equal(diagnosisUpdate.DiagnosisCode, result?.DiagnosisCode);
+        Assert.Equal(diagnosisUpdate.Symptom, result?.Symptom);
         Assert.Equal(diagnosisUpdate.Description, result?.Description);
-        Assert.Equal(diagnosisAdd.DiseasesId.ToString(), result?.DiseasesId.ToString());
     }
 
     [Fact]
     public async void UpdateAsync_NotFound_Exception()
     {
         // Arrange
-        var icdAdd = Fixture.Build<DataProvider.Diseases>()
+        var diseasesAdd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
+        var medicalExamEpisodeAdd = Fixture.Build<DataProvider.MedicalExamEpisode>()
+                                   .Create();
+
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .With(i => i.DiseasesId, icdAdd.Id)
+                                  .With(i => i.DiseasesId, diseasesAdd.Id)
+                                  .With(i => i.MedicalExamEpisodeId, medicalExamEpisodeAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
-        await DbContext.Diseases.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(diseasesAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
+        await DbContext.MedicalExamEpisodes.AddAsync(medicalExamEpisodeAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
 
         var diagnosisUpdate = Fixture.Build<Domain.Diagnosis>()
-                             .With(i => i.DiseasesId, icdAdd.Id.ToString())
+                             .With(i => i.DiseasesId, diseasesAdd.Id.ToString())
+                             .With(i => i.MedicalExamEpisodeId, medicalExamEpisodeAdd.Id.ToString())
                              .Create();
 
         // Act
@@ -117,25 +138,32 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         // Assert
         var result = await DbContext.Diagnoses.FirstOrDefaultAsync(d => d.Id == diagnosisAdd.Id);
         Assert.True(update.IsCompleted);
-        Assert.Equal(diagnosisAdd.DiagnosisCode, result?.DiagnosisCode);
-        Assert.Equal(diagnosisAdd.Description, result?.Description);
         Assert.Equal(diagnosisAdd.DiseasesId.ToString(), result?.DiseasesId.ToString());
+        Assert.Equal(diagnosisAdd.MedicalExamEpisodeId.ToString(), result?.MedicalExamEpisodeId.ToString());
+        Assert.Equal(diagnosisAdd.DiagnosisCode, result?.DiagnosisCode);
+        Assert.Equal(diagnosisAdd.Symptom, result?.Symptom);
+        Assert.Equal(diagnosisAdd.Description, result?.Description);
     }
 
     [Fact]
     public async void UpdateAsync_EntityIsNull_Exception()
     {
         // Arrange
-        var icdAdd = Fixture.Build<DataProvider.Diseases>()
+        var diseasesAdd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
+        var medicalExamEpisodeAdd = Fixture.Build<DataProvider.MedicalExamEpisode>()
+                                   .Create();
+
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .With(i => i.DiseasesId, icdAdd.Id)
+                                  .With(i => i.DiseasesId, diseasesAdd.Id)
+                                  .With(i => i.MedicalExamEpisodeId, medicalExamEpisodeAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
-        await DbContext.Diseases.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(diseasesAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
+        await DbContext.MedicalExamEpisodes.AddAsync(medicalExamEpisodeAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
 
@@ -148,9 +176,11 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         // Assert
         var result = await DbContext.Diagnoses.FirstOrDefaultAsync(d => d.Id == diagnosisAdd.Id);
         await Assert.ThrowsAsync<ArgumentNullException>(Result);
-        Assert.Equal(diagnosisAdd.DiagnosisCode, result?.DiagnosisCode);
-        Assert.Equal(diagnosisAdd.Description, result?.Description);
         Assert.Equal(diagnosisAdd.DiseasesId.ToString(), result?.DiseasesId.ToString());
+        Assert.Equal(diagnosisAdd.MedicalExamEpisodeId.ToString(), result?.MedicalExamEpisodeId.ToString());
+        Assert.Equal(diagnosisAdd.DiagnosisCode, result?.DiagnosisCode);
+        Assert.Equal(diagnosisAdd.Symptom, result?.Symptom);
+        Assert.Equal(diagnosisAdd.Description, result?.Description);
     }
     #endregion
 
@@ -159,16 +189,21 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void DeleteByIdAsync_Success()
     {
         // Arrange
-        var icdAdd = Fixture.Build<DataProvider.Diseases>()
+        var diseasesAdd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
+        var medicalExamEpisodeAdd = Fixture.Build<DataProvider.MedicalExamEpisode>()
+                                   .Create();
+
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .With(i => i.DiseasesId, icdAdd.Id)
+                                  .With(i => i.DiseasesId, diseasesAdd.Id)
+                                  .With(i => i.MedicalExamEpisodeId, medicalExamEpisodeAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
-        await DbContext.Diseases.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(diseasesAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
+        await DbContext.MedicalExamEpisodes.AddAsync(medicalExamEpisodeAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
 
@@ -200,16 +235,21 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void DeleteByIdAsync_NotFound()
     {
         // Arrange
-        var icdAdd = Fixture.Build<DataProvider.Diseases>()
+        var diseasesAdd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
+        var medicalExamEpisodeAdd = Fixture.Build<DataProvider.MedicalExamEpisode>()
+                                   .Create();
+
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .With(i => i.DiseasesId, icdAdd.Id)
+                                  .With(i => i.DiseasesId, diseasesAdd.Id)
+                                  .With(i => i.MedicalExamEpisodeId, medicalExamEpisodeAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
-        await DbContext.Diseases.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(diseasesAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
+        await DbContext.MedicalExamEpisodes.AddAsync(medicalExamEpisodeAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
 
@@ -230,15 +270,20 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void FindAll_Success()
     {
         //Arrange
-        var icdAdd = Fixture.Build<DataProvider.Diseases>()
-                            .Create();
+        var diseasesAdd = Fixture.Build<DataProvider.Diseases>()
+                                 .Create();
+
+        var medicalExamEpisodeAdd = Fixture.Build<DataProvider.MedicalExamEpisode>()
+                                           .Create();
 
         var diagnosisList = Fixture.Build<DataProvider.Diagnosis>()
-                                   .With(i => i.DiseasesId, icdAdd.Id)
+                                   .With(i => i.DiseasesId, diseasesAdd.Id)
+                                   .With(i => i.MedicalExamEpisodeId, medicalExamEpisodeAdd.Id)
                                    .CreateMany().ToArray();
 
-        await DbContext.Diseases.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(diseasesAdd);
         await DbContext.Diagnoses.AddRangeAsync(diagnosisList);
+        await DbContext.MedicalExamEpisodes.AddAsync(medicalExamEpisodeAdd);
         await DbContext.SaveChangesAsync();
 
         //Act
@@ -253,9 +298,11 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
         {
             var diagnosis = diagnosisList.ElementAt(resultList.ToList().IndexOf(result));
             Assert.NotNull(result);
-            Assert.Equal(diagnosis.DiagnosisCode, result.DiagnosisCode);
-            Assert.Equal(diagnosis.Description, result.Description);
-            Assert.Equal(diagnosis.DiseasesId.ToString(), result.DiseasesId);
+            Assert.Equal(diagnosis.DiseasesId.ToString(), result?.DiseasesId);
+            Assert.Equal(diagnosis.MedicalExamEpisodeId.ToString(), result?.MedicalExamEpisodeId);
+            Assert.Equal(diagnosis.DiagnosisCode, result?.DiagnosisCode);
+            Assert.Equal(diagnosis.Symptom, result?.Symptom);
+            Assert.Equal(diagnosis.Description, result?.Description);
         };
     }
 
@@ -279,16 +326,21 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void FindByIdAsync_DisableQuickFind()
     {
         //Arrange
-        var icdAdd = Fixture.Build<DataProvider.Diseases>()
+        var diseasesAdd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
+        var medicalExamEpisodeAdd = Fixture.Build<DataProvider.MedicalExamEpisode>()
+                                   .Create();
+
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .With(i => i.DiseasesId, icdAdd.Id)
+                                  .With(i => i.DiseasesId, diseasesAdd.Id)
+                                  .With(i => i.MedicalExamEpisodeId, medicalExamEpisodeAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
-        await DbContext.Diseases.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(diseasesAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
+        await DbContext.MedicalExamEpisodes.AddAsync(medicalExamEpisodeAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
 
@@ -298,9 +350,11 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
 
         //Assert
         Assert.NotNull(result);
-        Assert.Equal(diagnosisAdd.DiagnosisCode, result.DiagnosisCode);
-        Assert.Equal(diagnosisAdd.Description, result.Description);
-        Assert.Equal(diagnosisAdd.DiseasesId.ToString(), result.DiseasesId);
+        Assert.Equal(diagnosisAdd.DiseasesId.ToString(), result?.DiseasesId);
+        Assert.Equal(diagnosisAdd.MedicalExamEpisodeId.ToString(), result?.MedicalExamEpisodeId);
+        Assert.Equal(diagnosisAdd.DiagnosisCode, result?.DiagnosisCode);
+        Assert.Equal(diagnosisAdd.Symptom, result?.Symptom);
+        Assert.Equal(diagnosisAdd.Description, result?.Description);
     }
 
     [Fact]
@@ -322,16 +376,21 @@ public class DiagnosisDataProviderTest : DataProviderTestBase
     public async void FindByIdAsync_IdIsNullOrEmpty_Exception()
     {
         //Arrange
-        var icdAdd = Fixture.Build<DataProvider.Diseases>()
+        var diseasesAdd = Fixture.Build<DataProvider.Diseases>()
                          .Create();
 
+        var medicalExamEpisodeAdd = Fixture.Build<DataProvider.MedicalExamEpisode>()
+                                   .Create();
+
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .With(i => i.DiseasesId, icdAdd.Id)
+                                  .With(i => i.DiseasesId, diseasesAdd.Id)
+                                  .With(i => i.MedicalExamEpisodeId, medicalExamEpisodeAdd.Id)
                                   .With(i => i.Id, Guid.NewGuid())
                                   .Create();
 
-        await DbContext.Diseases.AddAsync(icdAdd);
+        await DbContext.Diseases.AddAsync(diseasesAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
+        await DbContext.MedicalExamEpisodes.AddAsync(medicalExamEpisodeAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(diagnosisAdd).State = EntityState.Detached;
 

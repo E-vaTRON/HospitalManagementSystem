@@ -1,6 +1,6 @@
-﻿namespace HospitalManagementSystem.DataProvider;
+﻿namespace IdentitySystem.DataProvider;
 
-public class User : IdentityUser
+public class User : IdentityUser<Guid>
 {
     public string       FirstName       { get; set; } = string.Empty;
     public string       LastName        { get; set; } = string.Empty;
