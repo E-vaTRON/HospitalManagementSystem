@@ -1,4 +1,4 @@
-﻿namespace HospitalManagementSystem.DataProvider;
+﻿namespace IdentitySystem.DataProvider;
 
 public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProviderBase<TEntity, TEId>
     where TEntity : class, IEntity<TEId>
@@ -7,13 +7,13 @@ public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProvi
     #region [ Field ]
     protected IMapper Mapper { get; set; }
 
-    public HospitalManagementSystemDbContext DbContext { get; protected set; }
+    public IdentitySystemDbContext DbContext { get; protected set; }
 
     public DbSet<TModel> DbSet { get; protected set; }
     #endregion
 
     #region [ CTor ]
-    public DataProviderBase(HospitalManagementSystemDbContext context, IMapper mapper)
+    public DataProviderBase(IdentitySystemDbContext context, IMapper mapper)
     {
         DbContext = context;
         Mapper = mapper;
@@ -41,7 +41,7 @@ public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProvi
     #endregion
 
     protected virtual Task<IQueryable<TEntity>> GetQueryableAsync(CancellationToken cancellationToken = default)
-    => GetQueryableAsync(false, cancellationToken);
+        => GetQueryableAsync(false, cancellationToken);
 
     protected virtual Task<IQueryable<TEntity>> GetQueryableAsync(bool asNoTracking = false, CancellationToken cancellationToken = default)
     {
@@ -64,7 +64,7 @@ public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProvi
     }
     #endregion
 
-    #region [ Public - Method ]
+    #region [ Public Method ]
     public virtual async Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default)
     {
         var query = await GetQueryableAsync(false, cancellationToken);
@@ -134,7 +134,7 @@ public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProvi
     #endregion
 }
 
-public abstract class DataProviderBase<TEntity, TModel>(HospitalManagementSystemDbContext context, IMapper mapper)
+public abstract class DataProviderBase<TEntity, TModel>(IdentitySystemDbContext context, IMapper mapper)
     : DataProviderBase<TEntity, string, TModel, Guid>(context, mapper)
     where TEntity : class, Domain.IEntity<string>
     where TModel : class, DataProvider.IModel<Guid>

@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Core\IdentitySystem\IdentitySystem.Application\IdentitySystem.Application.csproj" />
+    <ProjectReference Include="..\..\DataProvider\IdentitySystem.Context\IdentitySystem.Context.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DataContext\" />
+    <Folder Include="Providers\User\Identity\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
+</Project>
