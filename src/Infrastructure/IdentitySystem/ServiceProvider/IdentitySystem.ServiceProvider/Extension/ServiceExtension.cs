@@ -3,7 +3,7 @@
 public static class ServiceExtension
 {
     #region [ Public Methods - Add ]
-    public static void AddHospitalManagementSystemServicesProvider(this IServiceCollection services)
+    public static void AddIdentitySystemServicesProvider(this IServiceCollection services)
     {
         //services.Configure<JwtTokenConfig>(configuration.GetSection(nameof(JwtTokenConfig)));
         //services.Configure<IdentityAzureStorageConfig>(configuration.GetSection(nameof(IdentityAzureStorageConfig)));
@@ -46,19 +46,21 @@ public static class ServiceExtension
         //services.AddTransient<IIdentityMediaService, IdentityMediaService>();
         //services.AddTransient<IAuthenticationService, AuthenticationService>();
 
-        //services.AddScoped<IPetaverseUserRepository, UserRepository>();
+        services.AddTransient<INotificationServiceProvider, NotificationServiceProvider>();
 
-        //services.AddTransient<IBookingAppointmentServiceProvider,   BookingAppointmentServiceProvider>()
-        //        .AddTransient<IReExamAppointmentServiceProvider,    ReExamAppointmentServiceProvider>()
-        //        .AddTransient<IReferralServiceProvider,             ReferralServiceProvider>()
-        //        .AddTransient<IReferralDoctorServiceProvider,       ReferralDoctorServiceProvider>();
+        services.AddTransient<IScheduleDayServiceProvider, ScheduleDayServiceProvider>()
+                .AddTransient<IScheduleDayServiceProvider, ScheduleDayServiceProvider>();
+
+        services.AddTransient<ISpecializationServiceProvider, SpecializationServiceProvider>();
+
+        services.AddTransient<IUserServiceProvider, UserServiceProvider>()
+                .AddTransient<IRoleServiceProvider, RoleServiceProvider>()
+                .AddTransient<IUserRoleServiceProvider, UserRoleServiceProvider>();
     }
 
-
-
-    public static void AddHospitalManagementSystemServicesProvider(this IServiceCollection services, IConfiguration configuration)
+    public static void AddIdentitySystemServicesProvider(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHospitalManagementSystemServicesProvider();
+        services.AddIdentitySystemServicesProvider();
     }
     #endregion
 }

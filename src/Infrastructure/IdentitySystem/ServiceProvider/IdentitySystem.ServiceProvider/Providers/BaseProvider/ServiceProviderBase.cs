@@ -1,4 +1,4 @@
-﻿namespace HospitalManagementSystem.ServiceProvider;
+﻿namespace IdentitySystem.ServiceProvider;
 
 public abstract class ServiceProviderBase<TEntity, TEId, TDataProvider> : IServiceProviderBase<TEntity, TEId>
     where TEntity : class, IEntity<TEId>

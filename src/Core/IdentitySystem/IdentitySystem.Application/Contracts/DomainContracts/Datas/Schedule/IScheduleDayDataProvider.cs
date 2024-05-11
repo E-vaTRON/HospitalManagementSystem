@@ -1,5 +1,5 @@
 ﻿namespace IdentitySystem.Application;
 
-public interface IScheduleDayDataProvider : IContractBase<ScheduleDay, string>
+public interface IScheduleDayDataProvider : IDataProviderBase<ScheduleDay, string>
 {
 }

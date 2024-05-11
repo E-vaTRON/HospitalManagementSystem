@@ -1,5 +1,5 @@
 ﻿namespace IdentitySystem.Application;
 
-public interface INotificationDataProvider : IContractBase<Notification, string>
+public interface INotificationDataProvider : IDataProviderBase<Notification, string>
 {
 }

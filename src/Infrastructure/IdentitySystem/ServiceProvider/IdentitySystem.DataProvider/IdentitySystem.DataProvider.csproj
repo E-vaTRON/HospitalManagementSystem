@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="DataContext\" />
-    <Folder Include="Providers\User\Identity\" />
   </ItemGroup>
 
   <ItemGroup>

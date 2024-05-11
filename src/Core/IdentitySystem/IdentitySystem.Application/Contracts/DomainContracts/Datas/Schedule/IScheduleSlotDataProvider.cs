@@ -1,5 +1,5 @@
 ﻿namespace IdentitySystem.Application;
 
-public interface IScheduleSlotDataProvider : IContractBase<ScheduleSlot, string>
+public interface IScheduleSlotDataProvider : IDataProviderBase<ScheduleSlot, string>
 {
 }
