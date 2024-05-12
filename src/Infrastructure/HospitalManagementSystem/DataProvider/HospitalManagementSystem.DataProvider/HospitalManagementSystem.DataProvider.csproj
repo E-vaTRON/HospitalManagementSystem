@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="13.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\..\Core\HospitalManagementSystem\HospitalManagementSystem.Application\HospitalManagementSystem.Application.csproj" />
     <ProjectReference Include="..\HospitalManagementSystem.Context\HospitalManagementSystem.Context.csproj" />
   </ItemGroup>
