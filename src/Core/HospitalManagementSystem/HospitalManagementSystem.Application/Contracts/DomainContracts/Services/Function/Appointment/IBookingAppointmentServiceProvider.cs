@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IBookingAppointmentServiceProvider : IServiceProviderBase<BookingAppointment, string>
+public interface IBookingAppointmentServiceProvider : IServiceProviderBase<BookingAppointmentDTO, string>
 {
 }

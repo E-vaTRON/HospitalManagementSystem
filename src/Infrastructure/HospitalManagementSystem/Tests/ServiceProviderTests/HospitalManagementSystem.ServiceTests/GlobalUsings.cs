@@ -1,5 +1,6 @@
 global using Xunit;
 global using Moq;
+global using AutoMapper;
 global using AutoFixture;
 global using AutoFixture.Kernel;
 global using HospitalManagementSystem.Domain;

@@ -3,6 +3,7 @@
 public abstract class ServiceProviderTestBase
 {
     #region [ Fields ]
+    protected readonly IMapper Mapper;
     protected readonly Fixture Fixture;
     #endregion
 
@@ -14,6 +15,11 @@ public abstract class ServiceProviderTestBase
                          .ForEach(b => Fixture.Behaviors.Remove(b));
         Fixture.Behaviors.Add(new OmitOnRecursionBehavior(recursionDepth: 1));
         Fixture.Customize(new FixtureCustomization());
+
+        var configuration = new MapperConfiguration(config =>
+        {
+        });
+        Mapper = new Mapper(configuration);
     }
-    #endregion
+        #endregion
 }

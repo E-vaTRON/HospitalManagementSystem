@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IAssignmentHistoryServiceProvider : IServiceProviderBase<AssignmentHistory, string>
+public interface IAssignmentHistoryServiceProvider : IServiceProviderBase<AssignmentHistoryDTO, string>
 {
 }

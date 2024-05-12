@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IMedicalDeviceServiceProvider : IServiceProviderBase<MedicalDevice, string>
+public interface IMedicalDeviceServiceProvider : IServiceProviderBase<MedicalDeviceDTO, string>
 {
 }

@@ -1,10 +1,11 @@
 ﻿using CoreImportation = HospitalManagementSystem.Domain.Importation;
+using DTOImportation = HospitalManagementSystem.Application.ImportationDTO;
 
 namespace HospitalManagementSystem.ServiceProvider;
 
-public class ImportationServiceProvider : ServiceProviderBase<CoreImportation>, IImportationServiceProvider
+public class ImportationServiceProvider : ServiceProviderBase<DTOImportation, CoreImportation>, IImportationServiceProvider
 {
-    public ImportationServiceProvider(IImportationDataProvider dataProvider) : base(dataProvider)
+    public ImportationServiceProvider(IImportationDataProvider dataProvider, IMapper mapper) : base(dataProvider, mapper)
     {
     }
 }
