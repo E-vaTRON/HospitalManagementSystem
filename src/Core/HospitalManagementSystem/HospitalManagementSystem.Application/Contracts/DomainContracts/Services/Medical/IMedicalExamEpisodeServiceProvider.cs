@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IMedicalExamEpisodeServiceProvider : IServiceProviderBase<MedicalExamEpisode, string>
+public interface IMedicalExamEpisodeServiceProvider : IServiceProviderBase<MedicalExamEpisodeDTO, string>
 {
 }

@@ -1,6 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-
-namespace HospitalManagementSystem.Tests;
+﻿namespace HospitalManagementSystem.Tests;
 
 public class DatabaseStructureTests
 {

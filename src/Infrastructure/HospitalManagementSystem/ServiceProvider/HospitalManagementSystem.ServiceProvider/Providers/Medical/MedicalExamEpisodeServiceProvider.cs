@@ -1,10 +1,11 @@
 ﻿using CoreMedicalExamEpisode = HospitalManagementSystem.Domain.MedicalExamEpisode;
+using DTOMedicalExamEpisode = HospitalManagementSystem.Application.MedicalExamEpisodeDTO;
 
 namespace HospitalManagementSystem.ServiceProvider;
 
-public class MedicalExamEpisodeServiceProvider : ServiceProviderBase<CoreMedicalExamEpisode>, IMedicalExamEpisodeServiceProvider
+public class MedicalExamEpisodeServiceProvider : ServiceProviderBase<DTOMedicalExamEpisode, CoreMedicalExamEpisode>, IMedicalExamEpisodeServiceProvider
 {
-    public MedicalExamEpisodeServiceProvider(IMedicalExamEpisodeDataProvider dataProvider) : base(dataProvider)
+    public MedicalExamEpisodeServiceProvider(IMedicalExamEpisodeDataProvider dataProvider, IMapper mapper) : base(dataProvider, mapper)
     {
     }
 }
