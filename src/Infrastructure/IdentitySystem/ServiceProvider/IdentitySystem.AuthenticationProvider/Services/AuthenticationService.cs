@@ -3,27 +3,25 @@
 
 namespace IdentitySystem.ServiceProvider;
 
-public class AuthenticationService : UserServiceBase<UserCreateDTO, Domain.User>,  IAuthenticationService
+public class AuthenticationService : IAuthenticationService
 {
     #region [ Fields ]
-    private readonly IUserDataProvider UserDataProvider;
-    //private readonly IRoleDataProvider RoleDataProvider;
+    private readonly IMapper Mapper;
+    private readonly IUserServiceProvider UserServiceProvider;
     private readonly IJwtTokenService JwtTokenService;
-    //private readonly IIdentityMediaService identityMediaService;
     private readonly IdentitySystemDbContext DbContext;
     #endregion
 
     #region [ CTor ]
-    public AuthenticationService( IMapper mapper, 
-                                  IUserDataProvider userDataProvider,
-                                  //IRoleDataProvider roleDataProvider,
+    public AuthenticationService( IMapper mapper,
+                                  IUserServiceProvider userServiceProvider,
                                   IJwtTokenService jwtTokenService,
-                                  IdentitySystemDbContext dbContext ) : base(mapper)
+                                  IdentitySystemDbContext dbContext )
     {
-        this.UserDataProvider = userDataProvider;
-        //this.RoleDataProvider = roleDataProvider;
-        this.JwtTokenService = jwtTokenService;
-        this.DbContext = dbContext;
+        Mapper = mapper;
+        UserServiceProvider = userServiceProvider;
+        JwtTokenService = jwtTokenService;
+        DbContext = dbContext;
     }
     #endregion
 
@@ -34,7 +32,7 @@ public class AuthenticationService : UserServiceBase<UserCreateDTO, Domain.User>
     {
         //Guard.IsNotNull(dto);
 
-        var user = await UserDataProvider.FindByNameAsync(dto.username);
+        var user = await UserServiceProvider.FindByNameAsync(dto.username);
         if (user is null)
             return new ServiceError(nameof(AuthenticationService), nameof(Login))
             {
@@ -43,7 +41,7 @@ public class AuthenticationService : UserServiceBase<UserCreateDTO, Domain.User>
                 EventOccuredAt = DateTime.Now
             };
 
-        var passwordCheck = await UserDataProvider.CheckPasswordSignInAsync(user, dto.password, LoginMode.Email, false);
+        var passwordCheck = await UserServiceProvider.CheckPasswordSignInAsync(user, dto.password, LoginMode.Email, false);
         if (!passwordCheck.Succeeded)
             return new ServiceError(nameof(AuthenticationService), nameof(Login))
             {
@@ -63,7 +61,7 @@ public class AuthenticationService : UserServiceBase<UserCreateDTO, Domain.User>
         {
             SuccessMessage = IdentityConstants.USER_LOGGED_IN_SUCCESSFULLY,
             EventOccuredAt = DateTime.UtcNow,
-            //AttachedData = new AuthenticatedResponse(user.Id, requestAt, accessToken, expiredIn)
+            AttachedData = new AuthenticatedResponse(user.Id, requestAt, accessToken, expiredIn)
         };
     }
 
@@ -73,7 +71,7 @@ public class AuthenticationService : UserServiceBase<UserCreateDTO, Domain.User>
     {
         //Guard.IsNotNull(dto);
 
-        var user = await UserDataProvider.FindByPhoneNumberAsync(dto.phoneNumber);
+        var user = await UserServiceProvider.FindByPhoneNumberAsync(dto.phoneNumber);
         if (user is null)
             return new ServiceError(nameof(AuthenticationService), nameof(LoginWithPhoneNumber))
             {
@@ -81,7 +79,7 @@ public class AuthenticationService : UserServiceBase<UserCreateDTO, Domain.User>
                 ErrorCode = nameof(IdentityConstants.USER_NOT_FOUND),
                 EventOccuredAt = DateTime.Now
             };
-        var passwordCheck = await UserDataProvider.CheckPasswordSignInAsync(user, dto.password, LoginMode.PhoneNumber, false, cancellationToken);
+        var passwordCheck = await UserServiceProvider.CheckPasswordSignInAsync(user, dto.password, LoginMode.PhoneNumber, false, cancellationToken);
         if (!passwordCheck.Succeeded)
             return new ServiceError(nameof(AuthenticationService), nameof(LoginWithPhoneNumber))
             {
@@ -108,17 +106,17 @@ public class AuthenticationService : UserServiceBase<UserCreateDTO, Domain.User>
 
         using var transaction = await DbContext.Database.BeginTransactionAsync(cancellationToken);
 
-        UserCreateDTO userDto = new()
+        UserCreateDTO userCreateDto = new()
         {
-            //Email = dto.email,
+            Email = dto.email ?? dto.email,
             UserName = dto.userName,
             FirstName = dto.firstName,
             LastName = dto.lastName,
-            //PhoneNumber = dto.phoneNumber ?? dto.phoneNumber
+            PhoneNumber = dto.phoneNumber ?? dto.phoneNumber
         };
-        userDto.CreatedOn = DateTime.UtcNow;
-        var user = Mapper.Map<Domain.User>(userDto);
-        var createResult = await UserDataProvider.CreateAsync(user, dto.password);
+        userCreateDto.CreatedOn = DateTime.UtcNow;
+        var userDto = Mapper.Map<UserDTO>(userCreateDto);
+        var createResult = await UserServiceProvider.CreateAsync(userDto, dto.password);
 
         if (createResult.Errors.Any())
             return new ServiceError(nameof(AuthenticationService), nameof(LoginWithPhoneNumber))

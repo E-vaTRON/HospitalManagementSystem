@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using CoreUser = IdentitySystem.Domain.User;
+﻿using CoreUser = IdentitySystem.Domain.User;
 using DTOUser = IdentitySystem.Application.UserDTO;
 
 namespace IdentitySystem.ServiceProvider;
