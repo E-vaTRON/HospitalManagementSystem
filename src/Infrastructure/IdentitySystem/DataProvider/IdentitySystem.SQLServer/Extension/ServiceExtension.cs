@@ -7,7 +7,7 @@ public static class ServiceExtension
     #endregion
 
     #region [ Public Methods - Add ]
-    public static void AddHospitalManagementSystemSqlServerDataProviders(this IServiceCollection services, IConfiguration configuration)
+    public static void AddIdentitySystemSqlServerDataProviders(this IServiceCollection services, IConfiguration configuration)
     {
         // Can Use This
         //var connectionString = configuration.GetSection("ConnectionStrings:DefaultConnection").Value;

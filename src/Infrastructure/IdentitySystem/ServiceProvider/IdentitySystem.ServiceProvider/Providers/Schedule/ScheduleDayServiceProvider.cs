@@ -1,11 +1,11 @@
 ﻿using CoreScheduleDay = IdentitySystem.Domain.ScheduleDay;
-using DataScheduleDay = IdentitySystem.DataProvider.ScheduleDay;
+using DTOScheduleDay = IdentitySystem.Application.ScheduleDayDTO;
 
 namespace IdentitySystem.ServiceProvider;
 
-public class ScheduleDayServiceProvider : ServiceProviderBase<CoreScheduleDay>, IScheduleDayServiceProvider
+public class ScheduleDayServiceProvider : ServiceProviderBase<DTOScheduleDay, CoreScheduleDay>, IScheduleDayServiceProvider
 {
-    public ScheduleDayServiceProvider(IScheduleDayDataProvider dataProvider) : base(dataProvider)
+    public ScheduleDayServiceProvider(IScheduleDayDataProvider dataProvider, IMapper mapper) : base(dataProvider, mapper)
     {
     }
 }

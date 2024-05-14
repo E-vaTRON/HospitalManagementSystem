@@ -14,8 +14,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\HospitalManagementSystem\HospitalManagementSystem.Application\HospitalManagementSystem.Application.csproj" />
+    <ProjectReference Include="..\..\..\Core\IdentitySystem\IdentitySystem.Application\IdentitySystem.Application.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\HospitalManagementSystem\DataProvider\HospitalManagementSystem.SQLServer\HospitalManagementSystem.SQLServer.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\HospitalManagementSystem\ServiceProvider\HospitalManagementSystem.ServiceProvider\HospitalManagementSystem.ServiceProvider.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\IdentitySystem\DataProvider\IdentitySystem.SQLServer\IdentitySystem.SQLServer.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\IdentitySystem\ServiceProvider\IdentitySystem.AuthenticationProvider\IdentitySystem.AuthenticationProvider.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\IdentitySystem\ServiceProvider\IdentitySystem.ServiceProvider\IdentitySystem.ServiceProvider.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,11 +1,11 @@
 ﻿using CoreScheduleSlot = IdentitySystem.Domain.ScheduleSlot;
-using DataScheduleSlot = IdentitySystem.DataProvider.ScheduleSlot;
+using DTOScheduleSlot = IdentitySystem.Application.ScheduleSlotDTO;
 
 namespace IdentitySystem.ServiceProvider;
 
-public class ScheduleSlotServiceProvider : ServiceProviderBase<CoreScheduleSlot>, IScheduleSlotServiceProvider
+public class ScheduleSlotServiceProvider : ServiceProviderBase<DTOScheduleSlot, CoreScheduleSlot>, IScheduleSlotServiceProvider
 {
-    public ScheduleSlotServiceProvider(IScheduleSlotDataProvider dataProvider) : base(dataProvider)
+    public ScheduleSlotServiceProvider(IScheduleSlotDataProvider dataProvider, IMapper mapper) : base(dataProvider, mapper)
     {
     }
 }

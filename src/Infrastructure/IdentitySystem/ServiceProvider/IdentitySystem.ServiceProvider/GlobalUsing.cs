@@ -1,6 +1,9 @@
-﻿global using Microsoft.Extensions.DependencyInjection;
+﻿global using AutoMapper;
+global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Configuration;
+global using System.Diagnostics;
 global using System.Linq.Expressions;
 global using IdentitySystem.DataProvider;
 global using IdentitySystem.Application;
 global using IdentitySystem.Domain;
+global using Microsoft.AspNetCore.Identity;

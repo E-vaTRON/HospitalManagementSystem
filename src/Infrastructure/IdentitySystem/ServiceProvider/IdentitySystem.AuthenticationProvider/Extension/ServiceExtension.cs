@@ -3,7 +3,7 @@
 public static class ServiceExtension
 {
     #region [ Public Methods - Add ]
-    public static void AddIdentitySystemServicesProvider(this IServiceCollection services, IConfiguration configuration)
+    public static void AddIdentitySystemAuthenticationProvider(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<JwtTokenConfig>(configuration.GetSection(nameof(JwtTokenConfig)));
         services.Configure<IdentityAzureStorageConfig>(configuration.GetSection(nameof(IdentityAzureStorageConfig)));

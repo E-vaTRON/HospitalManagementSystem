@@ -1,13 +1,16 @@
-﻿namespace IdentitySystem.ServiceProvider;
+﻿using CoreRole = IdentitySystem.Domain.Role;
+using DTORole = IdentitySystem.Application.RoleDTO;
 
-public class RoleServiceProvider : IRoleServiceProvider
+namespace IdentitySystem.ServiceProvider;
+
+public class RoleServiceProvider : IdentityServiceProviderBase<DTORole, CoreRole>, IRoleServiceProvider
 {
     #region [ Field ]
     private readonly IRoleDataProvider DataProvider;
     #endregion
 
     #region [ CTor ]
-    public RoleServiceProvider(IRoleDataProvider dataProvider)
+    public RoleServiceProvider(IRoleDataProvider dataProvider, IMapper mapper) : base(mapper)
     {
         DataProvider = dataProvider;
     }

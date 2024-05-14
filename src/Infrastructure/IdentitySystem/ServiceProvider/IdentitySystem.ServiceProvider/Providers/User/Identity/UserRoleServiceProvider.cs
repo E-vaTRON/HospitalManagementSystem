@@ -1,13 +1,16 @@
-﻿namespace IdentitySystem.ServiceProvider;
+﻿using CoreUserRole = IdentitySystem.Domain.UserRole;
+using DTOUserRole = IdentitySystem.Application.UserRoleDTO;
 
-public class UserRoleServiceProvider : IUserRoleServiceProvider
+namespace IdentitySystem.ServiceProvider;
+
+public class UserRoleServiceProvider : IdentityServiceProviderBase<DTOUserRole, CoreUserRole>,  IUserRoleServiceProvider
 {
     #region [ Field ]
     private readonly IUserRoleDataProvider DataProvider;
     #endregion
 
     #region [ CTor ]
-    public UserRoleServiceProvider(IUserRoleDataProvider dataProvider)
+    public UserRoleServiceProvider(IUserRoleDataProvider dataProvider, IMapper mapper) : base(mapper)
     {
         DataProvider = dataProvider;
     }
