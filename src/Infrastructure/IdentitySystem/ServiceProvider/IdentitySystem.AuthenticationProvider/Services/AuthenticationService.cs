@@ -3,21 +3,22 @@
 
 namespace IdentitySystem.ServiceProvider;
 
-public class AuthenticationService : IAuthenticationService
+public class AuthenticationService : UserServiceBase<UserCreateDTO, Domain.User>,  IAuthenticationService
 {
     #region [ Fields ]
     private readonly IUserDataProvider UserDataProvider;
     //private readonly IRoleDataProvider RoleDataProvider;
     private readonly IJwtTokenService JwtTokenService;
-   // private readonly IIdentityMediaService identityMediaService;
+    //private readonly IIdentityMediaService identityMediaService;
     private readonly IdentitySystemDbContext DbContext;
     #endregion
 
     #region [ CTor ]
-    public AuthenticationService( IUserDataProvider userDataProvider,
+    public AuthenticationService( IMapper mapper, 
+                                  IUserDataProvider userDataProvider,
                                   //IRoleDataProvider roleDataProvider,
                                   IJwtTokenService jwtTokenService,
-                                  IdentitySystemDbContext dbContext )
+                                  IdentitySystemDbContext dbContext ) : base(mapper)
     {
         this.UserDataProvider = userDataProvider;
         //this.RoleDataProvider = roleDataProvider;
@@ -26,8 +27,7 @@ public class AuthenticationService : IAuthenticationService
     }
     #endregion
 
-    #region [ Methods ]
-
+    #region [ Public - Methods ]
     public async Task<OneOf<ServiceSuccess, ServiceError>> Login(UserLogin dto,
                                                                  string consumerName,
                                                                  CancellationToken cancellationToken = default)
@@ -54,7 +54,8 @@ public class AuthenticationService : IAuthenticationService
 
         var requestAt = DateTime.UtcNow;
         var expiredIn = requestAt.AddDays(1);   // TODO: define expire time
-        //var accessToken = JwtTokenService.GenerateToken(user, requestAt, expiredIn);
+        var userDto = Mapper.Map<UserCreateDTO>(user);
+        var accessToken = JwtTokenService.GenerateToken(userDto, requestAt, expiredIn);
         // TODO: define refresh token
 
 
@@ -90,7 +91,8 @@ public class AuthenticationService : IAuthenticationService
             };
         var requestAt = DateTime.UtcNow;
         var expiredIn = requestAt.AddDays(1);   // TODO: define expire time
-        //var accessToken = JwtTokenService.GenerateToken(user, requestAt, expiredIn);
+        var userDto = Mapper.Map<UserCreateDTO>(user);
+        var accessToken = JwtTokenService.GenerateToken(userDto, requestAt, expiredIn);
 
         return new ServiceSuccess(nameof(AuthenticationService), nameof(Login), consumerName)
         {
@@ -106,7 +108,7 @@ public class AuthenticationService : IAuthenticationService
 
         using var transaction = await DbContext.Database.BeginTransactionAsync(cancellationToken);
 
-        UserDTO user = new()
+        UserCreateDTO userDto = new()
         {
             //Email = dto.email,
             UserName = dto.userName,
@@ -114,19 +116,19 @@ public class AuthenticationService : IAuthenticationService
             LastName = dto.lastName,
             //PhoneNumber = dto.phoneNumber ?? dto.phoneNumber
         };
-        user.CreatedOn = DateTime.UtcNow;
+        userDto.CreatedOn = DateTime.UtcNow;
+        var user = Mapper.Map<Domain.User>(userDto);
+        var createResult = await UserDataProvider.CreateAsync(user, dto.password);
 
-        //var createResult = await UserDataProvider.CreateAsync(user, dto.password);
-
-        //if (createResult.Errors.Any())
-        //    return new ServiceError(nameof(AuthenticationService), nameof(LoginWithPhoneNumber))
-        //    {
-        //        ErrorMessage = string.Join(", ", createResult.Errors.Select(error => error.Description)),
-        //        ErrorCode = createResult.Errors
-        //                            .Sum(error => int.Parse(error.Code))
-        //                            .ToString(),
-        //        EventOccuredAt = DateTime.Now
-        //    };
+        if (createResult.Errors.Any())
+            return new ServiceError(nameof(AuthenticationService), nameof(LoginWithPhoneNumber))
+            {
+                ErrorMessage = string.Join(", ", createResult.Errors.Select(error => error.Description)),
+                ErrorCode = createResult.Errors
+                                    .Sum(error => int.Parse(error.Code))
+                                    .ToString(),
+                EventOccuredAt = DateTime.Now
+            };
 
 
         //To do

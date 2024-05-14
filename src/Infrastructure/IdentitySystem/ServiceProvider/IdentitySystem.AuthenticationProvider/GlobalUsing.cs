@@ -1,4 +1,6 @@
 ﻿global using OneOf;
+global using AutoMapper;
+global using IdentitySystem.Domain;
 global using IdentitySystem.Application;
 global using IdentitySystem.DataProvider;
 global using Microsoft.EntityFrameworkCore;
@@ -11,4 +13,6 @@ global using Microsoft.IdentityModel.Tokens;
 global using System.IdentityModel.Tokens.Jwt;
 global using System.Security.Claims;
 global using System.Security.Principal;
+global using System.Diagnostics;
+global using System.Linq.Expressions;
 global using System.Text;

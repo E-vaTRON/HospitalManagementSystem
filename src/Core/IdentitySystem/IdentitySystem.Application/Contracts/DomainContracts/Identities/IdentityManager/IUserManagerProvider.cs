@@ -1,7 +1,7 @@
 ﻿namespace IdentitySystem.Application;
 
 public interface IUserManagerProvider<TUser, TKey>
-    where TUser : IdentityUser<TKey>
+    where TUser : class
     where TKey : IEquatable<TKey>
 {
     Task<TUser?> FindByGuidAsync(TKey guid, CancellationToken cancellationToken = default!);
@@ -10,10 +10,10 @@ public interface IUserManagerProvider<TUser, TKey>
 
     Task<TUser?> FindByNameAsync(string userName);
 
+    Task<TUser?> FindByEmailAsync(string email, CancellationToken cancellationToken = default!);
+
     Task<TUser?> FindByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken = default!);
 
-    Task<SignInResult> CheckPasswordSignInAsync(TUser user, string password, LoginMode mode,
-                                                bool lockoutOnFailure, CancellationToken cancellationToken = default!);
     IQueryable<TUser> FindAll(Expression<Func<TUser, bool>>? predicate = null);
 
     Task<IdentityResult> CreateAsync(TUser user, string password);

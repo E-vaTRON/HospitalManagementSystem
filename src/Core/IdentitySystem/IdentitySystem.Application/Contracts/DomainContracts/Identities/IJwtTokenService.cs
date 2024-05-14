@@ -2,5 +2,5 @@
 
 public interface IJwtTokenService
 {
-    string GenerateToken(UserDTO user, DateTime iat, DateTime exp);
+    string GenerateToken(UserCreateDTO user, DateTime iat, DateTime exp);
 }

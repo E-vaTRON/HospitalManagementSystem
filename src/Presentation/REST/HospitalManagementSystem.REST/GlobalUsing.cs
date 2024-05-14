@@ -1,5 +1,8 @@
 ﻿global using AutoMapper;
 global using Newtonsoft.Json;
+global using IdentitySystem.Application;
+global using IdentitySystem.ServiceProvider;
+global using IdentitySystem.DataProvider;
 global using HospitalManagementSystem.Application;
 global using HospitalManagementSystem.ServiceProvider;
 global using HospitalManagementSystem.DataProvider;

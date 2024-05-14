@@ -1,11 +1,11 @@
 ﻿using CoreNotification = IdentitySystem.Domain.Notification;
-using DataNotification = IdentitySystem.DataProvider.Notification;
+using DTONotification = IdentitySystem.Application.NotificationDTO;
 
 namespace IdentitySystem.ServiceProvider;
 
-public class NotificationServiceProvider : ServiceProviderBase<CoreNotification>, INotificationServiceProvider
+public class NotificationServiceProvider : ServiceProviderBase<DTONotification, CoreNotification>, INotificationServiceProvider
 {
-    public NotificationServiceProvider(INotificationDataProvider dataProvider) : base(dataProvider)
+    public NotificationServiceProvider(INotificationDataProvider dataProvider, IMapper mapper) : base(dataProvider, mapper)
     {
     }
 }

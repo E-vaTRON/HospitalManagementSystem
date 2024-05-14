@@ -22,7 +22,11 @@ var mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfil
 IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
+builder.Services.AddIdentitySystemSqlServerDataProviders(configuration);
 builder.Services.AddHospitalManagementSystemSqlServerDataProviders(configuration);
+
+builder.Services.AddIdentitySystemAuthenticationProvider(configuration);
+builder.Services.AddIdentitySystemServicesProvider(configuration);
 builder.Services.AddHospitalManagementSystemServicesProvider(configuration);
 
 var app = builder.Build();

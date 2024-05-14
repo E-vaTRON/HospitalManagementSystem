@@ -1,8 +1,7 @@
 ﻿namespace IdentitySystem.Application;
 
-public class UserDTO
+public class UserCreateDTO : DTOBase
 {
-    public string       Id              { get; set; } = string.Empty;
     public string       UserName        { get; set; } = string.Empty;
     public string       FirstName       { get; set; } = string.Empty;
     public string       LastName        { get; set; } = string.Empty;
@@ -13,9 +12,4 @@ public class UserDTO
     public string       CardID          { get; set; } = string.Empty;   //mã thẻ ???
     public int?         SpecialistLevel { get; set; }                   //có bác sĩ là có thôi
     public bool         Verified        { get; set; }
-    public bool         IsDeleted       { get; set; } = false;
-    public bool         IsExpired       { get; set; } = false;
-    public DateTime     CreatedOn       { get; set; } = DateTime.Now;
-    public DateTime?    LastUpdatedOn   { get; set; }
-    public DateTime?    DeleteOn        { get; set; }
 }
