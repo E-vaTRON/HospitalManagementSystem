@@ -8,7 +8,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Core\IdentitySystem\IdentitySystem.Application\IdentitySystem.Application.csproj" />
-    <ProjectReference Include="..\..\DataProvider\IdentitySystem.Context\IdentitySystem.Context.csproj" />
+    <ProjectReference Include="..\..\..\..\Core\IdentitySystem\IdentitySystem.Domain\IdentitySystem.Domain.csproj" />
+    <ProjectReference Include="..\IdentitySystem.DataProvider\IdentitySystem.DataProvider.csproj" />
   </ItemGroup>
 
 </Project>

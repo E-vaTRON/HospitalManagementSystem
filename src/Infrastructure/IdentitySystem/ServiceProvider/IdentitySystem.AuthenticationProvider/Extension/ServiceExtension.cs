@@ -8,7 +8,7 @@ public static class ServiceExtension
         services.Configure<JwtTokenConfig>(configuration.GetSection(nameof(JwtTokenConfig)));
         services.Configure<IdentityAzureStorageConfig>(configuration.GetSection(nameof(IdentityAzureStorageConfig)));
 
-        services.AddIdentity<User, Role>(options =>
+        services.AddIdentity<DataProvider.User, DataProvider.Role>(options =>
         {
             options.Password.RequireDigit = false;
             options.Password.RequireLowercase = false;
