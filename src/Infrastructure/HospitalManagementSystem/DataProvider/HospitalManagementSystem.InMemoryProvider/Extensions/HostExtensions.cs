@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.DataProvider;
 
-public static class IHostExtensions
+public static class HostExtensions
 {
     #region [ Public Methods - Use ]
     public static void UseInMemoryDataProviders(this IHost host)

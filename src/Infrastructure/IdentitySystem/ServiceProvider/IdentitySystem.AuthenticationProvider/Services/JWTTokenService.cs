@@ -1,4 +1,6 @@
-﻿namespace IdentitySystem.ServiceProvider;
+﻿using CoreUser = IdentitySystem.Domain.User;
+
+namespace IdentitySystem.ServiceProvider;
 
 public class JWTTokenService : IJwtTokenService
 {
@@ -9,7 +11,8 @@ public class JWTTokenService : IJwtTokenService
 
     #region [CTor]
     public JWTTokenService(IUserDataProvider userDataProvider,
-                           IOptionsMonitor<JwtTokenConfig> tokenConfigOptionsAccessor)
+                           IOptionsMonitor<JwtTokenConfig> tokenConfigOptionsAccessor,
+                           IMapper mapper)
     {
         this.UserDataProvider = userDataProvider;
         this.tokenConfig = tokenConfigOptionsAccessor.CurrentValue;

@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{AF012722
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HospitalManagementSystem", "HospitalManagementSystem", "{F6A4D76F-06DA-45D9-90F8-76D6DDC3FB91}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataProviderTest", "DataProviderTest", "{7D02A186-2427-4774-93A4-AD8991039A99}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataProviderTests", "DataProviderTests", "{7D02A186-2427-4774-93A4-AD8991039A99}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceProviderTests", "ServiceProviderTests", "{C26631B7-26D6-41CE-9E7A-8976CF570D74}"
 EndProject
@@ -72,6 +72,20 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentitySystem.DataModel", "src\Infrastructure\IdentitySystem\DataProvider\IdentitySystem.DataModel\IdentitySystem.DataModel.csproj", "{AE1CC1AB-5044-41FC-8AD5-76A7FE095CF9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentitySystem.DataProvider", "src\Infrastructure\IdentitySystem\DataProvider\IdentitySystem.DataProvider\IdentitySystem.DataProvider.csproj", "{EAB069D4-033F-4964-8370-1437EA71D5F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D5D24D9E-DB6C-4DE8-8E92-51F544FC035B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentitySystem.SeedProvider", "src\Infrastructure\IdentitySystem\DataProvider\IdentitySystem.SeedProvider\IdentitySystem.SeedProvider.csproj", "{8ECD0CD9-9E36-4DA8-97E0-34C4C2546B4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentitySystem.InMemoryProvider", "src\Infrastructure\IdentitySystem\DataProvider\IdentitySystem.InMemoryProvider\IdentitySystem.InMemoryProvider.csproj", "{6388F571-049F-4AD1-8926-6863F966BDB4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataProviderTests", "DataProviderTests", "{56FDA31D-0C18-42BD-AC8B-8976474DD3B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceProviderTests", "ServiceProviderTests", "{0663273E-A594-4A30-A1C0-5E4E1D20029D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentitySystem.ServiceTests", "src\Infrastructure\IdentitySystem\Tests\ServiceProviderTests\IdentitySystem.ServiceTests\IdentitySystem.ServiceTests.csproj", "{7CD38FD5-1B1A-43FD-8B5F-0D56E9783249}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentitySystem.DataTests", "src\Infrastructure\IdentitySystem\Tests\DataProviderTests\IdentitySystem.DataTests\IdentitySystem.DataTests.csproj", "{F8A28A99-C6C7-4A56-A4DE-BD4DC7480C3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -200,6 +214,30 @@ Global
 		{EAB069D4-033F-4964-8370-1437EA71D5F6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EAB069D4-033F-4964-8370-1437EA71D5F6}.Test|Any CPU.ActiveCfg = Debug|Any CPU
 		{EAB069D4-033F-4964-8370-1437EA71D5F6}.Test|Any CPU.Build.0 = Debug|Any CPU
+		{8ECD0CD9-9E36-4DA8-97E0-34C4C2546B4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ECD0CD9-9E36-4DA8-97E0-34C4C2546B4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8ECD0CD9-9E36-4DA8-97E0-34C4C2546B4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8ECD0CD9-9E36-4DA8-97E0-34C4C2546B4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8ECD0CD9-9E36-4DA8-97E0-34C4C2546B4E}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ECD0CD9-9E36-4DA8-97E0-34C4C2546B4E}.Test|Any CPU.Build.0 = Debug|Any CPU
+		{6388F571-049F-4AD1-8926-6863F966BDB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6388F571-049F-4AD1-8926-6863F966BDB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6388F571-049F-4AD1-8926-6863F966BDB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6388F571-049F-4AD1-8926-6863F966BDB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6388F571-049F-4AD1-8926-6863F966BDB4}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{6388F571-049F-4AD1-8926-6863F966BDB4}.Test|Any CPU.Build.0 = Debug|Any CPU
+		{7CD38FD5-1B1A-43FD-8B5F-0D56E9783249}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CD38FD5-1B1A-43FD-8B5F-0D56E9783249}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CD38FD5-1B1A-43FD-8B5F-0D56E9783249}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CD38FD5-1B1A-43FD-8B5F-0D56E9783249}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CD38FD5-1B1A-43FD-8B5F-0D56E9783249}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CD38FD5-1B1A-43FD-8B5F-0D56E9783249}.Test|Any CPU.Build.0 = Debug|Any CPU
+		{F8A28A99-C6C7-4A56-A4DE-BD4DC7480C3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8A28A99-C6C7-4A56-A4DE-BD4DC7480C3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8A28A99-C6C7-4A56-A4DE-BD4DC7480C3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8A28A99-C6C7-4A56-A4DE-BD4DC7480C3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8A28A99-C6C7-4A56-A4DE-BD4DC7480C3F}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8A28A99-C6C7-4A56-A4DE-BD4DC7480C3F}.Test|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -237,6 +275,13 @@ Global
 		{DBC3716F-0EF2-4309-BB76-F54AE212EE9F} = {28ABD397-9837-41E8-A4EF-FCAE461C1A5F}
 		{AE1CC1AB-5044-41FC-8AD5-76A7FE095CF9} = {28ABD397-9837-41E8-A4EF-FCAE461C1A5F}
 		{EAB069D4-033F-4964-8370-1437EA71D5F6} = {28ABD397-9837-41E8-A4EF-FCAE461C1A5F}
+		{D5D24D9E-DB6C-4DE8-8E92-51F544FC035B} = {202DFF15-A10A-4D27-8391-D4139962C4BC}
+		{8ECD0CD9-9E36-4DA8-97E0-34C4C2546B4E} = {28ABD397-9837-41E8-A4EF-FCAE461C1A5F}
+		{6388F571-049F-4AD1-8926-6863F966BDB4} = {28ABD397-9837-41E8-A4EF-FCAE461C1A5F}
+		{56FDA31D-0C18-42BD-AC8B-8976474DD3B8} = {D5D24D9E-DB6C-4DE8-8E92-51F544FC035B}
+		{0663273E-A594-4A30-A1C0-5E4E1D20029D} = {D5D24D9E-DB6C-4DE8-8E92-51F544FC035B}
+		{7CD38FD5-1B1A-43FD-8B5F-0D56E9783249} = {0663273E-A594-4A30-A1C0-5E4E1D20029D}
+		{F8A28A99-C6C7-4A56-A4DE-BD4DC7480C3F} = {56FDA31D-0C18-42BD-AC8B-8976474DD3B8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FBC29E12-8C5E-46F6-98EC-35D90E2F8144}
