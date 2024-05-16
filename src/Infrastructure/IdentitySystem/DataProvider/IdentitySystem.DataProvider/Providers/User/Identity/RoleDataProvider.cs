@@ -3,16 +3,18 @@ using DataRole = IdentitySystem.DataProvider.Role;
 
 namespace IdentitySystem.DataProvider;
 
-public class RoleDataProvider : RoleManager<CoreRole>, IRoleDataProvider
+public class RoleDataProvider : IRoleDataProvider
 {
+    #region [ Field ]
+    private readonly IRoleManagerProvider RoleManagerProvider;
+    private readonly IdentitySystemDbContext DbContext;
+    #endregion
+
     #region [ CTor ]
-    public RoleDataProvider( RoleStoreProvider store, 
-                             IEnumerable<IRoleValidator<CoreRole>> roleValidators, 
-                             ILookupNormalizer keyNormalizer, 
-                             IdentityErrorDescriber errors, 
-                             ILogger<RoleManager<CoreRole>> logger )
-        : base(store, roleValidators, keyNormalizer, errors, logger)
+    public RoleDataProvider(IRoleManagerProvider roleManagerProvider, IdentitySystemDbContext dbContext)
     {
+        RoleManagerProvider = roleManagerProvider;
+        DbContext = dbContext;
     }
     #endregion
 }

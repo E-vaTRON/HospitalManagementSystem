@@ -8,20 +8,20 @@ public class AuthenticationService : IAuthenticationService
     #region [ Fields ]
     private readonly IMapper Mapper;
     private readonly IUserServiceProvider UserServiceProvider;
+    private readonly IUserDataProvider UserDataProvider;
     private readonly IJwtTokenService JwtTokenService;
-    private readonly IdentitySystemDbContext DbContext;
     #endregion
 
     #region [ CTor ]
     public AuthenticationService( IMapper mapper,
                                   IUserServiceProvider userServiceProvider,
-                                  IJwtTokenService jwtTokenService,
-                                  IdentitySystemDbContext dbContext )
+                                  IUserDataProvider userDataProvider,
+                                  IJwtTokenService jwtTokenService )
     {
         Mapper = mapper;
         UserServiceProvider = userServiceProvider;
+        UserDataProvider = userDataProvider;
         JwtTokenService = jwtTokenService;
-        DbContext = dbContext;
     }
     #endregion
 
@@ -104,7 +104,8 @@ public class AuthenticationService : IAuthenticationService
     {
         //Guard.IsNotNull(dto);
 
-        using var transaction = await DbContext.Database.BeginTransactionAsync(cancellationToken);
+        //using var transaction = await DbContext.Database.BeginTransactionAsync(cancellationToken);
+        await UserDataProvider.BeginTransactionAsync(cancellationToken);
 
         UserCreateDTO userCreateDto = new()
         {
@@ -137,7 +138,8 @@ public class AuthenticationService : IAuthenticationService
         //    await petaverseUserRepository.UpdateAsync(user);
         //}
 
-        await transaction.CommitAsync(cancellationToken);
+        //await transaction.CommitAsync(cancellationToken);
+        await UserDataProvider.CommitTransactionAsync(cancellationToken);
         return new ServiceSuccess(nameof(AuthenticationService), nameof(Login), consumerName)
         {
             SuccessMessage = IdentityConstants.USER_CREATED_SUCCESSFULLY,

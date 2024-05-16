@@ -1,6 +1,6 @@
 ﻿namespace IdentitySystem.Application;
 
-public interface ISignInManagerProvider<TUser, TKey>
+public interface ISignInContractBase<TUser, TKey>
     where TUser : class
     where TKey : IEquatable<TKey>
 {

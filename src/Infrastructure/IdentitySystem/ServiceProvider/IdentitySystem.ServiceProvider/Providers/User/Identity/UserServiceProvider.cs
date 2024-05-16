@@ -87,6 +87,16 @@ public class UserServiceProvider : IdentityServiceProviderBase<DTOUser, CoreUser
         return MapToDTO(user);
     }
 
+    public Task BeginTransactionAsync(CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task CommitTransactionAsync(CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<IdentityResult> CreateAsync(DTOUser userDto, string password)
     {
         var user = MapToEntity(userDto);
