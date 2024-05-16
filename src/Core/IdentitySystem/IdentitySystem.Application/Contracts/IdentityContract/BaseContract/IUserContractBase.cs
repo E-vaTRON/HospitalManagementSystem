@@ -1,6 +1,6 @@
 ﻿namespace IdentitySystem.Application;
 
-public interface IUserManagerProvider<TUser, TKey>
+public interface IUserContractBase<TUser, TKey>
     where TUser : class
     where TKey : IEquatable<TKey>
 {
@@ -17,5 +17,6 @@ public interface IUserManagerProvider<TUser, TKey>
     IQueryable<TUser> FindAll(Expression<Func<TUser, bool>>? predicate = null);
 
     Task<IdentityResult> CreateAsync(TUser user, string password);
+
     Task<IdentityResult> UpdateAsync(TUser user);
 }

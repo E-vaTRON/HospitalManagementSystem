@@ -1,12 +1,11 @@
-﻿using System.Security.Claims;
-using CoreUser = IdentitySystem.Domain.User;
+﻿using CoreUser = IdentitySystem.Domain.User;
 using DataUser = IdentitySystem.DataProvider.User;
 
 namespace IdentitySystem.DataProvider;
 
 public class SignInProvider : SignInManager<CoreUser>, ISignInProvider
 {
-    public SignInProvider( UserDataProvider userManager, 
+    public SignInProvider( UserManagerProvider userManager, 
                            IHttpContextAccessor contextAccessor, 
                            IUserClaimsPrincipalFactory<CoreUser> claimsFactory, 
                            IOptions<IdentityOptions> optionsAccessor, 

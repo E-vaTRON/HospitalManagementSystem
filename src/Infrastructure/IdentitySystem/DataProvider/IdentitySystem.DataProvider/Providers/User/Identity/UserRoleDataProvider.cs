@@ -6,13 +6,15 @@ namespace IdentitySystem.DataProvider;
 public class UserRoleDataProvider : IUserRoleDataProvider
 {
     #region [ Field ]
-    public UserRoleStoreProvider StoreProvider { get; set; }
+    private readonly IUserRoleManagerProvider UserRoleManagerProvider;
+    private readonly IdentitySystemDbContext DbContext;
     #endregion
 
     #region [ CTor ]
-    public UserRoleDataProvider( UserRoleStoreProvider storeProvider)
+    public UserRoleDataProvider(IUserRoleManagerProvider userRoleManagerProvider, IdentitySystemDbContext dbContext)
     {
-        StoreProvider = storeProvider;
+        UserRoleManagerProvider = userRoleManagerProvider;
+        DbContext = dbContext;
     }
     #endregion
 }

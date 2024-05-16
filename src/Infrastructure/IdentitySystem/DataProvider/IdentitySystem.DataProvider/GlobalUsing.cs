@@ -2,6 +2,7 @@
 global using AutoMapper.QueryableExtensions;
 global using IdentitySystem.Application;
 global using IdentitySystem.Domain;
+global using System.Security.Claims;
 global using System.Linq.Expressions;
 global using System.Diagnostics;
 global using Microsoft.AspNetCore.Identity;
