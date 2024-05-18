@@ -1,9 +1,15 @@
-﻿namespace IdentitySystem.Tests;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+
+namespace IdentitySystem.Tests;
 
 public abstract class DataProviderTestBase
 {
     #region [ Fields ]
     protected readonly IdentitySystemDbContext DbContext;
+    protected readonly IServiceCollection ServiceCollection;
+    protected readonly IServiceProvider ServiceProvider;
     protected readonly IMapper Mapper;
     protected readonly Fixture Fixture;
     #endregion
@@ -17,50 +23,84 @@ public abstract class DataProviderTestBase
         Fixture.Behaviors.Add(new OmitOnRecursionBehavior(recursionDepth: 1));
         Fixture.Customize(new FixtureCustomization());
 
-        //var contextFactory = this.Fixture.Freeze<Mock<IDbContextFactory<IdentitySystemDbContext>>>();
-        var optionsBuilder = new DbContextOptionsBuilder<IdentitySystemDbContext>().UseModel(SQLDatabaseModelBuilder.SQLModel.GetModel())
-                                                                                             .EnableSensitiveDataLogging(true);
+        ServiceCollection = new ServiceCollection();
 
-        if (string.IsNullOrEmpty(realConnection))
-            optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString())
-                          .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-        else
-            optionsBuilder.UseSqlServer(realConnection);
+        ServiceCollection.AddSingleton<UserStoreProvider>()
+                         .AddSingleton<RoleStoreProvider>()
+                         .AddSingleton<UserRoleStoreProvider>();
 
-        var options = optionsBuilder.Options;
+        ServiceCollection.AddScoped<IUserManagerProvider, UserManagerProvider>()
+                         .AddScoped<IRoleManagerProvider, RoleManagerProvider>()
+                         .AddScoped<IUserRoleManagerProvider, UserRoleManagerProvider>();
 
-        DbContext = new IdentitySystemDbContext(options);
-        //DbContext.Certifications.AddRangeAsync(SeedProvider.Current.Certifications);
-        //DbContext.SaveChangesAsync();
-
-        //contextFactory.Setup(x => x.CreateDbContext())
-        //              .Returns(() => DbContext);
-
-        var configuration = new MapperConfiguration(config =>
+        ServiceCollection.AddDbContext<IdentitySystemDbContext>((serviceProvider, optionsBuilder) =>
         {
-            config.AllowNullCollections = true;
-            config.AllowNullDestinationValues = true;
+            if (string.IsNullOrEmpty(realConnection))
+            {
+                //optionsBuilder.UseSqlite("DataSource=:memory:");
+                optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString());
+            }
+            else
+                optionsBuilder.UseSqlServer(realConnection);
 
-            var guidRegex = new Regex(@"(?im)^[{(]?[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}[)}]?$");
+            optionsBuilder.UseModel(SQLDatabaseModelBuilder.SQLModel.GetModel())
+                          .EnableSensitiveDataLogging(true)
+                          .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        }, ServiceLifetime.Scoped);
 
-            config.CreateMap<string, Guid>().ConvertUsing(x => string.IsNullOrWhiteSpace(x) ? Guid.NewGuid() : guidRegex.IsMatch(x) ? Guid.Parse(x) : Guid.NewGuid());
-            config.CreateMap<string, Guid?>().ConvertUsing(x => string.IsNullOrWhiteSpace(x) ? null : Guid.Parse(x));
+        ServiceCollection.AddIdentity<Domain.User, Domain.Role>(options =>
+        {
+            options.Password.RequireDigit = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequiredLength = 1;
+            options.User.RequireUniqueEmail = true;
+        })
+        .AddUserManager<UserManagerProvider>()
+        .AddRoleManager<RoleManagerProvider>()
+        .AddUserStore<UserStoreProvider>()
+        .AddRoleStore<RoleStoreProvider>()
+        .AddDefaultTokenProviders();
 
-            config.CreateMap<Guid, string>().ConvertUsing(x => x.ToString());
-            config.CreateMap<Guid?, string>().ConvertUsing(x => x.HasValue ? x.Value.ToString() : null!);
+        ServiceCollection.AddLogging();
 
-            config.CreateMap<Domain.Notification, DataProvider.Notification>().ReverseMap();
+        ServiceCollection.AddScoped<IMapper>(option =>
+        {
+            var configuration = new MapperConfiguration(config =>
+            {
+                config.AllowNullCollections = true;
+                config.AllowNullDestinationValues = true;
 
-            config.CreateMap<Domain.ScheduleDay,    DataProvider.ScheduleDay>().ReverseMap();
-            config.CreateMap<Domain.ScheduleSlot,   DataProvider.ScheduleSlot>().ReverseMap();
+                var guidRegex = new Regex(@"(?im)^[{(]?[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}[)}]?$");
 
-            config.CreateMap<Domain.User,       DataProvider.User>().ReverseMap();
-            config.CreateMap<Domain.Role,       DataProvider.Role>().ReverseMap();
-            config.CreateMap<Domain.UserRole,   DataProvider.UserRole>().ReverseMap();
+                config.CreateMap<string, Guid>().ConvertUsing(x => string.IsNullOrWhiteSpace(x) ? Guid.NewGuid() : guidRegex.IsMatch(x) ? Guid.Parse(x) : Guid.NewGuid());
+                config.CreateMap<string, Guid?>().ConvertUsing(x => string.IsNullOrWhiteSpace(x) ? null : Guid.Parse(x));
 
-            config.CreateMap<Domain.Specialization, DataProvider.Specialization>().ReverseMap();
+                config.CreateMap<Guid, string>().ConvertUsing(x => x.ToString());
+                config.CreateMap<Guid?, string>().ConvertUsing(x => x.HasValue ? x.Value.ToString() : null!);
+
+                config.CreateMap<Domain.Notification, DataProvider.Notification>().ReverseMap();
+
+                config.CreateMap<Domain.ScheduleDay, DataProvider.ScheduleDay>().ReverseMap();
+                config.CreateMap<Domain.ScheduleSlot, DataProvider.ScheduleSlot>().ReverseMap();
+
+                config.CreateMap<Domain.User, DataProvider.User>().ReverseMap();
+                config.CreateMap<Domain.Role, DataProvider.Role>().ReverseMap();
+                config.CreateMap<Domain.UserRole, DataProvider.UserRole>().ReverseMap();
+
+                config.CreateMap<Domain.Specialization, DataProvider.Specialization>().ReverseMap();
+            });
+
+            return new Mapper(configuration);
         });
-        Mapper = new Mapper(configuration);
+
+        ServiceProvider = ServiceCollection.BuildServiceProvider();
+
+        var scope = ServiceProvider.CreateScope();
+        DbContext = scope.ServiceProvider.GetRequiredService<IdentitySystemDbContext>();
+        Mapper = ServiceProvider.GetRequiredService<IMapper>();
+
     }
     #endregion [ CTors ]
 }

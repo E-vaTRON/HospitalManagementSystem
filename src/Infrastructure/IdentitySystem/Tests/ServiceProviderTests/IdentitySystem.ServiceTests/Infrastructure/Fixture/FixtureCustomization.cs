@@ -4,8 +4,8 @@ public  class FixtureCustomization : ICustomization
 {
     public void Customize(IFixture fixture)
     {
-        fixture.Customizations.Add(new FixtureEntitySpecimenBuilder());
-        fixture.Customizations.Add(new FixtureModelSpecimenBuilder());
-        fixture.Customizations.Add(new FixturePropertiesRemoveSpecimenBuilder());
+        fixture.Customizations.Add(new EntitySpecimenBuilder());
+        fixture.Customizations.Add(new ModelSpecimenBuilder());
+        fixture.Customizations.Add(new PropertiesRemoveSpecimenBuilder());
     }
 }

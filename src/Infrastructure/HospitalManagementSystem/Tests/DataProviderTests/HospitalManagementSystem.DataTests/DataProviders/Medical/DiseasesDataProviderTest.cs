@@ -16,8 +16,8 @@ public class DiseasesDataProviderTest : DataProviderTestBase
     {
         // Arrange
         var diseasesAdd = Fixture.Build<Domain.Diseases>()
-                            .With(i => i.Id, Guid.NewGuid().ToString())
-                            .Create();
+                                 .With(i => i.Id, Guid.NewGuid().ToString())
+                                 .Create();
 
         // Act
         var diseasesProvider = new DiseasesDataProvider(DbContext, Mapper);

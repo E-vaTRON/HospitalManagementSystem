@@ -21,13 +21,13 @@ public class UserManagerProvider : UserManager<CoreUser>, IUserManagerProvider
         => Users.Where(u => !u.IsDeleted)
                 .WhereIf(predicate != null, predicate!);
 
-    public async Task<CoreUser?> FindByGuidAsync(string guid, CancellationToken cancellationToken = default)
-        => await Users.FirstOrDefaultAsync(u => u.Id == guid, cancellationToken);
+    public async Task<CoreUser?> FindByGuidAsync(string id, CancellationToken cancellationToken = default)
+        => await Users.FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
 
     public async Task<IReadOnlyCollection<CoreUser>> FindByMultipleGuidsAsync(string[] userGuids, CancellationToken cancellationToken = default)
     {
         var userGuidsSet = new HashSet<string>(userGuids);
-        var users = await Users.Where(u => userGuidsSet.Contains(u.Id)).ToListAsync(cancellationToken);
+        var users = await Users.Where(u => userGuids.Contains(u.Id)).ToListAsync(cancellationToken);
         return users.ToList().AsReadOnly();
     }
 
@@ -42,7 +42,4 @@ public class UserManagerProvider : UserManager<CoreUser>, IUserManagerProvider
         var user = await base.FindByNameAsync(userName);
         return (user is null || user.IsDeleted) ? null : user;
     }
-
-    public async Task<List<CoreUser>> FindByGuidsAsync(string[] userGuids, CancellationToken cancellationToken = default!)
-        => await Users.Where(u => userGuids.Contains(u.Id)).ToListAsync(cancellationToken);
 }

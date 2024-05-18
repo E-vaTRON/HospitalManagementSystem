@@ -1,9 +1,10 @@
-﻿using CoreUser = IdentitySystem.Domain.User;
+﻿using System.Security.Cryptography;
+using CoreUser = IdentitySystem.Domain.User;
 using DataUser = IdentitySystem.DataProvider.User;
 
 namespace IdentitySystem.DataProvider;
 
-public class UserStoreProvider : IUserStore<CoreUser>
+public class UserStoreProvider : IUserStore<CoreUser>, IUserPasswordStore<CoreUser>, IUserEmailStore<CoreUser>
 {
     #region [ Field ]
     protected IMapper Mapper { get; set; }
@@ -50,8 +51,7 @@ public class UserStoreProvider : IUserStore<CoreUser>
         if (asNoTracking)
             query = query.AsNoTracking();
 
-        var dbUser = await query.FirstOrDefaultAsync(x => x.Id!.Equals(mId), cancellationToken);
-        return dbUser;
+        return await query.FirstOrDefaultAsync(x => x.Id!.Equals(mId), cancellationToken);
     }
     #endregion
 
@@ -83,7 +83,7 @@ public class UserStoreProvider : IUserStore<CoreUser>
         cancellationToken.ThrowIfCancellationRequested();
         if (user == null)
             throw new ArgumentNullException(nameof(user));
-        return Task.FromResult(user.Id);
+        return Task.FromResult(user.Id.ToString());
     }
 
     public Task<string?> GetUserNameAsync(CoreUser user, CancellationToken cancellationToken)
@@ -108,6 +108,7 @@ public class UserStoreProvider : IUserStore<CoreUser>
         cancellationToken.ThrowIfCancellationRequested();
         if (userId == null)
             throw new ArgumentNullException(nameof(userId));
+
         var dbUser = await InternalFindByUserIdAsync(userId, true, cancellationToken);
         return MapToEntity(dbUser);
 
@@ -196,11 +197,63 @@ public class UserStoreProvider : IUserStore<CoreUser>
     }
     #endregion
 
+    #region [ Password ]
+    public Task SetPasswordHashAsync(CoreUser user, string? passwordHash, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<string?> GetPasswordHashAsync(CoreUser user, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> HasPasswordAsync(CoreUser user, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+    #endregion
+
     public void Dispose()
     {
         DbContext?.Dispose();
     }
 
-    #endregion
+    #region [ Email ]
+    public Task SetEmailAsync(CoreUser user, string? email, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
 
+    public Task<string?> GetEmailAsync(CoreUser user, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> GetEmailConfirmedAsync(CoreUser user, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task SetEmailConfirmedAsync(CoreUser user, bool confirmed, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<CoreUser?> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<string?> GetNormalizedEmailAsync(CoreUser user, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task SetNormalizedEmailAsync(CoreUser user, string? normalizedEmail, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+    #endregion
+    #endregion
 }

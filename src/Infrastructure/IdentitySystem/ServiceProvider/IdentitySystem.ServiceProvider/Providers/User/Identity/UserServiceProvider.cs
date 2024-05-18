@@ -1,4 +1,5 @@
-﻿using CoreUser = IdentitySystem.Domain.User;
+﻿using IdentitySystem.Application;
+using CoreUser = IdentitySystem.Domain.User;
 using DTOUser = IdentitySystem.Application.UserDTO;
 
 namespace IdentitySystem.ServiceProvider;
@@ -53,10 +54,10 @@ public class UserServiceProvider : IdentityServiceProviderBase<DTOUser, CoreUser
         return MapToDTOs(entities).AsQueryable();
     }
 
-    public async Task<DTOUser?> FindByGuidAsync(string guid, CancellationToken cancellationToken = default)
+    public async Task<DTOUser?> FindByGuidAsync(string id, CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(guid, "Id Is null");
-        var user = await DataProvider.FindByGuidAsync(guid, cancellationToken);
+        ArgumentNullException.ThrowIfNull(id, "Id Is null");
+        var user = await DataProvider.FindByGuidAsync(id, cancellationToken);
         return MapToDTO(user);
     }
 
@@ -102,6 +103,13 @@ public class UserServiceProvider : IdentityServiceProviderBase<DTOUser, CoreUser
         var user = MapToEntity(userDto);
         ArgumentNullException.ThrowIfNull(user, nameof(user));
         return DataProvider.CreateAsync(user, password);
+    }
+
+    public Task<IdentityResult> CreateAsync(DTOUser userDto)
+    {
+        var user = MapToEntity(userDto);
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        return DataProvider.CreateAsync(user);
     }
 
     public Task<IdentityResult> UpdateAsync(DTOUser userDto)

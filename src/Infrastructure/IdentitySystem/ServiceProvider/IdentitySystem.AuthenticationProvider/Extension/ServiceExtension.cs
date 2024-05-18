@@ -8,17 +8,6 @@ public static class ServiceExtension
         services.Configure<JwtTokenConfig>(configuration.GetSection(nameof(JwtTokenConfig)));
         services.Configure<IdentityAzureStorageConfig>(configuration.GetSection(nameof(IdentityAzureStorageConfig)));
 
-        services.AddIdentity<DataProvider.User, DataProvider.Role>(options =>
-        {
-            options.Password.RequireDigit = false;
-            options.Password.RequireLowercase = false;
-            options.Password.RequireUppercase = false;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequiredLength = 1;
-            options.User.RequireUniqueEmail = true;
-        }).AddUserManager<IUserServiceProvider>()
-          .AddEntityFrameworkStores<IdentityDbContext>();
-
         //services.AddTransient<Func<IdentityContainerEnum, BlobContainerClient>>(provider => container =>
         //{
         //    var config = provider.GetRequiredService<IOptionsMonitor<IdentityAzureStorageConfig>>().CurrentValue;

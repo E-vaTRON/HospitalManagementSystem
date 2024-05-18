@@ -29,6 +29,14 @@ public class SQLDatabaseModelBuilder
     #region [ Private Method ]
     private void CreateModels(ModelBuilder modelBuilder)
     {
+        this.NotificationModelBuilder(modelBuilder);
+        this.ScheduleDayModelBuilder(modelBuilder);
+        this.ScheduleSlotModelBuilder(modelBuilder);
+        this.SpecializationModelBuilder(modelBuilder);
+        this.UserModelBuilder(modelBuilder);
+        this.RoleModelBuilder(modelBuilder);
+        this.UserRoleModelBuilder(modelBuilder);
+        this.UserSpecializationModelBuilder(modelBuilder);
     }
     #endregion
 
@@ -70,6 +78,78 @@ public class SQLDatabaseModelBuilder
     #region [ Identity ]
     private void UserModelBuilder(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<User>().HasKey(x => x.Id);
+
+        modelBuilder.Entity<User>()
+                    .Property(r => r.Id)
+                    .HasColumnType("uniqueidentifier")
+                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.UserName)
+                    .HasColumnType("nvarchar(max)")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.NormalizedUserName)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.Email)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.EMAIL_FIELD_LENGTH);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.NormalizedEmail)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.EMAIL_FIELD_LENGTH);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.EmailConfirmed)
+                    .HasColumnType("bit");
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.PasswordHash)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.PASSWORD_FIELD_LENGTH);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.SecurityStamp)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.ConcurrencyStamp)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.PhoneNumber)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.PHONE_NUMBER_FIELD_LENGTH);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.PhoneNumberConfirmed)
+                    .HasColumnType("bit");
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.TwoFactorEnabled)
+                    .HasColumnType("bit");
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.LockoutEnd)
+                    .HasColumnType("datetimeoffset");
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.LockoutEnabled)
+                    .HasColumnType("bit");
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.AccessFailedCount)
+                    .HasColumnType("int");
+
         modelBuilder.Entity<User>()
                     .Property(u => u.FirstName)
                     .HasColumnType("nvarchar")
@@ -137,6 +217,29 @@ public class SQLDatabaseModelBuilder
     }
     private void RoleModelBuilder(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Role>().HasKey(x => x.Id);
+
+        modelBuilder.Entity<Role>()
+                    .Property(r => r.Id)
+                    .HasColumnType("uniqueidentifier")
+                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<Role>()
+                    .Property(r => r.Name)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<Role>()
+                    .Property(r => r.NormalizedName)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<Role>()
+                    .Property(r => r.ConcurrencyStamp)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
+
         modelBuilder.Entity<Role>()
                     .Property(r => r.IsDeleted)
                     .HasColumnType("bit")
@@ -158,6 +261,14 @@ public class SQLDatabaseModelBuilder
     }
     private void UserRoleModelBuilder(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<UserRole>().HasKey(x => x.Id);
+
+        modelBuilder.Entity<UserRole>()
+                    .Property(r => r.Id)
+                    .HasColumnType("uniqueidentifier")
+                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
+                    .IsRequired(true);
+
         modelBuilder.Entity<UserRole>()
                     .HasOne(ur => ur.User)
                     .WithMany(u => u.UserRoles)
@@ -258,10 +369,21 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<Specialization>()
                     .Property(s => s.Description)
                     .HasColumnType("nvarchar");
+    }
 
-        modelBuilder.Entity<Specialization>()
-                    .HasMany(s => s.Users)
-                    .WithMany(u => u.Specializations);
+    private void UserSpecializationModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<UserSpecialization>(modelBuilder, nameof(Specialization));
+
+        modelBuilder.Entity<UserSpecialization>()
+                    .HasOne(us => us.User)
+                    .WithMany(u => u.UserSpecializations)
+                    .HasForeignKey(us => us.UserId);
+
+        modelBuilder.Entity<UserSpecialization>()
+                    .HasOne(us => us.Specialization)
+                    .WithMany(s => s.UserSpecializations)
+                    .HasForeignKey(us => us.SpecializationId);
     }
     #endregion
     #endregion
