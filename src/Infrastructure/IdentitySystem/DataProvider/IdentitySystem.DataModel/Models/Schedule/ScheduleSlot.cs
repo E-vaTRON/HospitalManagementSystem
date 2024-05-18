@@ -6,6 +6,6 @@ public class ScheduleSlot : ModelBase
     public int      EndTime     { get; set; }
     public string?  Task        { get; set; }
 
-    public string?      ScheduleDayId   { get; set; }
+    public Guid?        ScheduleDayId   { get; set; }
     public ScheduleDay  ScheduleDay     { get; set; } = default!;
 }

@@ -1,6 +1,6 @@
 ﻿namespace IdentitySystem.Tests;
 
-public class FixturePropertiesRemoveSpecimenBuilder : ISpecimenBuilder
+public class PropertiesRemoveSpecimenBuilder : ISpecimenBuilder
 {
     public object Create(object request, ISpecimenContext context)
     {

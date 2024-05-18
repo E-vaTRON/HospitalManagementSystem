@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Core\IdentitySystem\IdentitySystem.Domain\IdentitySystem.Domain.csproj" />
     <ProjectReference Include="..\IdentitySystem.DataModel\IdentitySystem.DataModel.csproj" />
   </ItemGroup>
 

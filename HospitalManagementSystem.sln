@@ -75,17 +75,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentitySystem.DataProvider
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D5D24D9E-DB6C-4DE8-8E92-51F544FC035B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentitySystem.SeedProvider", "src\Infrastructure\IdentitySystem\DataProvider\IdentitySystem.SeedProvider\IdentitySystem.SeedProvider.csproj", "{8ECD0CD9-9E36-4DA8-97E0-34C4C2546B4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentitySystem.SeedProvider", "src\Infrastructure\IdentitySystem\DataProvider\IdentitySystem.SeedProvider\IdentitySystem.SeedProvider.csproj", "{8ECD0CD9-9E36-4DA8-97E0-34C4C2546B4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentitySystem.InMemoryProvider", "src\Infrastructure\IdentitySystem\DataProvider\IdentitySystem.InMemoryProvider\IdentitySystem.InMemoryProvider.csproj", "{6388F571-049F-4AD1-8926-6863F966BDB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentitySystem.InMemoryProvider", "src\Infrastructure\IdentitySystem\DataProvider\IdentitySystem.InMemoryProvider\IdentitySystem.InMemoryProvider.csproj", "{6388F571-049F-4AD1-8926-6863F966BDB4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataProviderTests", "DataProviderTests", "{56FDA31D-0C18-42BD-AC8B-8976474DD3B8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceProviderTests", "ServiceProviderTests", "{0663273E-A594-4A30-A1C0-5E4E1D20029D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentitySystem.ServiceTests", "src\Infrastructure\IdentitySystem\Tests\ServiceProviderTests\IdentitySystem.ServiceTests\IdentitySystem.ServiceTests.csproj", "{7CD38FD5-1B1A-43FD-8B5F-0D56E9783249}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentitySystem.ServiceTests", "src\Infrastructure\IdentitySystem\Tests\ServiceProviderTests\IdentitySystem.ServiceTests\IdentitySystem.ServiceTests.csproj", "{7CD38FD5-1B1A-43FD-8B5F-0D56E9783249}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentitySystem.DataTests", "src\Infrastructure\IdentitySystem\Tests\DataProviderTests\IdentitySystem.DataTests\IdentitySystem.DataTests.csproj", "{F8A28A99-C6C7-4A56-A4DE-BD4DC7480C3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentitySystem.DataTests", "src\Infrastructure\IdentitySystem\Tests\DataProviderTests\IdentitySystem.DataTests\IdentitySystem.DataTests.csproj", "{F8A28A99-C6C7-4A56-A4DE-BD4DC7480C3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentitySystem.SQLite", "src\Infrastructure\IdentitySystem\DataProvider\IdentitySystem.SQLiteProvider\IdentitySystem.SQLite.csproj", "{C43B141D-4406-4847-A3B2-027CFAB212AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -238,6 +240,12 @@ Global
 		{F8A28A99-C6C7-4A56-A4DE-BD4DC7480C3F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F8A28A99-C6C7-4A56-A4DE-BD4DC7480C3F}.Test|Any CPU.ActiveCfg = Debug|Any CPU
 		{F8A28A99-C6C7-4A56-A4DE-BD4DC7480C3F}.Test|Any CPU.Build.0 = Debug|Any CPU
+		{C43B141D-4406-4847-A3B2-027CFAB212AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C43B141D-4406-4847-A3B2-027CFAB212AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C43B141D-4406-4847-A3B2-027CFAB212AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C43B141D-4406-4847-A3B2-027CFAB212AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C43B141D-4406-4847-A3B2-027CFAB212AA}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{C43B141D-4406-4847-A3B2-027CFAB212AA}.Test|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -282,6 +290,7 @@ Global
 		{0663273E-A594-4A30-A1C0-5E4E1D20029D} = {D5D24D9E-DB6C-4DE8-8E92-51F544FC035B}
 		{7CD38FD5-1B1A-43FD-8B5F-0D56E9783249} = {0663273E-A594-4A30-A1C0-5E4E1D20029D}
 		{F8A28A99-C6C7-4A56-A4DE-BD4DC7480C3F} = {56FDA31D-0C18-42BD-AC8B-8976474DD3B8}
+		{C43B141D-4406-4847-A3B2-027CFAB212AA} = {28ABD397-9837-41E8-A4EF-FCAE461C1A5F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FBC29E12-8C5E-46F6-98EC-35D90E2F8144}

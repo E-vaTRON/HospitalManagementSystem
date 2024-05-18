@@ -15,7 +15,7 @@ public class DiseasesServiceProviderTest : ServiceProviderTestBase
     }
     #endregion
 
-    #region []
+    #region [ Methods ]
 
     #region [ Add ]
     [Fact]

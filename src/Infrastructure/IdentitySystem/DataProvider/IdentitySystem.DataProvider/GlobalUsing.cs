@@ -6,6 +6,7 @@ global using System.Security.Claims;
 global using System.Linq.Expressions;
 global using System.Diagnostics;
 global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Authentication;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.Extensions.DependencyInjection;

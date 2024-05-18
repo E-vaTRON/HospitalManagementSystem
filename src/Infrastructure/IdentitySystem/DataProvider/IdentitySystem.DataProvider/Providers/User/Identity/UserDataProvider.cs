@@ -43,14 +43,14 @@ public class UserDataProvider : IUserDataProvider
         return UserManagerProvider.FindByEmailAsync(email, cancellationToken);
     }
 
-    public Task<CoreUser?> FindByGuidAsync(string guid, CancellationToken cancellationToken = default)
+    public Task<CoreUser?> FindByGuidAsync(string id, CancellationToken cancellationToken = default)
     {
-        return UserManagerProvider.FindByGuidAsync(guid, cancellationToken);
+        return UserManagerProvider.FindByGuidAsync(id, cancellationToken);
     }
 
-    public Task<IReadOnlyCollection<CoreUser>> FindByMultipleGuidsAsync(string[] userGuids, CancellationToken cancellationToken = default)
+    public Task<IReadOnlyCollection<CoreUser>> FindByMultipleGuidsAsync(string[] userIds, CancellationToken cancellationToken = default)
     {
-        return UserManagerProvider.FindByMultipleGuidsAsync(userGuids, cancellationToken);
+        return UserManagerProvider.FindByMultipleGuidsAsync(userIds, cancellationToken);
     }
 
     public Task<CoreUser?> FindByNameAsync(string userName)
@@ -66,6 +66,11 @@ public class UserDataProvider : IUserDataProvider
     public async Task<IdentityResult> CreateAsync(CoreUser user, string password)
     {
         return await UserManagerProvider.CreateAsync(user, password);
+    }
+
+    public async Task<IdentityResult> CreateAsync(CoreUser user)
+    {
+        return await UserManagerProvider.CreateAsync(user);
     }
 
     public async Task<IdentityResult> UpdateAsync(CoreUser user)

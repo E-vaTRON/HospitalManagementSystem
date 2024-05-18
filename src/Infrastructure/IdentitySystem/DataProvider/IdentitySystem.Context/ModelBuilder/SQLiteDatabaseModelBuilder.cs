@@ -3,7 +3,8 @@
 public class SQLiteDatabaseModelBuilder
 {
     #region [ Singleton ]
-    private static readonly Lazy<SQLiteDatabaseModelBuilder> sqliteModel = new Lazy<SQLiteDatabaseModelBuilder>(() => new SQLiteDatabaseModelBuilder(), LazyThreadSafetyMode.PublicationOnly);
+    private static readonly Lazy<SQLiteDatabaseModelBuilder> sqliteModel = new Lazy<SQLiteDatabaseModelBuilder>(
+        () => new SQLiteDatabaseModelBuilder(), LazyThreadSafetyMode.PublicationOnly);
     public static SQLiteDatabaseModelBuilder SQLiteModel
     {
         get { return sqliteModel.Value; }
@@ -68,73 +69,183 @@ public class SQLiteDatabaseModelBuilder
     private void UserModelBuilder(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>()
+                   .Property(r => r.Id)
+                   .HasColumnType("TEXT")
+                   .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
+                   .IsRequired(true);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.UserName)
+                    .HasColumnType("TEXT")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.NormalizedUserName)
+                    .HasColumnType("TEXT")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.Email)
+                    .HasColumnType("TEXT")
+                    .HasMaxLength(DataTypeHelpers.EMAIL_FIELD_LENGTH);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.NormalizedEmail)
+                    .HasColumnType("TEXT")
+                    .HasMaxLength(DataTypeHelpers.EMAIL_FIELD_LENGTH);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.EmailConfirmed)
+                    .HasColumnType("INTEGER");
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.PasswordHash)
+                    .HasColumnType("TEXT")
+                    .HasMaxLength(DataTypeHelpers.PASSWORD_FIELD_LENGTH);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.SecurityStamp)
+                    .HasColumnType("TEXT")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.ConcurrencyStamp)
+                    .HasColumnType("TEXT")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.PhoneNumber)
+                    .HasColumnType("TEXT")
+                    .HasMaxLength(DataTypeHelpers.PHONE_NUMBER_FIELD_LENGTH);
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.PhoneNumberConfirmed)
+                    .HasColumnType("INTEGER");
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.TwoFactorEnabled)
+                    .HasColumnType("INTEGER");
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.LockoutEnd)
+                    .HasColumnType("TEXT");
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.LockoutEnabled)
+                    .HasColumnType("INTEGER");
+
+        modelBuilder.Entity<User>()
+                    .Property(u => u.AccessFailedCount)
+                    .HasColumnType("INTEGER");
+
+        modelBuilder.Entity<User>()
                     .Property(u => u.FirstName)
+                    .HasColumnType("TEXT")
                     .IsRequired(true);
 
         modelBuilder.Entity<User>()
                     .Property(u => u.LastName)
+                    .HasColumnType("TEXT")
                     .IsRequired(true);
 
         modelBuilder.Entity<User>()
                     .Property(u => u.Age)
+                    .HasColumnType("INTEGER")
                     .IsRequired(true);
 
         modelBuilder.Entity<User>()
                     .Property(u => u.DayOfBirth)
+                    .HasColumnType("TEXT")
                     .IsRequired(true);
 
         modelBuilder.Entity<User>()
                     .Property(u => u.Gender)
+                    .HasColumnType("INTEGER")
                     .IsRequired(true);
 
         modelBuilder.Entity<User>()
-                    .Property(u => u.Address);
+                    .Property(u => u.Address)
+                    .HasColumnType("TEXT");
 
         modelBuilder.Entity<User>()
-                    .Property(u => u.CardID);
+                    .Property(u => u.CardID)
+                    .HasColumnType("TEXT");
 
         modelBuilder.Entity<User>()
-                    .Property(u => u.SpecialistLevel);
+                    .Property(u => u.SpecialistLevel)
+                    .HasColumnType("INTEGER");
 
         modelBuilder.Entity<User>()
                     .Property(u => u.Verified)
+                    .HasColumnType("INTEGER")
                     .IsRequired(true);
 
         modelBuilder.Entity<User>()
                     .Property(u => u.IsDeleted)
+                    .HasColumnType("INTEGER")
                     .IsRequired(true);
 
         modelBuilder.Entity<User>()
                     .Property(u => u.IsExpired)
+                    .HasColumnType("INTEGER")
                     .IsRequired(true);
 
         modelBuilder.Entity<User>()
                     .Property(u => u.CreatedOn)
+                    .HasColumnType("TEXT")
                     .IsRequired(true);
 
         modelBuilder.Entity<User>()
-                    .Property(u => u.LastUpdatedOn);
+                    .Property(u => u.LastUpdatedOn)
+                    .HasColumnType("TEXT");
 
         modelBuilder.Entity<User>()
-                    .Property(u => u.DeleteOn);
+                    .Property(u => u.DeleteOn)
+                    .HasColumnType("TEXT");
     }
+
     private void RoleModelBuilder(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Role>()
+                    .Property(r => r.Id)
+                    .HasColumnType("TEXT")
+                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<Role>()
+                    .Property(r => r.Name)
+                    .HasColumnType("TEXT")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<Role>()
+                    .Property(r => r.NormalizedName)
+                    .HasColumnType("TEXT")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<Role>()
+                    .Property(r => r.ConcurrencyStamp)
+                    .HasColumnType("TEXT")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<Role>()
                     .Property(r => r.IsDeleted)
+                    .HasColumnType("INTEGER")
                     .IsRequired(true);
 
         modelBuilder.Entity<Role>()
                     .Property(r => r.CreatedOn)
+                    .HasColumnType("TEXT")
                     .IsRequired(true);
 
         modelBuilder.Entity<Role>()
-                    .Property(r => r.LastUpdatedOn);
+                    .Property(r => r.LastUpdatedOn)
+                    .HasColumnType("TEXT");
 
         modelBuilder.Entity<Role>()
-                    .Property(r => r.DeleteOn);
-
+                    .Property(r => r.DeleteOn)
+                    .HasColumnType("TEXT");
     }
+
     private void UserRoleModelBuilder(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<UserRole>()
@@ -224,11 +335,23 @@ public class SQLiteDatabaseModelBuilder
 
         modelBuilder.Entity<Specialization>()
                 .Property(s => s.Description);
-
-        modelBuilder.Entity<Specialization>()
-                .HasMany(s => s.Users)
-                .WithMany(u => u.Specializations);
     }
+
+    private void UserSpecializationModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<UserSpecialization>(modelBuilder, nameof(Specialization));
+
+        modelBuilder.Entity<UserSpecialization>()
+                    .HasOne(us => us.User)
+                    .WithMany(u => u.UserSpecializations)
+                    .HasForeignKey(us => us.UserId);
+
+        modelBuilder.Entity<UserSpecialization>()
+                    .HasOne(us => us.Specialization)
+                    .WithMany(s => s.UserSpecializations)
+                    .HasForeignKey(us => us.SpecializationId);
+    }
+
     #endregion
     #endregion
 }

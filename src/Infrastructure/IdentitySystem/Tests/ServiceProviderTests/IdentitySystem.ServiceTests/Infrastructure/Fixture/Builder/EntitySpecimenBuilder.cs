@@ -1,15 +1,15 @@
 ﻿namespace IdentitySystem.Tests;
 
-public class FixtureModelSpecimenBuilder : ISpecimenBuilder
+public class EntitySpecimenBuilder : ISpecimenBuilder
 {
     public object Create(object request, ISpecimenContext context)
     {
         var pi = request as PropertyInfo;
         if (pi != null)
         {
-            var isDomainModel = typeof(IModel).IsAssignableFrom(pi.PropertyType);
-            var isDomainModelCollection = typeof(IEnumerable<IModel>).IsAssignableFrom(pi.PropertyType);
-            if (isDomainModel || isDomainModelCollection)
+            var isEntity = typeof(IEntity).IsAssignableFrom(pi.PropertyType);
+            var isEntityCollection = typeof(IEnumerable<IEntity>).IsAssignableFrom(pi.PropertyType);
+            if (isEntity || isEntityCollection)
             {
                 return new OmitSpecimen();
             }

@@ -83,7 +83,7 @@ public class UserRoleStoreProvider : UserStoreProvider,  IUserRoleStore<CoreUser
         cancellationToken.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(user, nameof(user));
 
-        var userId = base.ParseId(user.Id!);
+        var userId = ParseId(user.Id);
         var userRoles = await GetUserRolesByUserIdAsync(userId, cancellationToken);
         var roles = userRoles.Select(userRole =>
         {
@@ -122,8 +122,8 @@ public class UserRoleStoreProvider : UserStoreProvider,  IUserRoleStore<CoreUser
         if (role == null)
             throw new ArgumentException($"Role '{roleName}' does not exist.");
 
-        var dbUserId = base.ParseId(user.Id);
-        await CreateAsync(dbUserId, role.Id, cancellationToken);
+        var userId = ParseId(user.Id);
+        await CreateAsync(userId, role.Id, cancellationToken);
 
         await DbContext.SaveChangesAsync(cancellationToken);
     }
@@ -140,8 +140,8 @@ public class UserRoleStoreProvider : UserStoreProvider,  IUserRoleStore<CoreUser
         if (dbRole == null)
             throw new ArgumentException($"Role '{roleName}' does not exist.");
 
-        var dbUserId = base.ParseId(user.Id!);
-        var userRole = await InternalFindUserRoleAsync(dbUserId, dbRole.Id);
+        var userId = ParseId(user.Id);
+        var userRole = await InternalFindUserRoleAsync(userId, dbRole.Id);
 
         return userRole != null;
     }
@@ -158,8 +158,8 @@ public class UserRoleStoreProvider : UserStoreProvider,  IUserRoleStore<CoreUser
         if (dbRole == null)
             throw new ArgumentException($"Role '{roleName}' does not exist.");
 
-        var dbUserId = base.ParseId(user.Id!);
-        var userRole = await InternalFindUserRoleAsync(dbUserId, dbRole.Id);
+        var userId = ParseId(user.Id);
+        var userRole = await InternalFindUserRoleAsync(userId, dbRole.Id);
         if (userRole == null)
             throw new ArgumentException($"User is not in role '{roleName}'.");
 

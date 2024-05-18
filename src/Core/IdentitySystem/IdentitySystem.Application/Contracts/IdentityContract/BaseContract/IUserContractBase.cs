@@ -18,5 +18,7 @@ public interface IUserContractBase<TUser, TKey>
 
     Task<IdentityResult> CreateAsync(TUser user, string password);
 
+    Task<IdentityResult> CreateAsync(TUser user);
+
     Task<IdentityResult> UpdateAsync(TUser user);
 }

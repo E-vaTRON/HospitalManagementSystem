@@ -1,6 +1,8 @@
 ﻿//using Azure.Core;
 //using CommunityToolkit.Diagnostics;
 
+using OneOf.Types;
+
 namespace IdentitySystem.ServiceProvider;
 
 public class AuthenticationService : IAuthenticationService
@@ -92,11 +94,11 @@ public class AuthenticationService : IAuthenticationService
         var userDto = Mapper.Map<UserCreateDTO>(user);
         var accessToken = JwtTokenService.GenerateToken(userDto, requestAt, expiredIn);
 
-        return new ServiceSuccess(nameof(AuthenticationService), nameof(Login), consumerName)
+        return new ServiceSuccess(nameof(AuthenticationService), nameof(LoginWithPhoneNumber), consumerName)
         {
             SuccessMessage = IdentityConstants.USER_LOGGED_IN_WITH_PHONE_NUMBER_SUCCESSFULLY,
             EventOccuredAt = DateTime.UtcNow,
-            //AttachedData = new AuthenticatedResponse(user.Id, requestAt, accessToken, expiredIn)
+            AttachedData = new AuthenticatedResponse(user.Id, requestAt, accessToken, expiredIn)
         };
     }
 
@@ -140,7 +142,7 @@ public class AuthenticationService : IAuthenticationService
 
         //await transaction.CommitAsync(cancellationToken);
         await UserDataProvider.CommitTransactionAsync(cancellationToken);
-        return new ServiceSuccess(nameof(AuthenticationService), nameof(Login), consumerName)
+        return new ServiceSuccess(nameof(AuthenticationService), nameof(Register), consumerName)
         {
             SuccessMessage = IdentityConstants.USER_CREATED_SUCCESSFULLY,
             EventOccuredAt = DateTime.UtcNow

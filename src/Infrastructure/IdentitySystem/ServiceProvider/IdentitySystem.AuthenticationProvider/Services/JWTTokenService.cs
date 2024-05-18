@@ -5,16 +5,12 @@ namespace IdentitySystem.ServiceProvider;
 public class JWTTokenService : IJwtTokenService
 {
     #region [ Fields ]
-    private readonly IUserDataProvider UserDataProvider;
     private readonly JwtTokenConfig tokenConfig;
     #endregion
 
     #region [CTor]
-    public JWTTokenService(IUserDataProvider userDataProvider,
-                           IOptionsMonitor<JwtTokenConfig> tokenConfigOptionsAccessor,
-                           IMapper mapper)
+    public JWTTokenService( IOptionsMonitor<JwtTokenConfig> tokenConfigOptionsAccessor)
     {
-        this.UserDataProvider = userDataProvider;
         this.tokenConfig = tokenConfigOptionsAccessor.CurrentValue;
     }
     #endregion

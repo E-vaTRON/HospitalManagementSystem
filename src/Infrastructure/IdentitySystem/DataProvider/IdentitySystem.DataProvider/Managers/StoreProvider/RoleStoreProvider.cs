@@ -46,8 +46,7 @@ public class RoleStoreProvider : IRoleStore<CoreRole>
         if (asNoTracking)
             query = query.AsNoTracking();
 
-        var dbRole = await query.FirstOrDefaultAsync(x => x.Id!.Equals(mId), cancellationToken);
-        return dbRole;
+        return await query.FirstOrDefaultAsync(x => x.Id!.Equals(mId), cancellationToken);
     }
     #endregion
 
@@ -79,7 +78,7 @@ public class RoleStoreProvider : IRoleStore<CoreRole>
         cancellationToken.ThrowIfCancellationRequested();
         if (role == null)
             throw new ArgumentNullException(nameof(role));
-        return Task.FromResult(role.Id);
+        return Task.FromResult(role.Id.ToString());
     }
 
     public Task<string?> GetRoleNameAsync(CoreRole role, CancellationToken cancellationToken)
@@ -103,6 +102,7 @@ public class RoleStoreProvider : IRoleStore<CoreRole>
         cancellationToken.ThrowIfCancellationRequested();
         if (roleId == null)
             throw new ArgumentNullException(nameof(roleId));
+
         var dbUser = await InternalFindByIdAsync(roleId, true, cancellationToken);
         return MapToEntity(dbUser);
 

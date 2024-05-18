@@ -4,6 +4,7 @@ global using AutoMapper;
 global using AutoFixture;
 global using AutoFixture.Kernel;
 global using System.Reflection;
+global using System.Text.RegularExpressions;
 global using HospitalManagementSystem.Domain;
 global using HospitalManagementSystem.DataProvider;
 global using HospitalManagementSystem.ServiceProvider;

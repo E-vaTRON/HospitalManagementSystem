@@ -1,6 +1,6 @@
 ﻿namespace IdentitySystem.Domain;
 
-public class Role : IdentityRole, IHasCreatedOn, IHasLastUpdatedOn, IHasDeleteOn
+public class Role : IdentityRole<string>, IHasCreatedOn, IHasLastUpdatedOn, IHasDeleteOn
 {
     public bool         IsDeleted       { get; set; }
     public DateTime     CreatedOn       { get; set; } = DateTime.Now;
