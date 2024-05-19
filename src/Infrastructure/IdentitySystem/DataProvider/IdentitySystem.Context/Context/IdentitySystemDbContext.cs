@@ -30,8 +30,5 @@ public class IdentitySystemDbContext : IdentityDbContext<User,
     public virtual DbSet<ScheduleSlot>          ScheduleSlots       { get; set; } = null!;
     public virtual DbSet<Specialization>        Specializations     { get; set; } = null!;
     public virtual DbSet<UserSpecialization>    UserSpecializations { get; set; } = null!;
-    //public override DbSet<User>     Users       { get; set; } = null!;
-    //public override DbSet<Role>     Roles       { get; set; } = null!;
-    //public override DbSet<UserRole> UserRoles   { get; set; } = null!;
     #endregion
 }

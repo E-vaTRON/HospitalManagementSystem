@@ -8,7 +8,7 @@ public class UserManagerProvider : UserManager<CoreUser>, IUserManagerProvider
     public UserManagerProvider( UserStoreProvider store,
                                 IOptions<IdentityOptions> optionsAccessor,
                                 IPasswordHasher<CoreUser> passwordHasher,
-                                IEnumerable<IUserValidator<CoreUser>> userValidators,
+                                IEnumerable<UserValidator> userValidators,
                                 IEnumerable<IPasswordValidator<CoreUser>> passwordValidators,
                                 ILookupNormalizer keyNormalizer,
                                 IdentityErrorDescriber errors,
