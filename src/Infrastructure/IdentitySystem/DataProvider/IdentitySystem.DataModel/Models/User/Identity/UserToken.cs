@@ -1,10 +1,10 @@
 ﻿namespace IdentitySystem.DataProvider;
 
-public class Role : IdentityRole<Guid>, IModel<Guid>
+public class UserToken: IdentityUserToken<Guid>, IModel<Guid>
 {
-    public bool         IsDeleted       { get; set; }
+    public Guid         Id              { get; set; } = Guid.NewGuid();
+    public bool         IsDeleted       { get; set; } = false;
     public DateTime     CreatedOn       { get; set; } = DateTime.Now;
     public DateTime?    LastUpdatedOn   { get; set; }
     public DateTime?    DeleteOn        { get; set; }
-    public virtual ICollection<UserRole>    UserRoles   { get; } = new HashSet<UserRole>();
 }

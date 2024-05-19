@@ -1,18 +1,11 @@
 ﻿namespace IdentitySystem.DataProvider;
 
-public class IdentitySystemDbContext : IdentityDbContext<User,
-                                                         Role,
-                                                         Guid,
-                                                         IdentityUserClaim<Guid>,
-                                                         UserRole,
-                                                         IdentityUserLogin<Guid>,
-                                                         IdentityRoleClaim<Guid>,
-                                                         IdentityUserToken<Guid>>
+public class IdentitySystemDbContext : IdentityDbContext<User, Role, Guid, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
 {
     #region [ CTor ]
     public IdentitySystemDbContext(DbContextOptions<IdentitySystemDbContext> options) : base(options)
     {
-         base.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+        base.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         base.ChangeTracker.AutoDetectChangesEnabled = false;
     }
     #endregion

@@ -19,7 +19,7 @@ public class ContextFactory : IDesignTimeDbContextFactory<IdentitySystemDbContex
         var optionsBuilder = new DbContextOptionsBuilder<IdentitySystemDbContext>(options);
         optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString, sqlServerOptionsAction => sqlServerOptionsAction.EnableRetryOnFailure());
         optionsBuilder.UseModel(modelBuilder);
-        optionsBuilder.EnableSensitiveDataLogging(false);
+        optionsBuilder.EnableSensitiveDataLogging(true);
 
         return new IdentitySystemDbContext(optionsBuilder.Options);
     }

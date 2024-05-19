@@ -28,7 +28,7 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
     {
         // Arrange
         var userDto = Fixture.Create<UserDTO>();
-        var dto = Fixture.Build<UserLogin>()
+        var dto = Fixture.Build<Application.UserLogin>()
                          .With(x => x.username, userDto.UserName)
                          .With(x => x.password, userDto.PasswordHash)
                          .Create();
