@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography;
-using CoreUser = IdentitySystem.Domain.User;
+﻿using CoreUser = IdentitySystem.Domain.User;
 using DataUser = IdentitySystem.DataProvider.User;
 
 namespace IdentitySystem.DataProvider;
@@ -55,7 +54,7 @@ public class UserStoreProvider : IUserStore<CoreUser>, IUserPasswordStore<CoreUs
     }
     #endregion
 
-    #region [ Public - Methods ]
+    #region [ Public - Base - Methods ]
     #region [ Set ]
     public Task SetUserNameAsync(CoreUser user, string? userName, CancellationToken cancellationToken)
     {
@@ -197,63 +196,79 @@ public class UserStoreProvider : IUserStore<CoreUser>, IUserPasswordStore<CoreUs
     }
     #endregion
 
-    #region [ Password ]
-    public Task SetPasswordHashAsync(CoreUser user, string? passwordHash, CancellationToken cancellationToken)
+    #region [ Public - Password - Methods ]
+    #region [ Set ]
+    public async Task SetPasswordHashAsync(CoreUser user, string? passwordHash, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        user.PasswordHash = passwordHash;
+        await DbContext.SaveChangesAsync(cancellationToken);
     }
+    #endregion
 
+    #region [ Get ]
     public Task<string?> GetPasswordHashAsync(CoreUser user, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return Task.FromResult(user.PasswordHash);
     }
+    #endregion
 
+    #region [ Check ]
     public Task<bool> HasPasswordAsync(CoreUser user, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return Task.FromResult(!string.IsNullOrEmpty(user.PasswordHash));
     }
+    #endregion
+    #endregion
+
+    #region [ Email ]
+    #region [ Set ]
+    public async Task SetEmailAsync(CoreUser user, string? email, CancellationToken cancellationToken)
+    {
+        user.Email = email;
+        await DbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task SetEmailConfirmedAsync(CoreUser user, bool confirmed, CancellationToken cancellationToken)
+    {
+        user.EmailConfirmed = confirmed;
+        await DbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task SetNormalizedEmailAsync(CoreUser user, string? normalizedEmail, CancellationToken cancellationToken)
+    {
+        user.NormalizedEmail = normalizedEmail;
+        await DbContext.SaveChangesAsync(cancellationToken);
+    }
+    #endregion
+
+    #region [ Get ]
+    public Task<string?> GetEmailAsync(CoreUser user, CancellationToken cancellationToken)
+    {
+        return Task.FromResult(user.Email);
+    }
+
+    public Task<bool> GetEmailConfirmedAsync(CoreUser user, CancellationToken cancellationToken)
+    {
+        return Task.FromResult(user.EmailConfirmed);
+    }
+    public Task<string?> GetNormalizedEmailAsync(CoreUser user, CancellationToken cancellationToken)
+    {
+        return Task.FromResult(user.NormalizedEmail);
+    }
+
+    #region [ Filter ]
+    public async Task<CoreUser?> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
+    {
+        var dbUser = await UserDbSet.FirstOrDefaultAsync(u => u.NormalizedEmail == normalizedEmail, cancellationToken);
+        return MapToEntity(dbUser);
+    }
+    #endregion
+    #endregion
     #endregion
 
     public void Dispose()
     {
         DbContext?.Dispose();
     }
-
-    #region [ Email ]
-    public Task SetEmailAsync(CoreUser user, string? email, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<string?> GetEmailAsync(CoreUser user, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> GetEmailConfirmedAsync(CoreUser user, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task SetEmailConfirmedAsync(CoreUser user, bool confirmed, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<CoreUser?> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<string?> GetNormalizedEmailAsync(CoreUser user, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task SetNormalizedEmailAsync(CoreUser user, string? normalizedEmail, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-    #endregion
     #endregion
 }

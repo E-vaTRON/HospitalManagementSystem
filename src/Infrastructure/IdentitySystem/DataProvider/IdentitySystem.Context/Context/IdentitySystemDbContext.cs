@@ -1,18 +1,11 @@
 ﻿namespace IdentitySystem.DataProvider;
 
-public class IdentitySystemDbContext : IdentityDbContext<User,
-                                                         Role,
-                                                         Guid,
-                                                         IdentityUserClaim<Guid>,
-                                                         UserRole,
-                                                         IdentityUserLogin<Guid>,
-                                                         IdentityRoleClaim<Guid>,
-                                                         IdentityUserToken<Guid>>
+public class IdentitySystemDbContext : IdentityDbContext<User, Role, Guid, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
 {
     #region [ CTor ]
     public IdentitySystemDbContext(DbContextOptions<IdentitySystemDbContext> options) : base(options)
     {
-         base.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+        base.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         base.ChangeTracker.AutoDetectChangesEnabled = false;
     }
     #endregion
@@ -30,8 +23,5 @@ public class IdentitySystemDbContext : IdentityDbContext<User,
     public virtual DbSet<ScheduleSlot>          ScheduleSlots       { get; set; } = null!;
     public virtual DbSet<Specialization>        Specializations     { get; set; } = null!;
     public virtual DbSet<UserSpecialization>    UserSpecializations { get; set; } = null!;
-    //public override DbSet<User>     Users       { get; set; } = null!;
-    //public override DbSet<Role>     Roles       { get; set; } = null!;
-    //public override DbSet<UserRole> UserRoles   { get; set; } = null!;
     #endregion
 }

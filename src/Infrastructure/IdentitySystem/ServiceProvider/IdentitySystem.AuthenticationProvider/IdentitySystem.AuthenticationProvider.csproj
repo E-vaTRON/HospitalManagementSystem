@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Core\HospitalManagementSystem\HospitalManagementSystem.Domain\HospitalManagementSystem.Domain.csproj" />
     <ProjectReference Include="..\..\..\..\Core\IdentitySystem\IdentitySystem.Application\IdentitySystem.Application.csproj" />
     <ProjectReference Include="..\..\..\..\Core\IdentitySystem\IdentitySystem.Domain\IdentitySystem.Domain.csproj" />
     <ProjectReference Include="..\..\DataProvider\IdentitySystem.Context\IdentitySystem.Context.csproj" />

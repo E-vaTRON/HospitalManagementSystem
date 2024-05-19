@@ -1,8 +1,6 @@
 ﻿//using Azure.Core;
 //using CommunityToolkit.Diagnostics;
 
-using OneOf.Types;
-
 namespace IdentitySystem.ServiceProvider;
 
 public class AuthenticationService : IAuthenticationService
@@ -28,7 +26,7 @@ public class AuthenticationService : IAuthenticationService
     #endregion
 
     #region [ Public - Methods ]
-    public async Task<OneOf<ServiceSuccess, ServiceError>> Login(UserLogin dto,
+    public async Task<OneOf<ServiceSuccess, ServiceError>> Login(Application.UserLogin dto,
                                                                  string consumerName,
                                                                  CancellationToken cancellationToken = default)
     {

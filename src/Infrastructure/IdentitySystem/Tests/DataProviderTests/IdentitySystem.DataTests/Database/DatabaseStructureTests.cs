@@ -17,7 +17,7 @@ public class DatabaseStructureTests
         configuration.GetSection("DatabaseConfiguration").Bind(this.DatabaseConfiguration);
 
         var optionsBuilder = new DbContextOptionsBuilder<IdentitySystemDbContext>().UseModel(SQLDatabaseModelBuilder.SQLModel.GetModel())
-                                                                                             .EnableSensitiveDataLogging(true);
+                                                                                   .EnableSensitiveDataLogging(true);
 
         if (string.IsNullOrEmpty(DatabaseConfiguration.ConnectionString))
             optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString())
@@ -47,6 +47,6 @@ public class DatabaseStructureTests
         #region [ Assert ]
         //Assert.Equal(expected, actual);
         #endregion
-     }
+    }
     #endregion
 }

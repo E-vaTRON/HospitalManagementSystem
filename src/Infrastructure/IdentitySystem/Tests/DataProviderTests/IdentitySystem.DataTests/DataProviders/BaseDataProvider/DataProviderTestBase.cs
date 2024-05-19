@@ -46,7 +46,7 @@ public abstract class DataProviderTestBase
             optionsBuilder.UseModel(SQLDatabaseModelBuilder.SQLModel.GetModel())
                           .EnableSensitiveDataLogging(true)
                           .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-        }, ServiceLifetime.Scoped);
+        }, ServiceLifetime.Singleton);
 
         ServiceCollection.AddIdentity<Domain.User, Domain.Role>(options =>
         {
@@ -61,6 +61,7 @@ public abstract class DataProviderTestBase
         .AddRoleManager<RoleManagerProvider>()
         .AddUserStore<UserStoreProvider>()
         .AddRoleStore<RoleStoreProvider>()
+        .AddUserValidator<UserValidator>()
         .AddDefaultTokenProviders();
 
         ServiceCollection.AddLogging();

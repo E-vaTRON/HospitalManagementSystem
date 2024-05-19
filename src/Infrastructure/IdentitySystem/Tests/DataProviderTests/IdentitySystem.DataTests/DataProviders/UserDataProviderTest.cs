@@ -14,7 +14,6 @@ public class UserDataProviderTest : DataProviderTestBase
     #region [ CTors ]
     public UserDataProviderTest(string realConnection = "") : base(realConnection)
     {
-        // Get UserManager from DI
         UserManager = ServiceProvider.GetRequiredService<UserManagerProvider>();
     }
     #endregion
@@ -52,18 +51,20 @@ public class UserDataProviderTest : DataProviderTestBase
     public async Task Create_Success()
     {
         // Arrange
-        var user = Fixture.Build<Domain.User>()
+        var userAdd = Fixture.Build<Domain.User>().Without(i => i.UserRoles)
                           .With(i => i.Id, Guid.NewGuid().ToString())
                           .Create();
+
+
         // Act
         var userDataProvider = new UserDataProvider(UserManager, DbContext);
-        var createResult = await userDataProvider.CreateAsync(user);
+        var userAdded = await userDataProvider.CreateAsync(userAdd);
 
         // Assert
-        var createdUser = await UserManager.FindByNameAsync(user.UserName!);
-        Assert.True(createResult.Succeeded);
-        Assert.NotNull(createdUser);
-        Assert.Equal(user.UserName, createdUser.UserName);
+        var result = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == Guid.Parse(userAdd.Id!));
+        Assert.True(userAdded.Succeeded);
+        Assert.NotNull(result);
+        Assert.Equal(userAdd.UserName, result.UserName);
     }
     #endregion
 
@@ -72,17 +73,29 @@ public class UserDataProviderTest : DataProviderTestBase
     public async Task UpdateAsync_Success()
     {
         // Arrange
-        var user = Fixture.Create<Domain.User>();
+        var userAdd = Fixture.Build<DataProvider.User>()
+                             .Without(i => i.UserRoles)
+                             .With(i => i.Id, Guid.NewGuid())
+                             .Create();
+        await DbContext.Users.AddAsync(userAdd);
+        await DbContext.SaveChangesAsync();
+        DbContext.Entry(userAdd).State = EntityState.Detached;
 
+        var userUpdate = Fixture.Build<Domain.User>()
+                                .Without(i => i.UserRoles)
+                                .Without(i => i.Id)
+                                .Create();
+
+        userUpdate.Id = userAdd.Id.ToString();
         // Act
         var userDataProvider = new UserDataProvider(UserManager, DbContext);
-        var updateResult = await userDataProvider.UpdateAsync(user);
+        var userUpdated = await userDataProvider.UpdateAsync(userUpdate);
 
         // Assert
-        Assert.True(updateResult.Succeeded);
-        var updatedUser = await UserManager.FindByNameAsync(user.UserName);
-        Assert.NotNull(updatedUser);
-        Assert.Equal("updateduser@example.com", updatedUser.Email);
+        var result = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == userAdd.Id!);
+        Assert.True(userUpdated.Succeeded);
+        Assert.NotNull(result);
+        Assert.Equal(userUpdate.Email, result.Email);
     }
     #endregion
 

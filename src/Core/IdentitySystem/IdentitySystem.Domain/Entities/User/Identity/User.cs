@@ -1,6 +1,6 @@
 ﻿namespace IdentitySystem.Domain;
 
-public class User : IdentityUser<string>, IHasCreatedOn, IHasLastUpdatedOn, IHasDeleteOn
+public class User : IdentityUser<string>, IEntity<string>,  IHasCreatedOn, IHasLastUpdatedOn, IHasDeleteOn
 {
     public string       FirstName       { get; set; } = string.Empty;
     public string       LastName        { get; set; } = string.Empty;

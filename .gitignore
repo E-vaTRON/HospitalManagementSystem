@@ -395,3 +395,5 @@ FodyWeavers.xsd
 /src/Infrastructure/HospitalManagementSystem/DataProvider/HospitalManagementSystem.Context/Migrations/20240503091247_Initial.cs
 /src/Infrastructure/HospitalManagementSystem/DataProvider/HospitalManagementSystem.Context/Migrations/HospitalManagementSystemDbContextModelSnapshot.cs
 /src/Infrastructure/IdentitySystem/DataProvider/IdentitySystem.SQLServer/appsettings.json
+/src/Infrastructure/IdentitySystem/DataProvider/IdentitySystem.Context/Migrations/20240519175113_Initial.cs
+/src/Infrastructure/IdentitySystem/DataProvider/IdentitySystem.Context/Migrations/IdentitySystemDbContextModelSnapshot.cs
