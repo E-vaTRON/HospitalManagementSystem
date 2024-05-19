@@ -6,4 +6,6 @@ public class RoleClaim : IdentityRoleClaim<Guid>, IModel<int>
     public DateTime     CreatedOn       { get; set; } = DateTime.Now;
     public DateTime?    LastUpdatedOn   { get; set; }
     public DateTime?    DeleteOn        { get; set; }
+
+    public Role Role { get; set; } = default!;
 }

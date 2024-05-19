@@ -7,4 +7,6 @@ public class UserToken: IdentityUserToken<Guid>, IModel<Guid>
     public DateTime     CreatedOn       { get; set; } = DateTime.Now;
     public DateTime?    LastUpdatedOn   { get; set; }
     public DateTime?    DeleteOn        { get; set; }
+
+    public User User { get; set; } = default!;
 }

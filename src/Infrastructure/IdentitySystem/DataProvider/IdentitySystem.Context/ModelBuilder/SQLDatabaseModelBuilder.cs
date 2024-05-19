@@ -311,11 +311,6 @@ public class SQLDatabaseModelBuilder
                     .IsRequired(true);
 
         modelBuilder.Entity<UserClaim>()
-                    .Property(uc => uc.UserId)
-                    .HasColumnType("uniqueidentifier")
-                    .IsRequired(true);
-
-        modelBuilder.Entity<UserClaim>()
                     .Property(uc => uc.ClaimType)
                     .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
                     .HasColumnType("nvarchar");
@@ -342,6 +337,11 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<UserClaim>()
                     .Property(r => r.DeleteOn)
                     .HasColumnType("datetime");
+
+        modelBuilder.Entity<UserClaim>()
+                    .HasOne(n => n.User)
+                    .WithMany(u => u.UserClaims)
+                    .HasForeignKey(n => n.UserId);
     }
     private void UserLoginModelBuilder(ModelBuilder modelBuilder)
     {
@@ -371,11 +371,6 @@ public class SQLDatabaseModelBuilder
                     .HasColumnType("nvarchar");
 
         modelBuilder.Entity<UserLogin>()
-                    .Property(ul => ul.UserId)
-                    .HasColumnType("uniqueidentifier")
-                    .IsRequired(true);
-
-        modelBuilder.Entity<UserLogin>()
                     .Property(r => r.IsDeleted)
                     .HasColumnType("bit")
                     .IsRequired(true);
@@ -392,6 +387,11 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<UserLogin>()
                     .Property(r => r.DeleteOn)
                     .HasColumnType("datetime");
+
+        modelBuilder.Entity<UserLogin>()
+                    .HasOne(n => n.User)
+                    .WithMany(u => u.UserLogins)
+                    .HasForeignKey(n => n.UserId);
     }
     private void RoleClaimModelBuilder(ModelBuilder modelBuilder)
     {
@@ -400,11 +400,6 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<RoleClaim>()
                     .Property(rc => rc.Id)
                     .HasColumnType("int")
-                    .IsRequired(true);
-
-        modelBuilder.Entity<RoleClaim>()
-                    .Property(rc => rc.RoleId)
-                    .HasColumnType("uniqueidentifier")
                     .IsRequired(true);
 
         modelBuilder.Entity<RoleClaim>()
@@ -434,6 +429,11 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<RoleClaim>()
                     .Property(r => r.DeleteOn)
                     .HasColumnType("datetime");
+
+        modelBuilder.Entity<RoleClaim>()
+                    .HasOne(n => n.Role)
+                    .WithMany(u => u.RoleClaims)
+                    .HasForeignKey(n => n.RoleId);
     }
     private void UserTokenModelBuilder(ModelBuilder modelBuilder)
     {
@@ -443,11 +443,6 @@ public class SQLDatabaseModelBuilder
                     .Property(r => r.Id)
                     .HasColumnType("uniqueidentifier")
                     .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
-                    .IsRequired(true);
-
-        modelBuilder.Entity<UserToken>()
-                    .Property(ut => ut.UserId)
-                    .HasColumnType("uniqueidentifier")
                     .IsRequired(true);
 
         modelBuilder.Entity<UserToken>()
@@ -483,6 +478,11 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<UserToken>()
                     .Property(r => r.DeleteOn)
                     .HasColumnType("datetime");
+
+        modelBuilder.Entity<UserToken>()
+                    .HasOne(n => n.User)
+                    .WithMany(u => u.UserTokens)
+                    .HasForeignKey(n => n.UserId);
     }
     #endregion
 

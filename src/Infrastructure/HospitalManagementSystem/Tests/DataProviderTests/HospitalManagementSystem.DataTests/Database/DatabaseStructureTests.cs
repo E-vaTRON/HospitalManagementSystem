@@ -37,12 +37,10 @@ public class DatabaseStructureTests
     {
         #region [ Arrange ]
         var expected = true;
-        var contextFactory = new ContextFactory();
         #endregion
 
         #region [ Act ]
         var actual = SqlDatabaseHelper.DatabaseExists(DatabaseConfiguration.ConnectionString);
-        var real = contextFactory.CreateDbContext(new string[] { });
         #endregion
 
         #region [ Assert ]
