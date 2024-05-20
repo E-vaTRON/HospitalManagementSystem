@@ -28,6 +28,9 @@ public class UserDTO : DTOBase
     public bool         Verified        { get; set; }
 
     public virtual ICollection<UserRoleDTO>         UserRoleDTOs        { get; set; } = new HashSet<UserRoleDTO>();
+    public virtual ICollection<UserClaimDTO>        UserClaimDTOs       { get; set; } = new HashSet<UserClaimDTO>();
+    public virtual ICollection<UserLoginDTO>        UserLoginDTOs       { get; set; } = new HashSet<UserLoginDTO>();
+    public virtual ICollection<UserTokenDTO>        UserTokenDTOs       { get; set; } = new HashSet<UserTokenDTO>();
     public virtual ICollection<NotificationDTO>     NotificationDTOs    { get; set; } = new HashSet<NotificationDTO>();
     public virtual ICollection<SpecializationDTO>   SpecializationDTOs  { get; set; } = new HashSet<SpecializationDTO>();
     public virtual ICollection<ScheduleDayDTO>      ScheduleDayDTOs     { get; set; } = new HashSet<ScheduleDayDTO>();
