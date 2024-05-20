@@ -7,14 +7,12 @@ public static class ServiceExtension
     public static void AddIdentitySystemDataProviders(this IServiceCollection services)
     {
         services.AddSingleton<UserStoreProvider>()
-                .AddSingleton<RoleStoreProvider>()
-                .AddSingleton<UserRoleStoreProvider>();
+                .AddSingleton<RoleStoreProvider>();
 
         services.AddTransient<ISignInProvider, SignInProvider>();
 
         services.AddTransient<IUserManagerProvider, UserManagerProvider>()
-                .AddTransient<IRoleManagerProvider, RoleManagerProvider>()
-                .AddTransient<IUserRoleManagerProvider, UserRoleManagerProvider>();
+                .AddTransient<IRoleManagerProvider, RoleManagerProvider>();
 
         services.AddIdentity<Domain.User, Domain.Role>(options =>
         {

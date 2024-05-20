@@ -129,3 +129,10 @@ public abstract class ServiceProviderBase<TDto, TEntity>(IDataProviderBase<TEnti
     where TEntity : class, Domain.IEntity<string>
 {
 }
+
+public abstract class ServiceProviderIntBase<TDto, TEntity>(IDataProviderBase<TEntity, int> dataProvider, IMapper mapper)
+    : ServiceProviderBase<TDto, int, TEntity, int, IDataProviderBase<TEntity, int>>(dataProvider, mapper)
+    where TDto : class, Application.IDataObject<int>
+    where TEntity : class, Domain.IEntity<int>
+{
+}

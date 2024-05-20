@@ -26,12 +26,10 @@ public abstract class DataProviderTestBase
         ServiceCollection = new ServiceCollection();
 
         ServiceCollection.AddSingleton<UserStoreProvider>()
-                         .AddSingleton<RoleStoreProvider>()
-                         .AddSingleton<UserRoleStoreProvider>();
+                         .AddSingleton<RoleStoreProvider>();
 
         ServiceCollection.AddScoped<IUserManagerProvider, UserManagerProvider>()
-                         .AddScoped<IRoleManagerProvider, RoleManagerProvider>()
-                         .AddScoped<IUserRoleManagerProvider, UserRoleManagerProvider>();
+                         .AddScoped<IRoleManagerProvider, RoleManagerProvider>();
 
         ServiceCollection.AddDbContext<IdentitySystemDbContext>((serviceProvider, optionsBuilder) =>
         {

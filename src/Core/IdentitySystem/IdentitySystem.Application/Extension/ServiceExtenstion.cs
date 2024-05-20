@@ -2,7 +2,7 @@
 
 public static class ServiceExtenstion
 {
-    public static void AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
+    public static void AddIdentitySystemApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
         //services.AddAzureBlobStorage(configuration);
         services.AddLogging();
