@@ -28,7 +28,7 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
     {
         // Arrange
         var userDto = Fixture.Create<UserDTO>();
-        var dto = Fixture.Build<Application.UserLogin>()
+        var dto = Fixture.Build<Application.Login>()
                          .With(x => x.username, userDto.UserName)
                          .With(x => x.password, userDto.PasswordHash)
                          .Create();
@@ -91,7 +91,7 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
     public async void Register_Success()
     {
         // Arrange
-        var dto = Fixture.Create<UserSignUp>();
+        var dto = Fixture.Create<SignUp>();
         var consumerName = Fixture.Create<string>();
 
         var userCreateDto = new UserCreateDTO

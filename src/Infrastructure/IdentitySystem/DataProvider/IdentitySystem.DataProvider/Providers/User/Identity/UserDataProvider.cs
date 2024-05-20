@@ -1,5 +1,4 @@
-﻿using System.Data.Common;
-using CoreUser = IdentitySystem.Domain.User;
+﻿using CoreUser = IdentitySystem.Domain.User;
 using DataUser = IdentitySystem.DataProvider.User;
 
 namespace IdentitySystem.DataProvider;

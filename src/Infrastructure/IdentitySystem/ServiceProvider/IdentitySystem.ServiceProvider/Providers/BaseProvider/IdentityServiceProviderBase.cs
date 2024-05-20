@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-namespace IdentitySystem.ServiceProvider;
+﻿namespace IdentitySystem.ServiceProvider;
 
 public class IdentityServiceProviderBase<TDto, TDId, TEntity, TEId>
     where TDto : class, Application.IDataObject<TDId>

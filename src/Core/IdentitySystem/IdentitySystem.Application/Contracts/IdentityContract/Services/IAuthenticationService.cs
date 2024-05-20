@@ -11,7 +11,7 @@ public interface IAuthenticationService
     /// <param name="dto"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<OneOf<ServiceSuccess, ServiceError>> Login( UserLogin dto,
+    Task<OneOf<ServiceSuccess, ServiceError>> Login( Login dto,
                                                      string conumerName,
                                                      CancellationToken cancellationToken);
 
@@ -31,7 +31,7 @@ public interface IAuthenticationService
     /// <param name="dto"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<OneOf<ServiceSuccess, ServiceError>> Register( UserSignUp dto,
+    Task<OneOf<ServiceSuccess, ServiceError>> Register( SignUp dto,
                                                         string consumerName,
                                                         CancellationToken cancellationToken );
 }

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentitySystem.Context.Migrations
 {
     [DbContext(typeof(IdentitySystemDbContext))]
-    [Migration("20240519175113_Initial")]
+    [Migration("20240519182801_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -502,6 +502,15 @@ namespace IdentitySystem.Context.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("IdentitySystem.DataProvider.RoleClaim", b =>
+                {
+                    b.HasOne("IdentitySystem.DataProvider.Role", "Role")
+                        .WithMany("RoleClaims")
+                        .HasForeignKey("RoleId");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("IdentitySystem.DataProvider.ScheduleDay", b =>
                 {
                     b.HasOne("IdentitySystem.DataProvider.User", "User")
@@ -518,6 +527,24 @@ namespace IdentitySystem.Context.Migrations
                         .HasForeignKey("ScheduleDayId");
 
                     b.Navigation("ScheduleDay");
+                });
+
+            modelBuilder.Entity("IdentitySystem.DataProvider.UserClaim", b =>
+                {
+                    b.HasOne("IdentitySystem.DataProvider.User", "User")
+                        .WithMany("UserClaims")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("IdentitySystem.DataProvider.UserLogin", b =>
+                {
+                    b.HasOne("IdentitySystem.DataProvider.User", "User")
+                        .WithMany("UserLogins")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("IdentitySystem.DataProvider.UserRole", b =>
@@ -550,8 +577,19 @@ namespace IdentitySystem.Context.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("IdentitySystem.DataProvider.UserToken", b =>
+                {
+                    b.HasOne("IdentitySystem.DataProvider.User", "User")
+                        .WithMany("UserTokens")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("IdentitySystem.DataProvider.Role", b =>
                 {
+                    b.Navigation("RoleClaims");
+
                     b.Navigation("UserRoles");
                 });
 
@@ -571,9 +609,15 @@ namespace IdentitySystem.Context.Migrations
 
                     b.Navigation("ScheduleDays");
 
+                    b.Navigation("UserClaims");
+
+                    b.Navigation("UserLogins");
+
                     b.Navigation("UserRoles");
 
                     b.Navigation("UserSpecializations");
+
+                    b.Navigation("UserTokens");
                 });
 #pragma warning restore 612, 618
         }

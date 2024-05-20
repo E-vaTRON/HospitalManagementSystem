@@ -140,3 +140,10 @@ public abstract class DataProviderBase<TEntity, TModel>(IdentitySystemDbContext 
     where TModel : class, DataProvider.IModel<Guid>
 {
 }
+
+public abstract class DataProviderIntBase<TEntity, TModel>(IdentitySystemDbContext context, IMapper mapper)
+    : DataProviderBase<TEntity, int, TModel, int>(context, mapper)
+    where TEntity : class, Domain.IEntity<int>
+    where TModel : class, DataProvider.IModel<int>
+{
+}

@@ -26,7 +26,7 @@ public class AuthenticationService : IAuthenticationService
     #endregion
 
     #region [ Public - Methods ]
-    public async Task<OneOf<ServiceSuccess, ServiceError>> Login(Application.UserLogin dto,
+    public async Task<OneOf<ServiceSuccess, ServiceError>> Login(Application.Login dto,
                                                                  string consumerName,
                                                                  CancellationToken cancellationToken = default)
     {
@@ -100,7 +100,7 @@ public class AuthenticationService : IAuthenticationService
         };
     }
 
-    public async Task<OneOf<ServiceSuccess, ServiceError>> Register(UserSignUp dto, string consumerName, CancellationToken cancellationToken = default)
+    public async Task<OneOf<ServiceSuccess, ServiceError>> Register(SignUp dto, string consumerName, CancellationToken cancellationToken = default)
     {
         //Guard.IsNotNull(dto);
 
