@@ -5,6 +5,11 @@ namespace IdentitySystem.DataProvider;
 
 public class UserManagerProvider : UserManager<CoreUser>, IUserManagerProvider
 {
+    #region [ Field ]
+    protected readonly IServiceProvider Services;
+    #endregion
+
+    #region [ CTor ]
     public UserManagerProvider( UserStoreProvider store,
                                 IOptions<IdentityOptions> optionsAccessor,
                                 IPasswordHasher<CoreUser> passwordHasher,
@@ -16,30 +21,52 @@ public class UserManagerProvider : UserManager<CoreUser>, IUserManagerProvider
                                 ILogger<UserManager<CoreUser>> logger)
         : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
     {
+        Services = services;
     }
+    #endregion
+
+    #region [ Methods ]
     public IQueryable<CoreUser> FindAll(Expression<Func<CoreUser, bool>>? predicate = null)
-        => Users.Where(u => !u.IsDeleted)
-                .WhereIf(predicate != null, predicate!);
+    => Users.Where(u => !u.IsDeleted)
+            .WhereIf(predicate != null, predicate!);
 
-    public async Task<CoreUser?> FindByGuidAsync(string id, CancellationToken cancellationToken = default)
-        => await Users.FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
-
-    public async Task<IReadOnlyCollection<CoreUser>> FindByMultipleGuidsAsync(string[] userGuids, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyCollection<CoreUser>> FindByMultipleGuidsAsync(string[] userGuids)
     {
         var userGuidsSet = new HashSet<string>(userGuids);
-        var users = await Users.Where(u => userGuids.Contains(u.Id)).ToListAsync(cancellationToken);
+        var users = await Users.Where(u => userGuids.Contains(u.Id)).ToListAsync(CancellationToken);
         return users.ToList().AsReadOnly();
     }
 
-    public async Task<CoreUser?> FindByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken = default)
-        => await Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber, cancellationToken);
-
-    public async Task<CoreUser?> FindByEmailAsync(string email, CancellationToken cancellationToken = default!)
-        => await Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
-
-    public new async Task<CoreUser?> FindByNameAsync(string userName)
+    public async Task<CoreUser?> FindByPhoneNumberAsync(string phoneNumber)
     {
-        var user = await base.FindByNameAsync(userName);
-        return (user is null || user.IsDeleted) ? null : user;
+        ThrowIfDisposed();
+        ArgumentNullException.ThrowIfNull(phoneNumber, nameof(phoneNumber));
+
+        var user = new CoreUser();
+        if (Store is UserStoreProvider storeProvider)
+        {
+            user = await storeProvider.FindByPhoneNumberAsync(phoneNumber, CancellationToken).ConfigureAwait(false);
+
+            if (user == null && Options.Stores.ProtectPersonalData)
+            {
+                var keyRing = Services.GetService<ILookupProtectorKeyRing>();
+                var protector = Services.GetService<ILookupProtector>();
+                if (keyRing != null && protector != null)
+                {
+                    foreach (var key in keyRing.GetAllKeyIds())
+                    {
+                        var oldKey = protector.Protect(key, phoneNumber);
+                        user = await storeProvider.FindByEmailAsync(oldKey, CancellationToken).ConfigureAwait(false);
+                        if (user != null)
+                        {
+                            return user;
+                        }
+                    }
+                }
+            }
+            return user;
+        }
+        return user;
     }
+    #endregion
 }

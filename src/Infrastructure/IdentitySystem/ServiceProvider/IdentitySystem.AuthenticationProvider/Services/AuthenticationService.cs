@@ -8,19 +8,19 @@ public class AuthenticationService : IAuthenticationService
     #region [ Fields ]
     private readonly IMapper Mapper;
     private readonly IUserServiceProvider UserServiceProvider;
-    private readonly IUserDataProvider UserDataProvider;
+    private readonly IDatabaseServiceProvider DatabaseServiceProvider;
     private readonly IJwtTokenService JwtTokenService;
     #endregion
 
     #region [ CTor ]
     public AuthenticationService( IMapper mapper,
                                   IUserServiceProvider userServiceProvider,
-                                  IUserDataProvider userDataProvider,
+                                  IDatabaseServiceProvider databaseServiceProvider,
                                   IJwtTokenService jwtTokenService )
     {
         Mapper = mapper;
         UserServiceProvider = userServiceProvider;
-        UserDataProvider = userDataProvider;
+        DatabaseServiceProvider = databaseServiceProvider;
         JwtTokenService = jwtTokenService;
     }
     #endregion
@@ -105,7 +105,7 @@ public class AuthenticationService : IAuthenticationService
         //Guard.IsNotNull(dto);
 
         //using var transaction = await DbContext.Database.BeginTransactionAsync(cancellationToken);
-        await UserDataProvider.BeginTransactionAsync(cancellationToken);
+        await DatabaseServiceProvider.BeginTransactionAsync(cancellationToken);
 
         UserCreateDTO userCreateDto = new()
         {
@@ -139,7 +139,7 @@ public class AuthenticationService : IAuthenticationService
         //}
 
         //await transaction.CommitAsync(cancellationToken);
-        await UserDataProvider.CommitTransactionAsync(cancellationToken);
+        await DatabaseServiceProvider.CommitTransactionAsync(cancellationToken);
         return new ServiceSuccess(nameof(AuthenticationService), nameof(Register), consumerName)
         {
             SuccessMessage = IdentityConstants.USER_CREATED_SUCCESSFULLY,

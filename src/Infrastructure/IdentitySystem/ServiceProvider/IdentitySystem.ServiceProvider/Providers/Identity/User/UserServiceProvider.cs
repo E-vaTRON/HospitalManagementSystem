@@ -1,5 +1,4 @@
-﻿using IdentitySystem.Application;
-using CoreUser = IdentitySystem.Domain.User;
+﻿using CoreUser = IdentitySystem.Domain.User;
 using DTOUser = IdentitySystem.Application.UserDTO;
 
 namespace IdentitySystem.ServiceProvider;
@@ -19,85 +18,17 @@ public class UserServiceProvider : IdentityServiceProviderBase<DTOUser, CoreUser
     }
     #endregion
 
-    #region [ Public - Method ]
-    public async Task<SignInResult> CheckPasswordSignInAsync(DTOUser userDto, string password, LoginMode mode, bool lockoutOnFailure, CancellationToken cancellationToken = default)
+    #region [ Method ]
+    #region [ Set ]
+    public Task<IdentityResult> SetUserNameAsync(DTOUser userDto, string userName)
     {
         var user = MapToEntity(userDto);
         ArgumentNullException.ThrowIfNull(user, nameof(user));
-
-        switch (mode)
-        {
-            case LoginMode.Email:
-                if (user.Email is not null)
-                {
-                    var result = await DataProvider.FindByEmailAsync(user.Email, cancellationToken);
-                    return result is not null ? await SignInProvider.CheckPasswordSignInAsync(result, password, lockoutOnFailure)
-                                              : SignInResult.Failed;
-                }
-                break;
-            case LoginMode.PhoneNumber:
-                if (user.PhoneNumber is not null)
-                {
-                    var result = await DataProvider.FindByPhoneNumberAsync(user.PhoneNumber, cancellationToken);
-                    return result is not null ? await SignInProvider.CheckPasswordSignInAsync(result, password, lockoutOnFailure)
-                                              : SignInResult.Failed;
-                }
-                break;
-        }
-        return SignInResult.Failed;
+        return DataProvider.SetUserNameAsync(user, userName);
     }
+    #endregion
 
-    public IQueryable<DTOUser> FindAll(Expression<Func<DTOUser, bool>>? dtoPredicate = null)
-    {
-        var entityPredicate = dtoPredicate != null ? MapToEntityPredicate(dtoPredicate) : null;
-        var entities = DataProvider.FindAll(entityPredicate);
-        return MapToDTOs(entities).AsQueryable();
-    }
-
-    public async Task<DTOUser?> FindByGuidAsync(string id, CancellationToken cancellationToken = default)
-    {
-        ArgumentNullException.ThrowIfNull(id, "Id Is null");
-        var user = await DataProvider.FindByGuidAsync(id, cancellationToken);
-        return MapToDTO(user);
-    }
-
-    public async Task<IReadOnlyCollection<DTOUser>> FindByMultipleGuidsAsync(string[] userGuids, CancellationToken cancellationToken = default)
-    {
-        var users = await DataProvider.FindByMultipleGuidsAsync(userGuids, cancellationToken);
-        return MapToDTOs(users).ToList().AsReadOnly();
-    }
-
-    public async Task<DTOUser?> FindByNameAsync(string userName)
-    {
-        ArgumentNullException.ThrowIfNull(userName, nameof(userName));
-        var user = await DataProvider.FindByNameAsync(userName);
-        return MapToDTO(user);
-    }
-
-    public async Task<DTOUser?> FindByEmailAsync(string email, CancellationToken cancellationToken = default)
-    {
-        ArgumentNullException.ThrowIfNull(email, nameof(email));
-        var user = await DataProvider.FindByPhoneNumberAsync(email);
-        return MapToDTO(user);
-    }
-
-    public async Task<DTOUser?> FindByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken = default)
-    {
-        ArgumentNullException.ThrowIfNull(phoneNumber, nameof(phoneNumber));
-        var user = await DataProvider.FindByPhoneNumberAsync(phoneNumber);
-        return MapToDTO(user);
-    }
-
-    public Task BeginTransactionAsync(CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task CommitTransactionAsync(CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
+    #region [ Create ]
     public Task<IdentityResult> CreateAsync(DTOUser userDto, string password)
     {
         var user = MapToEntity(userDto);
@@ -111,12 +42,160 @@ public class UserServiceProvider : IdentityServiceProviderBase<DTOUser, CoreUser
         ArgumentNullException.ThrowIfNull(user, nameof(user));
         return DataProvider.CreateAsync(user);
     }
+    #endregion
 
-    public Task<IdentityResult> UpdateAsync(DTOUser userDto)
+    #region [ Read ]
+    public IQueryable<DTOUser> FindAll(Expression<Func<DTOUser, bool>>? dtoPredicate = null)
+    {
+        var entityPredicate = dtoPredicate != null ? MapToEntityPredicate(dtoPredicate) : null;
+        var entities = DataProvider.FindAll(entityPredicate);
+        return MapToDTOs(entities).AsQueryable();
+    }
+
+    public async Task<IReadOnlyCollection<DTOUser>> FindByMultipleGuidsAsync(string[] userGuids)
+    {
+        var users = await DataProvider.FindByMultipleGuidsAsync(userGuids);
+        return MapToDTOs(users).ToList().AsReadOnly();
+    }
+
+    public async Task<DTOUser?> FindByIdAsync(string userId)
+    {
+        ArgumentNullException.ThrowIfNull(userId, nameof(userId));
+        var user = await DataProvider.FindByIdAsync(userId);
+        return MapToDTO(user);
+    }
+
+    public async Task<DTOUser?> FindByEmailAsync(string email)
+    {
+        ArgumentNullException.ThrowIfNull(email, nameof(email));
+        var user = await DataProvider.FindByPhoneNumberAsync(email);
+        return MapToDTO(user);
+    }
+
+    public async Task<DTOUser?> FindByPhoneNumberAsync(string phoneNumber)
+    {
+        ArgumentNullException.ThrowIfNull(phoneNumber, nameof(phoneNumber));
+        var user = await DataProvider.FindByPhoneNumberAsync(phoneNumber);
+        return MapToDTO(user);
+    }
+
+    public async Task<DTOUser?> FindByNameAsync(string userName)
+    {
+        ArgumentNullException.ThrowIfNull(userName, nameof(userName));
+        var user = await DataProvider.FindByNameAsync(userName);
+        return MapToDTO(user);
+    }
+    #endregion
+
+    #region [ Update ]
+    public async Task<IdentityResult> UpdateAsync(DTOUser userDto)
     {
         var user = MapToEntity(userDto);
         ArgumentNullException.ThrowIfNull(user, nameof(user));
-        return DataProvider.UpdateAsync(user);
+        return await DataProvider.UpdateAsync(user);
     }
+    #endregion
+
+    #region [ Delete ]
+    public async Task<IdentityResult> DeleteAsync(DTOUser userDto)
+    {
+        var user = MapToEntity(userDto);
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        return await DataProvider.DeleteAsync(user);
+    }
+    #endregion
+
+    #region [ Check ]
+    public async Task<SignInResult> CheckPasswordSignInAsync(DTOUser userDto, string password, LoginMode mode, bool lockoutOnFailure)
+    {
+        var user = MapToEntity(userDto);
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        ArgumentNullException.ThrowIfNull(password, nameof(password));
+
+        switch (mode)
+        {
+            case LoginMode.Email:
+                if (user.Email is not null)
+                {
+                    var result = await DataProvider.FindByEmailAsync(user.Email);
+                    return result is not null ? await SignInProvider.CheckPasswordSignInAsync(result, password, lockoutOnFailure)
+                                              : SignInResult.Failed;
+                }
+                break;
+            case LoginMode.PhoneNumber:
+                if (user.PhoneNumber is not null)
+                {
+                    var result = await DataProvider.FindByPhoneNumberAsync(user.PhoneNumber);
+                    return result is not null ? await SignInProvider.CheckPasswordSignInAsync(result, password, lockoutOnFailure)
+                                              : SignInResult.Failed;
+                }
+                break;
+        }
+        return SignInResult.Failed;
+    }
+    #endregion
+
+    #region [ Claim Role ]
+    public async Task<IList<string>> GetRolesAsync(DTOUser userDto)
+    {
+        var user = MapToEntity(userDto);
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        return await DataProvider.GetRolesAsync(user);
+    }
+
+    public async Task<IdentityResult> AddClaimAsync(DTOUser userDto, Claim claim)
+    {
+        var user = MapToEntity(userDto);
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        return await DataProvider.AddClaimAsync(user, claim);
+    }
+
+    public async Task<IdentityResult> RemoveClaimAsync(DTOUser userDto, Claim claim)
+    {
+        var user = MapToEntity(userDto);
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        return await DataProvider.RemoveClaimAsync(user, claim);
+    }
+
+    public async Task<IdentityResult> AddToRoleAsync(DTOUser userDto, string role)
+    {
+        var user = MapToEntity(userDto);
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        return await DataProvider.AddToRoleAsync(user, role);
+    }
+
+    public async Task<IdentityResult> RemoveFromRoleAsync(DTOUser userDto, string role)
+    {
+        var user = MapToEntity(userDto);
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        return await DataProvider.RemoveFromRoleAsync(user, role);
+    }
+    #endregion
+
+    #region [ Password ]
+    public async Task<bool> HasPasswordAsync(DTOUser userDto)
+    {
+        var user = MapToEntity(userDto);
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        return await DataProvider.HasPasswordAsync(user);
+    }
+
+    public async Task<bool> CheckPasswordAsync(DTOUser userDto, string password)
+    {
+        var user = MapToEntity(userDto);
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        ArgumentNullException.ThrowIfNull(password, nameof(password));
+        return await DataProvider.CheckPasswordAsync(user, password);
+    }
+
+    public async Task<IdentityResult> ChangePasswordAsync(DTOUser userDto, string currentPassword, string newPassword)
+    {
+        var user = MapToEntity(userDto);
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        ArgumentNullException.ThrowIfNull(currentPassword, nameof(currentPassword));
+        ArgumentNullException.ThrowIfNull(newPassword, nameof(newPassword));
+        return await DataProvider.ChangePasswordAsync(user, currentPassword, newPassword);
+    }
+    #endregion
     #endregion
 }

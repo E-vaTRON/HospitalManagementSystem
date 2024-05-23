@@ -7,14 +7,12 @@ public class RoleDataProvider : IRoleDataProvider
 {
     #region [ Field ]
     private readonly IRoleManagerProvider RoleManagerProvider;
-    private readonly IdentitySystemDbContext DbContext;
     #endregion
 
     #region [ CTor ]
-    public RoleDataProvider(IRoleManagerProvider roleManagerProvider, IdentitySystemDbContext dbContext)
+    public RoleDataProvider(IRoleManagerProvider roleManagerProvider)
     {
         RoleManagerProvider = roleManagerProvider;
-        DbContext = dbContext;
     }
     #endregion
 }

@@ -4,10 +4,20 @@ using CoreRole = IdentitySystem.Domain.Role;
 using DataRole = IdentitySystem.DataProvider.Role;
 using CoreUserRole = IdentitySystem.Domain.UserRole;
 using DataUserRole = IdentitySystem.DataProvider.UserRole;
+using CoreUserClaim = IdentitySystem.Domain.UserClaim;
+using DataUserClaim = IdentitySystem.DataProvider.UserClaim;
+using IdentitySystem.Domain;
+using System.Security.Claims;
 
 namespace IdentitySystem.DataProvider;
 
-public class UserStoreProvider : IUserStore<CoreUser>, IUserPasswordStore<CoreUser>, IUserEmailStore<CoreUser>, IUserRoleStore<CoreUser>
+public class UserStoreProvider : IUserStore<CoreUser>, 
+                                 IQueryableUserStore<CoreUser>,  
+                                 IUserPasswordStore<CoreUser>, 
+                                 IUserEmailStore<CoreUser>, 
+                                 IUserPhoneNumberStore<CoreUser>,  
+                                 IUserRoleStore<CoreUser>, 
+                                 IUserClaimStore<CoreUser>
 {
     #region [ Field ]
     protected IMapper Mapper { get; set; }
@@ -16,9 +26,11 @@ public class UserStoreProvider : IUserStore<CoreUser>, IUserPasswordStore<CoreUs
 
     public DbSet<DataUser> UserDbSet { get; protected set; }
 
+    public DbSet<DataRole> RoleDbSet { get; protected set; }
+
     public DbSet<DataUserRole> UserRoleDbSet { get; protected set; }
 
-    public DbSet<DataRole> RoleDbSet { get; protected set; }
+    public DbSet<DataUserClaim> UserClaimDbSet { get; protected set; }
     #endregion
 
     #region [ CTor ]
@@ -28,6 +40,9 @@ public class UserStoreProvider : IUserStore<CoreUser>, IUserPasswordStore<CoreUs
         Mapper = mapper;
 
         UserDbSet = DbContext.Set<DataUser>();
+        RoleDbSet = DbContext.Set<DataRole>();
+        UserRoleDbSet = DbContext.Set<DataUserRole>();
+        UserClaimDbSet = DbContext.Set<DataUserClaim>();
     }
     #endregion
 
@@ -45,40 +60,88 @@ public class UserStoreProvider : IUserStore<CoreUser>, IUserPasswordStore<CoreUs
         => Mapper.Map<CoreUser?>(dbEntity);
 
     [DebuggerStepThrough]
-    protected virtual IEnumerable<DataUser> MapToDbEntities(IEnumerable<CoreUser?> entities)
-        => Mapper.Map<IEnumerable<DataUser>>(entities);
-
-    [DebuggerStepThrough]
     protected virtual IEnumerable<CoreUser> MapToEntities(IEnumerable<DataUser?> entities)
         => Mapper.Map<IEnumerable<CoreUser>>(entities);
+    #endregion
+
+    #region [ Check ]
+    private async Task InternalCleanseNonExistingUserRolesAsync(CoreUser user)
+    {
+        foreach (var userRole in user.UserRoles.ToList())
+        {
+            var dbUserRole = await InternalFindUserRoleByIdAsync(userRole.Id);
+            if (dbUserRole == null)
+            {
+                user.UserRoles.Remove(userRole);
+            }
+        }
+    }
+
+    private async Task InternalCleanseNonExistingUserClaimsAsync(CoreUser user)
+    {
+        foreach (var userClaim in user.UserClaims.ToList())
+        {
+            var dbUserClaim = await InternalFindUserClaimByIdAsync(userClaim.Id);
+            if (dbUserClaim == null)
+            {
+                user.UserClaims.Remove(userClaim);
+            }
+        }
+    }
     #endregion
 
     #region [ Create ]
     public async Task InternalCreateUserRoleAsync(Guid userId, Guid roleId, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        ArgumentNullException.ThrowIfNull(userId, nameof(roleId));
 
         var dbUserRole = new DataUserRole { UserId = userId, RoleId = roleId };
 
         await UserRoleDbSet.AddAsync(dbUserRole);
     }
+
+    public async Task InternalCreateUserClaimAsync(DataUser user, Claim claim, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var dbUserClaim = new DataUserClaim { UserId = user.Id, ClaimType = claim.Type, ClaimValue = claim.Value };
+        
+        user.UserClaims.Add(dbUserClaim);
+
+        await UserClaimDbSet.AddAsync(dbUserClaim);
+    }
     #endregion
 
     #region [ Get ]
-    protected virtual async Task<List<DataUserRole>> GetUserRolesByUserIdAsync(Guid userId, CancellationToken cancellationToken)
+    protected virtual async Task<List<DataUserClaim>> InternalGetUserClaimByUserIdAsync(string userId, CancellationToken cancellationToken)
     {
-        var userRoles = await UserRoleDbSet
-            .Where(ur => ur.UserId == userId)
+        var userMId = ParseId(userId);
+        var userClaims = await UserClaimDbSet
+            .Where(ur => ur.UserId == userMId).ToListAsync(cancellationToken);
+        return userClaims;
+    }
+
+    protected virtual async Task<List<DataUser>> InternalGetUserByClaimAsync(Claim claim, CancellationToken cancellationToken)
+    {
+        var user = await UserDbSet.Include(u => u.UserClaims)
+            .Where(u => u.UserClaims.Any(c => c.ClaimType == claim.Type && c.ClaimValue == claim.Value))
             .ToListAsync(cancellationToken);
+        return user;
+    }
+
+    protected virtual async Task<List<DataUserRole>> InternalGetUserRolesByUserIdAsync(string userId, CancellationToken cancellationToken)
+    {
+        var userMId = ParseId(userId);
+        var userRoles = await UserRoleDbSet
+            .Where(ur => ur.UserId == userMId).Include(ur => ur.Role).ToListAsync(cancellationToken);
         return userRoles;
     }
 
-    protected virtual async Task<List<DataUserRole>> GetUserRolesByRoleIdAsync(Guid roleId, CancellationToken cancellationToken)
+    protected virtual async Task<List<DataUserRole>> InternalGetUserRolesByRoleIdAsync(string roleId, CancellationToken cancellationToken)
     {
+        var roleMId = ParseId(roleId);
         var userRoles = await UserRoleDbSet
-            .Where(ur => ur.RoleId == roleId)
-            .ToListAsync(cancellationToken);
+            .Where(ur => ur.RoleId == roleMId).ToListAsync(cancellationToken);
         return userRoles;
     }
 
@@ -93,24 +156,60 @@ public class UserStoreProvider : IUserStore<CoreUser>, IUserPasswordStore<CoreUs
         return await query.FirstOrDefaultAsync(x => x.Id!.Equals(mId), cancellationToken);
     }
 
-    protected virtual async Task<DataRole?> InternalFindRoleByNameAsync(string name, bool asNoTracking = true, CancellationToken cancellationToken = default)
+    protected virtual async Task<DataRole?> InternalFindRoleByIdAsync(string id, bool asNoTracking = true, CancellationToken cancellationToken = default)
     {
         var query = RoleDbSet.AsQueryable();
         if (asNoTracking)
             query = query.AsNoTracking();
 
-        var dbRole = await query.FirstOrDefaultAsync(x => x.Name!.Equals(name), cancellationToken);
+        var dbRole = await query.FirstOrDefaultAsync(x => x.Id!.Equals(id), cancellationToken);
         return dbRole;
     }
 
-    protected virtual async Task<DataUserRole?> InternalFindUserRoleByIdAsync(Guid userId, Guid roleId, bool asNoTracking = true, CancellationToken cancellationToken = default)
+    protected virtual async Task<DataRole?> InternalFindRoleByNameAsync(string normalizedName, bool asNoTracking = true, CancellationToken cancellationToken = default)
     {
+        var query = RoleDbSet.AsQueryable();
+        if (asNoTracking)
+            query = query.AsNoTracking();
+
+        var dbRole = await query.FirstOrDefaultAsync(x => x.NormalizedName!.Equals(normalizedName), cancellationToken);
+        return dbRole;
+    }
+
+    protected virtual async Task<DataUserRole?> InternalFindUserRoleByIdAsync(string userId, string roleId, bool asNoTracking = true, CancellationToken cancellationToken = default)
+    {
+        var userMId = ParseId(userId);
+        var roleMId = ParseId(roleId);
+
         var query = UserRoleDbSet.AsQueryable();
         if (asNoTracking)
             query = query.AsNoTracking();
 
-        var dbUserRole = await query.FirstOrDefaultAsync(x => x.UserId == userId && x.RoleId == roleId, cancellationToken);
+        var dbUserRole = await query.FirstOrDefaultAsync(x => x.UserId == userMId && x.RoleId == roleMId, cancellationToken);
         return dbUserRole;
+    }
+
+    protected virtual async Task<DataUserRole?> InternalFindUserRoleByIdAsync(string userRoleId, bool asNoTracking = true, CancellationToken cancellationToken = default)
+    {
+        var userRoleMId = ParseId(userRoleId);
+
+        var query = UserRoleDbSet.AsQueryable();
+        if (asNoTracking)
+            query = query.AsNoTracking();
+
+        var dbUserRole = await query.FirstOrDefaultAsync(x => x.Id == userRoleMId, cancellationToken);
+        return dbUserRole;
+    }
+
+    protected virtual async Task<DataUserClaim?> InternalFindUserClaimByIdAsync(int userClaimId, bool asNoTracking = true, CancellationToken cancellationToken = default)
+    {
+
+        var query = UserClaimDbSet.AsQueryable();
+        if (asNoTracking)
+            query = query.AsNoTracking();
+
+        var dbUserClaim = await query.FirstOrDefaultAsync(x => x.Id == userClaimId, cancellationToken);
+        return dbUserClaim;
     }
     #endregion
     #endregion
@@ -220,6 +319,9 @@ public class UserStoreProvider : IUserStore<CoreUser>, IUserPasswordStore<CoreUs
 
         ArgumentNullException.ThrowIfNull(dbUser, nameof(dbUser));
 
+        await InternalCleanseNonExistingUserRolesAsync(user);
+        await InternalCleanseNonExistingUserClaimsAsync(user);
+
         Mapper.Map(user, dbUser);
         UserDbSet.Update(dbUser);
 
@@ -259,6 +361,21 @@ public class UserStoreProvider : IUserStore<CoreUser>, IUserPasswordStore<CoreUs
     #endregion
     #endregion
 
+    #region [ Public - IQueryable - Methods ]
+    public IQueryable<CoreUser> Users => UserDbSet.AsQueryable().ProjectTo<CoreUser>(Mapper.ConfigurationProvider);
+
+    //public IQueryable<CoreUser> Users
+    //{
+    //    get
+    //    {
+    //        var query = UserDbSet.AsQueryable();
+
+    //        return query.ProjectTo<CoreUser>(Mapper.ConfigurationProvider)!;
+    //    }
+
+    //}
+    #endregion
+
     #region [ Public - UserRole - Methods ]
     #region [ Get ]
     public async Task<IList<string>> GetRolesAsync(CoreUser user, CancellationToken cancellationToken)
@@ -266,8 +383,7 @@ public class UserStoreProvider : IUserStore<CoreUser>, IUserPasswordStore<CoreUs
         cancellationToken.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(user, nameof(user));
 
-        var userId = ParseId(user.Id);
-        var userRoles = await GetUserRolesByUserIdAsync(userId, cancellationToken);
+        var userRoles = await InternalGetUserRolesByUserIdAsync(user.Id, cancellationToken);
         var roles = userRoles.Select(userRole =>
         {
             ArgumentNullException.ThrowIfNull(userRole.Role, nameof(userRole.Role));
@@ -286,7 +402,7 @@ public class UserStoreProvider : IUserStore<CoreUser>, IUserPasswordStore<CoreUs
         if (dbRole == null)
             throw new ArgumentException($"Role '{roleName}' does not exist.");
 
-        var dbUserRoles = await GetUserRolesByRoleIdAsync(dbRole.Id, cancellationToken);
+        var dbUserRoles = await InternalGetUserRolesByRoleIdAsync(dbRole.Id.ToString(), cancellationToken);
         var dbUsers = dbUserRoles.Select(x => x.User).ToList();
 
         var users = MapToEntities(dbUsers).ToList();
@@ -295,15 +411,15 @@ public class UserStoreProvider : IUserStore<CoreUser>, IUserPasswordStore<CoreUs
     #endregion
 
     #region [ Add ]
-    public async Task AddToRoleAsync(CoreUser user, string roleName, CancellationToken cancellationToken)
+    public async Task AddToRoleAsync(CoreUser user, string roleNormalizedName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(user, nameof(user));
-        ArgumentNullException.ThrowIfNull(roleName, nameof(roleName));
+        ArgumentNullException.ThrowIfNull(roleNormalizedName, nameof(roleNormalizedName));
 
-        var role = await InternalFindRoleByNameAsync(roleName);
+        var role = await InternalFindRoleByNameAsync(roleNormalizedName);
         if (role == null)
-            throw new ArgumentException($"Role '{roleName}' does not exist.");
+            throw new ArgumentException($"Role with NormalizedName: '{roleNormalizedName}' does not exist.");
 
         var userId = ParseId(user.Id);
         await InternalCreateUserRoleAsync(userId, role.Id, cancellationToken);
@@ -313,40 +429,131 @@ public class UserStoreProvider : IUserStore<CoreUser>, IUserPasswordStore<CoreUs
     #endregion
 
     #region [ Check ]
-    public async Task<bool> IsInRoleAsync(CoreUser user, string roleName, CancellationToken cancellationToken)
+    public async Task<bool> IsInRoleAsync(CoreUser user, string roleNormalizedName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(user, nameof(user));
-        ArgumentNullException.ThrowIfNull(roleName, nameof(roleName));
+        ArgumentNullException.ThrowIfNull(roleNormalizedName, nameof(roleNormalizedName));
 
-        var dbRole = await InternalFindRoleByNameAsync(roleName);
+        var dbRole = await InternalFindRoleByNameAsync(roleNormalizedName);
         if (dbRole == null)
-            throw new ArgumentException($"Role '{roleName}' does not exist.");
+            throw new ArgumentException($"Role '{roleNormalizedName}' does not exist.");
 
-        var userId = ParseId(user.Id);
-        var userRole = await InternalFindUserRoleByIdAsync(userId, dbRole.Id);
+        var userRole = await InternalFindUserRoleByIdAsync(user.Id, dbRole.Id.ToString());
 
         return userRole != null;
     }
     #endregion
 
     #region [ Remove ]
-    public async Task RemoveFromRoleAsync(CoreUser user, string roleName, CancellationToken cancellationToken)
+    public async Task RemoveFromRoleAsync(CoreUser user, string roleNormalizedName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(user, nameof(user));
-        ArgumentNullException.ThrowIfNull(roleName, nameof(roleName));
+        ArgumentNullException.ThrowIfNull(roleNormalizedName, nameof(roleNormalizedName));
 
-        var dbRole = await InternalFindRoleByNameAsync(roleName);
+        var dbRole = await InternalFindRoleByNameAsync(roleNormalizedName);
         if (dbRole == null)
-            throw new ArgumentException($"Role '{roleName}' does not exist.");
+            throw new ArgumentException($"Role '{roleNormalizedName}' does not exist.");
 
-        var userId = ParseId(user.Id);
-        var userRole = await InternalFindUserRoleByIdAsync(userId, dbRole.Id);
+        var userRole = await InternalFindUserRoleByIdAsync(user.Id, dbRole.Id.ToString());
         if (userRole == null)
-            throw new ArgumentException($"User is not in role '{roleName}'.");
+            throw new ArgumentException($"User is not in role '{roleNormalizedName}'.");
 
-        UserRoleDbSet.Remove(userRole);
+        userRole.IsDeleted = true;
+        userRole.DeleteOn = DateTime.UtcNow;
+
+        DbContext.Remove(userRole);
+        await DbContext.SaveChangesAsync(cancellationToken);
+    }
+    #endregion
+    #endregion
+
+    #region [ Public - Claim - Methods ]
+    #region [ Get ]
+    public async Task<IList<Claim>> GetClaimsAsync(CoreUser user, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+
+        var userClaims = await InternalGetUserClaimByUserIdAsync(user.Id, cancellationToken);
+
+        var claims = new List<Claim>();
+        foreach (var userClaim in userClaims)
+        {
+            if (!string.IsNullOrEmpty(userClaim.ClaimType) && !string.IsNullOrEmpty(userClaim.ClaimValue))
+            {
+                claims.Add(new Claim(userClaim.ClaimType, userClaim.ClaimValue));
+            }
+        }
+
+        return claims;
+    }
+
+    public async Task<IList<CoreUser>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ArgumentNullException.ThrowIfNull(claim, nameof(claim));
+
+        var dbUsers = await InternalGetUserByClaimAsync(claim, cancellationToken);
+        return MapToEntities(dbUsers).ToList();
+    }
+    #endregion
+
+    #region [ Add ]
+    public async Task AddClaimsAsync(CoreUser user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        ArgumentNullException.ThrowIfNull(claims, nameof(claims));
+
+        var dbUser = await InternalFindUserByIdAsync(user.Id, true, cancellationToken);
+        ArgumentNullException.ThrowIfNull(dbUser, nameof(dbUser));
+
+        foreach (var claim in claims)
+        {
+            await InternalCreateUserClaimAsync(dbUser, claim, cancellationToken);
+        }
+
+        await DbContext.SaveChangesAsync(cancellationToken);
+    }
+    #endregion
+
+    #region [ Update - Replace ]
+    public async Task ReplaceClaimAsync(CoreUser user, Claim claim, Claim newClaim, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        ArgumentNullException.ThrowIfNull(claim, nameof(claim));
+        ArgumentNullException.ThrowIfNull(newClaim, nameof(newClaim));
+
+        var userClaims = await InternalGetUserClaimByUserIdAsync(user.Id, cancellationToken);
+        var matchedClaim = userClaims.First(c => c.ClaimType == claim.Type && c.ClaimValue == claim.Value);
+
+        matchedClaim.ClaimValue = newClaim.Value;
+        matchedClaim.ClaimType = newClaim.Type;
+
+        await DbContext.SaveChangesAsync(cancellationToken);
+
+        throw new NotImplementedException();
+    }
+    #endregion
+
+    #region [ Remove ]
+    public async Task RemoveClaimsAsync(CoreUser user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        ArgumentNullException.ThrowIfNull(claims, nameof(claims));
+
+        var userClaims = await InternalGetUserClaimByUserIdAsync(user.Id, cancellationToken);
+        foreach (var claim in claims)
+        {
+            foreach (var matchedClaim in userClaims)
+            {
+                UserClaimDbSet.Remove(matchedClaim);
+            }
+        }
         await DbContext.SaveChangesAsync(cancellationToken);
     }
     #endregion
@@ -420,6 +627,55 @@ public class UserStoreProvider : IUserStore<CoreUser>, IUserPasswordStore<CoreUs
     }
     #endregion
     #endregion
+    #endregion
+
+    #region [ Public - PhoneNumber - Methods ]
+    #region [ Get ]
+    #region [ Filter ]
+    public async Task<CoreUser?> FindByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken)
+    {
+        var dbUser = await UserDbSet.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber, cancellationToken);
+        return MapToEntity(dbUser);
+    }
+    #endregion
+    #endregion
+    public Task SetPhoneNumberAsync(CoreUser user, string? phoneNumber, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        if (user == null)
+            throw new ArgumentNullException(nameof(user));
+
+        user.PhoneNumber = phoneNumber;
+        return Task.CompletedTask;
+    }
+
+    public Task<string?> GetPhoneNumberAsync(CoreUser user, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        if (user == null)
+            throw new ArgumentNullException(nameof(user));
+
+        return Task.FromResult(user.PhoneNumber);
+    }
+
+    public Task<bool> GetPhoneNumberConfirmedAsync(CoreUser user, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        if (user == null)
+            throw new ArgumentNullException(nameof(user));
+
+        return Task.FromResult(user.PhoneNumberConfirmed);
+    }
+
+    public Task SetPhoneNumberConfirmedAsync(CoreUser user, bool confirmed, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        if (user == null)
+            throw new ArgumentNullException(nameof(user));
+
+        user.PhoneNumberConfirmed = confirmed;
+        return Task.CompletedTask;
+    }
     #endregion
 
     public void Dispose()

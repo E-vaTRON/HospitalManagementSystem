@@ -2,5 +2,5 @@
 
 public interface IUserServiceProvider : IUserContractBase<UserDTO, string>
 {
-    Task<SignInResult> CheckPasswordSignInAsync(UserDTO user, string password, LoginMode mode, bool lockoutOnFailure, CancellationToken cancellationToken = default!);
+    Task<SignInResult> CheckPasswordSignInAsync(UserDTO user, string password, LoginMode mode, bool lockoutOnFailure);
 }

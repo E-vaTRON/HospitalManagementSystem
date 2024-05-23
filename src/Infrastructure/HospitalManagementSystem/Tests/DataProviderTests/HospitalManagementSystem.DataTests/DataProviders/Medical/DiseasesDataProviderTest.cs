@@ -192,10 +192,10 @@ public class DiseasesDataProviderTest : DataProviderTestBase
     public async void FindAll()
     {
         //Arrange
-        List<DataProvider.Diseases> icdList = Fixture.Build<DataProvider.Diseases>()
-                                                .CreateMany().ToList();
+        var diseasesList = Fixture.Build<DataProvider.Diseases>()
+                             .CreateMany().ToList();
 
-        await DbContext.Diseases.AddRangeAsync(icdList.ToArray());
+        await DbContext.Diseases.AddRangeAsync(diseasesList.ToArray());
         await DbContext.SaveChangesAsync();
 
         //Act
@@ -208,7 +208,7 @@ public class DiseasesDataProviderTest : DataProviderTestBase
         // Check that each item in the database has the correct properties
         foreach (var result in resultList)
         {
-            var icd = icdList.ElementAt(resultList.ToList().IndexOf(result));
+            var icd = diseasesList.ElementAt(resultList.ToList().IndexOf(result));
             Assert.NotNull(result);
             Assert.Equal(icd.Name, result.Name);
             Assert.Equal(icd.Description, result.Description);

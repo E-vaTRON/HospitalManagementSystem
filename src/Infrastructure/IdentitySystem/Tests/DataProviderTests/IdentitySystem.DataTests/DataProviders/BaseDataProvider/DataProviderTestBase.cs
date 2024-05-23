@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-
-namespace IdentitySystem.Tests;
+﻿namespace IdentitySystem.Tests;
 
 public abstract class DataProviderTestBase
 {
@@ -35,7 +31,6 @@ public abstract class DataProviderTestBase
         {
             if (string.IsNullOrEmpty(realConnection))
             {
-                //optionsBuilder.UseSqlite("DataSource=:memory:");
                 optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString());
             }
             else
@@ -86,9 +81,15 @@ public abstract class DataProviderTestBase
 
                 config.CreateMap<Domain.User, DataProvider.User>().ReverseMap();
                 config.CreateMap<Domain.Role, DataProvider.Role>().ReverseMap();
-                config.CreateMap<Domain.UserRole, DataProvider.UserRole>().ReverseMap();
 
-                config.CreateMap<Domain.Specialization, DataProvider.Specialization>().ReverseMap();
+                config.CreateMap<Domain.UserRole,       DataProvider.UserRole>().ReverseMap();
+                config.CreateMap<Domain.UserClaim,      DataProvider.UserClaim>().ReverseMap();
+                config.CreateMap<Domain.UserLogin,      DataProvider.UserLogin>().ReverseMap();
+                config.CreateMap<Domain.UserToken,      DataProvider.UserToken>().ReverseMap();
+                config.CreateMap<Domain.RoleClaim,      DataProvider.RoleClaim>().ReverseMap();
+
+                config.CreateMap<Domain.UserSpecialization, DataProvider.UserSpecialization>().ReverseMap();
+                config.CreateMap<Domain.Specialization,     DataProvider.Specialization>().ReverseMap();
             });
 
             return new Mapper(configuration);
