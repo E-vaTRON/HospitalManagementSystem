@@ -29,6 +29,8 @@ public static class ServiceExtension
           .AddUserValidator<UserValidator>()
           .AddDefaultTokenProviders();
 
+        services.AddTransient<IDatabaseDataProvider, DatabaseDataProvider>();
+
         services.AddTransient<IUserDataProvider, UserDataProvider>()
                 .AddTransient<IRoleDataProvider, RoleDataProvider>()
                 .AddTransient<IUserRoleDataProvider, UserRoleDataProvider>();

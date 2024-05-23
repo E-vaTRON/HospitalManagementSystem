@@ -7,7 +7,7 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
     #region [ Fields ]
     protected readonly Mock<IJwtTokenService> JwtProvider;
     protected readonly Mock<IUserServiceProvider> UserServiceProvider;
-    protected readonly Mock<IUserDataProvider> UserDataProvider;
+    protected readonly Mock<IDatabaseServiceProvider> DatabaseServiceProvider;
     protected readonly IAuthenticationService ServiceProvider;
     #endregion
 
@@ -15,10 +15,10 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
     public AuthenticationServiceTest() : base()
     {
         JwtProvider = new Mock<IJwtTokenService>();
-        UserDataProvider = new Mock<IUserDataProvider>();
+        DatabaseServiceProvider = Fixture.Freeze<Mock<IDatabaseServiceProvider>>();
         UserServiceProvider = Fixture.Freeze<Mock<IUserServiceProvider>>();
 
-        ServiceProvider = new AuthenticationService(Mapper, UserServiceProvider.Object, UserDataProvider.Object, JwtProvider.Object);
+        ServiceProvider = new AuthenticationService(Mapper, UserServiceProvider.Object, DatabaseServiceProvider.Object, JwtProvider.Object);
     }
     #endregion
 
@@ -38,7 +38,7 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
         var signInResult = SignInResult.Success;
 
         UserServiceProvider.Setup(x => x.FindByNameAsync(dto.username)).ReturnsAsync(userDto);
-        UserServiceProvider.Setup(x => x.CheckPasswordSignInAsync(userDto, dto.password, LoginMode.Email, false, It.IsAny<CancellationToken>())).ReturnsAsync(signInResult);
+        UserServiceProvider.Setup(x => x.CheckPasswordSignInAsync(userDto, dto.password, LoginMode.Email, false)).ReturnsAsync(signInResult);
         JwtProvider.Setup(x => x.GenerateToken(It.IsAny<UserCreateDTO>(), It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(accessToken);
 
         // Act
@@ -48,7 +48,7 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
         var serviceSuccess = result.AsT0;
         Assert.IsType<ServiceSuccess>(serviceSuccess);
         UserServiceProvider.Verify(x => x.FindByNameAsync(It.IsAny<string>()), Times.Once());
-        UserServiceProvider.Verify(x => x.CheckPasswordSignInAsync(It.IsAny<UserDTO>(), It.IsAny<string>(), LoginMode.Email, false, It.IsAny<CancellationToken>()), Times.Once());
+        UserServiceProvider.Verify(x => x.CheckPasswordSignInAsync(It.IsAny<UserDTO>(), It.IsAny<string>(), LoginMode.Email, false), Times.Once());
         JwtProvider.Verify(x => x.GenerateToken(It.IsAny<UserCreateDTO>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()), Times.Once());
         Assert.Equal(nameof(AuthenticationService), serviceSuccess.ServiceName);
         Assert.Equal(nameof(ServiceProvider.Login), serviceSuccess.MethodName);
@@ -69,8 +69,8 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
 
         var signInResult = SignInResult.Success;
 
-        UserServiceProvider.Setup(x => x.FindByPhoneNumberAsync(dto.phoneNumber, It.IsAny<CancellationToken>())).ReturnsAsync(userDto);
-        UserServiceProvider.Setup(x => x.CheckPasswordSignInAsync(userDto,  dto.password, LoginMode.PhoneNumber, false, It.IsAny<CancellationToken>())).ReturnsAsync(signInResult);
+        UserServiceProvider.Setup(x => x.FindByPhoneNumberAsync(dto.phoneNumber)).ReturnsAsync(userDto);
+        UserServiceProvider.Setup(x => x.CheckPasswordSignInAsync(userDto,  dto.password, LoginMode.PhoneNumber, false)).ReturnsAsync(signInResult);
         JwtProvider.Setup(x => x.GenerateToken(It.IsAny<UserCreateDTO>(), It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(accessToken);
 
         // Act
@@ -79,8 +79,8 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
         // Assert
         var serviceSuccess = result.AsT0;
         Assert.IsType<ServiceSuccess>(serviceSuccess);
-        UserServiceProvider.Verify(x => x.FindByPhoneNumberAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once());
-        UserServiceProvider.Verify(x => x.CheckPasswordSignInAsync(It.IsAny<UserDTO>(), It.IsAny<string>(), LoginMode.PhoneNumber, false, It.IsAny<CancellationToken>()), Times.Once());
+        UserServiceProvider.Verify(x => x.FindByPhoneNumberAsync(It.IsAny<string>()), Times.Once());
+        UserServiceProvider.Verify(x => x.CheckPasswordSignInAsync(It.IsAny<UserDTO>(), It.IsAny<string>(), LoginMode.PhoneNumber, false), Times.Once());
         JwtProvider.Verify(x => x.GenerateToken(It.IsAny<UserCreateDTO>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()), Times.Once());
         Assert.Equal(nameof(AuthenticationService), serviceSuccess.ServiceName);
         Assert.Equal(nameof(ServiceProvider.LoginWithPhoneNumber), serviceSuccess.MethodName);
@@ -117,8 +117,8 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
         Assert.IsType<ServiceSuccess>(serviceSuccess);
         Assert.Equal(nameof(AuthenticationService), serviceSuccess.ServiceName);
         Assert.Equal(nameof(ServiceProvider.Register), serviceSuccess.MethodName);
-        UserDataProvider.Verify(x => x.BeginTransactionAsync(It.IsAny<CancellationToken>()), Times.Once());
-        UserDataProvider.Verify(x => x.CommitTransactionAsync(It.IsAny<CancellationToken>()), Times.Once());
+        DatabaseServiceProvider.Verify(x => x.BeginTransactionAsync(It.IsAny<CancellationToken>()), Times.Once());
+        DatabaseServiceProvider.Verify(x => x.CommitTransactionAsync(It.IsAny<CancellationToken>()), Times.Once());
         Assert.Equal(IdentitySystem.ServiceProvider.IdentityConstants.USER_CREATED_SUCCESSFULLY, serviceSuccess.SuccessMessage);
     }
     #endregion

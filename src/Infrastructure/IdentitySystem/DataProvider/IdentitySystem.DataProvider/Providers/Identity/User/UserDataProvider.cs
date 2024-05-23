@@ -7,73 +7,85 @@ public class UserDataProvider : IUserDataProvider
 {
     #region [ Field ]
     private readonly IUserManagerProvider UserManagerProvider;
-    private readonly IdentitySystemDbContext DbContext;
     #endregion
 
     #region [ CTor ]
-    public UserDataProvider(IUserManagerProvider userManagerProvider, IdentitySystemDbContext dbContext)
+    public UserDataProvider(IUserManagerProvider userManagerProvider)
     {
         UserManagerProvider = userManagerProvider;
-        DbContext = dbContext;
     }
     #endregion
 
-    public async Task BeginTransactionAsync(CancellationToken cancellationToken)
-    {
-        await DbContext.Database.BeginTransactionAsync(cancellationToken);
-    }
+    #region [ Methods ]
+    #region [ Set ]
+    public Task<IdentityResult> SetUserNameAsync(CoreUser user, string userName)
+        => UserManagerProvider.SetUserNameAsync(user, userName);
+    #endregion
 
-    public async Task CommitTransactionAsync(CancellationToken cancellationToken)
-    {
-        var transaction = DbContext.Database.CurrentTransaction;
-        if (transaction != null)
-        {
-            await transaction.CommitAsync(cancellationToken);
-        }
-    }
-
-    public IQueryable<CoreUser> FindAll(Expression<Func<CoreUser, bool>>? predicate = null)
-    {
-        return UserManagerProvider.FindAll(predicate);
-    }
-
-    public Task<CoreUser?> FindByEmailAsync(string email, CancellationToken cancellationToken = default)
-    {
-        return UserManagerProvider.FindByEmailAsync(email, cancellationToken);
-    }
-
-    public Task<CoreUser?> FindByGuidAsync(string id, CancellationToken cancellationToken = default)
-    {
-        return UserManagerProvider.FindByGuidAsync(id, cancellationToken);
-    }
-
-    public Task<IReadOnlyCollection<CoreUser>> FindByMultipleGuidsAsync(string[] userIds, CancellationToken cancellationToken = default)
-    {
-        return UserManagerProvider.FindByMultipleGuidsAsync(userIds, cancellationToken);
-    }
-
-    public Task<CoreUser?> FindByNameAsync(string userName)
-    {
-        return UserManagerProvider.FindByNameAsync(userName);
-    }
-
-    public Task<CoreUser?> FindByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken = default)
-    {
-        return UserManagerProvider.FindByPhoneNumberAsync(phoneNumber, cancellationToken);
-    }
-
+    #region [ Create ]
     public async Task<IdentityResult> CreateAsync(CoreUser user, string password)
-    {
-        return await UserManagerProvider.CreateAsync(user, password);
-    }
+        => await UserManagerProvider.CreateAsync(user, password);
 
     public async Task<IdentityResult> CreateAsync(CoreUser user)
-    {
-        return await UserManagerProvider.CreateAsync(user);
-    }
+        => await UserManagerProvider.CreateAsync(user);
+    #endregion
 
+    #region [ Read ]
+    public IQueryable<CoreUser> FindAll(Expression<Func<CoreUser, bool>>? predicate = null)
+        => UserManagerProvider.FindAll(predicate);
+
+    public async Task<IReadOnlyCollection<CoreUser>> FindByMultipleGuidsAsync(string[] userIds)
+        => await UserManagerProvider.FindByMultipleGuidsAsync(userIds);
+
+    public async Task<CoreUser?> FindByIdAsync(string userId)
+        => await UserManagerProvider.FindByIdAsync(userId);
+
+    public async Task<CoreUser?> FindByEmailAsync(string normalizedEmail)
+        => await UserManagerProvider.FindByEmailAsync(normalizedEmail);
+
+    public async Task<CoreUser?> FindByPhoneNumberAsync(string phoneNumber)
+        => await UserManagerProvider.FindByPhoneNumberAsync(phoneNumber);
+
+    public async Task<CoreUser?> FindByNameAsync(string normalizedUserName)
+        => await UserManagerProvider.FindByNameAsync(normalizedUserName);
+    #endregion
+
+    #region [ Update ]
     public async Task<IdentityResult> UpdateAsync(CoreUser user)
-    {
-        return await UserManagerProvider.UpdateAsync(user);
-    }
+        => await UserManagerProvider.UpdateAsync(user);
+    #endregion
+
+    #region [ Delete ]
+    public async Task<IdentityResult> DeleteAsync(CoreUser user)
+        => await UserManagerProvider.DeleteAsync(user);
+    #endregion
+
+    #region [ Claim Role ]
+    public async Task<IList<string>> GetRolesAsync(CoreUser user)
+        => await UserManagerProvider.GetRolesAsync(user);
+
+    public async Task<IdentityResult> AddClaimAsync(CoreUser user, Claim claim)
+        => await UserManagerProvider.AddClaimAsync(user, claim);
+
+    public async Task<IdentityResult> RemoveClaimAsync(CoreUser user, Claim claim)
+        => await UserManagerProvider.RemoveClaimAsync(user, claim);
+
+    public async Task<IdentityResult> AddToRoleAsync(CoreUser user, string roleNormalizedName)
+        => await UserManagerProvider.AddToRoleAsync(user, roleNormalizedName);
+
+    public async Task<IdentityResult> RemoveFromRoleAsync(CoreUser user, string roleNormalizedName)
+        => await UserManagerProvider.RemoveFromRoleAsync(user, roleNormalizedName);
+    #endregion
+
+    #region [ Password ]
+    public async Task<bool> HasPasswordAsync(CoreUser user)
+        => await UserManagerProvider.HasPasswordAsync(user);
+
+    public async Task<bool> CheckPasswordAsync(CoreUser user, string password)
+        => await UserManagerProvider.CheckPasswordAsync(user, password);
+
+    public async Task<IdentityResult> ChangePasswordAsync(CoreUser user, string currentPassword, string newPassword)
+        => await UserManagerProvider.ChangePasswordAsync(user, currentPassword, newPassword);
+    #endregion
+    #endregion
 }

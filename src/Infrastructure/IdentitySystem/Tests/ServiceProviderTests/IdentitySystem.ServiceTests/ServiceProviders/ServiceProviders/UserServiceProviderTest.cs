@@ -33,13 +33,13 @@ public class UserServiceProviderTest : ServiceProviderTestBase
 
         var user = Mapper.Map<Domain.User>(userDto);
 
-        DataProvider.Setup(x => x.FindByEmailAsync(user.Email!, cancellationToken)).ReturnsAsync(user);
-        DataProvider.Setup(x => x.FindByPhoneNumberAsync(user.PhoneNumber!, cancellationToken)).ReturnsAsync(user);
+        DataProvider.Setup(x => x.FindByEmailAsync(user.Email!)).ReturnsAsync(user);
+        DataProvider.Setup(x => x.FindByPhoneNumberAsync(user.PhoneNumber!)).ReturnsAsync(user);
         SignInProvider.Setup(x => x.CheckPasswordSignInAsync(user, password, lockoutOnFailure)).ReturnsAsync(SignInResult.Success);
 
         // Act
-        var emailResult = await ServiceProvider.CheckPasswordSignInAsync(userDto, password, LoginMode.Email, lockoutOnFailure, cancellationToken); 
-        var phoneNumberResult = await ServiceProvider.CheckPasswordSignInAsync(userDto, password, LoginMode.PhoneNumber, lockoutOnFailure, cancellationToken);
+        var emailResult = await ServiceProvider.CheckPasswordSignInAsync(userDto, password, LoginMode.Email, lockoutOnFailure); 
+        var phoneNumberResult = await ServiceProvider.CheckPasswordSignInAsync(userDto, password, LoginMode.PhoneNumber, lockoutOnFailure);
 
         // Assert
         Assert.Equal(SignInResult.Success, emailResult);
