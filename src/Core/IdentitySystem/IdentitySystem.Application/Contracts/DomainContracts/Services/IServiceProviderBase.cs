@@ -4,7 +4,7 @@ public interface IServiceProviderBase
 {
 }
 
-public interface IServiceProviderBase<TEntity, TEId> : IContractBase<TEntity, TEId>
-    where TEntity : class, IEntity<TEId>
+public interface IServiceProviderBase<TDto, TDId> : IContractBase<TDto, TDId>
+    where TDto : class, IDataObject<TDId>
 {
 }
