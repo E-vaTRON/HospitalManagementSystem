@@ -27,13 +27,13 @@ public class UserManagerProvider : UserManager<CoreUser>, IUserManagerProvider
 
     #region [ Methods ]
     public IQueryable<CoreUser> FindAll(Expression<Func<CoreUser, bool>>? predicate = null)
-    => Users.Where(u => !u.IsDeleted)
-            .WhereIf(predicate != null, predicate!);
+        => Users.Where(u => !u.IsDeleted)
+                .WhereIf(predicate != null, predicate!);
 
-    public async Task<IReadOnlyCollection<CoreUser>> FindByMultipleGuidsAsync(string[] userGuids)
+    public async Task<IReadOnlyCollection<CoreUser>> FindByMultipleGuidsAsync(string[] userIds)
     {
-        var userGuidsSet = new HashSet<string>(userGuids);
-        var users = await Users.Where(u => userGuids.Contains(u.Id)).ToListAsync(CancellationToken);
+        var userGuidsSet = new HashSet<string>(userIds);
+        var users = await Users.Where(u => userGuidsSet.Contains(u.Id)).ToListAsync(CancellationToken);
         return users.ToList().AsReadOnly();
     }
 

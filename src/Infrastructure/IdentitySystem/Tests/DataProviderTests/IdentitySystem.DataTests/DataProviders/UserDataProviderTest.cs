@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using Microsoft.AspNetCore.Identity;
 using System.Net.Mail;
 using System.Security.Claims;
 
@@ -19,29 +20,27 @@ public class UserDataProviderTest : DataProviderTestBase
 
     #region [ Methods ]
     #region [ Set ]
-    //[Fact]
-    //public async Task SetUserNameAsync_Success()
-    //{
-    //    // Arrange
-    //    var userAdd = Fixture.Build<Domain.User>()
-    //                         .With(i => i.Id, Guid.NewGuid().ToString())
-    //                         .Create();
+    [Fact]
+    public async Task SetUserNameAsync_Success()
+    {
+        // Arrange
+        var userAdd = Fixture.Create<DataProvider.User>();
 
-    //    await DbContext.Users.AddAsync(userAdd);
-    //    await DbContext.SaveChangesAsync();
-    //    DbContext.Entry(userAdd).State = EntityState.Detached;
+        await DbContext.Users.AddAsync(userAdd);
+        await DbContext.SaveChangesAsync();
+        DbContext.Entry(userAdd).State = EntityState.Detached;
 
-    //    var newUserName = "NewUserName";
-    //    var userDataProvider = new UserDataProvider(UserManager, DbContext);
+        var newUserName = Fixture.Create<string>();
+        var userSetName = Mapper.Map<Domain.User>(userAdd);
 
-    //    // Act
-    //    await userDataProvider.SetUserNameAsync(userAdd, newUserName, CancellationToken.None);
+        // Act
+        var userManagerProvider = new UserDataProvider(UserManager);
+        var result = await userManagerProvider.SetUserNameAsync(userSetName, newUserName);
 
-    //    // Assert
-    //    var result = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == Guid.Parse(userAdd.Id));
-    //    Assert.NotNull(result);
-    //    Assert.Equal(newUserName, result.UserName);
-    //}
+        // Assert
+        Assert.NotNull(result);
+        Assert.True(result.Succeeded);
+    }
     #endregion
 
     #region [ Create ]
@@ -95,11 +94,16 @@ public class UserDataProviderTest : DataProviderTestBase
 
         // Act
         var userManagerProvider = new UserDataProvider(UserManager);
-        var usersFound = userManagerProvider.FindAll();
+        var userFoundList = await userManagerProvider.FindAll().ToListAsync();
 
         // Assert
-        Assert.NotNull(usersFound);
-        //Assert.Equal(userAdd.Email, usersFound.First().Email);
+        Assert.NotNull(userFoundList);
+        Assert.Equal(3, userFoundList.Count);
+        foreach (var user in userFoundList)
+        {
+            var userAdd = userAddList.ElementAt(userFoundList.IndexOf(user));
+            Assert.Equal(userAdd.UserName, user.UserName);
+        };
     }
 
     [Fact]
@@ -111,15 +115,21 @@ public class UserDataProviderTest : DataProviderTestBase
         await DbContext.Users.AddRangeAsync(userAddList.ToArray());
         await DbContext.SaveChangesAsync();
 
-        var idList = DbContext.Users.Select(x => x.Id.ToString()).ToArray();
+        var idList = userAddList.Select(x => x.Id.ToString()).ToArray();
 
         // Act
         var userManagerProvider = new UserDataProvider(UserManager);
-        var usersFoundList = await userManagerProvider.FindByMultipleGuidsAsync(idList);
+        var userFounds = await userManagerProvider.FindByMultipleGuidsAsync(idList);
+        var userFoundList = userFounds.ToList();
 
         // Assert
-        Assert.NotNull(usersFoundList);
-        Assert.Equal(3, usersFoundList.Count);
+        Assert.NotNull(userFoundList);
+        Assert.Equal(3, userFoundList.Count);
+        foreach (var user in userFoundList)
+        {
+            var userAdd = userAddList.ElementAt(userFoundList.IndexOf(user));
+            Assert.Equal(userAdd.UserName, user.UserName);
+        };
     }
 
     [Fact]

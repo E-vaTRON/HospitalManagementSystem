@@ -34,14 +34,10 @@ public class RoleDataProvider : IRoleDataProvider
 
     #region [ Read ]
     public IQueryable<CoreRole> FindAll(Expression<Func<CoreRole, bool>>? predicate = null)
-    {
-        throw new NotImplementedException();
-    }
+        => RoleManagerProvider.FindAll(predicate);
 
-    public Task<IReadOnlyCollection<CoreRole>> FindByMultipleGuidsAsync(string[] userIds)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<IReadOnlyCollection<CoreRole>> FindByMultipleGuidsAsync(string[] userIds)
+        => await RoleManagerProvider.FindByMultipleGuidsAsync(userIds);
 
     public async Task<CoreRole?> FindByIdAsync(string roleId)
         => await RoleManagerProvider.FindByIdAsync(roleId);

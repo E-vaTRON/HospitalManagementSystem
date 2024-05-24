@@ -1,4 +1,5 @@
-﻿using CoreRole = IdentitySystem.Domain.Role;
+﻿using IdentitySystem.Domain;
+using CoreRole = IdentitySystem.Domain.Role;
 using DataRole = IdentitySystem.DataProvider.Role;
 
 namespace IdentitySystem.DataProvider;
@@ -16,13 +17,14 @@ public class RoleManagerProvider : RoleManager<CoreRole>, IRoleManagerProvider
     }
 
     public IQueryable<CoreRole> FindAll(Expression<Func<CoreRole, bool>>? predicate = null)
-    {
-        throw new NotImplementedException();
-    }
+        => Roles.Where(u => !u.IsDeleted)
+                .WhereIf(predicate != null, predicate!);
 
-    public Task<IReadOnlyCollection<CoreRole>> FindByMultipleGuidsAsync(string[] userIds)
+    public async Task<IReadOnlyCollection<CoreRole>> FindByMultipleGuidsAsync(string[] roleIds)
     {
-        throw new NotImplementedException();
+        var roleIdsSet = new HashSet<string>(roleIds);
+        var roles = await Roles.Where(u => roleIdsSet.Contains(u.Id)).ToListAsync(CancellationToken);
+        return roles.ToList().AsReadOnly();
     }
     #endregion
 
