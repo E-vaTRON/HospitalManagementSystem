@@ -14,5 +14,16 @@ public class RoleManagerProvider : RoleManager<CoreRole>, IRoleManagerProvider
         : base(store, roleValidators, keyNormalizer, errors, logger)
     {
     }
+
+    public IQueryable<CoreRole> FindAll(Expression<Func<CoreRole, bool>>? predicate = null)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IReadOnlyCollection<CoreRole>> FindByMultipleGuidsAsync(string[] userIds)
+    {
+        throw new NotImplementedException();
+    }
     #endregion
+
 }

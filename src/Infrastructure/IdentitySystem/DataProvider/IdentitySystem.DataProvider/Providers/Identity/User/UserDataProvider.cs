@@ -60,21 +60,26 @@ public class UserDataProvider : IUserDataProvider
         => await UserManagerProvider.DeleteAsync(user);
     #endregion
 
-    #region [ Claim Role ]
+    #region [ Role ]
     public async Task<IList<string>> GetRolesAsync(CoreUser user)
         => await UserManagerProvider.GetRolesAsync(user);
-
-    public async Task<IdentityResult> AddClaimAsync(CoreUser user, Claim claim)
-        => await UserManagerProvider.AddClaimAsync(user, claim);
-
-    public async Task<IdentityResult> RemoveClaimAsync(CoreUser user, Claim claim)
-        => await UserManagerProvider.RemoveClaimAsync(user, claim);
 
     public async Task<IdentityResult> AddToRoleAsync(CoreUser user, string roleNormalizedName)
         => await UserManagerProvider.AddToRoleAsync(user, roleNormalizedName);
 
     public async Task<IdentityResult> RemoveFromRoleAsync(CoreUser user, string roleNormalizedName)
         => await UserManagerProvider.RemoveFromRoleAsync(user, roleNormalizedName);
+    #endregion
+
+    #region [ Claim ]
+    public async Task<IList<Claim>> GetClaimsAsync(CoreUser user)
+        => await UserManagerProvider.GetClaimsAsync(user);
+
+    public async Task<IdentityResult> AddClaimAsync(CoreUser user, Claim claim)
+        => await UserManagerProvider.AddClaimAsync(user, claim);
+
+    public async Task<IdentityResult> RemoveClaimAsync(CoreUser user, Claim claim)
+        => await UserManagerProvider.RemoveClaimAsync(user, claim);
     #endregion
 
     #region [ Password ]

@@ -54,7 +54,6 @@ public abstract class DataProviderTestBase
         .AddRoleManager<RoleManagerProvider>()
         .AddUserStore<UserStoreProvider>()
         .AddRoleStore<RoleStoreProvider>()
-        .AddUserValidator<UserValidator>()
         .AddDefaultTokenProviders();
 
         ServiceCollection.AddLogging();

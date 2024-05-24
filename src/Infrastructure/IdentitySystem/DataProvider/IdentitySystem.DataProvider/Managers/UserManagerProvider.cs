@@ -13,7 +13,7 @@ public class UserManagerProvider : UserManager<CoreUser>, IUserManagerProvider
     public UserManagerProvider( UserStoreProvider store,
                                 IOptions<IdentityOptions> optionsAccessor,
                                 IPasswordHasher<CoreUser> passwordHasher,
-                                IEnumerable<UserValidator> userValidators,
+                                IEnumerable<IUserValidator<CoreUser>> userValidators,
                                 IEnumerable<IPasswordValidator<CoreUser>> passwordValidators,
                                 ILookupNormalizer keyNormalizer,
                                 IdentityErrorDescriber errors,
@@ -56,7 +56,7 @@ public class UserManagerProvider : UserManager<CoreUser>, IUserManagerProvider
                     foreach (var key in keyRing.GetAllKeyIds())
                     {
                         var oldKey = protector.Protect(key, phoneNumber);
-                        user = await storeProvider.FindByEmailAsync(oldKey, CancellationToken).ConfigureAwait(false);
+                        user = await storeProvider.FindByPhoneNumberAsync(oldKey, CancellationToken).ConfigureAwait(false);
                         if (user != null)
                         {
                             return user;

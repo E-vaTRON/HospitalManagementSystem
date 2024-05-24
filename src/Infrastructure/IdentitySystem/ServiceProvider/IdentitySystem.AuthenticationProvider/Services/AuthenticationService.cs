@@ -79,7 +79,7 @@ public class AuthenticationService : IAuthenticationService
                 ErrorCode = nameof(IdentityConstants.USER_NOT_FOUND),
                 EventOccuredAt = DateTime.Now
             };
-        var passwordCheck = await UserServiceProvider.CheckPasswordSignInAsync(user, dto.password, LoginMode.PhoneNumber, false, cancellationToken);
+        var passwordCheck = await UserServiceProvider.CheckPasswordSignInAsync(user, dto.password, LoginMode.PhoneNumber, false);
         if (!passwordCheck.Succeeded)
             return new ServiceError(nameof(AuthenticationService), nameof(LoginWithPhoneNumber))
             {
@@ -104,7 +104,6 @@ public class AuthenticationService : IAuthenticationService
     {
         //Guard.IsNotNull(dto);
 
-        //using var transaction = await DbContext.Database.BeginTransactionAsync(cancellationToken);
         await DatabaseServiceProvider.BeginTransactionAsync(cancellationToken);
 
         UserCreateDTO userCreateDto = new()
