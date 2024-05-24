@@ -36,16 +36,20 @@ public interface IUserContractBase<TUser, TKey>
     Task<IdentityResult> DeleteAsync(TUser user);
     #endregion
 
-    #region [ Claim Role ]
+    #region [ Role ]
     Task<IList<string>> GetRolesAsync(TUser user);
-
-    Task<IdentityResult> AddClaimAsync(TUser user, Claim claim);
-
-    Task<IdentityResult> RemoveClaimAsync(TUser user, Claim claim);
 
     Task<IdentityResult> AddToRoleAsync(TUser user, string roleNormalizedName);
 
     Task<IdentityResult> RemoveFromRoleAsync(TUser user, string role);
+    #endregion
+
+    #region [ Claim ]
+    Task<IList<Claim>> GetClaimsAsync(TUser user);
+
+    Task<IdentityResult> AddClaimAsync(TUser user, Claim claim);
+
+    Task<IdentityResult> RemoveClaimAsync(TUser user, Claim claim);
     #endregion
 
     #region [ Password ]

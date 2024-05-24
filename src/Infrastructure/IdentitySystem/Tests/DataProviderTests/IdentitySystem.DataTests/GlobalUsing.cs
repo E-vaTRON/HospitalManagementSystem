@@ -10,5 +10,7 @@ global using Microsoft.Extensions.DependencyInjection;
 global using IdentitySystem.Domain;
 global using IdentitySystem.DataProvider;
 global using IdentitySystem.Application;
+global using System.Net.Mail;
 global using System.Reflection;
+global using System.Security.Claims;
 global using System.Text.RegularExpressions;

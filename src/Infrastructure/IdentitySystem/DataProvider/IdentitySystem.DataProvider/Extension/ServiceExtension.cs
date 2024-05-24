@@ -26,7 +26,6 @@ public static class ServiceExtension
           .AddRoleManager<RoleManagerProvider>()
           .AddUserStore<UserStoreProvider>()
           .AddRoleStore<RoleStoreProvider>()
-          .AddUserValidator<UserValidator>()
           .AddDefaultTokenProviders();
 
         services.AddTransient<IDatabaseDataProvider, DatabaseDataProvider>();

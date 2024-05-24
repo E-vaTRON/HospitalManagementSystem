@@ -6,8 +6,6 @@ using CoreUserRole = IdentitySystem.Domain.UserRole;
 using DataUserRole = IdentitySystem.DataProvider.UserRole;
 using CoreUserClaim = IdentitySystem.Domain.UserClaim;
 using DataUserClaim = IdentitySystem.DataProvider.UserClaim;
-using IdentitySystem.Domain;
-using System.Security.Claims;
 
 namespace IdentitySystem.DataProvider;
 
@@ -65,11 +63,12 @@ public class UserStoreProvider : IUserStore<CoreUser>,
     #endregion
 
     #region [ Check ]
-    private async Task InternalCleanseNonExistingUserRolesAsync(CoreUser user)
+    protected async Task InternalCleanseNonExistingUserRolesAsync(CoreUser user, CancellationToken cancellationToken = default!)
     {
+        var disableQuickFind = false;
         foreach (var userRole in user.UserRoles.ToList())
         {
-            var dbUserRole = await InternalFindUserRoleByIdAsync(userRole.Id);
+            var dbUserRole = await InternalFindUserRoleByIdAsync(userRole.Id, disableQuickFind, cancellationToken);
             if (dbUserRole == null)
             {
                 user.UserRoles.Remove(userRole);
@@ -77,11 +76,12 @@ public class UserStoreProvider : IUserStore<CoreUser>,
         }
     }
 
-    private async Task InternalCleanseNonExistingUserClaimsAsync(CoreUser user)
+    protected async Task InternalCleanseNonExistingUserClaimsAsync(CoreUser user, CancellationToken cancellationToken = default!)
     {
+        var disableQuickFind = false;
         foreach (var userClaim in user.UserClaims.ToList())
         {
-            var dbUserClaim = await InternalFindUserClaimByIdAsync(userClaim.Id);
+            var dbUserClaim = await InternalFindUserClaimByIdAsync(userClaim.Id, disableQuickFind, cancellationToken);
             if (dbUserClaim == null)
             {
                 user.UserClaims.Remove(userClaim);
@@ -91,7 +91,7 @@ public class UserStoreProvider : IUserStore<CoreUser>,
     #endregion
 
     #region [ Create ]
-    public async Task InternalCreateUserRoleAsync(Guid userId, Guid roleId, CancellationToken cancellationToken)
+    protected async Task InternalCreateUserRoleAsync(Guid userId, Guid roleId, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -100,7 +100,7 @@ public class UserStoreProvider : IUserStore<CoreUser>,
         await UserRoleDbSet.AddAsync(dbUserRole);
     }
 
-    public async Task InternalCreateUserClaimAsync(DataUser user, Claim claim, CancellationToken cancellationToken)
+    protected async Task InternalCreateUserClaimAsync(DataUser user, Claim claim, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -154,6 +154,33 @@ public class UserStoreProvider : IUserStore<CoreUser>,
             query = query.AsNoTracking();
 
         return await query.FirstOrDefaultAsync(x => x.Id!.Equals(mId), cancellationToken);
+    }
+
+    protected virtual async Task<DataUser?> InternalFindUserByNameAsync(string normalizedUserName, bool asNoTracking = true, CancellationToken cancellationToken = default)
+    {
+        var query = UserDbSet.AsQueryable();
+        if (asNoTracking)
+            query = query.AsNoTracking();
+
+        return await query.FirstOrDefaultAsync(x => x.NormalizedUserName!.Equals(normalizedUserName), cancellationToken);
+    }
+
+    protected virtual async Task<DataUser?> InternalFindUserByEmailAsync(string normalizedEmail, bool asNoTracking = true, CancellationToken cancellationToken = default)
+    {
+        var query = UserDbSet.AsQueryable();
+        if (asNoTracking)
+            query = query.AsNoTracking();
+
+        return await query.FirstOrDefaultAsync(x => x.NormalizedEmail!.Equals(normalizedEmail), cancellationToken);
+    }
+
+    protected virtual async Task<DataUser?> InternalFindUserByPhoneNumberAsync(string phoneNumber, bool asNoTracking = true, CancellationToken cancellationToken = default)
+    {
+        var query = UserDbSet.AsQueryable();
+        if (asNoTracking)
+            query = query.AsNoTracking();
+
+        return await query.FirstOrDefaultAsync(x => x.PhoneNumber!.Equals(phoneNumber), cancellationToken);
     }
 
     protected virtual async Task<DataRole?> InternalFindRoleByIdAsync(string id, bool asNoTracking = true, CancellationToken cancellationToken = default)
@@ -241,24 +268,24 @@ public class UserStoreProvider : IUserStore<CoreUser>,
     public Task<string> GetUserIdAsync(CoreUser user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        if (user == null)
-            throw new ArgumentNullException(nameof(user));
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+
         return Task.FromResult(user.Id.ToString());
     }
 
     public Task<string?> GetUserNameAsync(CoreUser user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        if (user == null)
-            throw new ArgumentNullException(nameof(user));
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+
         return Task.FromResult(user.UserName);
     }
 
     public Task<string?> GetNormalizedUserNameAsync(CoreUser user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        if (user == null)
-            throw new ArgumentNullException(nameof(user));
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+
         return Task.FromResult(user.NormalizedUserName);
     }
 
@@ -266,10 +293,11 @@ public class UserStoreProvider : IUserStore<CoreUser>,
     public async Task<CoreUser?> FindByIdAsync(string userId, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        if (userId == null)
-            throw new ArgumentNullException(nameof(userId));
+        var disableQuickFind = false;
+        ArgumentNullException.ThrowIfNull(userId, nameof(userId));
 
-        var dbUser = await InternalFindUserByIdAsync(userId, true, cancellationToken);
+        var dbUser = await InternalFindUserByIdAsync(userId, disableQuickFind, cancellationToken);
+
         return MapToEntity(dbUser);
 
     }
@@ -277,10 +305,11 @@ public class UserStoreProvider : IUserStore<CoreUser>,
     public async Task<CoreUser?> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        if (normalizedUserName == null)
-            throw new ArgumentNullException(nameof(normalizedUserName));
-        var query = UserDbSet.AsQueryable().AsNoTracking();
-        var dbUser = await query.FirstOrDefaultAsync(u => u.NormalizedUserName == normalizedUserName, cancellationToken);
+        var disableQuickFind = false;
+        ArgumentNullException.ThrowIfNull(normalizedUserName, nameof(normalizedUserName));
+
+        var dbUser = await InternalFindUserByNameAsync(normalizedUserName, disableQuickFind, cancellationToken);
+
         return MapToEntity(dbUser);
     }
     #endregion
@@ -319,8 +348,8 @@ public class UserStoreProvider : IUserStore<CoreUser>,
 
         ArgumentNullException.ThrowIfNull(dbUser, nameof(dbUser));
 
-        await InternalCleanseNonExistingUserRolesAsync(user);
-        await InternalCleanseNonExistingUserClaimsAsync(user);
+        await InternalCleanseNonExistingUserRolesAsync(user, cancellationToken);
+        await InternalCleanseNonExistingUserClaimsAsync(user, cancellationToken);
 
         Mapper.Map(user, dbUser);
         UserDbSet.Update(dbUser);
@@ -393,16 +422,17 @@ public class UserStoreProvider : IUserStore<CoreUser>,
         return roles;
     }
 
-    public async Task<IList<CoreUser>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
+    public async Task<IList<CoreUser>> GetUsersInRoleAsync(string roleNormalizedName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        ArgumentNullException.ThrowIfNull(roleName, nameof(roleName));
+        var disableQuickFind = false;
+        ArgumentNullException.ThrowIfNull(roleNormalizedName, nameof(roleNormalizedName));
 
-        var dbRole = await InternalFindRoleByNameAsync(roleName);
-        if (dbRole == null)
-            throw new ArgumentException($"Role '{roleName}' does not exist.");
+        var dbRole = await InternalFindRoleByNameAsync(roleNormalizedName, disableQuickFind, cancellationToken);
+        ArgumentNullException.ThrowIfNull(dbRole, $"Role '{roleNormalizedName}' does not exist.");
 
         var dbUserRoles = await InternalGetUserRolesByRoleIdAsync(dbRole.Id.ToString(), cancellationToken);
+        ArgumentNullException.ThrowIfNull(dbUserRoles, $"No UserRole in '{dbUserRoles}' ");
         var dbUsers = dbUserRoles.Select(x => x.User).ToList();
 
         var users = MapToEntities(dbUsers).ToList();
@@ -414,15 +444,15 @@ public class UserStoreProvider : IUserStore<CoreUser>,
     public async Task AddToRoleAsync(CoreUser user, string roleNormalizedName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        var disableQuickFind = false;
         ArgumentNullException.ThrowIfNull(user, nameof(user));
         ArgumentNullException.ThrowIfNull(roleNormalizedName, nameof(roleNormalizedName));
 
-        var role = await InternalFindRoleByNameAsync(roleNormalizedName);
-        if (role == null)
-            throw new ArgumentException($"Role with NormalizedName: '{roleNormalizedName}' does not exist.");
+        var dbRole = await InternalFindRoleByNameAsync(roleNormalizedName, disableQuickFind, cancellationToken);
+        ArgumentNullException.ThrowIfNull(dbRole, $"Role with NormalizedName: '{roleNormalizedName}' does not exist.");
 
         var userId = ParseId(user.Id);
-        await InternalCreateUserRoleAsync(userId, role.Id, cancellationToken);
+        await InternalCreateUserRoleAsync(userId, dbRole.Id, cancellationToken);
 
         await DbContext.SaveChangesAsync(cancellationToken);
     }
@@ -432,14 +462,14 @@ public class UserStoreProvider : IUserStore<CoreUser>,
     public async Task<bool> IsInRoleAsync(CoreUser user, string roleNormalizedName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        var disableQuickFind = false;
         ArgumentNullException.ThrowIfNull(user, nameof(user));
         ArgumentNullException.ThrowIfNull(roleNormalizedName, nameof(roleNormalizedName));
 
-        var dbRole = await InternalFindRoleByNameAsync(roleNormalizedName);
-        if (dbRole == null)
-            throw new ArgumentException($"Role '{roleNormalizedName}' does not exist.");
+        var dbRole = await InternalFindRoleByNameAsync(roleNormalizedName, disableQuickFind, cancellationToken);
+        ArgumentNullException.ThrowIfNull(dbRole, $"Role with NormalizedName: '{roleNormalizedName}' does not exist.");
 
-        var userRole = await InternalFindUserRoleByIdAsync(user.Id, dbRole.Id.ToString());
+        var userRole = await InternalFindUserRoleByIdAsync(user.Id, dbRole.Id.ToString(), disableQuickFind, cancellationToken);
 
         return userRole != null;
     }
@@ -449,21 +479,20 @@ public class UserStoreProvider : IUserStore<CoreUser>,
     public async Task RemoveFromRoleAsync(CoreUser user, string roleNormalizedName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        var disableQuickFind = false;
         ArgumentNullException.ThrowIfNull(user, nameof(user));
         ArgumentNullException.ThrowIfNull(roleNormalizedName, nameof(roleNormalizedName));
 
-        var dbRole = await InternalFindRoleByNameAsync(roleNormalizedName);
-        if (dbRole == null)
-            throw new ArgumentException($"Role '{roleNormalizedName}' does not exist.");
+        var dbRole = await InternalFindRoleByNameAsync(roleNormalizedName, disableQuickFind, cancellationToken);
+        ArgumentNullException.ThrowIfNull(dbRole, $"Role '{roleNormalizedName}' does not exist.");
 
-        var userRole = await InternalFindUserRoleByIdAsync(user.Id, dbRole.Id.ToString());
-        if (userRole == null)
-            throw new ArgumentException($"User is not in role '{roleNormalizedName}'.");
+        var dbUserRole = await InternalFindUserRoleByIdAsync(user.Id, dbRole.Id.ToString(), disableQuickFind, cancellationToken);
+        ArgumentNullException.ThrowIfNull(dbUserRole, $"No UserRole with '{dbUserRole!.Id}' ");
 
-        userRole.IsDeleted = true;
-        userRole.DeleteOn = DateTime.UtcNow;
+        dbUserRole.IsDeleted = true;
+        dbUserRole.DeleteOn = DateTime.UtcNow;
 
-        DbContext.Remove(userRole);
+        DbContext.Remove(dbUserRole);
         await DbContext.SaveChangesAsync(cancellationToken);
     }
     #endregion
@@ -477,6 +506,7 @@ public class UserStoreProvider : IUserStore<CoreUser>,
         ArgumentNullException.ThrowIfNull(user, nameof(user));
 
         var userClaims = await InternalGetUserClaimByUserIdAsync(user.Id, cancellationToken);
+        ArgumentNullException.ThrowIfNull(userClaims, nameof(userClaims));
 
         var claims = new List<Claim>();
         foreach (var userClaim in userClaims)
@@ -504,10 +534,11 @@ public class UserStoreProvider : IUserStore<CoreUser>,
     public async Task AddClaimsAsync(CoreUser user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        var disableQuickFind = false;
         ArgumentNullException.ThrowIfNull(user, nameof(user));
         ArgumentNullException.ThrowIfNull(claims, nameof(claims));
 
-        var dbUser = await InternalFindUserByIdAsync(user.Id, true, cancellationToken);
+        var dbUser = await InternalFindUserByIdAsync(user.Id, disableQuickFind, cancellationToken);
         ArgumentNullException.ThrowIfNull(dbUser, nameof(dbUser));
 
         foreach (var claim in claims)
@@ -547,10 +578,14 @@ public class UserStoreProvider : IUserStore<CoreUser>,
         ArgumentNullException.ThrowIfNull(claims, nameof(claims));
 
         var userClaims = await InternalGetUserClaimByUserIdAsync(user.Id, cancellationToken);
+        ArgumentNullException.ThrowIfNull(userClaims, nameof(userClaims));
+
         foreach (var claim in claims)
         {
             foreach (var matchedClaim in userClaims)
             {
+                matchedClaim.IsDeleted = true;
+                matchedClaim.DeleteOn = DateTime.UtcNow;
                 UserClaimDbSet.Remove(matchedClaim);
             }
         }
@@ -607,22 +642,36 @@ public class UserStoreProvider : IUserStore<CoreUser>,
     #region [ Get ]
     public Task<string?> GetEmailAsync(CoreUser user, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+
         return Task.FromResult(user.Email);
     }
-
+    
     public Task<bool> GetEmailConfirmedAsync(CoreUser user, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+
         return Task.FromResult(user.EmailConfirmed);
     }
+
     public Task<string?> GetNormalizedEmailAsync(CoreUser user, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+
         return Task.FromResult(user.NormalizedEmail);
     }
 
-    #region [ Filter ]
+    #region [ Get - Single ]
     public async Task<CoreUser?> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
     {
-        var dbUser = await UserDbSet.FirstOrDefaultAsync(u => u.NormalizedEmail == normalizedEmail, cancellationToken);
+        cancellationToken.ThrowIfCancellationRequested();
+        var disableQuickFind = false;
+        ArgumentNullException.ThrowIfNull(normalizedEmail, nameof(normalizedEmail));
+
+        var dbUser = await InternalFindUserByEmailAsync(normalizedEmail, disableQuickFind, cancellationToken);
         return MapToEntity(dbUser);
     }
     #endregion
@@ -630,30 +679,31 @@ public class UserStoreProvider : IUserStore<CoreUser>,
     #endregion
 
     #region [ Public - PhoneNumber - Methods ]
-    #region [ Get ]
-    #region [ Filter ]
-    public async Task<CoreUser?> FindByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken)
-    {
-        var dbUser = await UserDbSet.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber, cancellationToken);
-        return MapToEntity(dbUser);
-    }
-    #endregion
-    #endregion
+    #region [ Set ]
     public Task SetPhoneNumberAsync(CoreUser user, string? phoneNumber, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        if (user == null)
-            throw new ArgumentNullException(nameof(user));
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
 
         user.PhoneNumber = phoneNumber;
         return Task.CompletedTask;
     }
 
+    public Task SetPhoneNumberConfirmedAsync(CoreUser user, bool confirmed, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+
+        user.PhoneNumberConfirmed = confirmed;
+        return Task.CompletedTask;
+    }
+    #endregion
+
+    #region [ Get ]
     public Task<string?> GetPhoneNumberAsync(CoreUser user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        if (user == null)
-            throw new ArgumentNullException(nameof(user));
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
 
         return Task.FromResult(user.PhoneNumber);
     }
@@ -661,21 +711,23 @@ public class UserStoreProvider : IUserStore<CoreUser>,
     public Task<bool> GetPhoneNumberConfirmedAsync(CoreUser user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        if (user == null)
-            throw new ArgumentNullException(nameof(user));
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
 
         return Task.FromResult(user.PhoneNumberConfirmed);
     }
 
-    public Task SetPhoneNumberConfirmedAsync(CoreUser user, bool confirmed, CancellationToken cancellationToken)
+    #region [ Get - Single ]
+    public async Task<CoreUser?> FindByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        if (user == null)
-            throw new ArgumentNullException(nameof(user));
+        var disableQuickFind = false;
+        ArgumentNullException.ThrowIfNull(phoneNumber, nameof(phoneNumber));
 
-        user.PhoneNumberConfirmed = confirmed;
-        return Task.CompletedTask;
+        var dbUser = await InternalFindUserByPhoneNumberAsync(phoneNumber, disableQuickFind, cancellationToken);
+        return MapToEntity(dbUser);
     }
+    #endregion
+    #endregion
     #endregion
 
     public void Dispose()

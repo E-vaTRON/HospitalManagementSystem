@@ -1,4 +1,6 @@
-﻿using OneOf.Types;
+﻿using AutoFixture;
+using Microsoft.AspNetCore.Identity;
+using System.Net.Mail;
 using System.Security.Claims;
 
 namespace IdentitySystem.Tests;
@@ -18,53 +20,27 @@ public class UserDataProviderTest : DataProviderTestBase
 
     #region [ Methods ]
     #region [ Set ]
-    //[Fact]
-    //public async Task SetUserNameAsync_Success()
-    //{
-    //    // Arrange
-    //    var userAdd = Fixture.Build<Domain.User>()
-    //                         .With(i => i.Id, Guid.NewGuid().ToString())
-    //                         .Create();
+    [Fact]
+    public async Task SetUserNameAsync_Success()
+    {
+        // Arrange
+        var userAdd = Fixture.Create<DataProvider.User>();
 
-    //    await DbContext.Users.AddAsync(userAdd);
-    //    await DbContext.SaveChangesAsync();
-    //    DbContext.Entry(userAdd).State = EntityState.Detached;
+        await DbContext.Users.AddAsync(userAdd);
+        await DbContext.SaveChangesAsync();
+        DbContext.Entry(userAdd).State = EntityState.Detached;
 
-    //    var newUserName = "NewUserName";
-    //    var userDataProvider = new UserDataProvider(UserManager, DbContext);
+        var newUserName = Fixture.Create<string>();
+        var userSetName = Mapper.Map<Domain.User>(userAdd);
 
-    //    // Act
-    //    await userDataProvider.SetUserNameAsync(userAdd, newUserName, CancellationToken.None);
+        // Act
+        var userManagerProvider = new UserDataProvider(UserManager);
+        var result = await userManagerProvider.SetUserNameAsync(userSetName, newUserName);
 
-    //    // Assert
-    //    var result = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == Guid.Parse(userAdd.Id));
-    //    Assert.NotNull(result);
-    //    Assert.Equal(newUserName, result.UserName);
-    //}
-
-    //[Fact]
-    //public async Task SetNormalizedUserNameAsync_Success()
-    //{
-    //    // Arrange
-    //    var userAdd = Fixture.Build<Domain.User>()
-    //                         .With(i => i.Id, Guid.NewGuid().ToString())
-    //                         .Create();
-
-    //    await DbContext.Users.AddAsync(userAdd);
-    //    await DbContext.SaveChangesAsync();
-    //    DbContext.Entry(userAdd).State = EntityState.Detached;
-
-    //    var newNormalizedUserName = "NEWUSERNAME";
-    //    var userDataProvider = new UserDataProvider(UserManager, DbContext);
-
-    //    // Act
-    //    await userDataProvider.SetNormalizedUserNameAsync(userAdd, newNormalizedUserName, CancellationToken.None);
-
-    //    // Assert
-    //    var result = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == Guid.Parse(userAdd.Id));
-    //    Assert.NotNull(result);
-    //    Assert.Equal(newNormalizedUserName, result.NormalizedUserName);
-    //}
+        // Assert
+        Assert.NotNull(result);
+        Assert.True(result.Succeeded);
+    }
     #endregion
 
     #region [ Create ]
@@ -72,9 +48,8 @@ public class UserDataProviderTest : DataProviderTestBase
     public async Task CreateAsync_Success()
     {
         // Arrange
-        var userAdd = Fixture.Build<Domain.User>()
-                             .With(i => i.Id, Guid.NewGuid().ToString())
-                             .Create();
+        var userAdd = Fixture.Create<Domain.User>();
+        userAdd.Id = Fixture.Create<Guid>().ToString();
 
         // Act
         var userDataProvider = new UserDataProvider(UserManager);
@@ -91,13 +66,13 @@ public class UserDataProviderTest : DataProviderTestBase
     public async Task CreateAsync_WithPassword_Success()
     {
         // Arrange
-        var userAdd = Fixture.Build<Domain.User>()
-                             .With(i => i.Id, Guid.NewGuid().ToString())
-                             .Create();
+        var userAdd = Fixture.Create<Domain.User>();
+        userAdd.Id = Fixture.Create<Guid>().ToString();
+        var password = Fixture.Create<string>();
 
         // Act
         var userDataProvider = new UserDataProvider(UserManager);
-        var userAdded = await userDataProvider.CreateAsync(userAdd, userAdd.PasswordHash!);
+        var userAdded = await userDataProvider.CreateAsync(userAdd, password);
 
         // Assert
         var result = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == Guid.Parse(userAdd.Id!));
@@ -112,49 +87,56 @@ public class UserDataProviderTest : DataProviderTestBase
     public async Task FindAll_Success()
     {
         // Arrange
-        var userAddList = Fixture.Build<DataProvider.User>()
-                                 .CreateMany().ToList();
+        var userAddList = Fixture.CreateMany<DataProvider.User>().ToList();
 
         await DbContext.Users.AddRangeAsync(userAddList.ToArray());
         await DbContext.SaveChangesAsync();
 
         // Act
         var userManagerProvider = new UserDataProvider(UserManager);
-        var usersFound = userManagerProvider.FindAll();
+        var userFoundList = await userManagerProvider.FindAll().ToListAsync();
 
         // Assert
-        Assert.NotNull(usersFound);
-        //Assert.Equal(userAdd.Email, usersFound.First().Email);
+        Assert.NotNull(userFoundList);
+        Assert.Equal(3, userFoundList.Count);
+        foreach (var user in userFoundList)
+        {
+            var userAdd = userAddList.ElementAt(userFoundList.IndexOf(user));
+            Assert.Equal(userAdd.UserName, user.UserName);
+        };
     }
 
     [Fact]
     public async Task FindByMultipleGuidsAsync_Success()
     {
         // Arrange
-        var userAddList = Fixture.Build<DataProvider.User>()
-                                 .CreateMany().ToList();
+        var userAddList = Fixture.CreateMany<DataProvider.User>().ToList();
 
         await DbContext.Users.AddRangeAsync(userAddList.ToArray());
         await DbContext.SaveChangesAsync();
 
-        var idList = DbContext.Users.Select(x => x.Id.ToString()).ToArray();
+        var idList = userAddList.Select(x => x.Id.ToString()).ToArray();
 
         // Act
         var userManagerProvider = new UserDataProvider(UserManager);
-        var usersFoundList = await userManagerProvider.FindByMultipleGuidsAsync(idList);
+        var userFounds = await userManagerProvider.FindByMultipleGuidsAsync(idList);
+        var userFoundList = userFounds.ToList();
 
         // Assert
-        Assert.NotNull(usersFoundList);
-        Assert.Equal(3, usersFoundList.Count);
+        Assert.NotNull(userFoundList);
+        Assert.Equal(3, userFoundList.Count);
+        foreach (var user in userFoundList)
+        {
+            var userAdd = userAddList.ElementAt(userFoundList.IndexOf(user));
+            Assert.Equal(userAdd.UserName, user.UserName);
+        };
     }
 
     [Fact]
     public async Task FindByIdAsync_Success()
     {
         // Arrange
-        var userAdd = Fixture.Build<DataProvider.User>()
-                             .With(i => i.Id, Guid.NewGuid())
-                             .Create();
+        var userAdd = Fixture.Create<DataProvider.User>();
 
         await DbContext.Users.AddAsync(userAdd);
         await DbContext.SaveChangesAsync();
@@ -173,9 +155,7 @@ public class UserDataProviderTest : DataProviderTestBase
     public async Task FindByPhoneNumberAsync_Success()
     {
         // Arrange
-        var userAdd = Fixture.Build<DataProvider.User>()
-                             .With(i => i.Id, Guid.NewGuid())
-                             .Create();
+        var userAdd = Fixture.Create<DataProvider.User>();
 
         await DbContext.Users.AddAsync(userAdd);
         await DbContext.SaveChangesAsync();
@@ -195,11 +175,7 @@ public class UserDataProviderTest : DataProviderTestBase
     public async Task FindByEmailAsync_Success()
     {
         // Arrange
-        var userAdd = Fixture.Build<DataProvider.User>()
-                             .With(i => i.Id, Guid.NewGuid())
-                             .Create();
-
-        userAdd.NormalizedEmail = userAdd.Email!.ToUpper();
+        var userAdd = Fixture.Create<DataProvider.User>();
 
         await DbContext.Users.AddAsync(userAdd);
         await DbContext.SaveChangesAsync();
@@ -218,11 +194,7 @@ public class UserDataProviderTest : DataProviderTestBase
     public async Task FindByNameAsync_Success()
     {
         // Arrange
-        var userAdd = Fixture.Build<DataProvider.User>()
-                             .With(i => i.Id, Guid.NewGuid())
-                             .Create();
-
-        userAdd.NormalizedUserName = userAdd.UserName!.ToUpper();
+        var userAdd = Fixture.Create<DataProvider.User>();
 
         await DbContext.Users.AddAsync(userAdd);
         await DbContext.SaveChangesAsync();
@@ -243,19 +215,16 @@ public class UserDataProviderTest : DataProviderTestBase
     public async Task UpdateAsync_Success()
     {
         // Arrange
-        var userAdd = Fixture.Build<DataProvider.User>()
-                             .With(i => i.Id, Guid.NewGuid())
-                             .Create();
+        var userAdd = Fixture.Create<DataProvider.User>();
 
         await DbContext.Users.AddAsync(userAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(userAdd).State = EntityState.Detached;
 
-        var userUpdate = Fixture.Build<Domain.User>()
-                                .Without(i => i.Id)
-                                .Create();
+        var userUpdate = Fixture.Create<Domain.User>();
 
         userUpdate.Id = userAdd.Id.ToString();
+
         // Act
         var userDataProvider = new UserDataProvider(UserManager);
         var userUpdated = await userDataProvider.UpdateAsync(userUpdate);
@@ -273,15 +242,13 @@ public class UserDataProviderTest : DataProviderTestBase
     public async Task DeleteAsync_Success()
     {
         // Arrange
-        var userAdd = Fixture.Build<DataProvider.User>()
-                             .With(i => i.Id, Guid.NewGuid())
-                             .Create();
+        var userAdd = Fixture.Create<DataProvider.User>();
 
         await DbContext.Users.AddAsync(userAdd);
         await DbContext.SaveChangesAsync();
+        DbContext.Entry(userAdd).State = EntityState.Detached;
 
         var userDelete = Mapper.Map<Domain.User>(userAdd);
-        DbContext.Entry(userAdd).State = EntityState.Detached;
 
         // Act
         var userDataProvider = new UserDataProvider(UserManager);
@@ -295,21 +262,17 @@ public class UserDataProviderTest : DataProviderTestBase
     }
     #endregion
 
-    #region [ Claim Role ]
+    #region [ Role ]
     [Fact]
     public async Task GetRolesAsync_Success()
     {
         // Arrange
-        var userAdd = Fixture.Build<DataProvider.User>()
-                             .With(i => i.Id, Guid.NewGuid())
-                             .Create();
+        var userAdd = Fixture.Create<DataProvider.User>();
 
-        var roleAddList = Fixture.Build<DataProvider.Role>()
-                                 .CreateMany().ToList();
+        var roleAddList = Fixture.CreateMany<DataProvider.Role>().ToList();
 
         var userRoleAddList = Fixture.Build<DataProvider.UserRole>()
                                      .With(i => i.UserId, userAdd.Id)
-                                     .With(i => i.User, userAdd)
                                      .Without(i => i.RoleId)
                                      .CreateMany().ToList();
 
@@ -347,13 +310,9 @@ public class UserDataProviderTest : DataProviderTestBase
     public async Task AddToRoleAsync_Success()
     {
         // Arrange
-        var userAdd = Fixture.Build<DataProvider.User>()
-                             .Create();
+        var userAdd = Fixture.Create<DataProvider.User>();
 
-        var roleAdd = Fixture.Build<DataProvider.Role>()
-                             .Create();
-
-        roleAdd.NormalizedName = roleAdd.Name!.ToUpper();
+        var roleAdd = Fixture.Create<DataProvider.Role>();
 
         await DbContext.Users.AddAsync(userAdd);
         await DbContext.Roles.AddAsync(roleAdd);
@@ -365,7 +324,7 @@ public class UserDataProviderTest : DataProviderTestBase
 
         // Act
         var userDataProvider = new UserDataProvider(UserManager);
-        var result = await userDataProvider.AddToRoleAsync(userAddRole, roleAdd.NormalizedName);
+        var result = await userDataProvider.AddToRoleAsync(userAddRole, roleAdd.NormalizedName!);
 
         // Assert
         Assert.NotNull(result);
@@ -376,15 +335,9 @@ public class UserDataProviderTest : DataProviderTestBase
     public async Task RemoveFromRoleAsync_Success()
     {
         // Arrange
-        var userAdd = Fixture.Build<DataProvider.User>()
-                             .With(i => i.Id, Guid.NewGuid())
-                             .Create();
+        var userAdd = Fixture.Create<DataProvider.User>();
 
-        var roleAdd = Fixture.Build<DataProvider.Role>()
-                             .With(i => i.Id, Guid.NewGuid())
-                             .Create();
-
-        roleAdd.NormalizedName = roleAdd.Name!.ToUpper();
+        var roleAdd = Fixture.Create<DataProvider.Role>();
 
         var userRoleAdd = Fixture.Build<DataProvider.UserRole>()
                                  .With(i => i.UserId, userAdd.Id)
@@ -409,14 +362,46 @@ public class UserDataProviderTest : DataProviderTestBase
         Assert.NotNull(result);
         Assert.True(result.Succeeded);
     }
+    #endregion
 
+    #region [ Claim ]
+    [Fact]
+    public async Task GetClaimsAsync_Success()
+    {
+        // Arrange
+        var userAdd = Fixture.Create<DataProvider.User>();
+
+        var userClaimAddList = Fixture.Build<DataProvider.UserClaim>()
+                                      .With(i => i.UserId, userAdd.Id)
+                                      .CreateMany().ToList();
+
+        await DbContext.UserClaims.AddRangeAsync(userClaimAddList);
+        await DbContext.Users.AddAsync(userAdd);
+        await DbContext.SaveChangesAsync();
+        DbContext.Entry(userAdd).State = EntityState.Detached;
+
+        var userGetClaim = Mapper.Map<Domain.User>(userAdd);
+
+        // Act
+        var userManagerProvider = new UserDataProvider(UserManager);
+        var claims = await userManagerProvider.GetClaimsAsync(userGetClaim);
+
+        // Assert
+        Assert.NotNull(claims);
+        Assert.Equal(3, claims.Count);
+        foreach (var claim in claims)
+        {
+            var claimAdded = userClaimAddList.ElementAt(claims.IndexOf(claim));
+            Assert.Equal(claimAdded.ClaimType, claim.Type);
+            Assert.Equal(claimAdded.ClaimValue, claim.Value);
+        };
+    }
 
     [Fact]
     public async Task AddClaimAsync_Success()
     {
         // Arrange
-        var userAdd = Fixture.Build<DataProvider.User>()
-                             .Create();
+        var userAdd = Fixture.Create<DataProvider.User>();
 
         await DbContext.Users.AddAsync(userAdd);
         await DbContext.SaveChangesAsync();
@@ -425,34 +410,39 @@ public class UserDataProviderTest : DataProviderTestBase
         var claim = new Claim("TestClaim", "TestValue");
 
         var userAddClaim = Mapper.Map<Domain.User>(userAdd);
+
         // Act
         var userManagerProvider = new UserDataProvider(UserManager);
         var result = await userManagerProvider.AddClaimAsync(userAddClaim, claim);
 
         // Assert
-        var user = await DbContext.Users.Include(x => x.UserClaims).FirstOrDefaultAsync(x => x.Id == userAdd.Id!);
-        var userClaims = await DbContext.UserClaims.Where(x => user!.UserClaims.Contains(x)).ToListAsync();
+        var userClaims = await DbContext.UserClaims.Where(x => x.UserId == userAdd.Id!).ToListAsync();
         Assert.NotNull(result);
         Assert.True(result.Succeeded);
-        Assert.Contains(userClaims.Where(x => x.ClaimType == claim.Type && x.ClaimValue == claim.Value).First(), userClaims);
+        foreach (var userClaim in userClaims)
+        {
+            Assert.Equal(userClaim.ClaimType, claim.Type);
+            Assert.Equal(userClaim.ClaimValue, claim.Value);
+        };
     }
-
 
     [Fact]
     public async Task RemoveClaimAsync_Success()
     {
         // Arrange
-        var userAdd = Fixture.Build<DataProvider.User>()
-                             .Create();
+        var userAdd = Fixture.Create<DataProvider.User>();
 
         var userClaimAdd = Fixture.Build<DataProvider.UserClaim>()
+                                  .With(i => i.UserId, userAdd.Id)
                                   .Create();
 
         var claimRemove = new Claim(userClaimAdd.ClaimType!, userClaimAdd.ClaimValue!);
 
         await DbContext.Users.AddAsync(userAdd);
+        await DbContext.UserClaims.AddAsync(userClaimAdd);
         await DbContext.SaveChangesAsync();
         DbContext.Entry(userAdd).State = EntityState.Detached;
+        DbContext.Entry(userClaimAdd).State = EntityState.Detached;
 
         var userRemoveClaim = Mapper.Map<Domain.User>(userAdd);
 
@@ -464,7 +454,6 @@ public class UserDataProviderTest : DataProviderTestBase
         Assert.NotNull(result);
         Assert.True(result.Succeeded);
     }
-
     #endregion
 
     #region [ Password ]
@@ -472,8 +461,12 @@ public class UserDataProviderTest : DataProviderTestBase
     public async Task HasPasswordAsync_Success()
     {
         // Arrange
-        var userAdd = Fixture.Build<DataProvider.User>()
-                             .Create();
+        var userAdd = Fixture.Create<DataProvider.User>();
+
+        var password = Fixture.Create<string>();
+        var passwordHasher = new PasswordHasher<DataProvider.User>();
+        var hashedPassword = passwordHasher.HashPassword(userAdd, password);
+        userAdd.PasswordHash = hashedPassword;
 
         await DbContext.Users.AddAsync(userAdd);
         await DbContext.SaveChangesAsync();
@@ -493,14 +486,10 @@ public class UserDataProviderTest : DataProviderTestBase
     public async Task CheckPasswordAsync_Success()
     {
         // Arrange
-        var userAdd = Fixture.Build<DataProvider.User>()
-                             .Without(i => i.PasswordHash)
-                             .Create();
+        var userAdd = Fixture.Create<DataProvider.User>();
 
         var password = Fixture.Create<string>();
         var passwordHasher = new PasswordHasher<DataProvider.User>();
-
-        // Hash the password
         var hashedPassword = passwordHasher.HashPassword(userAdd, password);
         userAdd.PasswordHash = hashedPassword;
 
@@ -511,8 +500,6 @@ public class UserDataProviderTest : DataProviderTestBase
         var userCheckPassword = Mapper.Map<Domain.User>(userAdd);
 
         // Act
-        //var creationResult = await UserManager.CreateAsync(userCheckPassword, password);
-
         var userDataProvider = new UserDataProvider(UserManager);
         var isPasswordValid = await userDataProvider.CheckPasswordAsync(userCheckPassword, password);
 
@@ -524,13 +511,10 @@ public class UserDataProviderTest : DataProviderTestBase
     public async Task ChangePasswordAsync_Success()
     {
         // Arrange
-        var userAdd = Fixture.Build<DataProvider.User>()
-                             .With(i => i.Id, Guid.NewGuid())
-                             .Create();
+        var userAdd = Fixture.Create<DataProvider.User>();
 
         var currentPassword = Fixture.Create<string>();
         var newPassword = Fixture.Create<string>();
-
         var passwordHasher = new PasswordHasher<DataProvider.User>();
         var currentHashedPassword = passwordHasher.HashPassword(userAdd, currentPassword);
         userAdd.PasswordHash = currentHashedPassword;
@@ -550,6 +534,5 @@ public class UserDataProviderTest : DataProviderTestBase
         Assert.True(result.Succeeded);
     }
     #endregion
-
     #endregion
 }

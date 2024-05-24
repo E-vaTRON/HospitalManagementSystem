@@ -1,4 +1,5 @@
-﻿using CoreUser = IdentitySystem.Domain.User;
+﻿using IdentitySystem.Application;
+using CoreUser = IdentitySystem.Domain.User;
 using DTOUser = IdentitySystem.Application.UserDTO;
 
 namespace IdentitySystem.ServiceProvider;
@@ -18,7 +19,7 @@ public class UserServiceProvider : IdentityServiceProviderBase<DTOUser, CoreUser
     }
     #endregion
 
-    #region [ Method ]
+    #region [ Methods ]
     #region [ Set ]
     public Task<IdentityResult> SetUserNameAsync(DTOUser userDto, string userName)
     {
@@ -79,10 +80,10 @@ public class UserServiceProvider : IdentityServiceProviderBase<DTOUser, CoreUser
         return MapToDTO(user);
     }
 
-    public async Task<DTOUser?> FindByNameAsync(string userName)
+    public async Task<DTOUser?> FindByNameAsync(string normalizedUserName)
     {
-        ArgumentNullException.ThrowIfNull(userName, nameof(userName));
-        var user = await DataProvider.FindByNameAsync(userName);
+        ArgumentNullException.ThrowIfNull(normalizedUserName, nameof(normalizedUserName));
+        var user = await DataProvider.FindByNameAsync(normalizedUserName);
         return MapToDTO(user);
     }
     #endregion
@@ -135,26 +136,12 @@ public class UserServiceProvider : IdentityServiceProviderBase<DTOUser, CoreUser
     }
     #endregion
 
-    #region [ Claim Role ]
+    #region [ Role ]
     public async Task<IList<string>> GetRolesAsync(DTOUser userDto)
     {
         var user = MapToEntity(userDto);
         ArgumentNullException.ThrowIfNull(user, nameof(user));
         return await DataProvider.GetRolesAsync(user);
-    }
-
-    public async Task<IdentityResult> AddClaimAsync(DTOUser userDto, Claim claim)
-    {
-        var user = MapToEntity(userDto);
-        ArgumentNullException.ThrowIfNull(user, nameof(user));
-        return await DataProvider.AddClaimAsync(user, claim);
-    }
-
-    public async Task<IdentityResult> RemoveClaimAsync(DTOUser userDto, Claim claim)
-    {
-        var user = MapToEntity(userDto);
-        ArgumentNullException.ThrowIfNull(user, nameof(user));
-        return await DataProvider.RemoveClaimAsync(user, claim);
     }
 
     public async Task<IdentityResult> AddToRoleAsync(DTOUser userDto, string role)
@@ -169,6 +156,29 @@ public class UserServiceProvider : IdentityServiceProviderBase<DTOUser, CoreUser
         var user = MapToEntity(userDto);
         ArgumentNullException.ThrowIfNull(user, nameof(user));
         return await DataProvider.RemoveFromRoleAsync(user, role);
+    }
+    #endregion
+
+    #region [ Claim ]
+    public async Task<IList<Claim>> GetClaimsAsync(DTOUser userDto)
+    {
+        var user = MapToEntity(userDto);
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        return await DataProvider.GetClaimsAsync(user);
+    }
+
+    public async Task<IdentityResult> AddClaimAsync(DTOUser userDto, Claim claim)
+    {
+        var user = MapToEntity(userDto);
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        return await DataProvider.AddClaimAsync(user, claim);
+    }
+
+    public async Task<IdentityResult> RemoveClaimAsync(DTOUser userDto, Claim claim)
+    {
+        var user = MapToEntity(userDto);
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        return await DataProvider.RemoveClaimAsync(user, claim);
     }
     #endregion
 
