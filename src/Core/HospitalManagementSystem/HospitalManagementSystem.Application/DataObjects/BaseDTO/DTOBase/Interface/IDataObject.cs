@@ -4,6 +4,6 @@ public interface IDataObject : IEntity
 {
 }
 
-public interface IDataObject<TEId> : IEntity<TEId>
+public interface IDataObject<TDId> : IEntity<TDId>
 {
 }

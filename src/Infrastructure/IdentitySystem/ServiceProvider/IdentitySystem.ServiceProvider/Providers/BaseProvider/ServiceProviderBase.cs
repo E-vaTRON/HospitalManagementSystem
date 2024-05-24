@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace IdentitySystem.ServiceProvider;
+﻿namespace IdentitySystem.ServiceProvider;
 
 public abstract class ServiceProviderBase<TDto, TDId,  TEntity, TEId, TDataProvider> : IServiceProviderBase<TDto, TDId>
     where TDto : class, Application.IDataObject<TDId> 
