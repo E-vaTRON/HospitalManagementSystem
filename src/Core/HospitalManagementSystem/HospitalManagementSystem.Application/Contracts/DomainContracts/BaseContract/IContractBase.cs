@@ -1,7 +1,7 @@
 ﻿namespace HospitalManagementSystem.Application;
 
 public interface IContractBase<TEntity, TEId>
-    where TEntity : class, IEntity<TEId>
+    where TEntity : IEntity<TEId>
 {
     Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default);
 

@@ -1,9 +1,9 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public class AppointmentBaseDTO : DTOBase
+public record AppointmentBaseDTO : DTOBase
 {
-    public DateTime AppointmentDate { get; set; } = default!;
-    public string?  Notes           { get; set; }
+    public DateTime AppointmentDate { get; init; } = default!;
+    public string?  Notes           { get; init; }
 
-    public string?  PatientId       { get; set; } // User Id Role<Patient>
+    public string?  PatientId       { get; init; } // User Id Role<Patient>
 }

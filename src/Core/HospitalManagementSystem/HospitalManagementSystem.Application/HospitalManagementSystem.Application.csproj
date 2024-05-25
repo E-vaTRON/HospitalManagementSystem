@@ -20,9 +20,4 @@
     <ProjectReference Include="..\HospitalManagementSystem.Domain\HospitalManagementSystem.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DataObjects\CreateDTO\" />
-    <Folder Include="DataObjects\ReceiveDTO\" />
-  </ItemGroup>
-
 </Project>

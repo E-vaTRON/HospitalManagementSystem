@@ -2,7 +2,7 @@
 
 [Route("api/[controller]/[action]")]
 [ApiController]
-public class DeviceServiceController : BaseController
+public class DeviceServiceTestController
 {
     //private readonly IDeviceServiceRepository _deviceServiceRepository;
     //private readonly IAnalyzationTestRepository _analyzationTestRepository;

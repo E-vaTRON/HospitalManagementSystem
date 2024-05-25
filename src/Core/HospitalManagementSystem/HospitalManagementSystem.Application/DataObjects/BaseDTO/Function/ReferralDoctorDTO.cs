@@ -1,13 +1,8 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public class ReferralDoctorDTO : DTOBase
+public record ReferralDoctorDTO : DTOBase
 {
-    public string?  ReferralStatus   { get; set; }
+    public string?  ReferralStatus   { get; init; }
 
-    public string?  ReferredDoctorId    { get; set; } // User Id Role<Doctor>
-
-
-    public ReferralDTO              ReferralDTO            { get; set; } = default!;
-
-    public AssignmentHistoryDTO?    AssignmentHistoryDTO   { get; set; }
+    public string?  ReferredDoctorId    { get; init; } // User Id Role<Doctor>
 }

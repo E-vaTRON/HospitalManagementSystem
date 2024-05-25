@@ -1,6 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public class ReExamAppointmentDTO : AppointmentBaseDTO
+public record ReExamAppointmentDTO : AppointmentBaseDTO
 {
-    public MedicalExamEpisodeDTO?   MedicalExamEpisodeDTO { get; set; } = default!;
 }
