@@ -3,11 +3,11 @@
 public class DatabaseServiceProvider : IDatabaseServiceProvider
 {
     #region [ Field ]
-    protected DatabaseDataProvider DataProvider { get; set; }
+    protected IDatabaseDataProvider DataProvider { get; set; }
     #endregion
 
     #region [ CTor ]
-    public DatabaseServiceProvider(DatabaseDataProvider dataProvider)
+    public DatabaseServiceProvider(IDatabaseDataProvider dataProvider)
     {
         this.DataProvider = dataProvider;
     }

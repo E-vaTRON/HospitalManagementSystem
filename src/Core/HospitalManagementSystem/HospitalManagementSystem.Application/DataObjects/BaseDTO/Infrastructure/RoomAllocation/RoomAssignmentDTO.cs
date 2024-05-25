@@ -1,11 +1,9 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public class RoomAssignmentDTO : DTOBase
+public record RoomAssignmentDTO : DTOBase
 {
-    public DateTime     StartTime   { get; set; }
+    public DateTime     StartTime   { get; init; }
     public DateTime     EndTime     { get; set; }
 
-    public string?  EmployeeId  { get; set; } // User Id Role<Employee>
-
-    public RoomDTO  RoomDTO    { get; set; } = default!;
+    public string?  EmployeeId  { get; init; } // User Id Role<Employee>
 }

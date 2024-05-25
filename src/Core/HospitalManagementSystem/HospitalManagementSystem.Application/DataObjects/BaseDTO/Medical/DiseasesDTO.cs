@@ -1,11 +1,11 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public class DiseasesDTO : DTOBase
+public record DiseasesDTO : DTOBase
 {
-    public string       Name        { get; set; } = string.Empty;
-    public string?      Description { get; set; }
-    public CodeStatus   Status      { get; set; }
+    public string       Name        { get; init; } = string.Empty;
+    public string?      Description { get; init; }
+    public CodeStatus   Status      { get; init; }
 
-    public virtual ICollection<DiagnosisDTO> DiagnosesDTO { get; set; } = new HashSet<DiagnosisDTO>();
-    public virtual ICollection<ICDCodeDTO>   ICDCodesDTO  { get; set; } = new HashSet<ICDCodeDTO>();
+    public virtual ICollection<DiagnosisDTO> DiagnosesDTO { get; init; } = new HashSet<DiagnosisDTO>();
+    public virtual ICollection<ICDCodeDTO>   ICDCodesDTO  { get; init; } = new HashSet<ICDCodeDTO>();
 }

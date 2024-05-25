@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public class DTOBase : DataObject<string>
+public record DTOBase : DataObject<string>
 {
     public override string  Id              { get; set; } = string.Empty;
     public bool             IsDeleted       { get; set; } = false;

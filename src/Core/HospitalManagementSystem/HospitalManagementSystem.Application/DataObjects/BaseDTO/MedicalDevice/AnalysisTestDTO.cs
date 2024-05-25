@@ -1,12 +1,7 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public class AnalysisTestDTO : DTOBase
+public record AnalysisTestDTO : DTOBase
 {
-    public string?  DoctorComment       { get; set; }
-    public string?  Result              { get; set; }
-
-    public DeviceServiceDTO         DeviceServiceDTO        { get; set; } = default!;
-    public MedicalExamEpisodeDTO    MedicalExamEpisodeDTO   { get; set; } = default!;
-
-    //public virtual ICollection<DiagnosisSuggestion> DiagnosisSuggestions { get; set; } = new HashSet<DiagnosisSuggestion>();
+    public string?  DoctorComment       { get; init; }
+    public string?  Result              { get; init; }
 }

@@ -2,7 +2,7 @@
 
 [Route("api/[controller]/[action]")]
 [ApiController]
-public class AnalyzationTestController : ControllerBase
+public class AnalyzationTestController
 {
     //private readonly IAnalyzationTestRepository _analyzationTestRepository;
     //private readonly IHistoryMedicalExamRepository _historyMedicalExamRepository;

@@ -1,7 +1,6 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public class ICDVersionDTO : DTOBase
+public record ICDVersionDTO : DTOBase
 {
-    public string? Version { get; set; }
-    public virtual ICollection<ICDCodeVersionDTO> ICDCodeVersionDTOs { get; set; } = new HashSet<ICDCodeVersionDTO>();
+    public string? Version { get; init; }
 }
