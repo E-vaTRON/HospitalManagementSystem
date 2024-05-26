@@ -1,5 +1,5 @@
 ﻿namespace IdentitySystem.Application;
 
-public interface IScheduleSlotServiceProvider
+public interface IScheduleSlotServiceProvider : IServiceProviderBase<OutputScheduleSlotDTO, InputScheduleSlotDTO, string>
 {
 }

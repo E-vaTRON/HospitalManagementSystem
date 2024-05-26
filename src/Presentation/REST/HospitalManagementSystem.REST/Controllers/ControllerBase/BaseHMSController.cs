@@ -5,9 +5,10 @@ namespace HospitalManagementSystem.REST;
 [ApiController]
 [Route("/api/[controller]/[action]")]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-public class BaseHMSController<TDto, TDId, TServiceProvider> : ControllerBase
-    where TDto : class, HMSApplication.IDataObject<TDId>
-    where TServiceProvider : HMSApplication.IServiceProviderBase<TDto, TDId>
+public class BaseHMSController<TOutputDto, TInputDto, TDId, TServiceProvider> : ControllerBase
+    where TOutputDto : class, HMSApplication.IDataObject<TDId>
+    where TInputDto : class, HMSApplication.IDataObject<TDId>
+    where TServiceProvider : HMSApplication.IServiceProviderBase<TOutputDto, TInputDto, TDId>
 {
     #region [ Field ]
     protected TServiceProvider ServiceProvider { get; set; }
@@ -40,14 +41,14 @@ public class BaseHMSController<TDto, TDId, TServiceProvider> : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(TDto dto)
+    public async Task<IActionResult> Create(TInputDto dto)
     {
         await ServiceProvider.AddAsync(dto);
         return CreatedAtAction(nameof(GetById), new { id = dto.Id }, dto);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(TDId id, TDto dto)
+    public async Task<IActionResult> Update(TDId id, TInputDto dto)
     {
         if (!id!.Equals(dto.Id))
         {
@@ -69,8 +70,9 @@ public class BaseHMSController<TDto, TDId, TServiceProvider> : ControllerBase
 [ApiController]
 [Route("/api/[controller]/[action]")]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-public class BaseHMSController<TDto>(HMSApplication.IServiceProviderBase<TDto, string> serviceProvider) 
-    : BaseHMSController<TDto, string, HMSApplication.IServiceProviderBase<TDto, string>>(serviceProvider)
-    where TDto : class, HMSApplication.IDataObject<string>
+public class BaseHMSController<TOutputDto, TInputDto>(HMSApplication.IServiceProviderBase<TOutputDto, TInputDto, string> serviceProvider) 
+    : BaseHMSController<TOutputDto, TInputDto, string, HMSApplication.IServiceProviderBase<TOutputDto, TInputDto, string>>(serviceProvider)
+    where TOutputDto : class, HMSApplication.IDataObject<string>
+    where TInputDto : class, HMSApplication.IDataObject<string>
 {
 }

@@ -1,9 +1,10 @@
 ﻿using CoreAssignmentHistory = HospitalManagementSystem.Domain.AssignmentHistory;
-using DTOAssignmentHistory = HospitalManagementSystem.Application.AssignmentHistoryDTO;
+using DTOAssignmentHistoryIn = HospitalManagementSystem.Application.InputAssignmentHistoryDTO;
+using DTOAssignmentHistoryOut = HospitalManagementSystem.Application.OutputAssignmentHistoryDTO;
 
 namespace HospitalManagementSystem.ServiceProvider;
 
-public class AssignmentHistoryServiceProvider : ServiceProviderBase<DTOAssignmentHistory, CoreAssignmentHistory>, IAssignmentHistoryServiceProvider
+public class AssignmentHistoryServiceProvider : ServiceProviderBase<DTOAssignmentHistoryOut, DTOAssignmentHistoryIn, CoreAssignmentHistory>, IAssignmentHistoryServiceProvider
 {
     public AssignmentHistoryServiceProvider(IAssignmentHistoryDataProvider dataProvider, IMapper mapper) : base(dataProvider, mapper)
     {

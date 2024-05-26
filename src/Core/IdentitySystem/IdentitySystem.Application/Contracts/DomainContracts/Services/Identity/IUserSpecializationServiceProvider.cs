@@ -1,5 +1,5 @@
 ﻿namespace IdentitySystem.Application;
 
-public interface IUserSpecializationServiceProvider : IServiceProviderBase<UserSpecializationDTO, string>
+public interface IUserSpecializationServiceProvider : IServiceProviderBase<OutputUserSpecializationDTO, InputUserSpecializationDTO, string>
 {
 }

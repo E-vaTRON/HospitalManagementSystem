@@ -1,5 +1,5 @@
 ﻿namespace IdentitySystem.Application;
 
-public interface IRoleClaimSerivceProvider : IServiceProviderBase<RoleClaimDTO, int>
+public interface IRoleClaimServiceProvider : IServiceProviderBase<OutputRoleClaimDTO, InputRoleClaimDTO, int>
 {
 }

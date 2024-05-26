@@ -24,7 +24,7 @@ public class JWTTokenServiceTest : ServiceProviderTestBase
     public void GenerateToken_Success()
     {
         // Arrange
-        var user = Fixture.Create<UserCreateDTO>();
+        var user = Fixture.Create<InputUserDTO>();
         var iat = DateTime.UtcNow;
         var exp = DateTime.UtcNow.AddDays(1);
 

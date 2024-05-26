@@ -26,7 +26,7 @@ public class UserServiceProviderTest : ServiceProviderTestBase
     public async Task CheckPasswordSignInAsync_Success()
     {
         // Arrange
-        var userDto = Fixture.Create<UserDTO>();
+        var userDto = Fixture.Create<InputUserDTO>();
         var password = Fixture.Create<string>();
         var lockoutOnFailure = false;
         var cancellationToken = CancellationToken.None;

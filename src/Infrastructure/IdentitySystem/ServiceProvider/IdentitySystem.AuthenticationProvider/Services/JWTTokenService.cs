@@ -16,7 +16,7 @@ public class JWTTokenService : IJwtTokenService
     #endregion
 
     #region [Methods]
-    public string GenerateToken(UserCreateDTO user, DateTime iat, DateTime exp)
+    public string GenerateToken(InputUserDTO user, DateTime iat, DateTime exp)
     {
         var handler = new JwtSecurityTokenHandler();
 

@@ -1,9 +1,10 @@
 ﻿using CoreDeviceService = HospitalManagementSystem.Domain.DeviceService;
-using DTODeviceService = HospitalManagementSystem.Application.DeviceServiceDTO;
+using DTODeviceServiceIn = HospitalManagementSystem.Application.InputDeviceServiceDTO;
+using DTODeviceServiceOut = HospitalManagementSystem.Application.OutputDeviceServiceDTO;
 
 namespace HospitalManagementSystem.ServiceProvider;
 
-public class DeviceServiceServiceProvider : ServiceProviderBase<DTODeviceService, CoreDeviceService>, IDeviceServiceServiceProvider
+public class DeviceServiceServiceProvider : ServiceProviderBase<DTODeviceServiceOut, DTODeviceServiceIn, CoreDeviceService>, IDeviceServiceServiceProvider
 {
     public DeviceServiceServiceProvider(IDeviceServiceDataProvider dataProvider, IMapper mapper) : base(dataProvider, mapper)
     {

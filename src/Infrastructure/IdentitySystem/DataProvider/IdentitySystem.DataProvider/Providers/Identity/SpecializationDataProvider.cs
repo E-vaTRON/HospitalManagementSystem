@@ -8,4 +8,9 @@ public class SpecializationDataProvider : DataProviderBase<CoreSpecialization, D
     public SpecializationDataProvider(IdentitySystemDbContext context, IMapper mapper) : base(context, mapper)
     {
     }
+
+    public Task<IdentityResult> SetAsync(InputSpecializationDTO test)
+    {
+        throw new NotImplementedException();
+    }
 }

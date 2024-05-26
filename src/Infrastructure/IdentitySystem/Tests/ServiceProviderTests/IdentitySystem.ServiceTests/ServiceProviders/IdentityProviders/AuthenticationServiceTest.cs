@@ -27,19 +27,21 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
     public async Task Login_Success()
     {
         // Arrange
-        var userDto = Fixture.Create<UserDTO>();
+        var userDtoOut = Fixture.Create<OutputUserDTO>();
+        var userDtoIn = Mapper.Map<InputUserDTO>(userDtoOut);
+
         var dto = Fixture.Build<Application.Login>()
-                         .With(x => x.username, userDto.UserName)
-                         .With(x => x.password, userDto.PasswordHash)
+                         .With(x => x.username, userDtoOut.UserName)
+                         .With(x => x.password, userDtoOut.PasswordHash)
                          .Create();
         var consumerName = Fixture.Create<string>();
         var accessToken = Fixture.Create<string>();
 
         var signInResult = SignInResult.Success;
 
-        UserServiceProvider.Setup(x => x.FindByNameAsync(dto.username)).ReturnsAsync(userDto);
-        UserServiceProvider.Setup(x => x.CheckPasswordSignInAsync(userDto, dto.password, LoginMode.Email, false)).ReturnsAsync(signInResult);
-        JwtProvider.Setup(x => x.GenerateToken(It.IsAny<UserCreateDTO>(), It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(accessToken);
+        UserServiceProvider.Setup(x => x.FindByNameAsync(dto.username)).ReturnsAsync(userDtoOut);
+        UserServiceProvider.Setup(x => x.CheckPasswordSignInAsync(userDtoIn, dto.password, LoginMode.Email, false)).ReturnsAsync(signInResult);
+        JwtProvider.Setup(x => x.GenerateToken(It.IsAny<InputUserDTO>(), It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(accessToken);
 
         // Act
         var result = await ServiceProvider.Login(dto, consumerName, CancellationToken.None);
@@ -48,8 +50,8 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
         var serviceSuccess = result.AsT0;
         Assert.IsType<ServiceSuccess>(serviceSuccess);
         UserServiceProvider.Verify(x => x.FindByNameAsync(It.IsAny<string>()), Times.Once());
-        UserServiceProvider.Verify(x => x.CheckPasswordSignInAsync(It.IsAny<UserDTO>(), It.IsAny<string>(), LoginMode.Email, false), Times.Once());
-        JwtProvider.Verify(x => x.GenerateToken(It.IsAny<UserCreateDTO>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()), Times.Once());
+        UserServiceProvider.Verify(x => x.CheckPasswordSignInAsync(It.IsAny<InputUserDTO>(), It.IsAny<string>(), LoginMode.Email, false), Times.Once());
+        JwtProvider.Verify(x => x.GenerateToken(It.IsAny<InputUserDTO>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()), Times.Once());
         Assert.Equal(nameof(AuthenticationService), serviceSuccess.ServiceName);
         Assert.Equal(nameof(ServiceProvider.Login), serviceSuccess.MethodName);
         Assert.Equal(IdentitySystem.ServiceProvider.IdentityConstants.USER_LOGGED_IN_SUCCESSFULLY, serviceSuccess.SuccessMessage);
@@ -59,19 +61,21 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
     public async Task LoginWithPhoneNumber_Success()
     {
         // Arrange
-        var userDto = Fixture.Create<UserDTO>();
+        var userDtoOut = Fixture.Create<OutputUserDTO>();
+        var userDtoIn = Mapper.Map<InputUserDTO>(userDtoOut);
+
         var dto = Fixture.Build<PhoneNumberUserLogin>()
-                         .With(x => x.phoneNumber, userDto.PhoneNumber)
-                         .With(x => x.password, userDto.PasswordHash)
+                         .With(x => x.phoneNumber, userDtoOut.PhoneNumber)
+                         .With(x => x.password, userDtoOut.PasswordHash)
                          .Create();
         var consumerName = Fixture.Create<string>();
         var accessToken = Fixture.Create<string>();
 
         var signInResult = SignInResult.Success;
 
-        UserServiceProvider.Setup(x => x.FindByPhoneNumberAsync(dto.phoneNumber)).ReturnsAsync(userDto);
-        UserServiceProvider.Setup(x => x.CheckPasswordSignInAsync(userDto,  dto.password, LoginMode.PhoneNumber, false)).ReturnsAsync(signInResult);
-        JwtProvider.Setup(x => x.GenerateToken(It.IsAny<UserCreateDTO>(), It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(accessToken);
+        UserServiceProvider.Setup(x => x.FindByPhoneNumberAsync(dto.phoneNumber)).ReturnsAsync(userDtoOut);
+        UserServiceProvider.Setup(x => x.CheckPasswordSignInAsync(userDtoIn,  dto.password, LoginMode.PhoneNumber, false)).ReturnsAsync(signInResult);
+        JwtProvider.Setup(x => x.GenerateToken(It.IsAny<InputUserDTO>(), It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(accessToken);
 
         // Act
         var result = await ServiceProvider.LoginWithPhoneNumber(dto, consumerName, CancellationToken.None);
@@ -80,8 +84,8 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
         var serviceSuccess = result.AsT0;
         Assert.IsType<ServiceSuccess>(serviceSuccess);
         UserServiceProvider.Verify(x => x.FindByPhoneNumberAsync(It.IsAny<string>()), Times.Once());
-        UserServiceProvider.Verify(x => x.CheckPasswordSignInAsync(It.IsAny<UserDTO>(), It.IsAny<string>(), LoginMode.PhoneNumber, false), Times.Once());
-        JwtProvider.Verify(x => x.GenerateToken(It.IsAny<UserCreateDTO>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()), Times.Once());
+        UserServiceProvider.Verify(x => x.CheckPasswordSignInAsync(It.IsAny<InputUserDTO>(), It.IsAny<string>(), LoginMode.PhoneNumber, false), Times.Once());
+        JwtProvider.Verify(x => x.GenerateToken(It.IsAny<InputUserDTO>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()), Times.Once());
         Assert.Equal(nameof(AuthenticationService), serviceSuccess.ServiceName);
         Assert.Equal(nameof(ServiceProvider.LoginWithPhoneNumber), serviceSuccess.MethodName);
         Assert.Equal(IdentitySystem.ServiceProvider.IdentityConstants.USER_LOGGED_IN_WITH_PHONE_NUMBER_SUCCESSFULLY, serviceSuccess.SuccessMessage);
@@ -94,7 +98,7 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
         var dto = Fixture.Create<SignUp>();
         var consumerName = Fixture.Create<string>();
 
-        var userCreateDto = new UserCreateDTO
+        var userCreateDto = new InputUserDTO
         {
             Email = dto.email,
             UserName = dto.userName,
@@ -108,7 +112,7 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
 
         var createResult = IdentityResult.Success;
 
-        UserServiceProvider.Setup(x  => x.CreateAsync(It.IsAny<UserDTO>(), dto.password)).ReturnsAsync(createResult);
+        UserServiceProvider.Setup(x  => x.CreateAsync(It.IsAny<InputUserDTO>(), dto.password)).ReturnsAsync(createResult);
         // Act
         var result = await ServiceProvider.Register(dto, consumerName, CancellationToken.None);
 

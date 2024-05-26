@@ -35,7 +35,7 @@ public abstract class ServiceProviderTestBase
             config.CreateMap<ScheduleSlotDTO,   Domain.ScheduleSlot>().ReverseMap();
 
             config.CreateMap<UserDTO,       Domain.User>().ReverseMap();
-            config.CreateMap<UserCreateDTO, UserDTO>().ReverseMap();
+            config.CreateMap<InputUserDTO,  UserDTO>().ReverseMap();
             config.CreateMap<RoleDTO,       Domain.Role>().ReverseMap();
             config.CreateMap<UserRoleDTO,   Domain.UserRole>().ReverseMap();
 
