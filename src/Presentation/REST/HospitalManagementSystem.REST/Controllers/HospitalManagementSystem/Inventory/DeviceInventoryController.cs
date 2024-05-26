@@ -1,5 +1,11 @@
-﻿namespace HospitalManagementSystem.REST;
+﻿using DTODeviceInventoryIn = HospitalManagementSystem.Application.InputDeviceInventoryDTO;
+using DTODeviceInventoryOut = HospitalManagementSystem.Application.OutputDeviceInventoryDTO;
 
-public class DeviceInventoryController
+namespace HospitalManagementSystem.REST;
+
+public class DeviceInventoryController : BaseHMSController<DTODeviceInventoryOut, DTODeviceInventoryIn>
 {
+    public DeviceInventoryController(IDeviceInventoryServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }

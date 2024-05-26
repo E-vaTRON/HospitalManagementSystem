@@ -1,5 +1,10 @@
-﻿namespace HospitalManagementSystem.REST;
+﻿using DTODrugPrescriptionIn = HospitalManagementSystem.Application.InputDrugPrescriptionDTO;
+using DTODrugPrescriptionOut = HospitalManagementSystem.Application.OutputDrugPrescriptionDTO;
 
-public class DrugPrescriptionController
+namespace HospitalManagementSystem.REST;
+public class DrugPrescriptionController : BaseHMSController<DTODrugPrescriptionOut, DTODrugPrescriptionIn>
 {
+    public DrugPrescriptionController(IDrugPrescriptionServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }

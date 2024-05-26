@@ -1,5 +1,11 @@
-﻿namespace HospitalManagementSystem.REST;
+﻿using DTODeviceServiceIn = HospitalManagementSystem.Application.InputDeviceServiceDTO;
+using DTODeviceServiceOut = HospitalManagementSystem.Application.OutputDeviceServiceDTO;
 
-public class DeviceServiceController
+namespace HospitalManagementSystem.REST;
+
+public class DeviceServiceController : BaseHMSController<DTODeviceServiceOut, DTODeviceServiceIn>
 {
+    public DeviceServiceController(IDeviceServiceServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }

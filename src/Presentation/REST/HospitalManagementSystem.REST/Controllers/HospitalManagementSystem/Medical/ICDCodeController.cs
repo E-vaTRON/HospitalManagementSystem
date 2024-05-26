@@ -1,5 +1,11 @@
-﻿namespace HospitalManagementSystem.REST;
+﻿using DTOICDCodeIn = HospitalManagementSystem.Application.InputICDCodeDTO;
+using DTOICDCodeOut = HospitalManagementSystem.Application.OutputICDCodeDTO;
 
-public class ICDCodeController
+namespace HospitalManagementSystem.REST;
+
+public class ICDCodeController : BaseHMSController<DTOICDCodeOut, DTOICDCodeIn>
 {
+    public ICDCodeController(IICDCodeServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }

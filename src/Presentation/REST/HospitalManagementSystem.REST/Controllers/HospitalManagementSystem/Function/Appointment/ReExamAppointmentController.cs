@@ -1,5 +1,11 @@
-﻿namespace HospitalManagementSystem.REST;
+﻿using DTOReExamAppointmentIn = HospitalManagementSystem.Application.InputReExamAppointmentDTO;
+using DTOReExamAppointmentOut = HospitalManagementSystem.Application.OutputReExamAppointmentDTO;
 
-public class ReExamAppointmentController
+namespace HospitalManagementSystem.REST;
+
+public class ReExamAppointmentController : BaseHMSController<DTOReExamAppointmentOut, DTOReExamAppointmentIn>
 {
+    public ReExamAppointmentController(IReExamAppointmentServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }

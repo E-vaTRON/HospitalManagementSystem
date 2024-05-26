@@ -1,5 +1,11 @@
-﻿namespace HospitalManagementSystem.REST;
+﻿using DTOMedicalExamIn = HospitalManagementSystem.Application.InputMedicalExamDTO;
+using DTOMedicalExamOut = HospitalManagementSystem.Application.OutputMedicalExamDTO;
 
-public class MedicalExamController
+namespace HospitalManagementSystem.REST;
+
+public class MedicalExamController : BaseHMSController<DTOMedicalExamOut, DTOMedicalExamIn>
 {
+    public MedicalExamController(IMedicalExamServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }

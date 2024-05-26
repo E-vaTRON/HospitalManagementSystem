@@ -1,5 +1,11 @@
-﻿namespace HospitalManagementSystem.REST;
+﻿using DTOAssignmentHistoryIn = HospitalManagementSystem.Application.InputAssignmentHistoryDTO;
+using DTOAssignmentHistoryOut = HospitalManagementSystem.Application.OutputAssignmentHistoryDTO;
 
-public class AssignmentHistoryController
+namespace HospitalManagementSystem.REST;
+
+public class AssignmentHistoryController : BaseHMSController<DTOAssignmentHistoryOut, DTOAssignmentHistoryIn>
 {
+    public AssignmentHistoryController(IAssignmentHistoryServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }
