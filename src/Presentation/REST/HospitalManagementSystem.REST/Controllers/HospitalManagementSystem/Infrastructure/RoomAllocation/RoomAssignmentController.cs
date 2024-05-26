@@ -1,5 +1,11 @@
-﻿namespace HospitalManagementSystem.REST;
+﻿using DTORoomAssignmentIn = HospitalManagementSystem.Application.InputRoomAssignmentDTO;
+using DTORoomAssignmentOut = HospitalManagementSystem.Application.OutputRoomAssignmentDTO;
 
-public class RoomAssignmentController
+namespace HospitalManagementSystem.REST;
+
+public class RoomAssignmentController : BaseHMSController<DTORoomAssignmentOut, DTORoomAssignmentIn>
 {
+    public RoomAssignmentController(IRoomAssignmentServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }

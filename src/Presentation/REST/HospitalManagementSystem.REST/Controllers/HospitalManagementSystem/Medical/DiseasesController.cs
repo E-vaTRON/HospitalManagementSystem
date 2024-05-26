@@ -1,5 +1,11 @@
-﻿namespace HospitalManagementSystem.REST;
+﻿using DTODiseasesIn = HospitalManagementSystem.Application.InputDiseasesDTO;
+using DTODiseasesOut = HospitalManagementSystem.Application.OutputDiseasesDTO;
 
-public class DiseasesController
+namespace HospitalManagementSystem.REST;
+
+public class DiseasesController : BaseHMSController<DTODiseasesOut, DTODiseasesIn>
 {
+    public DiseasesController(IDiseasesServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }

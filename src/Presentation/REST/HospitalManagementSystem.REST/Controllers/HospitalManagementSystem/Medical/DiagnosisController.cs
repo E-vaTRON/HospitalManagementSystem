@@ -1,5 +1,11 @@
-﻿namespace HospitalManagementSystem.REST;
+﻿using DTODiagnosisIn = HospitalManagementSystem.Application.InputDiagnosisDTO;
+using DTODiagnosisOut = HospitalManagementSystem.Application.OutputDiagnosisDTO;
 
-public class DiagnosisController
+namespace HospitalManagementSystem.REST;
+
+public class DiagnosisController : BaseHMSController<DTODiagnosisOut, DTODiagnosisIn>
 {
+    public DiagnosisController(IDiagnosisServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }

@@ -1,5 +1,11 @@
-﻿namespace HospitalManagementSystem.REST;
+﻿using DTOICDVersionIn = HospitalManagementSystem.Application.InputICDVersionDTO;
+using DTOICDVersionOut = HospitalManagementSystem.Application.OutputICDVersionDTO;
 
-public class ICDVersionController
+namespace HospitalManagementSystem.REST;
+
+public class ICDVersionController : BaseHMSController<DTOICDVersionOut, DTOICDVersionIn>
 {
+    public ICDVersionController(IICDVersionServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }

@@ -1,5 +1,11 @@
-﻿namespace HospitalManagementSystem.REST;
+﻿using DTORoomIn = HospitalManagementSystem.Application.InputRoomDTO;
+using DTORoomOut = HospitalManagementSystem.Application.OutputRoomDTO;
 
-public class RoomController
+namespace HospitalManagementSystem.REST;
+
+public class RoomController : BaseHMSController<DTORoomOut, DTORoomIn>
 {
+    public RoomController(IRoomServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }

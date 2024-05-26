@@ -1,5 +1,11 @@
-﻿namespace HospitalManagementSystem.REST;
+﻿using DTOTreatmentIn = HospitalManagementSystem.Application.InputTreatmentDTO;
+using DTOTreatmentOut = HospitalManagementSystem.Application.OutputTreatmentDTO;
 
-public class TreatmentController
+namespace HospitalManagementSystem.REST;
+
+public class TreatmentController : BaseHMSController<DTOTreatmentOut, DTOTreatmentIn>
 {
+    public TreatmentController(ITreatmentServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }
