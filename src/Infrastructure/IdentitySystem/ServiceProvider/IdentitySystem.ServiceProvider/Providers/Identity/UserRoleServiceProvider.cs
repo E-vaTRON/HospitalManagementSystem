@@ -1,13 +1,12 @@
 ﻿using CoreUserRole = IdentitySystem.Domain.UserRole;
-using DTOUserRole = IdentitySystem.Application.UserRoleDTO;
+using DTOUserRoleIn = IdentitySystem.Application.InputUserRoleDTO;
+using DTOUserRoleOut = IdentitySystem.Application.OutputUserRoleDTO;
 
 namespace IdentitySystem.ServiceProvider;
 
-public class UserRoleServiceProvider : ServiceProviderBase<DTOUserRole, CoreUserRole>,  IUserRoleServiceProvider
+public class UserRoleServiceProvider : ServiceProviderBase<DTOUserRoleOut, DTOUserRoleIn, CoreUserRole>, IUserRoleServiceProvider
 {
-    #region [ CTor ]
     public UserRoleServiceProvider(IUserRoleDataProvider dataProvider, IMapper mapper) : base(dataProvider, mapper)
     {
     }
-    #endregion
 }

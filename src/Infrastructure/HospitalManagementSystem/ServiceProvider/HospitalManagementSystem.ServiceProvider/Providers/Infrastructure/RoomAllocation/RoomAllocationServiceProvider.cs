@@ -1,9 +1,10 @@
 ﻿using CoreRoomAllocation = HospitalManagementSystem.Domain.RoomAllocation;
-using DTORoomAllocation = HospitalManagementSystem.Application.RoomAllocationDTO;
+using DTORoomAllocationIn = HospitalManagementSystem.Application.InputRoomAllocationDTO;
+using DTORoomAllocationOut = HospitalManagementSystem.Application.OutputRoomAllocationDTO;
 
 namespace HospitalManagementSystem.ServiceProvider;
 
-public class RoomAllocationServiceProvider : ServiceProviderBase<DTORoomAllocation, CoreRoomAllocation>, IRoomAllocationServiceProvider
+public class RoomAllocationServiceProvider : ServiceProviderBase<DTORoomAllocationOut, DTORoomAllocationIn, CoreRoomAllocation>, IRoomAllocationServiceProvider
 {
     public RoomAllocationServiceProvider(IRoomAllocationDataProvider dataProvider, IMapper mapper) : base(dataProvider, mapper)
     {

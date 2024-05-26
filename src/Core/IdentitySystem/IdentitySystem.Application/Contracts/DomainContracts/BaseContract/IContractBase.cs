@@ -1,23 +1,24 @@
 ﻿namespace IdentitySystem.Application;
 
-public interface IContractBase<TEntity, TEId>
-    where TEntity : class, IEntity<TEId>
+public interface IContractBase<TOutputEntity, TInputEntity, TEId>
+    where TOutputEntity : IEntity<TEId>
+    where TInputEntity : IEntity<TEId>
 {
-    Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default);
+    Task<IEnumerable<TOutputEntity>> FindAllAsync(Expression<Func<TInputEntity, bool>>? predicate = null, CancellationToken cancellationToken = default);
 
-    Task<TEntity?> FindByIdAsync(TEId id, CancellationToken cancellationToken = default!, bool isQuickFind = true);
+    Task<TOutputEntity?> FindByIdAsync(TEId id, CancellationToken cancellationToken = default!, bool isQuickFind = true);
 
-    Task AddAsync(TEntity entity, CancellationToken cancellationToken = default!);
+    Task AddAsync(TInputEntity entity, CancellationToken cancellationToken = default!);
 
-    Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default!);
+    Task AddRangeAsync(IEnumerable<TInputEntity> entities, CancellationToken cancellationToken = default!);
 
-    Task AddRangeAsync(CancellationToken cancellationToken = default!, params TEntity[] entities);
+    Task AddRangeAsync(CancellationToken cancellationToken = default!, params TInputEntity[] entities);
 
-    Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default!);
+    Task UpdateAsync(TInputEntity entity, CancellationToken cancellationToken = default!);
 
-    Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default!);
+    Task DeleteAsync(TInputEntity entity, CancellationToken cancellationToken = default!);
 
     Task DeleteByIdAsync(TEId id, CancellationToken cancellationToken = default!);
 
-    Task DeleteRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default!);
+    Task DeleteRangeAsync(IEnumerable<TInputEntity> entities, CancellationToken cancellationToken = default!);
 }

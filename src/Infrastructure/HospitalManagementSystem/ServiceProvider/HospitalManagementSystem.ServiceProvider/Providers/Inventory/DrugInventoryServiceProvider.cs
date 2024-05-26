@@ -1,9 +1,10 @@
 ﻿using CoreDrugInventory = HospitalManagementSystem.Domain.DrugInventory;
-using DTODrugInventory = HospitalManagementSystem.Application.DrugInventoryDTO;
+using DTODrugInventoryIn = HospitalManagementSystem.Application.InputDrugInventoryDTO;
+using DTODrugInventoryOut = HospitalManagementSystem.Application.OutputDrugInventoryDTO;
 
 namespace HospitalManagementSystem.ServiceProvider;
 
-public class DrugInventoryServiceProvider : ServiceProviderBase<DTODrugInventory, CoreDrugInventory>, IDrugInventoryServiceProvider
+public class DrugInventoryServiceProvider : ServiceProviderBase<DTODrugInventoryOut, DTODrugInventoryIn, CoreDrugInventory>, IDrugInventoryServiceProvider
 {
     public DrugInventoryServiceProvider(IDrugInventoryDataProvider dataProvider, IMapper mapper) : base(dataProvider, mapper)
     {

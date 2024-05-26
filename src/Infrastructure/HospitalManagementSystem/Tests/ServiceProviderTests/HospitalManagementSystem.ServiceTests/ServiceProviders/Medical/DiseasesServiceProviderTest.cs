@@ -22,7 +22,7 @@ public class DiseasesServiceProviderTest : ServiceProviderTestBase
     public async void AddAsync_Success()
     {
         // Arrange
-        var diseasesDtoAdd = Fixture.Build<DiseasesDTO>()
+        var diseasesDtoAdd = Fixture.Build<InputDiseasesDTO>()
                                  .With(i => i.Id, Guid.NewGuid().ToString())
                                  .Create();
         var diseasesAdd = Mapper.Map<Domain.Diseases>(diseasesDtoAdd);
@@ -39,12 +39,12 @@ public class DiseasesServiceProviderTest : ServiceProviderTestBase
     public async void AddAsync_EntityIsNull_Exception()
     {
         //Arrange
-        var diseasesDtoAdd = default(DiseasesDTO);
+        var diseasesDtoAdd = default(InputDiseasesDTO);
         var diseasesAdd = Mapper.Map<Domain.Diseases>(diseasesDtoAdd);
         DataProvider.Setup(dp => dp.AddAsync(It.IsAny<Domain.Diseases>(), It.IsAny<CancellationToken>())).Throws<Exception>();
 
         //Act
-        var add = async () => await ServiceProvider.AddAsync(diseasesDtoAdd);
+        var add = async () => await ServiceProvider.AddAsync(diseasesDtoAdd!);
 
         //Assert
         await Assert.ThrowsAsync<ArgumentNullException>(add);
@@ -57,11 +57,11 @@ public class DiseasesServiceProviderTest : ServiceProviderTestBase
     public async Task UpdateAsync_Success()
     {
         // Arrange
-        var diseasesDtoAdd = Fixture.Build<DiseasesDTO>()
+        var diseasesDtoAdd = Fixture.Build<InputDiseasesDTO>()
                                     .With(i => i.Id, Guid.NewGuid().ToString())
                                     .Create();
 
-        var diseasesDtoUpdate = Fixture.Build<DiseasesDTO>()
+        var diseasesDtoUpdate = Fixture.Build<InputDiseasesDTO>()
                                     .With(i => i.Id, diseasesDtoAdd.Id)
                                     .Create();
         var diseasesUpdate = Mapper.Map<Domain.Diseases>(diseasesDtoUpdate);
@@ -77,9 +77,10 @@ public class DiseasesServiceProviderTest : ServiceProviderTestBase
     public async void UpdateAsync_NotFound_Exception()
     {
         // Arrange
-        var diseasesDtoUpdate = Fixture.Build<DiseasesDTO>()
+        var diseasesDtoUpdate = Fixture.Build<InputDiseasesDTO>()
                                        .With(i => i.Id, Guid.NewGuid().ToString())
                                        .Create();
+
         var diseasesUpdate = Mapper.Map<Domain.Diseases>(diseasesDtoUpdate);
         DataProvider.Setup(x => x.UpdateAsync(diseasesUpdate, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
@@ -95,12 +96,12 @@ public class DiseasesServiceProviderTest : ServiceProviderTestBase
     public async void UpdateAsync_EntityIsNull_Exception()
     {
         // Arrange
-        var diseasesDtoUpdate = default(DiseasesDTO);
+        var diseasesDtoUpdate = default(InputDiseasesDTO);
         var diseasesUpdate = Mapper.Map<Domain.Diseases>(diseasesDtoUpdate);
         DataProvider.Setup(x => x.UpdateAsync(It.IsAny<Domain.Diseases>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
         // Act
-        var update = async () => await ServiceProvider.UpdateAsync(diseasesDtoUpdate);
+        var update = async () => await ServiceProvider.UpdateAsync(diseasesDtoUpdate!);
 
         // Assert
         await Assert.ThrowsAsync<ArgumentNullException>(update);

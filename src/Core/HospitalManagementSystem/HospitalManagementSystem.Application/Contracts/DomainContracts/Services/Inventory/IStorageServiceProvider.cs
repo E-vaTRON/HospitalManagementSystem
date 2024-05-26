@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IStorageServiceProvider : IServiceProviderBase<StorageDTO, string>
+public interface IStorageServiceProvider : IServiceProviderBase<OutputStorageDTO, InputStorageDTO, string>
 {
 }

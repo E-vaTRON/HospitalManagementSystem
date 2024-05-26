@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IDrugPrescriptionServiceProvider : IServiceProviderBase<DrugPrescriptionDTO, string>
+public interface IDrugPrescriptionServiceProvider : IServiceProviderBase<OutputDrugPrescriptionDTO, InputDrugPrescriptionDTO, string>
 {
 }

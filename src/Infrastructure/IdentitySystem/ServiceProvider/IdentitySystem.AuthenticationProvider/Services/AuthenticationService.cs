@@ -32,8 +32,8 @@ public class AuthenticationService : IAuthenticationService
     {
         //Guard.IsNotNull(dto);
 
-        var user = await UserServiceProvider.FindByNameAsync(dto.username);
-        if (user is null)
+        var userDtoOut = await UserServiceProvider.FindByNameAsync(dto.username);
+        if (userDtoOut is null)
             return new ServiceError(nameof(AuthenticationService), nameof(Login))
             {
                 ErrorMessage = IdentityConstants.USER_NOT_FOUND,
@@ -41,7 +41,8 @@ public class AuthenticationService : IAuthenticationService
                 EventOccuredAt = DateTime.Now
             };
 
-        var passwordCheck = await UserServiceProvider.CheckPasswordSignInAsync(user, dto.password, LoginMode.Email, false);
+        var userDtoIn = Mapper.Map<InputUserDTO>(userDtoOut);
+        var passwordCheck = await UserServiceProvider.CheckPasswordSignInAsync(userDtoIn, dto.password, LoginMode.Email, false);
         if (!passwordCheck.Succeeded)
             return new ServiceError(nameof(AuthenticationService), nameof(Login))
             {
@@ -52,8 +53,7 @@ public class AuthenticationService : IAuthenticationService
 
         var requestAt = DateTime.UtcNow;
         var expiredIn = requestAt.AddDays(1);   // TODO: define expire time
-        var userDto = Mapper.Map<UserCreateDTO>(user);
-        var accessToken = JwtTokenService.GenerateToken(userDto, requestAt, expiredIn);
+        var accessToken = JwtTokenService.GenerateToken(userDtoIn, requestAt, expiredIn);
         // TODO: define refresh token
 
 
@@ -61,7 +61,7 @@ public class AuthenticationService : IAuthenticationService
         {
             SuccessMessage = IdentityConstants.USER_LOGGED_IN_SUCCESSFULLY,
             EventOccuredAt = DateTime.UtcNow,
-            AttachedData = new AuthenticatedResponse(user.Id, requestAt, accessToken, expiredIn)
+            AttachedData = new AuthenticatedResponse(userDtoIn.Id, requestAt, accessToken, expiredIn)
         };
     }
 
@@ -71,15 +71,17 @@ public class AuthenticationService : IAuthenticationService
     {
         //Guard.IsNotNull(dto);
 
-        var user = await UserServiceProvider.FindByPhoneNumberAsync(dto.phoneNumber);
-        if (user is null)
+        var userDtoOut = await UserServiceProvider.FindByPhoneNumberAsync(dto.phoneNumber);
+        if (userDtoOut is null)
             return new ServiceError(nameof(AuthenticationService), nameof(LoginWithPhoneNumber))
             {
                 ErrorMessage = IdentityConstants.USER_NOT_FOUND,
                 ErrorCode = nameof(IdentityConstants.USER_NOT_FOUND),
                 EventOccuredAt = DateTime.Now
             };
-        var passwordCheck = await UserServiceProvider.CheckPasswordSignInAsync(user, dto.password, LoginMode.PhoneNumber, false);
+
+        var userDtoIn = Mapper.Map<InputUserDTO>(userDtoOut);
+        var passwordCheck = await UserServiceProvider.CheckPasswordSignInAsync(userDtoIn, dto.password, LoginMode.PhoneNumber, false);
         if (!passwordCheck.Succeeded)
             return new ServiceError(nameof(AuthenticationService), nameof(LoginWithPhoneNumber))
             {
@@ -89,14 +91,14 @@ public class AuthenticationService : IAuthenticationService
             };
         var requestAt = DateTime.UtcNow;
         var expiredIn = requestAt.AddDays(1);   // TODO: define expire time
-        var userDto = Mapper.Map<UserCreateDTO>(user);
-        var accessToken = JwtTokenService.GenerateToken(userDto, requestAt, expiredIn);
+
+        var accessToken = JwtTokenService.GenerateToken(userDtoIn, requestAt, expiredIn);
 
         return new ServiceSuccess(nameof(AuthenticationService), nameof(LoginWithPhoneNumber), consumerName)
         {
             SuccessMessage = IdentityConstants.USER_LOGGED_IN_WITH_PHONE_NUMBER_SUCCESSFULLY,
             EventOccuredAt = DateTime.UtcNow,
-            AttachedData = new AuthenticatedResponse(user.Id, requestAt, accessToken, expiredIn)
+            AttachedData = new AuthenticatedResponse(userDtoIn.Id, requestAt, accessToken, expiredIn)
         };
     }
 
@@ -106,7 +108,7 @@ public class AuthenticationService : IAuthenticationService
 
         await DatabaseServiceProvider.BeginTransactionAsync(cancellationToken);
 
-        UserCreateDTO userCreateDto = new()
+        InputUserDTO userCreateDto = new()
         {
             Email = dto.email ?? dto.email,
             UserName = dto.userName,
@@ -115,7 +117,7 @@ public class AuthenticationService : IAuthenticationService
             PhoneNumber = dto.phoneNumber ?? dto.phoneNumber
         };
         userCreateDto.CreatedOn = DateTime.UtcNow;
-        var userDto = Mapper.Map<UserDTO>(userCreateDto);
+        var userDto = Mapper.Map<InputUserDTO>(userCreateDto);
         var createResult = await UserServiceProvider.CreateAsync(userDto, dto.password);
 
         if (createResult.Errors.Any())

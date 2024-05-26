@@ -1,9 +1,10 @@
 ﻿using CoreMedicalDevice = HospitalManagementSystem.Domain.MedicalDevice;
-using DTOMedicalDevice = HospitalManagementSystem.Application.MedicalDeviceDTO;
+using DTOMedicalDeviceIn = HospitalManagementSystem.Application.InputMedicalDeviceDTO;
+using DTOMedicalDeviceOut = HospitalManagementSystem.Application.OutputMedicalDeviceDTO;
 
 namespace HospitalManagementSystem.ServiceProvider;
 
-public class MedicalDeviceServiceProvider : ServiceProviderBase<DTOMedicalDevice, CoreMedicalDevice>, IMedicalDeviceServiceProvider
+public class MedicalDeviceServiceProvider : ServiceProviderBase<DTOMedicalDeviceOut, DTOMedicalDeviceIn, CoreMedicalDevice>, IMedicalDeviceServiceProvider
 {
     public MedicalDeviceServiceProvider(IMedicalDeviceDataProvider dataProvider, IMapper mapper) : base(dataProvider, mapper)
     {

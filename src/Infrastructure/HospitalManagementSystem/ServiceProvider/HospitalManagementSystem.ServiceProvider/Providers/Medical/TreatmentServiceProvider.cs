@@ -1,9 +1,10 @@
 ﻿using CoreTreatment = HospitalManagementSystem.Domain.Treatment;
-using DTOTreatment = HospitalManagementSystem.Application.TreatmentDTO;
+using DTOTreatmentIn = HospitalManagementSystem.Application.InputTreatmentDTO;
+using DTOTreatmentOut = HospitalManagementSystem.Application.OutputTreatmentDTO;
 
 namespace HospitalManagementSystem.ServiceProvider;
 
-public class TreatmentServiceProvider : ServiceProviderBase<DTOTreatment, CoreTreatment>, ITreatmentServiceProvider
+public class TreatmentServiceProvider : ServiceProviderBase<DTOTreatmentOut, DTOTreatmentIn, CoreTreatment>, ITreatmentServiceProvider
 {
     public TreatmentServiceProvider(ITreatmentDataProvider dataProvider, IMapper mapper) : base(dataProvider, mapper)
     {

@@ -1,5 +1,4 @@
-﻿using IdentitySystem.Domain;
-using CoreRole = IdentitySystem.Domain.Role;
+﻿using CoreRole = IdentitySystem.Domain.Role;
 using DataRole = IdentitySystem.DataProvider.Role;
 
 namespace IdentitySystem.DataProvider;

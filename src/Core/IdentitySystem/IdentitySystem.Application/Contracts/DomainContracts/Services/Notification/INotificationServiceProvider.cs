@@ -1,5 +1,5 @@
 ﻿namespace IdentitySystem.Application;
 
-public interface INotificationServiceProvider
+public interface INotificationServiceProvider : IServiceProviderBase<OutputNotificationDTO, InputNotificationDTO, string>
 {
 }

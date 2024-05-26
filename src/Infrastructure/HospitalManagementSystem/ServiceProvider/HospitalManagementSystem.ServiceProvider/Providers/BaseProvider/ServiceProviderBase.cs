@@ -1,7 +1,8 @@
 ﻿namespace HospitalManagementSystem.ServiceProvider;
 
-public abstract class ServiceProviderBase<TDto, TDId, TEntity, TEId, TDataProvider> : IServiceProviderBase<TDto, TDId>
-    where TDto : class, Application.IDataObject<TDId>
+public abstract class ServiceProviderBase<TOutputDto, TInputDto, TDId, TEntity, TEId, TDataProvider> : IServiceProviderBase<TOutputDto, TInputDto, TDId>
+    where TOutputDto : class, Application.IDataObject<TDId>
+    where TInputDto : class, Application.IDataObject<TDId>
     where TEntity : class, IEntity<TEId>
     where TDataProvider : IDataProviderBase<TEntity, TEId>
 {
@@ -25,41 +26,41 @@ public abstract class ServiceProviderBase<TDto, TDId, TEntity, TEId, TDataProvid
         => Mapper.Map<TEId>(id);
 
     [DebuggerStepThrough]
-    protected virtual TEntity? MapToEntity(TDto? dto)
+    protected virtual TEntity? MapToEntity(TInputDto? dto)
         => Mapper.Map<TEntity?>(dto);
 
     [DebuggerStepThrough]
-    protected virtual TDto? MapToDTO(TEntity? dbEntity)
-        => Mapper.Map<TDto?>(dbEntity);
+    protected virtual TOutputDto? MapToDTO(TEntity? dbEntity)
+        => Mapper.Map<TOutputDto?>(dbEntity);
 
     [DebuggerStepThrough]
-    protected virtual IEnumerable<TEntity> MapToEntities(IEnumerable<TDto?> dtos)
+    protected virtual IEnumerable<TEntity> MapToEntities(IEnumerable<TInputDto?> dtos)
         => Mapper.Map<IEnumerable<TEntity>>(dtos);
 
     [DebuggerStepThrough]
-    protected virtual TEntity[] MapToEntities(params TDto[] dtos)
+    protected virtual TEntity[] MapToEntities(params TInputDto[] dtos)
         => Mapper.Map<TEntity[]>(dtos);
 
     [DebuggerStepThrough]
-    protected virtual IEnumerable<TDto> MapToDTOs(IEnumerable<TEntity?> entities)
-        => Mapper.Map<IEnumerable<TDto>>(entities);
+    protected virtual IEnumerable<TOutputDto> MapToDTOs(IEnumerable<TEntity?> entities)
+        => Mapper.Map<IEnumerable<TOutputDto>>(entities);
 
     [DebuggerStepThrough]
-    protected virtual Expression<Func<TEntity, bool>> MapToEntityPredicate(Expression<Func<TDto, bool>>? dtoPredicate)
+    protected virtual Expression<Func<TEntity, bool>> MapToEntityPredicate(Expression<Func<TInputDto, bool>>? dtoPredicate)
         => Mapper.Map<Expression<Func<TEntity, bool>>>(dtoPredicate);
     #endregion
 
     #endregion
 
     #region [ Public Method ]
-    public virtual async Task<IEnumerable<TDto>> FindAllAsync(Expression<Func<TDto, bool>>? dtoPredicate = null, CancellationToken cancellationToken = default)
+    public virtual async Task<IEnumerable<TOutputDto>> FindAllAsync(Expression<Func<TInputDto, bool>>? dtoPredicate = null, CancellationToken cancellationToken = default)
     {
         var entityPredicate = dtoPredicate != null ? MapToEntityPredicate(dtoPredicate) : null;
         var entities = await DataProvider.FindAllAsync(entityPredicate, cancellationToken);
         return MapToDTOs(entities);
     }
 
-    public virtual async Task<TDto?> FindByIdAsync(TDId? id, CancellationToken cancellationToken = default, bool isQuickFind = true)
+    public virtual async Task<TOutputDto?> FindByIdAsync(TDId? id, CancellationToken cancellationToken = default, bool isQuickFind = true)
     {
         if (id == null)
             ArgumentNullException.ThrowIfNull(id, "Id Is null");
@@ -71,35 +72,35 @@ public abstract class ServiceProviderBase<TDto, TDId, TEntity, TEId, TDataProvid
         return MapToDTO(entity);
     }
 
-    public Task AddAsync(TDto? dto, CancellationToken cancellationToken = default)
+    public Task AddAsync(TInputDto? dto, CancellationToken cancellationToken = default)
     {
         var entity = MapToEntity(dto);
         ArgumentNullException.ThrowIfNull(entity, nameof(entity));
         return DataProvider.AddAsync(entity, cancellationToken);
     }
 
-    public Task AddRangeAsync(IEnumerable<TDto> dtos, CancellationToken cancellationToken = default)
+    public Task AddRangeAsync(IEnumerable<TInputDto> dtos, CancellationToken cancellationToken = default)
     {
         var entities = MapToEntities(dtos);
         ArgumentNullException.ThrowIfNull(entities, nameof(entities));
         return DataProvider.AddRangeAsync(entities, cancellationToken);
     }
 
-    public Task AddRangeAsync(CancellationToken cancellationToken = default, params TDto[] dtos)
+    public Task AddRangeAsync(CancellationToken cancellationToken = default, params TInputDto[] dtos)
     {
         var entities = MapToEntities(dtos);
         ArgumentNullException.ThrowIfNull(entities, nameof(entities));
         return DataProvider.AddRangeAsync(cancellationToken, entities);
     }
 
-    public Task UpdateAsync(TDto? dto, CancellationToken cancellationToken = default)
+    public Task UpdateAsync(TInputDto? dto, CancellationToken cancellationToken = default)
     {
         var entity = MapToEntity(dto);
         ArgumentNullException.ThrowIfNull(entity, nameof(entity));
         return DataProvider.UpdateAsync(entity, cancellationToken);
     }
 
-    public Task DeleteAsync(TDto dto, CancellationToken cancellationToken = default)
+    public Task DeleteAsync(TInputDto dto, CancellationToken cancellationToken = default)
     {
         var entity = MapToEntity(dto);
         ArgumentNullException.ThrowIfNull(entity, nameof(entity));
@@ -113,7 +114,7 @@ public abstract class ServiceProviderBase<TDto, TDId, TEntity, TEId, TDataProvid
         return DataProvider.DeleteByIdAsync(dId, cancellationToken);
     }
 
-    public Task DeleteRangeAsync(IEnumerable<TDto> dtos, CancellationToken cancellationToken = default)
+    public Task DeleteRangeAsync(IEnumerable<TInputDto> dtos, CancellationToken cancellationToken = default)
     {
         var entities = MapToEntities(dtos);
         ArgumentNullException.ThrowIfNull(entities, nameof(entities));
@@ -122,9 +123,10 @@ public abstract class ServiceProviderBase<TDto, TDId, TEntity, TEId, TDataProvid
     #endregion
 }
 
-public abstract class ServiceProviderBase<TDto, TEntity>(IDataProviderBase<TEntity, string> dataProvider, IMapper mapper) 
-    : ServiceProviderBase<TDto, string, TEntity, string, IDataProviderBase<TEntity, string>>(dataProvider, mapper)
-    where TDto : class, Application.IDataObject<string> 
+public abstract class ServiceProviderBase<TOutputDto, TInputDto,  TEntity>(IDataProviderBase<TEntity, string> dataProvider, IMapper mapper) 
+    : ServiceProviderBase<TOutputDto, TInputDto, string, TEntity, string, IDataProviderBase<TEntity, string>>(dataProvider, mapper)
+    where TOutputDto : class, Application.IDataObject<string>
+    where TInputDto : class, Application.IDataObject<string> 
     where TEntity : class, Domain.IEntity<string>
 {
 }

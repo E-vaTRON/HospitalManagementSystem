@@ -1,9 +1,10 @@
 ﻿using CoreReferral = HospitalManagementSystem.Domain.Referral;
-using DTOReferral = HospitalManagementSystem.Application.ReferralDTO;
+using DTOReferralIn = HospitalManagementSystem.Application.InputReferralDTO;
+using DTOReferralOut = HospitalManagementSystem.Application.OutputReferralDTO;
 
 namespace HospitalManagementSystem.ServiceProvider;
 
-public class ReferralServiceProvider : ServiceProviderBase<DTOReferral, CoreReferral>, IReferralServiceProvider
+public class ReferralServiceProvider : ServiceProviderBase<DTOReferralOut, DTOReferralIn, CoreReferral>, IReferralServiceProvider
 {
     public ReferralServiceProvider(IReferralDataProvider dataProvider, IMapper mapper) : base(dataProvider, mapper)
     {

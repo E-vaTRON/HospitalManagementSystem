@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IICDCodeServiceProvider : IServiceProviderBase<ICDCodeDTO, string>
+public interface IICDCodeServiceProvider : IServiceProviderBase<OutputICDCodeDTO, InputICDCodeDTO, string>
 {
 }

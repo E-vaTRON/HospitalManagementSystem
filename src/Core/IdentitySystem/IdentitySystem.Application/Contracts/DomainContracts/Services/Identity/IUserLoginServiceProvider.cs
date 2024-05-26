@@ -1,5 +1,5 @@
 ﻿namespace IdentitySystem.Application;
 
-public interface IUserLoginServiceProvider : IServiceProviderBase<UserLoginDTO, string>
+public interface IUserLoginServiceProvider : IServiceProviderBase<OutputUserLoginDTO, InputUserLoginDTO, string>
 {
 }

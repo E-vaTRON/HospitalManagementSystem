@@ -3,14 +3,15 @@ using DataUser = IdentitySystem.DataProvider.User;
 
 namespace IdentitySystem.DataProvider;
 
-public class UserDataProvider : IUserDataProvider
+public class UserDataProvider : IdentityDataProviderBase<CoreUser, DataUser>, IUserDataProvider
 {
     #region [ Field ]
     private readonly IUserManagerProvider UserManagerProvider;
     #endregion
 
     #region [ CTor ]
-    public UserDataProvider(IUserManagerProvider userManagerProvider)
+    public UserDataProvider(IdentitySystemDbContext context, IUserManagerProvider userManagerProvider, IMapper mapper) 
+        : base(context, userManagerProvider, mapper)
     {
         UserManagerProvider = userManagerProvider;
     }
@@ -26,19 +27,19 @@ public class UserDataProvider : IUserDataProvider
     public async Task<IdentityResult> CreateAsync(CoreUser user, string password)
         => await UserManagerProvider.CreateAsync(user, password);
 
-    public async Task<IdentityResult> CreateAsync(CoreUser user)
-        => await UserManagerProvider.CreateAsync(user);
+    //public async Task<IdentityResult> CreateAsync(CoreUser user)
+    //    => await UserManagerProvider.CreateAsync(user);
     #endregion
 
     #region [ Read ]
-    public IQueryable<CoreUser> FindAll(Expression<Func<CoreUser, bool>>? predicate = null)
-        => UserManagerProvider.FindAll(predicate);
+    //public IQueryable<CoreUser> FindAll(Expression<Func<CoreUser, bool>>? predicate = null)
+    //    => UserManagerProvider.FindAll(predicate);
 
-    public async Task<IReadOnlyCollection<CoreUser>> FindByMultipleGuidsAsync(string[] userIds)
-        => await UserManagerProvider.FindByMultipleGuidsAsync(userIds);
+    //public async Task<IReadOnlyCollection<CoreUser>> FindByMultipleGuidsAsync(string[] userIds)
+    //    => await UserManagerProvider.FindByMultipleGuidsAsync(userIds);
 
-    public async Task<CoreUser?> FindByIdAsync(string userId)
-        => await UserManagerProvider.FindByIdAsync(userId);
+    //public async Task<CoreUser?> FindByIdAsync(string userId)
+    //    => await UserManagerProvider.FindByIdAsync(userId);
 
     public async Task<CoreUser?> FindByEmailAsync(string normalizedEmail)
         => await UserManagerProvider.FindByEmailAsync(normalizedEmail);
@@ -46,18 +47,18 @@ public class UserDataProvider : IUserDataProvider
     public async Task<CoreUser?> FindByPhoneNumberAsync(string phoneNumber)
         => await UserManagerProvider.FindByPhoneNumberAsync(phoneNumber);
 
-    public async Task<CoreUser?> FindByNameAsync(string normalizedUserName)
-        => await UserManagerProvider.FindByNameAsync(normalizedUserName);
+    //public async Task<CoreUser?> FindByNameAsync(string normalizedUserName)
+    //    => await UserManagerProvider.FindByNameAsync(normalizedUserName);
     #endregion
 
     #region [ Update ]
-    public async Task<IdentityResult> UpdateAsync(CoreUser user)
-        => await UserManagerProvider.UpdateAsync(user);
+    //public async Task<IdentityResult> UpdateAsync(CoreUser user)
+    //    => await UserManagerProvider.UpdateAsync(user);
     #endregion
 
     #region [ Delete ]
-    public async Task<IdentityResult> DeleteAsync(CoreUser user)
-        => await UserManagerProvider.DeleteAsync(user);
+    //public async Task<IdentityResult> DeleteAsync(CoreUser user)
+    //    => await UserManagerProvider.DeleteAsync(user);
     #endregion
 
     #region [ Role ]
@@ -72,14 +73,14 @@ public class UserDataProvider : IUserDataProvider
     #endregion
 
     #region [ Claim ]
-    public async Task<IList<Claim>> GetClaimsAsync(CoreUser user)
-        => await UserManagerProvider.GetClaimsAsync(user);
+    //public async Task<IList<Claim>> GetClaimsAsync(CoreUser user)
+    //    => await UserManagerProvider.GetClaimsAsync(user);
 
-    public async Task<IdentityResult> AddClaimAsync(CoreUser user, Claim claim)
-        => await UserManagerProvider.AddClaimAsync(user, claim);
+    //public async Task<IdentityResult> AddClaimAsync(CoreUser user, Claim claim)
+    //    => await UserManagerProvider.AddClaimAsync(user, claim);
 
-    public async Task<IdentityResult> RemoveClaimAsync(CoreUser user, Claim claim)
-        => await UserManagerProvider.RemoveClaimAsync(user, claim);
+    //public async Task<IdentityResult> RemoveClaimAsync(CoreUser user, Claim claim)
+    //    => await UserManagerProvider.RemoveClaimAsync(user, claim);
     #endregion
 
     #region [ Password ]

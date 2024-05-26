@@ -1,9 +1,13 @@
-﻿namespace HospitalManagementSystem.REST;
+﻿using DTOBookingAppointmentIn = HospitalManagementSystem.Application.InputBookingAppointmentDTO;
+using DTOBookingAppointmentOut = HospitalManagementSystem.Application.OutputBookingAppointmentDTO;
 
-public class BookingAppointmentController : BaseHMSController<BookingAppointmentDTO>
+
+namespace HospitalManagementSystem.REST;
+
+public class BookingAppointmentController : BaseHMSController<DTOBookingAppointmentOut, DTOBookingAppointmentIn>
 {
     #region [ CTor ]
-    public BookingAppointmentController(IBookingAppointmentServiceProvider serviceProvider ) : base( serviceProvider )
+    public BookingAppointmentController(IBookingAppointmentServiceProvider serviceProvider ) : base(serviceProvider)
     {
     }
     #endregion

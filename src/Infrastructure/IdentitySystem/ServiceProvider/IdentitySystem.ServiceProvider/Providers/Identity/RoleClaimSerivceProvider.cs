@@ -1,14 +1,12 @@
 ﻿using CoreRoleClaim = IdentitySystem.Domain.RoleClaim;
-using DTORoleClaim = IdentitySystem.Application.RoleClaimDTO;
-
+using DTORoleClaimIn = IdentitySystem.Application.InputRoleClaimDTO;
+using DTORoleClaimOut = IdentitySystem.Application.OutputRoleClaimDTO;
 
 namespace IdentitySystem.ServiceProvider;
 
-public class RoleClaimSerivceProvider : ServiceProviderIntBase<DTORoleClaim, CoreRoleClaim>, IRoleClaimSerivceProvider
+public class RoleClaimServiceProvider : ServiceProviderIntBase<DTORoleClaimOut, DTORoleClaimIn, CoreRoleClaim>, IRoleClaimServiceProvider
 {
-    #region [ CTor ]
-    public RoleClaimSerivceProvider(IRoleClaimDataProvider dataProvider, IMapper mapper) : base(dataProvider, mapper)
+    public RoleClaimServiceProvider(IRoleClaimDataProvider dataProvider, IMapper mapper) : base(dataProvider, mapper)
     {
     }
-    #endregion
 }

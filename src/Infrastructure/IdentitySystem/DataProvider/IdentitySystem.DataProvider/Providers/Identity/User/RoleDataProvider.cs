@@ -3,14 +3,15 @@ using DataRole = IdentitySystem.DataProvider.Role;
 
 namespace IdentitySystem.DataProvider;
 
-public class RoleDataProvider : IRoleDataProvider
+public class RoleDataProvider : IdentityDataProviderBase<CoreRole, DataRole>, IRoleDataProvider
 {
     #region [ Field ]
     private readonly IRoleManagerProvider RoleManagerProvider;
     #endregion
 
     #region [ CTor ]
-    public RoleDataProvider(IRoleManagerProvider roleManagerProvider)
+    public RoleDataProvider(IdentitySystemDbContext context, IRoleManagerProvider roleManagerProvider, IMapper mapper) 
+        : base (context, roleManagerProvider, mapper)
     {
         RoleManagerProvider = roleManagerProvider;
     }
@@ -23,8 +24,8 @@ public class RoleDataProvider : IRoleDataProvider
     #endregion
 
     #region [ Create ]
-    public async Task<IdentityResult> CreateAsync(CoreRole role)
-        => await RoleManagerProvider.CreateAsync(role);
+    //public async Task<IdentityResult> CreateAsync(CoreRole role)
+    //    => await RoleManagerProvider.CreateAsync(role);
     #endregion
 
     #region [ Check ]
@@ -33,38 +34,38 @@ public class RoleDataProvider : IRoleDataProvider
     #endregion
 
     #region [ Read ]
-    public IQueryable<CoreRole> FindAll(Expression<Func<CoreRole, bool>>? predicate = null)
-        => RoleManagerProvider.FindAll(predicate);
+    //public IQueryable<CoreRole> FindAll(Expression<Func<CoreRole, bool>>? predicate = null)
+    //    => RoleManagerProvider.FindAll(predicate);
 
-    public async Task<IReadOnlyCollection<CoreRole>> FindByMultipleGuidsAsync(string[] userIds)
-        => await RoleManagerProvider.FindByMultipleGuidsAsync(userIds);
+    //public async Task<IReadOnlyCollection<CoreRole>> FindByMultipleGuidsAsync(string[] userIds)
+    //    => await RoleManagerProvider.FindByMultipleGuidsAsync(userIds);
 
-    public async Task<CoreRole?> FindByIdAsync(string roleId)
-        => await RoleManagerProvider.FindByIdAsync(roleId);
+    //public async Task<CoreRole?> FindByIdAsync(string roleId)
+    //    => await RoleManagerProvider.FindByIdAsync(roleId);
 
-    public async Task<CoreRole?> FindByNameAsync(string normalizedRoleName)
-        => await RoleManagerProvider.FindByNameAsync(normalizedRoleName);
+    //public async Task<CoreRole?> FindByNameAsync(string normalizedRoleName)
+    //    => await RoleManagerProvider.FindByNameAsync(normalizedRoleName);
     #endregion
 
     #region [ Update ]
-    public async Task<IdentityResult> UpdateAsync(CoreRole role)
-        => await RoleManagerProvider.UpdateAsync(role);
+    //public async Task<IdentityResult> UpdateAsync(CoreRole role)
+    //    => await RoleManagerProvider.UpdateAsync(role);
     #endregion
 
     #region [ Delete ]
-    public async Task<IdentityResult> DeleteAsync(CoreRole role)
-        => await RoleManagerProvider.DeleteAsync(role);
+    //public async Task<IdentityResult> DeleteAsync(CoreRole role)
+    //    => await RoleManagerProvider.DeleteAsync(role);
     #endregion
 
     #region [ Claim ]
-    public async Task<IList<Claim>> GetClaimsAsync(CoreRole role)
-        => await RoleManagerProvider.GetClaimsAsync(role);
+    //public async Task<IList<Claim>> GetClaimsAsync(CoreRole role)
+    //    => await RoleManagerProvider.GetClaimsAsync(role);
 
-    public async Task<IdentityResult> AddClaimAsync(CoreRole role, Claim claim)
-        => await RoleManagerProvider.AddClaimAsync(role, claim);
+    //public async Task<IdentityResult> AddClaimAsync(CoreRole role, Claim claim)
+    //    => await RoleManagerProvider.AddClaimAsync(role, claim);
 
-    public async Task<IdentityResult> RemoveClaimAsync(CoreRole role, Claim claim)
-        => await RoleManagerProvider.RemoveClaimAsync(role, claim);
+    //public async Task<IdentityResult> RemoveClaimAsync(CoreRole role, Claim claim)
+    //    => await RoleManagerProvider.RemoveClaimAsync(role, claim);
     #endregion
     #endregion
 }

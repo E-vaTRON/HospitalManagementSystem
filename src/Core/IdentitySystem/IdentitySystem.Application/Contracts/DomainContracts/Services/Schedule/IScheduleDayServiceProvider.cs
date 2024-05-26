@@ -1,5 +1,5 @@
 ﻿namespace IdentitySystem.Application;
 
-public interface IScheduleDayServiceProvider
+public interface IScheduleDayServiceProvider : IServiceProviderBase<OutputScheduleDayDTO, InputScheduleDayDTO, string>
 {
 }

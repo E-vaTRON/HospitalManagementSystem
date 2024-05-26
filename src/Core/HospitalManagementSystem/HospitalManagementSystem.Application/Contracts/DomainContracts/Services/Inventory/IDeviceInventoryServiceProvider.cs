@@ -1,5 +1,5 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public interface IDeviceInventoryServiceProvider : IServiceProviderBase<DeviceInventoryDTO, string>
+public interface IDeviceInventoryServiceProvider : IServiceProviderBase<OutputDeviceInventoryDTO, InputDeviceInventoryDTO, string>
 {
 }
