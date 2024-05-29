@@ -398,3 +398,4 @@ FodyWeavers.xsd
 /src/Infrastructure/IdentitySystem/DataProvider/IdentitySystem.Context/Migrations/20240519175113_Initial.cs
 /src/Infrastructure/IdentitySystem/DataProvider/IdentitySystem.Context/Migrations/IdentitySystemDbContextModelSnapshot.cs
 /src/Infrastructure/IdentitySystem/DataProvider/IdentitySystem.Context/Migrations/20240519182801_Initial.cs
+/src/Presentation/UI/HospitalManagementSystem.View.Blazor/appsettings.json
