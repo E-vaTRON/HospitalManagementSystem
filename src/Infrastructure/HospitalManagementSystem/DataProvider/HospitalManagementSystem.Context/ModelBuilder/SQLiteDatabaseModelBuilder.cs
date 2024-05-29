@@ -63,6 +63,8 @@ public class SQLiteDatabaseModelBuilder
         this.MedicalDeviceModelBuilder(modelBuilder);
         this.ServiceModelBuilder(modelBuilder);
         this.AnalysisTestModelBuilder(modelBuilder);
+
+        this.BillModelBuilder(modelBuilder);
     }
     #endregion
 
@@ -635,6 +637,11 @@ public class SQLiteDatabaseModelBuilder
                     .WithOne(ah => ah.MedicalExamEpisode);
 
         modelBuilder.Entity<MedicalExamEpisode>()
+                    .HasOne(mee => mee.Bill)
+                    .WithOne(b => b.MedicalExamEpisode)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<MedicalExamEpisode>()
                     .HasOne(mee => mee.MedicalExam)
                     .WithMany(me => me.MedicalExamEpisodes)
                     .HasForeignKey(mee => mee.MedicalExamId);
@@ -675,6 +682,8 @@ public class SQLiteDatabaseModelBuilder
     #region [ Medical Device ]
     private void DeviceServiceModelBuilder(ModelBuilder modelBuilder)
     {
+        this.BaseModelBuilder<DeviceService>(modelBuilder, nameof(DeviceService));
+
         modelBuilder.Entity<DeviceService>()
                     .HasOne(ds => ds.DeviceInventory)
                     .WithMany(di => di.DeviceServices)
@@ -687,9 +696,10 @@ public class SQLiteDatabaseModelBuilder
                     .HasForeignKey(ds => ds.ServiceId)
                     .OnDelete(DeleteBehavior.Cascade);
     }
-
     private void MedicalDeviceModelBuilder(ModelBuilder modelBuilder)
     {
+        this.BaseModelBuilder<MedicalDevice>(modelBuilder, nameof(MedicalDevice));
+
         modelBuilder.Entity<MedicalDevice>()
                     .Property(x => x.Name)
                     .HasColumnType("TEXT")
@@ -719,9 +729,10 @@ public class SQLiteDatabaseModelBuilder
                     .Property(x => x.Max)
                     .HasColumnType("INTEGER");
     }
-
     private void ServiceModelBuilder(ModelBuilder modelBuilder)
     {
+        this.BaseModelBuilder<Service>(modelBuilder, nameof(Service));
+
         modelBuilder.Entity<Service>()
                     .Property(x => x.Name)
                     .HasColumnType("TEXT")
@@ -781,5 +792,57 @@ public class SQLiteDatabaseModelBuilder
     }
     #endregion
 
+    #region [ Transaction ]
+    public void BillModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<Bill>(modelBuilder, nameof(Bill));
+        // Configure the Bill entity
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.Deadline)
+                    .IsRequired();
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.PaidDate);
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.Status)
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.TotalAmount)
+                    .HasColumnType("REAL") // Use REAL for floating-point numbers
+                    .IsRequired();
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.ExcessAmount)
+                    .HasColumnType("REAL");
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.UnderPaidAmount)
+                    .HasColumnType("REAL");
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.DiscountAmount)
+                    .HasColumnType("REAL");
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.AdjustmentAmount)
+                    .HasColumnType("REAL");
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.PaymentMethod)
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.Notes);
+
+        // Configure the relationship with MedicalExamEpisode
+        modelBuilder.Entity<Bill>()
+                    .HasOne(b => b.MedicalExamEpisode)
+                    .WithOne(mee => mee.Bill)
+                    .HasForeignKey<Bill>(b => b.MedicalExamEpisodeId)
+                    .OnDelete(DeleteBehavior.Cascade);
+    }
+    #endregion
     #endregion
 }

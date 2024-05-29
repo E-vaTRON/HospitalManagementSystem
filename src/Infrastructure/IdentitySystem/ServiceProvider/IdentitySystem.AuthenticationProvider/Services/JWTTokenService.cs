@@ -5,13 +5,13 @@ namespace IdentitySystem.ServiceProvider;
 public class JWTTokenService : IJwtTokenService
 {
     #region [ Fields ]
-    private readonly JwtTokenConfig tokenConfig;
+    private readonly JwtTokenConfig TokenConfig;
     #endregion
 
     #region [CTor]
     public JWTTokenService( IOptionsMonitor<JwtTokenConfig> tokenConfigOptionsAccessor)
     {
-        this.tokenConfig = tokenConfigOptionsAccessor.CurrentValue;
+        this.TokenConfig = tokenConfigOptionsAccessor.CurrentValue;
     }
     #endregion
 
@@ -29,12 +29,12 @@ public class JWTTokenService : IJwtTokenService
             // TODO: add more user's claims
             );
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfig.Key));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(TokenConfig.Key));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var securityToken = handler.CreateToken(new SecurityTokenDescriptor
         {
-            Issuer = tokenConfig.Issuer,
+            Issuer = TokenConfig.Issuer,
             Audience = "",  // TODO: client's name/id
             SigningCredentials = creds,
             Subject = identity,

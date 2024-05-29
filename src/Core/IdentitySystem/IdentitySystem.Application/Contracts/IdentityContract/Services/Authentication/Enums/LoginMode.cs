@@ -2,5 +2,5 @@
 
 public enum LoginMode
 {
-    Email, PhoneNumber
+    UserName, Email, PhoneNumber
 }

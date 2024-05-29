@@ -82,6 +82,8 @@ public static class ServiceExtension
                 .AddTransient<IDeviceServiceServiceProvider,    DeviceServiceServiceProvider>()
                 .AddTransient<IMedicalDeviceServiceProvider,    MedicalDeviceServiceProvider>()
                 .AddTransient<IServiceServiceProvider,          ServiceServiceProvider>();
+
+        services.AddTransient<IBillServiceProvider, BillServiceProvider>();
     }
 
 

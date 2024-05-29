@@ -1,0 +1,39 @@
+﻿@page "/"
+@page "/login"
+@namespace HospitalManagementSystem.Blazor
+@inherits LayoutComponentBase
+@rendermode InteractiveServer
+
+<FluentDesignTheme OfficeColor="OfficeColor.Sway">
+<div style="display: flex; align-items: center; justify-content: center; height: 100vh; width: 100vw;">
+
+    <FluentCard Width="300px" Height="450px">
+            <FluentStack Orientation="Microsoft.FluentUI.AspNetCore.Components.Orientation.Vertical" HorizontalGap="15">
+            <div style="display: flex; justify-content: center;">
+                <img src="https://lba4storageaccount.blob.core.windows.net/generalfiles/lbalogo.png" alt="Logo" style="width: 100px; height: 100px;">
+            </div>
+            <h3>Login</h3>
+                <EditForm Model=@State.LoginMode OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                    <FluentStack Orientation="Microsoft.FluentUI.AspNetCore.Components.Orientation.Vertical" HorizontalGap="15">
+                    <div>
+                            <FluentTextField @bind-Value=State.LoginMode.LoginValue Label="Email:" TextFieldType="TextFieldType.Email" Style="width: 260px;" />
+                            <ValidationMessage For="@(() => State.LoginMode.LoginValue)" />
+                    </div>
+                    <div>
+                            <FluentTextField @bind-Value=State.LoginMode.Password Label="Password:" TextFieldType="TextFieldType.Password" Style="width: 260px;" />
+                            <ValidationMessage For="@(() => State.LoginMode.Password)" />
+                   </div>
+                        <FluentButton Appearance="Appearance.Accent" 
+                                      Type="Microsoft.FluentUI.AspNetCore.Components.ButtonType.Submit" 
+                                      Style="width: 260px;"
+                                      Loading="@State.IsBusy">Login</FluentButton>
+                </FluentStack>
+            </EditForm>
+        </FluentStack>
+    </FluentCard>
+    </div>
+</FluentDesignTheme>
+<FluentToastProvider @rendermode="RenderMode.InteractiveServer" />

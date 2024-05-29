@@ -12,6 +12,7 @@ public class MedicalExamEpisode : EntityBase
     public MedicalExam          MedicalExam         { get; set; } = default!;
 
     public ReExamAppointment?   ReExamAppointment   { get; set; }
+    public Bill                 Bill                { get; set; } = default!;
 
     public virtual ICollection<AssignmentHistory>       AssignmentHistories { get; set; } = new HashSet<AssignmentHistory>();
     public virtual ICollection<Diagnosis>               Diagnoses           { get; set; } = new HashSet<Diagnosis>();

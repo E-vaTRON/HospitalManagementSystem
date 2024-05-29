@@ -54,5 +54,7 @@ public partial class HospitalManagementSystemDbContext : DbContext
     public virtual DbSet<MedicalDevice>     MedicalDevices  { get; set; } = null!;
     public virtual DbSet<Service>           Services        { get; set; } = null!;
     public virtual DbSet<AnalysisTest>      AnalysisTests   { get; set; } = null!;
+
+    public virtual DbSet<Bill>              Bills           { get; set; } = null!;
     #endregion
 }

@@ -12,6 +12,7 @@ public class MedicalExamEpisode : ModelBase
     public MedicalExam          MedicalExam         { get; set; } = default!;
 
     public ReExamAppointment?   ReExamAppointment   { get; set; } // This is Principal Table
+    public Bill?                Bill                { get; set; }
 
     public virtual ICollection<AssignmentHistory>       AssignmentHistories     { get; set; } = new HashSet<AssignmentHistory>();
     public virtual ICollection<Diagnosis>               Diagnoses               { get; set; } = new HashSet<Diagnosis>();

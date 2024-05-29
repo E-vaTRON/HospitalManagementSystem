@@ -115,10 +115,18 @@ public class UserServiceProvider : IdentityServiceProviderBase<DTOUserOut, DTOUs
 
         switch (mode)
         {
-            case LoginMode.Email:
-                if (user.Email is not null)
+            case LoginMode.UserName:
+                if (user.NormalizedUserName is not null)
                 {
-                    var result = await UserDataProvider.FindByEmailAsync(user.Email);
+                    var result = await UserDataProvider.FindByNameAsync(user.NormalizedUserName);
+                    return result is not null ? await SignInProvider.CheckPasswordSignInAsync(result, password, lockoutOnFailure)
+                                              : SignInResult.Failed;
+                }
+                break;
+            case LoginMode.Email:
+                if (user.NormalizedEmail is not null)
+                {
+                    var result = await UserDataProvider.FindByEmailAsync(user.NormalizedEmail);
                     return result is not null ? await SignInProvider.CheckPasswordSignInAsync(result, password, lockoutOnFailure)
                                               : SignInResult.Failed;
                 }

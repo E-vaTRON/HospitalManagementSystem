@@ -1,6 +1,6 @@
 ﻿namespace IdentitySystem.Application;
 
-public record SignUp(string userName,
+public record SignUpRecord(string userName,
                      string password,
                      string firstName,
                      string lastName,
