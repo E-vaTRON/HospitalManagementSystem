@@ -2,5 +2,5 @@
 
 public record OutputBillDTO : BillDTO
 {
-    public MedicalExamEpisode? MedicalExamEpisode { get; init; }
+    public OutputMedicalExamEpisodeDTO? MedicalExamEpisodeDTO { get; init; }
 }

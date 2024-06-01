@@ -2,6 +2,6 @@
 
 public record OutputAssignmentHistoryDTO : AssignmentHistoryDTO
 {
-    public MedicalExamEpisodeDTO?   MedicalExamEpisodeDTO   { get; init; }
-    public ReferralDoctorDTO?       ReferralDoctorDTO       { get; init; }
+    public OutputMedicalExamEpisodeDTO?   MedicalExamEpisodeDTO   { get; init; }
+    public OutputReferralDoctorDTO?       ReferralDoctorDTO       { get; init; }
 }

@@ -5,6 +5,8 @@ public static class ServiceExtension
     #region [ Public Methods - Add ]
     public static void AddIdentitySystemServicesProvider(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddSingleton<ISServiceContext>();
+
         services.AddTransient<IDatabaseServiceProvider, DatabaseServiceProvider>();
 
         services.AddTransient<INotificationServiceProvider, NotificationServiceProvider>();

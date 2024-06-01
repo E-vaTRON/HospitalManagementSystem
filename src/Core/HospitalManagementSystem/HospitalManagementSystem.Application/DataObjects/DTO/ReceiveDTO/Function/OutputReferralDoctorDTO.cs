@@ -2,6 +2,6 @@
 
 public record OutputReferralDoctorDTO : ReferralDoctorDTO
 {
-    public ReferralDTO?             ReferralDTO             { get; init; }
-    public AssignmentHistoryDTO?    AssignmentHistoryDTO    { get; init; }
+    public OutputReferralDTO?             ReferralDTO             { get; init; }
+    public OutputAssignmentHistoryDTO?    AssignmentHistoryDTO    { get; init; }
 }

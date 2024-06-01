@@ -3,9 +3,9 @@
 
 <FluentCard Width="50" style="padding: 5px; margin-left: 15px" @rendermode="RenderMode.InteractiveServer">
     <FluentNavMenu Width="250" style="margin: 5px" Collapsible="true" @bind-Expanded="@IsExpanded" Title="HMS" @rendermode="RenderMode.InteractiveServer">
-        <FluentNavLink Href="/" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent">Home</FluentNavLink>
+        <FluentNavLink Href="/home" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent">Home</FluentNavLink>
         <FluentNavLink Href="/" Icon="@(new Icons.Regular.Size20.Megaphone())" IconColor="Color.Accent">Announcements</FluentNavLink>
-        <FluentNavLink Href="/" Icon="@(new Icons.Regular.Size20.People())" IconColor="Color.Accent">Members list</FluentNavLink>
+        <FluentNavLink Href="/patients" Icon="@(new Icons.Regular.Size20.People())" IconColor="Color.Accent">Patient List</FluentNavLink>
         <FluentNavLink Href="/" Icon="@(new Icons.Regular.Size20.ReceiptSparkles())" IconColor="Color.Accent">Bills</FluentNavLink>
         <FluentNavLink Href="/" Icon="@(new Icons.Regular.Size20.ReceiptMoney())" IconColor="Color.Accent">Collection</FluentNavLink>
         <FluentNavLink Href="/" Icon="@(new Icons.Regular.Size20.ServiceBell())" IconColor="Color.Accent">Services</FluentNavLink>

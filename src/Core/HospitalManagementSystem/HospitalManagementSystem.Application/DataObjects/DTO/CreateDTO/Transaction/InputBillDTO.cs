@@ -2,5 +2,5 @@
 
 public record InputBillDTO : BillDTO
 {
-    public Guid? MedicalExamEpisodeId { get; init; }
+    public string? MedicalExamEpisodeDTOId { get; init; }
 }

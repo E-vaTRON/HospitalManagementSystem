@@ -2,8 +2,8 @@
 
 public record OutputRoomDTO : RoomDTO
 {
-    public DepartmentDTO? DepartmentDTO { get; init; }
+    public OutputDepartmentDTO? DepartmentDTO { get; init; }
 
-    public ICollection<RoomAllocationDTO>? RoomAllocationDTOs { get; init; }
-    public ICollection<RoomAssignmentDTO>? RoomAssignmentDTOs { get; init; }
+    public ICollection<OutputRoomAllocationDTO>? RoomAllocationDTOs { get; init; }
+    public ICollection<OutputRoomAssignmentDTO>? RoomAssignmentDTOs { get; init; }
 }

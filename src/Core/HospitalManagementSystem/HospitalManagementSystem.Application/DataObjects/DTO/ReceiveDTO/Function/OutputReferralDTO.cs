@@ -2,7 +2,7 @@
 
 public record OutputReferralDTO : ReferralDTO
 {
-    public MedicalExamDTO? MedicalExamDTO { get; init; }
+    public OutputMedicalExamDTO? MedicalExamDTO { get; init; }
 
-    public ICollection<AssignmentHistoryDTO>? AssignmentHistoryDTOs { get; init; }
+    public ICollection<OutputAssignmentHistoryDTO>? AssignmentHistoryDTOs { get; init; }
 }

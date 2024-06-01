@@ -20,7 +20,6 @@ public class DataContext
         IDrugInventoryDataProvider drugInventoryDataProvider,
         IDrugDataProvider drugDataProvider,
         IDrugPrescriptionDataProvider drugPrescriptionDataProvider,
-        IGoodSupplingDataProvider goodSupplingDataProvider,
         IImportationDataProvider importationDataProvider,
         IStorageDataProvider storageDataProvider,
 
@@ -57,7 +56,6 @@ public class DataContext
         DrugInventories = drugInventoryDataProvider;
         Drugs = drugDataProvider;
         DrugPrescriptions = drugPrescriptionDataProvider;
-        GoodSupplings = goodSupplingDataProvider; 
         Importations = importationDataProvider;
         Storages = storageDataProvider;
 
@@ -102,7 +100,6 @@ public class DataContext
     public IDrugInventoryDataProvider       DrugInventories     { get; set; }
     public IDrugPrescriptionDataProvider    DrugPrescriptions   { get; set; }
     public IStorageDataProvider             Storages            { get; set; }
-    public IGoodSupplingDataProvider        GoodSupplings       { get; set; }
     public IImportationDataProvider         Importations        { get; set; }
     public IDeviceInventoryDataProvider     DeviceInventories   { get; set; }
     #endregion

@@ -5,21 +5,6 @@ public static class ServiceExtension
     #region [ Public Methods - Add ]
     public static void AddHospitalManagementSystemServicesProvider(this IServiceCollection services)
     {
-        //services.Configure<JwtTokenConfig>(configuration.GetSection(nameof(JwtTokenConfig)));
-        //services.Configure<IdentityAzureStorageConfig>(configuration.GetSection(nameof(IdentityAzureStorageConfig)));
-
-        //services.AddIdentity<User, Role>(options =>
-        //{
-        //    options.Password.RequireDigit = false;
-        //    options.Password.RequireLowercase = false;
-        //    options.Password.RequireUppercase = false;
-        //    options.Password.RequireNonAlphanumeric = false;
-        //    options.Password.RequiredLength = 1;
-        //    options.User.RequireUniqueEmail = true;
-        //})
-        //    .AddUserManager<UserManager>()
-        //    .AddEntityFrameworkStores<PetaverseIdentityContext>();
-
         //services.AddTransient<Func<IdentityContainerEnum, BlobContainerClient>>(provider => container =>
         //{
         //    var config = provider.GetRequiredService<IOptionsMonitor<IdentityAzureStorageConfig>>().CurrentValue;
@@ -42,11 +27,7 @@ public static class ServiceExtension
         //    return new StorageSharedKeyCredential(config.AccountName, config.AccountKey);
         //});
 
-        //services.AddTransient<IJwtTokenService, JWTTokenService>();
-        //services.AddTransient<IIdentityMediaService, IdentityMediaService>();
-        //services.AddTransient<IAuthenticationService, AuthenticationService>();
-
-        //services.AddScoped<IPetaverseUserRepository, UserRepository>();
+        services.AddSingleton<HMSServiceContext>();
 
         services.AddTransient<IBookingAppointmentServiceProvider,   BookingAppointmentServiceProvider>()
                 .AddTransient<IReExamAppointmentServiceProvider,    ReExamAppointmentServiceProvider>()
@@ -62,7 +43,6 @@ public static class ServiceExtension
                 .AddTransient<IDrugServiceProvider,             DrugServiceProvider>()
                 .AddTransient<IDrugInventoryServiceProvider,    DrugInventoryServiceProvider>()
                 .AddTransient<IDrugPrescriptionServiceProvider, DrugPrescriptionServiceProvider>()
-                .AddTransient<IGoodSupplingServiceProvider,     GoodSupplingServiceProvider>()
                 .AddTransient<IImportationServiceProvider,      ImportationServiceProvider>()
                 .AddTransient<IStorageServiceProvider,          StorageServiceProvider>();
 

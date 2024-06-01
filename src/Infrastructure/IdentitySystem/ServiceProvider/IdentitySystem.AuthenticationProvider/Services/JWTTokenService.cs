@@ -1,6 +1,4 @@
-﻿using CoreUser = IdentitySystem.Domain.User;
-
-namespace IdentitySystem.ServiceProvider;
+﻿namespace IdentitySystem.ServiceProvider;
 
 public class JWTTokenService : IJwtTokenService
 {

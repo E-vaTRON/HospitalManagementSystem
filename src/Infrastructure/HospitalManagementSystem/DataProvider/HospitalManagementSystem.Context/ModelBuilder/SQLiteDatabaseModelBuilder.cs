@@ -42,7 +42,7 @@ public class SQLiteDatabaseModelBuilder
         this.DrugModelBuilder(modelBuilder);
         this.DrugInventoryModelBuilder(modelBuilder);
         this.DrugPrescriptionModelBuilder(modelBuilder);
-        this.GoodSupplingModelBuilder(modelBuilder);
+        //this.GoodSupplingModelBuilder(modelBuilder);
         this.ImportationModelBuilder(modelBuilder);
         this.StorageModelBuilder(modelBuilder);
 
@@ -220,7 +220,12 @@ public class SQLiteDatabaseModelBuilder
 
         modelBuilder.Entity<Room>()
                     .Property(x => x.Status)
+                    .HasConversion(new EnumToStringConverter<RoomStatus>())
                     .HasColumnType("TEXT");
+
+        modelBuilder.Entity<Room>()
+                    .Property(x => x.PricePerHour)
+                    .HasColumnType("INTEGER");
 
         modelBuilder.Entity<Room>()
                     .HasOne(r => r.Department)
@@ -360,6 +365,19 @@ public class SQLiteDatabaseModelBuilder
         this.BaseModelBuilder<DrugInventory>(modelBuilder, nameof(DrugInventory));
 
         modelBuilder.Entity<DrugInventory>()
+                    .Property(x => x.GoodInformation)
+                    .HasColumnType("TEXT");
+
+        modelBuilder.Entity<DrugInventory>()
+                    .Property(x => x.ExpiryDate)
+                    .HasColumnType("TEXT")
+                    .IsRequired(true);
+
+        modelBuilder.Entity<DrugInventory>()
+                    .Property(x => x.OrinaryAmount)
+                    .HasColumnType("INTEGER");
+
+        modelBuilder.Entity<DrugInventory>()
                     .Property(x => x.CurrentAmount)
                     .HasColumnType("INTEGER");
 
@@ -369,13 +387,24 @@ public class SQLiteDatabaseModelBuilder
                     .HasForeignKey(di => di.StorageId);
 
         modelBuilder.Entity<DrugInventory>()
-                    .HasOne(di => di.GoodSuppling)
-                    .WithOne(gs => gs.DrugInventory)
-                    .HasForeignKey<DrugInventory>(di => di.GoodSupplingId);
+                    .HasOne(gs => gs.Importation)
+                    .WithMany(i => i.DrugInventories)
+                    .HasForeignKey(gs => gs.ImportationId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<DrugInventory>()
+                    .HasOne(gs => gs.Drug)
+                    .WithMany(d => d.DrugInventories)
+                    .HasForeignKey(gs => gs.DrugId)
+                    .OnDelete(DeleteBehavior.Cascade);
     }
     private void DrugPrescriptionModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<DrugPrescription>(modelBuilder, nameof(DrugPrescription));
+
+        modelBuilder.Entity<DrugPrescription>()
+                    .Property(x => x.Amount)
+                    .HasColumnType("INTEGER");
 
         modelBuilder.Entity<DrugPrescription>()
                     .HasOne(dd => dd.MedicalExamEposode)
@@ -387,37 +416,10 @@ public class SQLiteDatabaseModelBuilder
                     .WithMany(di => di.DrugPrescriptions)
                     .HasForeignKey(dd => dd.DrugInventoryId);
     }
-    private void GoodSupplingModelBuilder(ModelBuilder modelBuilder)
-    {
-        this.BaseModelBuilder<GoodSuppling>(modelBuilder, nameof(GoodSuppling));
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .Property(x => x.GoodInformation)
-                    .HasColumnType("TEXT");
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .Property(x => x.ExpiryDate)
-                    .HasColumnType("TEXT")
-                    .IsRequired(true);
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .Property(x => x.OrinaryAmount)
-                    .HasColumnType("INTEGER");
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .HasOne(gs => gs.Importation)
-                    .WithMany(i => i.GoodSupplings)
-                    .HasForeignKey(gs => gs.ImportationId);
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .HasOne(gs => gs.DrugInventory)
-                    .WithOne(i => i.GoodSuppling);
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .HasOne(gs => gs.Drug)
-                    .WithMany(d => d.GoodSupplings)
-                    .HasForeignKey(gs => gs.DrugId);
-    }
+    //private void GoodSupplingModelBuilder(ModelBuilder modelBuilder)
+    //{
+    //    this.BaseModelBuilder<GoodSuppling>(modelBuilder, nameof(GoodSuppling));
+    //}
     private void ImportationModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<Importation>(modelBuilder, nameof(Importation));

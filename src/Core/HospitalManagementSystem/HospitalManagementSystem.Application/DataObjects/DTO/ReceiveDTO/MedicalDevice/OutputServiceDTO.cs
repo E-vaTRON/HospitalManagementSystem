@@ -2,5 +2,5 @@
 
 public record OutputServiceDTO : ServiceDTO
 {
-    public ICollection<DeviceServiceDTO>? DeviceServiceDTOs { get; init; }
+    public ICollection<OutputDeviceServiceDTO>? DeviceServiceDTOs { get; init; }
 }

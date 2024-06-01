@@ -11,5 +11,5 @@ public class Importation : ModelBase
     public string       Company         { get; set; } = string.Empty;       //nhà cung cấp
 
 
-    public virtual ICollection<GoodSuppling> GoodSupplings { get; set; } = new HashSet<GoodSuppling>();
+    public virtual ICollection<DrugInventory> DrugInventories { get; set; } = new HashSet<DrugInventory>();
 }

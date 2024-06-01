@@ -2,7 +2,7 @@
 
 public record OutputICDCodeDTO : ICDCodeDTO
 {
-    public DiseasesDTO? DiseasesDTO { get; init; }
+    public OutputDiseasesDTO? DiseasesDTO { get; init; }
 
-    public ICollection<ICDCodeVersionDTO>? ICDCodeVersionDTOs { get; init; }
+    public ICollection<OutputICDCodeVersionDTO>? ICDCodeVersionDTOs { get; init; }
 }

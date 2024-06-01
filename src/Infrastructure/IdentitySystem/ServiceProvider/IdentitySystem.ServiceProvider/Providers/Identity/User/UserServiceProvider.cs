@@ -1,4 +1,5 @@
-﻿using CoreUser = IdentitySystem.Domain.User;
+﻿using IdentitySystem.Application;
+using CoreUser = IdentitySystem.Domain.User;
 using DTOUserIn = IdentitySystem.Application.InputUserDTO;
 using DTOUserOut = IdentitySystem.Application.OutputUserDTO;
 
@@ -152,6 +153,13 @@ public class UserServiceProvider : IdentityServiceProviderBase<DTOUserOut, DTOUs
         return await UserDataProvider.GetRolesAsync(user);
     }
 
+    public async Task<IList<DTOUserOut>> GetUsersInRoleAsync(string roleNormalizedName)
+    {
+        ArgumentNullException.ThrowIfNull(roleNormalizedName, nameof(roleNormalizedName));
+        var user = await UserDataProvider.GetUsersInRoleAsync(roleNormalizedName);
+        return MapToDTOs(user).ToList();
+    }
+
     public async Task<IdentityResult> AddToRoleAsync(DTOUserIn userDto, string role)
     {
         var user = MapToEntity(userDto);
@@ -191,6 +199,13 @@ public class UserServiceProvider : IdentityServiceProviderBase<DTOUserOut, DTOUs
     #endregion
 
     #region [ Password ]
+    public async Task<string> GeneratePasswordResetTokenAsync(DTOUserIn userDto)
+    {
+        var user = MapToEntity(userDto);
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        return await UserDataProvider.GeneratePasswordResetTokenAsync(user);
+    }
+
     public async Task<bool> HasPasswordAsync(DTOUserIn userDto)
     {
         var user = MapToEntity(userDto);
@@ -213,6 +228,15 @@ public class UserServiceProvider : IdentityServiceProviderBase<DTOUserOut, DTOUs
         ArgumentNullException.ThrowIfNull(currentPassword, nameof(currentPassword));
         ArgumentNullException.ThrowIfNull(newPassword, nameof(newPassword));
         return await UserDataProvider.ChangePasswordAsync(user, currentPassword, newPassword);
+    }
+
+    public async Task<IdentityResult> ResetPasswordAsync(DTOUserIn userDto, string token, string newPassword)
+    {
+        var user = MapToEntity(userDto);
+        ArgumentNullException.ThrowIfNull(user, nameof(user));
+        ArgumentNullException.ThrowIfNull(token, nameof(token));
+        ArgumentNullException.ThrowIfNull(newPassword, nameof(newPassword));
+        return await UserDataProvider.ChangePasswordAsync(user, token, newPassword);
     }
     #endregion
     #endregion

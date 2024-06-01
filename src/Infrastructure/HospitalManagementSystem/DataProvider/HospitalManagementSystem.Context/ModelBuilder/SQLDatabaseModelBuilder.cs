@@ -44,7 +44,7 @@ public class SQLDatabaseModelBuilder
         this.DrugModelBuilder(modelBuilder);
         this.DrugInventoryModelBuilder(modelBuilder);
         this.DrugPrescriptionModelBuilder(modelBuilder);
-        this.GoodSupplingModelBuilder(modelBuilder);
+        //this.GoodSupplingModelBuilder(modelBuilder);
         this.ImportationModelBuilder(modelBuilder);
         this.StorageModelBuilder(modelBuilder);
 
@@ -235,6 +235,10 @@ public class SQLDatabaseModelBuilder
                     .HasMaxLength(DataTypeHelpers.TITLE_FIELD_LENGTH);
 
         modelBuilder.Entity<Room>()
+                    .Property(x => x.PricePerHour)
+                    .HasColumnType("int");
+
+        modelBuilder.Entity<Room>()
                     .HasOne(r => r.Department)
                     .WithMany(d => d.Rooms)
                     .HasForeignKey(r => r.DepartmentId)
@@ -390,6 +394,20 @@ public class SQLDatabaseModelBuilder
         this.BaseModelBuilder<DrugInventory>(modelBuilder, nameof(DrugInventory));
 
         modelBuilder.Entity<DrugInventory>()
+                    .Property(x => x.GoodInformation)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<DrugInventory>()
+                    .Property(x => x.ExpiryDate)
+                    .HasColumnType("datetime")
+                    .IsRequired(true);
+
+        modelBuilder.Entity<DrugInventory>()
+                    .Property(x => x.OrinaryAmount)
+                    .HasColumnType("int");
+
+        modelBuilder.Entity<DrugInventory>()
                     .Property(x => x.CurrentAmount)
                     .HasColumnType("int");
 
@@ -400,13 +418,24 @@ public class SQLDatabaseModelBuilder
                     .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<DrugInventory>()
-                    .HasOne(di => di.GoodSuppling)
-                    .WithOne(gs => gs.DrugInventory)
-                    .HasForeignKey<DrugInventory>(di => di.GoodSupplingId);
+                    .HasOne(gs => gs.Importation)
+                    .WithMany(i => i.DrugInventories)
+                    .HasForeignKey(gs => gs.ImportationId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<DrugInventory>()
+                    .HasOne(gs => gs.Drug)
+                    .WithMany(d => d.DrugInventories)
+                    .HasForeignKey(gs => gs.DrugId)
+                    .OnDelete(DeleteBehavior.Cascade);
     }
     private void DrugPrescriptionModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<DrugPrescription>(modelBuilder, nameof(DrugPrescription));
+
+        modelBuilder.Entity<DrugPrescription>()
+                    .Property(x => x.Amount)
+                    .HasColumnType("int");
 
         modelBuilder.Entity<DrugPrescription>()
                     .HasOne(dd => dd.MedicalExamEposode)
@@ -420,41 +449,10 @@ public class SQLDatabaseModelBuilder
                     .HasForeignKey(dd => dd.DrugInventoryId)
                     .OnDelete(DeleteBehavior.Cascade);
     }
-    private void GoodSupplingModelBuilder(ModelBuilder modelBuilder)
-    {
-        this.BaseModelBuilder<GoodSuppling>(modelBuilder, nameof(GoodSuppling));
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .Property(x => x.GoodInformation)
-                    .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .Property(x => x.ExpiryDate)
-                    .HasColumnType("datetime")
-                    .IsRequired(true);
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .Property(x => x.OrinaryAmount)
-                    .HasColumnType("int");
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .HasOne(gs => gs.Importation)
-                    .WithMany(i => i.GoodSupplings)
-                    .HasForeignKey(gs => gs.ImportationId)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .HasOne(gs => gs.DrugInventory)
-                    .WithOne(i => i.GoodSuppling)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .HasOne(gs => gs.Drug)
-                    .WithMany(d => d.GoodSupplings)
-                    .HasForeignKey(gs => gs.DrugId)
-                    .OnDelete(DeleteBehavior.Cascade);
-    }
+    //private void GoodSupplingModelBuilder(ModelBuilder modelBuilder)
+    //{
+    //    this.BaseModelBuilder<GoodSuppling>(modelBuilder, nameof(GoodSuppling));
+    //}
     private void ImportationModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<Importation>(modelBuilder, nameof(Importation));

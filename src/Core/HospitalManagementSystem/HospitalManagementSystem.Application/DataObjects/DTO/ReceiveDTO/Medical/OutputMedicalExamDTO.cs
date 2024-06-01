@@ -2,8 +2,8 @@
 
 public record OutputMedicalExamDTO : MedicalExamDTO
 {
-    public BookingAppointmentDTO? BookingAppointmentDTO   { get; init; }
+    public OutputBookingAppointmentDTO? BookingAppointmentDTO   { get; init; }
 
-    public ICollection<MedicalExamEpisodeDTO>?  MedicalExamEpisodeDTOs  { get; init; }
-    public ICollection<ReferralDTO>?            ReferralDTOs            { get; init; }
+    public ICollection<OutputMedicalExamEpisodeDTO>?  MedicalExamEpisodeDTOs  { get; init; }
+    public ICollection<OutputReferralDTO>?            ReferralDTOs            { get; init; }
 }

@@ -1,0 +1,126 @@
+﻿@namespace HospitalManagementSystem.Blazor
+
+<FluentDialogBody>
+    <FluentGrid Spacing="3" Justify="JustifyContent.FlexStart">
+        <FluentGridItem xs="12" sm="6">
+        <div style="max-height: 400px; overflow-y: auto;">
+            <FluentCard>
+                    <FluentTextField Value="@Content.FirstName" xs="12"
+                                     Required 
+                                     @onfocusout=@(() => ValidateAndSetIsFirstNameValid())>
+                        First Name:
+                        <FluentIcon Value="@(new Icons.Regular.Size16.ContactCard())" Slot="start" Color="Color.Neutral" />
+                    </FluentTextField>
+                    @if (!Content.IsFirstNameValid)
+                    {
+                        <FluentBadge Fill="somevalue" BackgroundColor="red" Color="white">Please provide a valid first name</FluentBadge>
+                    }
+
+                    <FluentTextField Value="@Content.LastName" xs="12" 
+                                     Required 
+                                     @onfocusout=@(() => ValidateAndSetIsLastNameValid())>
+                        Last Name:
+                        <FluentIcon Value="@(new Icons.Regular.Size16.ContactCard())" Slot="start" Color="Color.Neutral" />
+                    </FluentTextField>
+                    @if (!Content.IsLastNameValid)
+                    {
+                        <FluentBadge Fill="somevalue" BackgroundColor="red" Color="white">Please provide a valid last name</FluentBadge>
+                    }
+
+                    <FluentTextField Value="@Content.UserName" xs="12">
+                        User Name:
+                        <FluentIcon Value="@(new Icons.Regular.Size16.ContactCard())" Slot="start" Color="Color.Neutral" />
+                    </FluentTextField>
+
+                    <FluentTextField Value="@Content.Address" xs="12">
+                        Address:
+                        <FluentIcon Value="@(new Icons.Regular.Size16.AppFolder())" Slot="start" Color="Color.Neutral" />
+                    </FluentTextField>
+
+                    <FluentTextField Value="@Content.Email"
+                                     Required
+                                     TextFieldType="TextFieldType.Email" 
+                                     @onfocusout=@(() => ValidateAndSetIsEmailValid())>
+                        <FluentIcon Value="@(new Icons.Regular.Size16.Mail())" Slot="start" Color="Color.Neutral" />Email:
+                    </FluentTextField>
+                    @if (!Content.IsEmailValid)
+                    {
+                        <FluentBadge Fill="somevalue" BackgroundColor="red" Color="white">Please provide a valid email</FluentBadge>
+                    }
+
+                    <FluentTextField Value="@Content.PhoneNumber" 
+                                     TextFieldType="TextFieldType.Tel" 
+                                     @onfocusout=@(() => ValidateAndSetIsPhoneNumberValid())>
+                        <FluentIcon Value="@(new Icons.Regular.Size16.Phone())" Slot="start" Color="Color.Neutral" />
+                        Phone number:
+                    </FluentTextField>
+                    @if (!Content.IsPhoneNumberValid)
+                    {
+                        <FluentBadge Fill="somevalue" BackgroundColor="red" Color="white">Please provide a phone number</FluentBadge>
+                    }
+
+                    <FluentDatePicker Label="Join Date" 
+                                      Value="@SelectedDate"
+                                      ValueChanged="@((DateTime? newDate) => HandleDateChange(newDate))" />
+
+                    <FluentButton Appearance="Appearance.Accent" @onclick=ValidateAccount>
+                        Check account information
+                    </FluentButton>
+                </FluentCard>
+            </div>
+        </FluentGridItem>
+        @* <FluentGridItem xs="12" sm="6">
+            
+            <div style="max-height: 400px; overflow-y: auto;">
+                <FluentInputFile Id="my-file-uploader"
+                                 Mode="InputFileMode.SaveToTemporaryFolder"
+                                 Multiple="false"
+                                 ShowPreview="true"
+                                 MaximumFileCount="1"
+                                 MaximumFileSize="50000000"
+                                 Accept="image/*"
+                                 OnCompleted="@OnCompleted"
+                                 OnFileError="@OnError"
+                                 Style="height: 300px;"
+                                 Class="demopanel">
+
+                    <label for="my-file-uploader">
+                        <FluentIcon Value="@(new @Icons.Regular.Size24.ArrowUpload())" />
+                    </label>
+
+                    <div>
+                        Drag file here you wish to upload,
+                        or <label for="my-file-uploader">browse</label>
+                        for them<span style="color: red;">*</span>.
+                        <br />
+                    </div>
+
+                </FluentInputFile>
+                @if (Files.Any())
+                {
+                    <h4>File(s) uploaded:</h4>
+                    <ul>
+                        @foreach (var file in Files)
+                        {
+                            <li>
+                                <b>@file.Name</b> 🔹
+                                @($"{Decimal.Divide(file.Size, 1024):N} KB") 🔹
+                                @file.ContentType 🔹
+                                @file.LocalFile?.FullName
+                                @file.ErrorMessage
+                            </li>
+                        }
+                    </ul>
+                }
+
+                @if(!string.IsNullOrEmpty(UploadError))
+                {
+                    <h4>Upload error:</h4>
+                    <p style="color: red">@UploadError</p>
+                }
+            </div>
+        </FluentGridItem> *@
+    </FluentGrid>
+</FluentDialogBody>
+<FluentDialogFooter>
+</FluentDialogFooter>

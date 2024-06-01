@@ -2,12 +2,17 @@
 
 public class DrugInventory : ModelBase
 {
-    public int      CurrentAmount        { get; set; }       //số lượng hiện tại
+    public string   GoodInformation { get; set; } = string.Empty;
+    public DateTime ExpiryDate      { get; set; }       //hạng dùng
+    public int      OrinaryAmount   { get; set; }
+    public int      CurrentAmount   { get; set; }       //số lượng hiện tại
 
-    public Guid?        StorageId       { get; set; }       //mã kho
-    public Storage      Storage         { get; set; } = default!;
-    public Guid?        GoodSupplingId  { get; set; }
-    public GoodSuppling GoodSuppling    { get; set; } = default!;
+    public string?          StorageId       { get; set; }       //mã kho
+    public Storage          Storage         { get; set; } = default!;
+    public string?          ImportationId   { get; set; }
+    public Importation?     Importation     { get; set; }
+    public string?          DrugId          { get; set; }
+    public Drug?            Drug            { get; set; }
 
     public virtual ICollection<DrugPrescription> DrugPrescriptions { get; set; } = new HashSet<DrugPrescription>();
 }

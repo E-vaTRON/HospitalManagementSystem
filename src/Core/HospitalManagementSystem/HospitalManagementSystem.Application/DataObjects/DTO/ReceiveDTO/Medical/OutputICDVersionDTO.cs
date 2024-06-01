@@ -2,5 +2,5 @@
 
 public record OutputICDVersionDTO : ICDVersionDTO
 {
-    public ICollection<ICDCodeVersionDTO>? ICDCodeVersionDTOs { get; init; }
+    public ICollection<OutputICDCodeVersionDTO>? ICDCodeVersionDTOs { get; init; }
 }
