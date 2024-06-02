@@ -9,11 +9,8 @@ public partial class Home : AuthenticationComponentBase
     protected HomeState State { get; private set; }
     #endregion
 
-
     #region [ Properties - Parameter ]
-    [Parameter]
-    public BarChart BarChart { get; set; } = default!;
-
+    private BarChart BarChart { get; set; } = default!;
     private LineChart LineChart = default!;
     private DoughnutChart DoughnutChart = default!;
     private DoughnutChartOptions DoughnutChartOptions = default!;

@@ -7,15 +7,6 @@ public partial class Patient : AuthenticationComponentBase
     private PatientState State { get; set; }
 
     [Inject]
-    private IJSRuntime JSRuntime { get; set; } = null!;
-
-    [Inject]
-    private IToastService ToastService { get; set; } = null!;
-
-    [Inject]
-    private IDialogService DialogService { get; set; } = null!;
-
-    [Inject]
     private HMSServiceContext HMSContext { get; set; }
 
     [Inject]
@@ -54,7 +45,7 @@ public partial class Patient : AuthenticationComponentBase
                 this.Navigator.NavigateTo("/login", replace: true);
                 return;
             }
-            await RefreshAsync();
+            await LoadDataAsync();
         }
     }
     #endregion
@@ -65,7 +56,7 @@ public partial class Patient : AuthenticationComponentBase
     {
         if (searchTerm.Length > 0 && !string.IsNullOrWhiteSpace(searchTerm))
         {
-            var filtered = this.State.UserWithPayments.Where(x => x.LastName.ToLower().Contains(searchTerm));
+            var filtered = this.State.ModifiedUser.Where(x => x.LastName.ToLower().Contains(searchTerm));
             this.OnFilterData(filtered);
         }
     }
@@ -74,15 +65,15 @@ public partial class Patient : AuthenticationComponentBase
     {
         if (searchTerm.Length > 0 && !string.IsNullOrWhiteSpace(searchTerm))
         {
-            var filtered = this.State.UserWithPayments.Where(x => x.Address.ToLower().Contains(searchTerm));
+            var filtered = this.State.ModifiedUser.Where(x => x.Address.ToLower().Contains(searchTerm));
             this.OnFilterData(filtered);
         }
     }
 
     private void OnFilterData(IEnumerable<UserWithPaymentModel> filtered)
     {
-        this.State.UserWithPayments.Clear();
-        this.State.UserWithPayments = filtered.ToList();
+        this.State.ModifiedUser.Clear();
+        this.State.ModifiedUser = filtered.ToList();
         this.StateHasChanged();
     }
     #endregion
@@ -92,16 +83,16 @@ public partial class Patient : AuthenticationComponentBase
         if (string.IsNullOrEmpty(firstName) || string.IsNullOrWhiteSpace(firstName) || State.Users is null)
             return;
 
-        var userInfo = State.UserWithPayments.FirstOrDefault(x => x.FirstName == firstName);
+        var userInfo = State.ModifiedUser.FirstOrDefault(x => x.FirstName == firstName);
         if (userInfo is null)
             return;
 
         await UserBillDialog(userInfo);
     }
 
-    private async Task DeleteAsync(UserWithPaymentModel userInfo)
+    private async Task DeleteAsync(UserWithPaymentModel user)
     {
-        var dialog = await DialogService.ShowConfirmationAsync($"Record {userInfo.Email} will be move to archive?",
+        var dialog = await DialogService.ShowConfirmationAsync($"Record {user.Email} will be move to archive?",
                                                                 "Yes", "No",
                                                                 "Do you want to delete this user?");
 
@@ -109,10 +100,10 @@ public partial class Patient : AuthenticationComponentBase
         if (result.Cancelled)
             return;
 
-        await ISContext.Users.DeleteAsync(userInfo);
+        await ISContext.Users.DeleteAsync(user);
 
-        await RefreshAsync();
-        ToastService.ShowToast(ToastIntent.Success, $"User {userInfo.UserName} moved to archive !!!");
+        await LoadDataAsync();
+        ToastService.ShowToast(ToastIntent.Success, $"User {user.UserName} moved to archive !!!");
     }
 
     private async Task ResetToDefaultPasswordAsync(UserWithPaymentModel userInfo)
@@ -237,7 +228,7 @@ public partial class Patient : AuthenticationComponentBase
                                 user.Email, user.PhoneNumber, new string[] { "Patient" });
 
         await AuthenticationService.Register(dto, nameof(HandleAddDialog), new());
-        await RefreshAsync();
+        await LoadDataAsync();
         ToastService.ShowToast(ToastIntent.Success, $"User {user.UserName} added !!!");
     }
 
@@ -267,7 +258,7 @@ public partial class Patient : AuthenticationComponentBase
             return;
         }
 
-        await RefreshAsync();
+        await LoadDataAsync();
         ToastService.ShowToast(ToastIntent.Success, $"User {user.UserName} added !!!");
     }
 
@@ -289,7 +280,7 @@ public partial class Patient : AuthenticationComponentBase
         foreach (var user in file.Users)
             await ISContext.Users.CreateAsync(user);
 
-        await this.RefreshAsync();
+        await LoadDataAsync();
     }
     #endregion
     #endregion
@@ -304,14 +295,14 @@ public partial class Patient : AuthenticationComponentBase
     private string StatusTextConverter(bool isFullyPaid)
         => isFullyPaid ? "Fully Paid" : "Not Fully Paid";
 
-    async Task HandleTextFilterInput()
-        => await RefreshAsync(State.CurrentPage, State.LastNameFilter, State.StreetFilter);
+    void HandleTextFilterInput()
+        => Refresh(State.CurrentPage, State.LastNameFilter, State.AddressFilter);
 
-    async void ClearFormats()
+    void ClearFormats()
     {
         State.LastNameFilter = string.Empty;
-        State.StreetFilter = string.Empty;
-        await RefreshAsync(State.CurrentPage, State.LastNameFilter, State.StreetFilter);
+        State.AddressFilter = string.Empty;
+        Refresh(State.CurrentPage, State.LastNameFilter, State.AddressFilter);
     }
 
     private async Task CopyToClipboard(string text)
@@ -418,45 +409,47 @@ public partial class Patient : AuthenticationComponentBase
 
     async Task DownloadExcel()
     {
-        if (State.UserWithPayments is null)
+        if (State.ModifiedUser is null)
             return;
 
         string fileName = "HMS patient payment";
-        byte[] excelData = GenerateExcel(State.UserWithPayments);
+        byte[] excelData = GenerateExcel(State.ModifiedUser);
         await JSRuntime.InvokeVoidAsync("saveAsFile", fileName, Convert.ToBase64String(excelData),
                                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
     }
     #endregion
 
-    #region [ Refresh Data ]
-    private async Task RefreshAsync(int currentPage = 1,
-                                    string lastNameFilter = "",
-                                    string streetFilter = "")
+    #region [ RefreshData ]
+    private void Refresh( int currentPage = 1,
+                          string lastNameFilter = "",
+                          string addressFilter = "")
     {
-        await LoadDataAsync();
+        State.ModifiedUser.Clear();
 
-        var userResult = State.Users;
-        var billResult = State.Bills;
-
-        var usersData = userResult
-            .GroupJoin(billResult, user => user.Id, bill => bill.MedicalExamEpisodeDTO!.MedicalExamDTO!.BookingAppointmentDTO!.PatientId,
-                (user, userBills) => new UserWithPaymentModel
-                {
-                    Id = user.Id,
-                    UserName = user.UserName,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    Address = user.Address,
-                    PhoneNumber = user.PhoneNumber,
-                    CreatedOn = user.CreatedOn,
-                    IsFullyPaid = !userBills.Any(x => x.PaidDate == null),
-                    Bills = userBills.ToArray()
-                })
+        var usersData = State.Users
+            .GroupJoin( State.Bills, 
+                        user => user.Id, 
+                        bill => bill.MedicalExamEpisodeDTO!.MedicalExamDTO!.BookingAppointmentDTO!.PatientId,
+                        (user, bill) => new UserWithPaymentModel
+                        {
+                            Id = user.Id,
+                            UserName = user.UserName,
+                            FirstName = user.FirstName,
+                            LastName = user.LastName,
+                            Email = user.Email,
+                            Address = user.Address,
+                            PhoneNumber = user.PhoneNumber,
+                            CreatedOn = user.CreatedOn,
+                            IsFullyPaid = !bill.Any(x => x.PaidDate == null),
+                            Bills = bill.ToArray()
+                        })
             .OrderByDescending(user => user.CreatedOn);
 
-        State.UserWithPayments = usersData.Skip((currentPage - 1) * State.ItemsPerPage)
-                                          .Take(State.ItemsPerPage).ToList();
+        State.ModifiedUser = usersData.Skip((currentPage - 1) * State.ItemsPerPage)
+                                      .Take(State.ItemsPerPage).ToList();
+
+        OnLastNameFilter(lastNameFilter);
+        OnAddressFilter(addressFilter);
 
         this.StateHasChanged();
     }
@@ -509,7 +502,9 @@ public partial class Patient : AuthenticationComponentBase
 
         var medicalExamEpisodes = bills.Select(x => x.MedicalExamEpisodeDTO);
 
-        this.StateHasChanged();
+        Refresh();
+
+        StateHasChanged();
     }
     #endregion
     #endregion

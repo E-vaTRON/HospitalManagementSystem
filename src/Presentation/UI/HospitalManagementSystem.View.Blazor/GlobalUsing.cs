@@ -25,6 +25,7 @@ global using Microsoft.FluentUI.AspNetCore.Components;
 
 global using Microsoft.IdentityModel.Tokens;
 
+global using System.Data;
 global using System.Text;
 global using System.Text.RegularExpressions;
 global using System.Globalization;

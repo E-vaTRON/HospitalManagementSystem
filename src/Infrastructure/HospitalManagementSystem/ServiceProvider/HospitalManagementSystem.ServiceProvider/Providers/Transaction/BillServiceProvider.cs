@@ -41,5 +41,7 @@ public class BillServiceProvider : ServiceProviderBase<DTOBillOut, DTOBillIn, Co
         ArgumentNullException.ThrowIfNull(bills, nameof(bills));
         return MapToDTOs(bills).ToList();
     }
+
+
     #endregion
 }

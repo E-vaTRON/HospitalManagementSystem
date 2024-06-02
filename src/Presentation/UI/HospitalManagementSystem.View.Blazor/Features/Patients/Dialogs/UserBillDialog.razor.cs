@@ -77,7 +77,7 @@ public partial class UserBillDialog : IDialogContentComponent<UserWithPaymentMod
 
         return "₱0.00";
     }
-
+    //BLS
     private decimal CalculateAmountPerBill(OutputBillDTO bill)
     {
         decimal totalAmount = 0;

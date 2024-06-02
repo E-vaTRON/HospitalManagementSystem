@@ -7,6 +7,15 @@ public partial class AuthenticationComponentBase : ComponentBase
     protected ILocalStorageService LocalStorage { get; set; } = null!;
 
     [Inject]
+    protected IJSRuntime JSRuntime { get; set; } = null!;
+
+    [Inject]
+    protected IToastService ToastService { get; set; } = null!;
+
+    [Inject]
+    protected IDialogService DialogService { get; set; } = null!;
+
+    [Inject]
     protected NavigationManager Navigator { get; set; }
     #endregion
 

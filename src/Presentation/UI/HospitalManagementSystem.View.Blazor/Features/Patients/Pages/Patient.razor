@@ -13,10 +13,10 @@
                 @State.Users?.Count() <FluentIcon Value="@(new Icons.Regular.Size20.People())" />
             </FluentLabel>
             <FluentLabel Typo="Typography.Subject">
-                @State.UserWithPayments?.Where(x => x.IsFullyPaid).Count() <FluentIcon Value="@(new Icons.Regular.Size20.PeopleMoney())" Color="Color.Success" />
+                @State.ModifiedUser?.Where(x => x.IsFullyPaid).Count() <FluentIcon Value="@(new Icons.Regular.Size20.PeopleMoney())" Color="Color.Success" />
             </FluentLabel>
             <FluentLabel Typo="Typography.Subject">
-                @State.UserWithPayments?.Where(x => !x.IsFullyPaid).Count() <FluentIcon Value="@(new Icons.Regular.Size20.PeopleError())" Color="Color.Error" />
+                @State.ModifiedUser?.Where(x => !x.IsFullyPaid).Count() <FluentIcon Value="@(new Icons.Regular.Size20.PeopleError())" Color="Color.Error" />
             </FluentLabel>
             <FluentCombobox slot="end" 
                             Items=@State.Users?.Select(x => x.FirstName).ToList()
@@ -52,7 +52,7 @@
             </FluentStack>
             <FluentStack Orientation="Orientation.Vertical">
                 Filter by street:           
-                <FluentSearch @bind-Value="@State.StreetFilter"
+                <FluentSearch @bind-Value="@State.AddressFilter"
                               @bind-Value:after=HandleTextFilterInput
                               Placeholder="Street filter">
                     <FluentIcon Value="@(new Icons.Regular.Size16.Filter())" 
@@ -109,7 +109,7 @@
                 <FluentDataGrid Id="membersgrid" 
                                 Style="overflow:auto;" 
                                 ResizableColumns=true 
-                                Items=@State.UserWithPayments.AsQueryable()
+                                Items=@State.ModifiedUser.AsQueryable()
                                 GridTemplateColumns="3fr 2fr 2fr 1.5fr 1.5fr 2fr 3fr 4fr" 
                                 TGridItem=UserWithPaymentModel>
                     <TemplateColumn Title="Avatar">
@@ -150,12 +150,12 @@
                     @foreach (var currentPage in State.PaginationCount)
                     {
                         <FluentButton Appearance="PageButtonAppearance(currentPage)" 
-                            @onclick="@( async () => 
-                            {
-                                await RefreshAsync(currentPage, State.LastNameFilter, State.StreetFilter);
-                                State.CurrentPage = currentPage; 
-                            })">
-                            @currentPage
+                                      @onclick="@( async () => 
+                                      {
+                                          Refresh(currentPage, State.LastNameFilter, State.AddressFilter);
+                                          State.CurrentPage = currentPage; 
+                                      })">
+                            @State.CurrentPage
                         </FluentButton>
                     }
                 </FluentStack>

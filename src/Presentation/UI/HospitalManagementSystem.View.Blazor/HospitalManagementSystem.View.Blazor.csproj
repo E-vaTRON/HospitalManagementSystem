@@ -32,7 +32,7 @@
     <Content Update="Layouts\_Imports.razor">
       <CustomToolNamespace>HospitalManagementSystem.Blazor</CustomToolNamespace>
     </Content>
-    <Content Update="Pages\_Imports.razor">
+    <Content Update="Utilities\_Imports.razor">
       <CustomToolNamespace>HospitalManagementSystem.Blazor</CustomToolNamespace>
     </Content>
   </ItemGroup>

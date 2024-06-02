@@ -6,16 +6,14 @@ public class PatientState : StateBase
     private int         currentPage;
     private int         itemsPerPage;
     private int[]       paginationCount;
-    private string?     blockRadioChoice;
-    private string?     phaseRadioChoice;
     private string?     lastNameFilter;
-    private string?     streetFilter;
+    private string?     addressFilter;
     private List<OutputUserDTO>?                users;
-    private List<UserWithPaymentModel>?         userWithPayments;
     private List<OutputBillDTO>?                bills;
     private List<OutputAnalysisTestDTO>?        analysisTests;
     private List<OutputDrugPrescriptionDTO>?    drugPrescriptions;
     private List<OutputRoomAllocationDTO>?      roomAllocations;
+    private List<UserWithPaymentModel>?         modifiedUser;
     #endregion
 
     #region [ CTor ]
@@ -27,7 +25,7 @@ public class PatientState : StateBase
         analysisTests = new List<OutputAnalysisTestDTO>();
         drugPrescriptions = new List<OutputDrugPrescriptionDTO>();
         roomAllocations = new List<OutputRoomAllocationDTO>();
-        userWithPayments = new List<UserWithPaymentModel>();
+        modifiedUser = new List<UserWithPaymentModel>();
     }
     #endregion
 
@@ -50,28 +48,16 @@ public class PatientState : StateBase
         set { this.SetProperty(ref this.paginationCount, value); }
     }
 
-    public string BlockRadioChoice
-    {
-        get { return this.blockRadioChoice!; }
-        set { this.SetProperty(ref this.blockRadioChoice, value); }
-    }
-
-    public string PhaseRadioChoice
-    {
-        get { return this.phaseRadioChoice!; }
-        set { this.SetProperty(ref this.phaseRadioChoice, value); }
-    }
-
     public string LastNameFilter
     {
         get { return this.lastNameFilter!; }
         set { this.SetProperty(ref this.lastNameFilter, value); }
     }
 
-    public string StreetFilter
+    public string AddressFilter
     {
-        get { return this.streetFilter!; }
-        set { this.SetProperty(ref this.streetFilter, value); }
+        get { return this.addressFilter!; }
+        set { this.SetProperty(ref this.addressFilter, value); }
     }
 
     public List<OutputUserDTO> Users
@@ -86,10 +72,10 @@ public class PatientState : StateBase
         set { this.SetProperty(ref this.bills, value); }
     }
 
-    public List<UserWithPaymentModel> UserWithPayments
+    public List<UserWithPaymentModel> ModifiedUser
     {
-        get { return this.userWithPayments!; }
-        set { this.SetProperty(ref this.userWithPayments, value); }
+        get { return this.modifiedUser!; }
+        set { this.SetProperty(ref this.modifiedUser, value); }
     }
 
     public List<OutputAnalysisTestDTO> AnalysisTests

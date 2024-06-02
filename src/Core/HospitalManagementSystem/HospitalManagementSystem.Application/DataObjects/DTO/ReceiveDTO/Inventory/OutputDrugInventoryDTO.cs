@@ -2,11 +2,11 @@
 
 public record OutputDrugInventoryDTO : DrugInventoryDTO
 {
-    public StorageDTO?          StorageDTO          { get; init; }
-    public GoodSupplingDTO?     GoodSupplingDTO     { get; init; }
-    public DrugInventoryDTO?    InventoryDTO        { get; init; }
-    public ImportationDTO?      ImportationDTO      { get; init; }
-    public DrugDTO?             DrugDTO             { get; init; }
+    public OutputStorageDTO?          StorageDTO          { get; init; }
+    public OutputGoodSupplingDTO?     GoodSupplingDTO     { get; init; }
+    public OutputDrugInventoryDTO?    InventoryDTO        { get; init; }
+    public OutputImportationDTO?      ImportationDTO      { get; init; }
+    public OutputDrugDTO?             DrugDTO             { get; init; }
 
-    public virtual ICollection<DrugPrescriptionDTO>? DrugPrescriptionDTOs { get; init; }
+    public virtual ICollection<OutputDrugPrescriptionDTO>? DrugPrescriptionDTOs { get; init; }
 }
