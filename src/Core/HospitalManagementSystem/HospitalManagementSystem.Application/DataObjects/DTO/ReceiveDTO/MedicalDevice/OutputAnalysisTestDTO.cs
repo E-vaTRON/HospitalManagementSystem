@@ -2,6 +2,6 @@
 
 public record OutputAnalysisTestDTO : AnalysisTestDTO
 {
-    public DeviceServiceDTO?        DeviceServiceDTO        { get; init; }
-    public MedicalExamEpisodeDTO?   MedicalExamEpisodeDTO   { get; init; }
+    public OutputDeviceServiceDTO?        DeviceServiceDTO        { get; init; }
+    public OutputMedicalExamEpisodeDTO?   MedicalExamEpisodeDTO   { get; init; }
 }

@@ -27,6 +27,9 @@ public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProvi
     protected virtual TMId ParseId(TEId id)
         => Mapper.Map<TMId>(id);
 
+    protected virtual TMId[] ParseIds(TEId[] id)
+    => Mapper.Map<TMId[]>(id);
+
     [DebuggerStepThrough]
     protected virtual TModel? MapToDataModel(TEntity? entity)
         => Mapper.Map<TModel?>(entity);
@@ -41,7 +44,7 @@ public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProvi
     #endregion
 
     protected virtual Task<IQueryable<TEntity>> GetQueryableAsync(CancellationToken cancellationToken = default)
-    => GetQueryableAsync(false, cancellationToken);
+        => GetQueryableAsync(false, cancellationToken);
 
     protected virtual Task<IQueryable<TEntity>> GetQueryableAsync(bool asNoTracking = false, CancellationToken cancellationToken = default)
     {

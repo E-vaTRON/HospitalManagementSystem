@@ -2,8 +2,8 @@
 
 public record OutputDeviceServiceDTO : DeviceServiceDTO
 {
-    public DeviceInventoryDTO?  DeviceInventoryDTO  { get; init; }
-    public ServiceDTO?          ServiceDTO          { get; init; }
+    public OutputDeviceInventoryDTO?  DeviceInventoryDTO  { get; init; }
+    public OutputServiceDTO?          ServiceDTO          { get; init; }
 
-    public ICollection<AnalysisTestDTO>? AnalysisTestDTOs { get; init; }
+    public ICollection<OutputAnalysisTestDTO>? AnalysisTestDTOs { get; init; }
 }

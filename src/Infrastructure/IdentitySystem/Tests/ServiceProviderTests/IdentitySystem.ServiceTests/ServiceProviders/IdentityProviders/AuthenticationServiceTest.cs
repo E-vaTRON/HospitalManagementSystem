@@ -24,14 +24,14 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
 
     #region [ Methods ]
     [Fact]
-    public async Task Login_Success()
+    public async Task LoginLoginWithUserName_Success()
     {
         // Arrange
         var userDtoOut = Fixture.Create<OutputUserDTO>();
         var userDtoIn = Mapper.Map<InputUserDTO>(userDtoOut);
 
-        var dto = Fixture.Build<Application.Login>()
-                         .With(x => x.username, userDtoOut.UserName)
+        var dto = Fixture.Build<Application.UserNameLoginRecord>()
+                         .With(x => x.userName, userDtoOut.UserName)
                          .With(x => x.password, userDtoOut.PasswordHash)
                          .Create();
         var consumerName = Fixture.Create<string>();
@@ -39,12 +39,12 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
 
         var signInResult = SignInResult.Success;
 
-        UserServiceProvider.Setup(x => x.FindByNameAsync(dto.username)).ReturnsAsync(userDtoOut);
+        UserServiceProvider.Setup(x => x.FindByNameAsync(dto.userName)).ReturnsAsync(userDtoOut);
         UserServiceProvider.Setup(x => x.CheckPasswordSignInAsync(userDtoIn, dto.password, LoginMode.Email, false)).ReturnsAsync(signInResult);
         JwtProvider.Setup(x => x.GenerateToken(It.IsAny<InputUserDTO>(), It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(accessToken);
 
         // Act
-        var result = await ServiceProvider.Login(dto, consumerName, CancellationToken.None);
+        var result = await ServiceProvider.LoginWithUserName(dto, consumerName, CancellationToken.None);
 
         // Assert
         var serviceSuccess = result.AsT0;
@@ -53,7 +53,7 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
         UserServiceProvider.Verify(x => x.CheckPasswordSignInAsync(It.IsAny<InputUserDTO>(), It.IsAny<string>(), LoginMode.Email, false), Times.Once());
         JwtProvider.Verify(x => x.GenerateToken(It.IsAny<InputUserDTO>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()), Times.Once());
         Assert.Equal(nameof(AuthenticationService), serviceSuccess.ServiceName);
-        Assert.Equal(nameof(ServiceProvider.Login), serviceSuccess.MethodName);
+        Assert.Equal(nameof(ServiceProvider.LoginWithUserName), serviceSuccess.MethodName);
         Assert.Equal(IdentitySystem.ServiceProvider.IdentityConstants.USER_LOGGED_IN_SUCCESSFULLY, serviceSuccess.SuccessMessage);
     }
 
@@ -64,7 +64,7 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
         var userDtoOut = Fixture.Create<OutputUserDTO>();
         var userDtoIn = Mapper.Map<InputUserDTO>(userDtoOut);
 
-        var dto = Fixture.Build<PhoneNumberUserLogin>()
+        var dto = Fixture.Build<PhoneNumberLoginRecord>()
                          .With(x => x.phoneNumber, userDtoOut.PhoneNumber)
                          .With(x => x.password, userDtoOut.PasswordHash)
                          .Create();
@@ -95,7 +95,7 @@ public class AuthenticationServiceTest : ServiceProviderTestBase
     public async void Register_Success()
     {
         // Arrange
-        var dto = Fixture.Create<SignUp>();
+        var dto = Fixture.Create<SignUpRecord>();
         var consumerName = Fixture.Create<string>();
 
         var userCreateDto = new InputUserDTO

@@ -1,6 +1,10 @@
 ﻿//using Azure.Core;
 //using CommunityToolkit.Diagnostics;
 
+using IdentitySystem.Application;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System;
+
 namespace IdentitySystem.ServiceProvider;
 
 public class AuthenticationService : IAuthenticationService
@@ -26,15 +30,14 @@ public class AuthenticationService : IAuthenticationService
     #endregion
 
     #region [ Public - Methods ]
-    public async Task<OneOf<ServiceSuccess, ServiceError>> Login(Application.Login dto,
-                                                                 string consumerName,
-                                                                 CancellationToken cancellationToken = default)
+    public async Task<OneOf<ServiceSuccess, ServiceError>> LoginWithUserName( UserNameLoginRecord dto,  string consumerName, CancellationToken cancellationToken = default)
     {
         //Guard.IsNotNull(dto);
-
-        var userDtoOut = await UserServiceProvider.FindByNameAsync(dto.username);
+        ArgumentNullException.ThrowIfNull(dto, nameof(UserNameLoginRecord));
+        
+        var userDtoOut = await UserServiceProvider.FindByNameAsync(dto.userName.ToUpper());
         if (userDtoOut is null)
-            return new ServiceError(nameof(AuthenticationService), nameof(Login))
+            return new ServiceError(nameof(AuthenticationService), nameof(LoginWithUserName))
             {
                 ErrorMessage = IdentityConstants.USER_NOT_FOUND,
                 ErrorCode = nameof(IdentityConstants.USER_NOT_FOUND),
@@ -42,9 +45,9 @@ public class AuthenticationService : IAuthenticationService
             };
 
         var userDtoIn = Mapper.Map<InputUserDTO>(userDtoOut);
-        var passwordCheck = await UserServiceProvider.CheckPasswordSignInAsync(userDtoIn, dto.password, LoginMode.Email, false);
+        var passwordCheck = await UserServiceProvider.CheckPasswordSignInAsync(userDtoIn, dto.password, LoginMode.UserName, false);
         if (!passwordCheck.Succeeded)
-            return new ServiceError(nameof(AuthenticationService), nameof(Login))
+            return new ServiceError(nameof(AuthenticationService), nameof(LoginWithUserName))
             {
                 ErrorMessage = IdentityConstants.PASSWORD_INVALID,
                 ErrorCode = nameof(IdentityConstants.PASSWORD_INVALID),
@@ -56,8 +59,7 @@ public class AuthenticationService : IAuthenticationService
         var accessToken = JwtTokenService.GenerateToken(userDtoIn, requestAt, expiredIn);
         // TODO: define refresh token
 
-
-        return new ServiceSuccess(nameof(AuthenticationService), nameof(Login), consumerName)
+        return new ServiceSuccess(nameof(AuthenticationService), nameof(LoginWithUserName), consumerName)
         {
             SuccessMessage = IdentityConstants.USER_LOGGED_IN_SUCCESSFULLY,
             EventOccuredAt = DateTime.UtcNow,
@@ -65,11 +67,10 @@ public class AuthenticationService : IAuthenticationService
         };
     }
 
-    public async Task<OneOf<ServiceSuccess, ServiceError>> LoginWithPhoneNumber(PhoneNumberUserLogin dto,
-                                                                                string consumerName,
-                                                                                CancellationToken cancellationToken)
+    public async Task<OneOf<ServiceSuccess, ServiceError>> LoginWithPhoneNumber(PhoneNumberLoginRecord dto, string consumerName, CancellationToken cancellationToken)
     {
         //Guard.IsNotNull(dto);
+        ArgumentNullException.ThrowIfNull(dto, nameof(PhoneNumberLoginRecord));
 
         var userDtoOut = await UserServiceProvider.FindByPhoneNumberAsync(dto.phoneNumber);
         if (userDtoOut is null)
@@ -91,7 +92,6 @@ public class AuthenticationService : IAuthenticationService
             };
         var requestAt = DateTime.UtcNow;
         var expiredIn = requestAt.AddDays(1);   // TODO: define expire time
-
         var accessToken = JwtTokenService.GenerateToken(userDtoIn, requestAt, expiredIn);
 
         return new ServiceSuccess(nameof(AuthenticationService), nameof(LoginWithPhoneNumber), consumerName)
@@ -102,7 +102,84 @@ public class AuthenticationService : IAuthenticationService
         };
     }
 
-    public async Task<OneOf<ServiceSuccess, ServiceError>> Register(SignUp dto, string consumerName, CancellationToken cancellationToken = default)
+    public async Task<OneOf<ServiceSuccess, ServiceError>> LoginWithEmail(EmailLoginRecord dto, string consumerName, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(dto, nameof(EmailLoginRecord));
+
+        var userDtoOut = await UserServiceProvider.FindByEmailAsync(dto.email.ToUpper());
+        if (userDtoOut is null)
+            return new ServiceError(nameof(AuthenticationService), nameof(LoginWithEmail))
+            {
+                ErrorMessage = IdentityConstants.USER_NOT_FOUND,
+                ErrorCode = nameof(IdentityConstants.USER_NOT_FOUND),
+                EventOccuredAt = DateTime.Now
+            };
+
+        var userDtoIn = Mapper.Map<InputUserDTO>(userDtoOut);
+        var passwordCheck = await UserServiceProvider.CheckPasswordSignInAsync(userDtoIn, dto.password, LoginMode.Email, false);
+        if (!passwordCheck.Succeeded)
+            return new ServiceError(nameof(AuthenticationService), nameof(LoginWithEmail))
+            {
+                ErrorMessage = IdentityConstants.PASSWORD_INVALID,
+                ErrorCode = nameof(IdentityConstants.PASSWORD_INVALID),
+                EventOccuredAt = DateTime.Now
+            };
+        var requestAt = DateTime.UtcNow;
+        var expiredIn = requestAt.AddDays(1);
+        var accessToken = JwtTokenService.GenerateToken(userDtoIn, requestAt, expiredIn);
+
+        return new ServiceSuccess(nameof(AuthenticationService), nameof(LoginWithEmail), consumerName)
+        {
+            SuccessMessage = IdentityConstants.USER_LOGGED_IN_WITH_PHONE_NUMBER_SUCCESSFULLY,
+            EventOccuredAt = DateTime.UtcNow,
+            AttachedData = new AuthenticatedResponse(userDtoIn.Id, requestAt, accessToken, expiredIn)
+        };
+    }
+    public async Task<OneOf<ServiceSuccess, ServiceError>> AdminLoginWithEmail(EmailLoginRecord dto, string consumerName, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(dto, nameof(EmailLoginRecord));
+
+        var userDtoOut = await UserServiceProvider.FindByEmailAsync(dto.email.ToUpper());
+        if (userDtoOut is null)
+            return new ServiceError(nameof(AuthenticationService), nameof(AdminLoginWithEmail))
+            {
+                ErrorMessage = IdentityConstants.USER_NOT_FOUND,
+                ErrorCode = nameof(IdentityConstants.USER_NOT_FOUND),
+                EventOccuredAt = DateTime.Now
+            };
+
+        var userDtoIn = Mapper.Map<InputUserDTO>(userDtoOut);
+        var userRoles = await UserServiceProvider.GetRolesAsync(userDtoIn);
+
+        if (!userRoles.Contains("Admin"))
+            return new ServiceError(nameof(AuthenticationService), nameof(AdminLoginWithEmail))
+            {
+                ErrorMessage = IdentityConstants.USER_IS_NOT_ADMIN,
+                ErrorCode = nameof(IdentityConstants.USER_IS_NOT_ADMIN),
+                EventOccuredAt = DateTime.Now
+            };
+
+        var passwordCheck = await UserServiceProvider.CheckPasswordSignInAsync(userDtoIn, dto.password, LoginMode.Email, false);
+        if (!passwordCheck.Succeeded)
+            return new ServiceError(nameof(AuthenticationService), nameof(AdminLoginWithEmail))
+            {
+                ErrorMessage = IdentityConstants.PASSWORD_INVALID,
+                ErrorCode = nameof(IdentityConstants.PASSWORD_INVALID),
+                EventOccuredAt = DateTime.Now
+            };
+        var requestAt = DateTime.UtcNow;
+        var expiredIn = requestAt.AddDays(1);
+        var accessToken = JwtTokenService.GenerateToken(userDtoIn, requestAt, expiredIn);
+
+        return new ServiceSuccess(nameof(AuthenticationService), nameof(AdminLoginWithEmail), consumerName)
+        {
+            SuccessMessage = IdentityConstants.USER_LOGGED_IN_WITH_PHONE_NUMBER_SUCCESSFULLY,
+            EventOccuredAt = DateTime.UtcNow,
+            AttachedData = new AuthenticatedResponse(userDtoIn.Id, requestAt, accessToken, expiredIn)
+        };
+    }
+
+    public async Task<OneOf<ServiceSuccess, ServiceError>> Register(SignUpRecord dto, string consumerName, CancellationToken cancellationToken = default)
     {
         //Guard.IsNotNull(dto);
 
@@ -145,6 +222,38 @@ public class AuthenticationService : IAuthenticationService
         {
             SuccessMessage = IdentityConstants.USER_CREATED_SUCCESSFULLY,
             EventOccuredAt = DateTime.UtcNow
+        };
+    }
+
+    public async Task<OneOf<ServiceSuccess, ServiceError>> ChangePasswordAsync(string userId, string currentPassword, string newPassword, string consumerName, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(userId, nameof(EmailLoginRecord));
+
+        var userDtoOut = await UserServiceProvider.FindByIdAsync(userId);
+        if (userDtoOut is null)
+            return new ServiceError(nameof(AuthenticationService), nameof(ChangePasswordAsync))
+            {
+                ErrorMessage = IdentityConstants.USER_NOT_FOUND,
+                ErrorCode = nameof(IdentityConstants.USER_NOT_FOUND),
+                EventOccuredAt = DateTime.Now
+            };
+
+        var userDtoIn = Mapper.Map<InputUserDTO>(userDtoOut);
+        var oldPasswordCheck = await UserServiceProvider.CheckPasswordSignInAsync(userDtoIn, currentPassword, LoginMode.UserName, false);
+        if (!oldPasswordCheck.Succeeded)
+            return new ServiceError(nameof(AuthenticationService), nameof(ChangePasswordAsync))
+            {
+                ErrorMessage = IdentityConstants.PASSWORD_INVALID,
+                ErrorCode = nameof(IdentityConstants.PASSWORD_INVALID),
+                EventOccuredAt = DateTime.Now
+            };
+
+        await UserServiceProvider.ChangePasswordAsync(userDtoIn, currentPassword, newPassword);
+        return new ServiceSuccess(nameof(AuthenticationService), nameof(ChangePasswordAsync), consumerName)
+        {
+            SuccessMessage = IdentityConstants.USER_CHANGED_PASSWORD_SUCCESSFULLY,
+            SuccessCode = nameof(IdentityConstants.USER_CHANGED_PASSWORD_SUCCESSFULLY),
+            EventOccuredAt = DateTime.Now
         };
     }
     #endregion

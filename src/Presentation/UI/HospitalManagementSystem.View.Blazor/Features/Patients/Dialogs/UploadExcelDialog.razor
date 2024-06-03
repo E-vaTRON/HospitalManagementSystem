@@ -1,0 +1,54 @@
+﻿@namespace HospitalManagementSystem.Blazor
+
+<FluentDialogBody>
+    <div style="max-height: 400px; overflow-y: auto;">
+        <FluentInputFile Id="my-file-uploader"
+                         Mode="InputFileMode.SaveToTemporaryFolder"
+                         Multiple="false"
+                         ShowPreview="true"
+                         MaximumFileCount="1"
+                         MaximumFileSize="50000000"
+                         Accept=".xls,.xlsx"
+                         OnCompleted="@OnCompleted"
+                         OnFileError="@OnError"
+                         Style="height: 300px;"
+                         Class="demopanel">
+
+            <label for="my-file-uploader">
+                <FluentIcon Value="@(new @Icons.Regular.Size24.ArrowUpload())" />
+            </label>
+
+            <div>
+                Drag file here you wish to upload,
+                or <label for="my-file-uploader">browse</label>
+                for them<span style="color: red;">*</span>.
+                <br />
+            </div>
+
+        </FluentInputFile>
+        @if (Files.Any())
+        {
+            <h4>File(s) uploaded:</h4>
+            <ul>
+                @foreach (var file in Files)
+                {
+                    <li>
+                        <b>@file.Name</b> 🔹
+                        @($"{Decimal.Divide(file.Size, 1024):N} KB") 🔹
+                        @file.ContentType 🔹
+                        @file.LocalFile?.FullName
+                        @file.ErrorMessage
+                    </li>
+                }
+            </ul>
+        }
+
+        @if (!string.IsNullOrEmpty(UploadError))
+        {
+            <h4>Upload error:</h4>
+            <p style="color: red">@UploadError</p>
+        }
+    </div>
+</FluentDialogBody>
+<FluentDialogFooter>
+</FluentDialogFooter>

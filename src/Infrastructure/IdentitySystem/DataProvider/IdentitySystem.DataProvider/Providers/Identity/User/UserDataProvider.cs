@@ -65,6 +65,9 @@ public class UserDataProvider : IdentityDataProviderBase<CoreUser, DataUser>, IU
     public async Task<IList<string>> GetRolesAsync(CoreUser user)
         => await UserManagerProvider.GetRolesAsync(user);
 
+    public async Task<IList<CoreUser>> GetUsersInRoleAsync(string roleNormalizedName)
+        => await UserManagerProvider.GetUsersInRoleAsync(roleNormalizedName);
+
     public async Task<IdentityResult> AddToRoleAsync(CoreUser user, string roleNormalizedName)
         => await UserManagerProvider.AddToRoleAsync(user, roleNormalizedName);
 
@@ -84,6 +87,9 @@ public class UserDataProvider : IdentityDataProviderBase<CoreUser, DataUser>, IU
     #endregion
 
     #region [ Password ]
+    public async Task<string> GeneratePasswordResetTokenAsync(CoreUser user)
+        => await UserManagerProvider.GeneratePasswordResetTokenAsync(user);
+
     public async Task<bool> HasPasswordAsync(CoreUser user)
         => await UserManagerProvider.HasPasswordAsync(user);
 
@@ -92,6 +98,9 @@ public class UserDataProvider : IdentityDataProviderBase<CoreUser, DataUser>, IU
 
     public async Task<IdentityResult> ChangePasswordAsync(CoreUser user, string currentPassword, string newPassword)
         => await UserManagerProvider.ChangePasswordAsync(user, currentPassword, newPassword);
+
+    public async Task<IdentityResult> ResetPasswordAsync(CoreUser user, string token, string newPassword)
+        => await UserManagerProvider.ResetPasswordAsync(user, token, newPassword);
     #endregion
     #endregion
 }

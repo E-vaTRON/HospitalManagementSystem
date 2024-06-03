@@ -2,5 +2,5 @@
 
 public record OutputMedicalDeviceDTO : MedicalDeviceDTO
 {
-    public ICollection<DeviceInventoryDTO>? DeviceInventoryDTOs { get; init; }
+    public ICollection<OutputDeviceInventoryDTO>? DeviceInventoryDTOs { get; init; }
 }

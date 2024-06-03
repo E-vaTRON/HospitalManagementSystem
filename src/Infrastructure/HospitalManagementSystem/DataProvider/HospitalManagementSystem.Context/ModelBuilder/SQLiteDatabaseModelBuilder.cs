@@ -42,7 +42,7 @@ public class SQLiteDatabaseModelBuilder
         this.DrugModelBuilder(modelBuilder);
         this.DrugInventoryModelBuilder(modelBuilder);
         this.DrugPrescriptionModelBuilder(modelBuilder);
-        this.GoodSupplingModelBuilder(modelBuilder);
+        //this.GoodSupplingModelBuilder(modelBuilder);
         this.ImportationModelBuilder(modelBuilder);
         this.StorageModelBuilder(modelBuilder);
 
@@ -63,6 +63,8 @@ public class SQLiteDatabaseModelBuilder
         this.MedicalDeviceModelBuilder(modelBuilder);
         this.ServiceModelBuilder(modelBuilder);
         this.AnalysisTestModelBuilder(modelBuilder);
+
+        this.BillModelBuilder(modelBuilder);
     }
     #endregion
 
@@ -218,7 +220,12 @@ public class SQLiteDatabaseModelBuilder
 
         modelBuilder.Entity<Room>()
                     .Property(x => x.Status)
+                    .HasConversion(new EnumToStringConverter<RoomStatus>())
                     .HasColumnType("TEXT");
+
+        modelBuilder.Entity<Room>()
+                    .Property(x => x.PricePerHour)
+                    .HasColumnType("INTEGER");
 
         modelBuilder.Entity<Room>()
                     .HasOne(r => r.Department)
@@ -358,6 +365,19 @@ public class SQLiteDatabaseModelBuilder
         this.BaseModelBuilder<DrugInventory>(modelBuilder, nameof(DrugInventory));
 
         modelBuilder.Entity<DrugInventory>()
+                    .Property(x => x.GoodInformation)
+                    .HasColumnType("TEXT");
+
+        modelBuilder.Entity<DrugInventory>()
+                    .Property(x => x.ExpiryDate)
+                    .HasColumnType("TEXT")
+                    .IsRequired(true);
+
+        modelBuilder.Entity<DrugInventory>()
+                    .Property(x => x.OrinaryAmount)
+                    .HasColumnType("INTEGER");
+
+        modelBuilder.Entity<DrugInventory>()
                     .Property(x => x.CurrentAmount)
                     .HasColumnType("INTEGER");
 
@@ -367,13 +387,24 @@ public class SQLiteDatabaseModelBuilder
                     .HasForeignKey(di => di.StorageId);
 
         modelBuilder.Entity<DrugInventory>()
-                    .HasOne(di => di.GoodSuppling)
-                    .WithOne(gs => gs.DrugInventory)
-                    .HasForeignKey<DrugInventory>(di => di.GoodSupplingId);
+                    .HasOne(gs => gs.Importation)
+                    .WithMany(i => i.DrugInventories)
+                    .HasForeignKey(gs => gs.ImportationId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<DrugInventory>()
+                    .HasOne(gs => gs.Drug)
+                    .WithMany(d => d.DrugInventories)
+                    .HasForeignKey(gs => gs.DrugId)
+                    .OnDelete(DeleteBehavior.Cascade);
     }
     private void DrugPrescriptionModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<DrugPrescription>(modelBuilder, nameof(DrugPrescription));
+
+        modelBuilder.Entity<DrugPrescription>()
+                    .Property(x => x.Amount)
+                    .HasColumnType("INTEGER");
 
         modelBuilder.Entity<DrugPrescription>()
                     .HasOne(dd => dd.MedicalExamEposode)
@@ -385,37 +416,10 @@ public class SQLiteDatabaseModelBuilder
                     .WithMany(di => di.DrugPrescriptions)
                     .HasForeignKey(dd => dd.DrugInventoryId);
     }
-    private void GoodSupplingModelBuilder(ModelBuilder modelBuilder)
-    {
-        this.BaseModelBuilder<GoodSuppling>(modelBuilder, nameof(GoodSuppling));
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .Property(x => x.GoodInformation)
-                    .HasColumnType("TEXT");
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .Property(x => x.ExpiryDate)
-                    .HasColumnType("TEXT")
-                    .IsRequired(true);
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .Property(x => x.OrinaryAmount)
-                    .HasColumnType("INTEGER");
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .HasOne(gs => gs.Importation)
-                    .WithMany(i => i.GoodSupplings)
-                    .HasForeignKey(gs => gs.ImportationId);
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .HasOne(gs => gs.DrugInventory)
-                    .WithOne(i => i.GoodSuppling);
-
-        modelBuilder.Entity<GoodSuppling>()
-                    .HasOne(gs => gs.Drug)
-                    .WithMany(d => d.GoodSupplings)
-                    .HasForeignKey(gs => gs.DrugId);
-    }
+    //private void GoodSupplingModelBuilder(ModelBuilder modelBuilder)
+    //{
+    //    this.BaseModelBuilder<GoodSuppling>(modelBuilder, nameof(GoodSuppling));
+    //}
     private void ImportationModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<Importation>(modelBuilder, nameof(Importation));
@@ -635,6 +639,11 @@ public class SQLiteDatabaseModelBuilder
                     .WithOne(ah => ah.MedicalExamEpisode);
 
         modelBuilder.Entity<MedicalExamEpisode>()
+                    .HasOne(mee => mee.Bill)
+                    .WithOne(b => b.MedicalExamEpisode)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<MedicalExamEpisode>()
                     .HasOne(mee => mee.MedicalExam)
                     .WithMany(me => me.MedicalExamEpisodes)
                     .HasForeignKey(mee => mee.MedicalExamId);
@@ -675,6 +684,8 @@ public class SQLiteDatabaseModelBuilder
     #region [ Medical Device ]
     private void DeviceServiceModelBuilder(ModelBuilder modelBuilder)
     {
+        this.BaseModelBuilder<DeviceService>(modelBuilder, nameof(DeviceService));
+
         modelBuilder.Entity<DeviceService>()
                     .HasOne(ds => ds.DeviceInventory)
                     .WithMany(di => di.DeviceServices)
@@ -687,9 +698,10 @@ public class SQLiteDatabaseModelBuilder
                     .HasForeignKey(ds => ds.ServiceId)
                     .OnDelete(DeleteBehavior.Cascade);
     }
-
     private void MedicalDeviceModelBuilder(ModelBuilder modelBuilder)
     {
+        this.BaseModelBuilder<MedicalDevice>(modelBuilder, nameof(MedicalDevice));
+
         modelBuilder.Entity<MedicalDevice>()
                     .Property(x => x.Name)
                     .HasColumnType("TEXT")
@@ -719,9 +731,10 @@ public class SQLiteDatabaseModelBuilder
                     .Property(x => x.Max)
                     .HasColumnType("INTEGER");
     }
-
     private void ServiceModelBuilder(ModelBuilder modelBuilder)
     {
+        this.BaseModelBuilder<Service>(modelBuilder, nameof(Service));
+
         modelBuilder.Entity<Service>()
                     .Property(x => x.Name)
                     .HasColumnType("TEXT")
@@ -781,5 +794,57 @@ public class SQLiteDatabaseModelBuilder
     }
     #endregion
 
+    #region [ Transaction ]
+    public void BillModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<Bill>(modelBuilder, nameof(Bill));
+        // Configure the Bill entity
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.Deadline)
+                    .IsRequired();
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.PaidDate);
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.Status)
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.TotalAmount)
+                    .HasColumnType("REAL") // Use REAL for floating-point numbers
+                    .IsRequired();
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.ExcessAmount)
+                    .HasColumnType("REAL");
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.UnderPaidAmount)
+                    .HasColumnType("REAL");
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.DiscountAmount)
+                    .HasColumnType("REAL");
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.AdjustmentAmount)
+                    .HasColumnType("REAL");
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.PaymentMethod)
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<Bill>()
+                    .Property(b => b.Notes);
+
+        // Configure the relationship with MedicalExamEpisode
+        modelBuilder.Entity<Bill>()
+                    .HasOne(b => b.MedicalExamEpisode)
+                    .WithOne(mee => mee.Bill)
+                    .HasForeignKey<Bill>(b => b.MedicalExamEpisodeId)
+                    .OnDelete(DeleteBehavior.Cascade);
+    }
+    #endregion
     #endregion
 }

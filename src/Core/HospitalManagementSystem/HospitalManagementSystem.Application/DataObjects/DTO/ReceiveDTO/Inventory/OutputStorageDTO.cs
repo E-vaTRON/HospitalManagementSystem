@@ -2,6 +2,6 @@
 
 public record OutputStorageDTO : StorageDTO
 {
-    public ICollection<DrugInventoryDTO>?   DrugInventoryDTOs   { get; init; }
-    public ICollection<DeviceInventoryDTO>? DeviceInventoryDTOs { get; init; }
+    public ICollection<OutputDrugInventoryDTO>?   DrugInventoryDTOs   { get; init; }
+    public ICollection<OutputDeviceInventoryDTO>? DeviceInventoryDTOs { get; init; }
 }

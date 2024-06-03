@@ -1,0 +1,68 @@
+﻿@namespace HospitalManagementSystem.Blazor
+
+<FluentDialogBody>
+    <FluentGrid Spacing="3" Justify="@Justification">
+        <FluentGridItem xs="12" sm="6">
+        <div style="max-height: 400px; overflow-y: auto;">
+            <FluentCard Orientation="Orientation.Vertical">
+                <FluentTextField Value="@Content.FirstName" xs="12" Disabled>First Name:</FluentTextField>
+                <FluentTextField Value="@Content.LastName" xs="12" Disabled>Last Name:</FluentTextField>
+                <FluentTextField Value="@Content.UserName" xs="12">User Name:</FluentTextField>
+                <FluentDatePicker Label="Join Date" Value="@SelectedDate" ValueChanged="@((DateTime? newDate) => HandleDateChange(newDate))" Disabled/>
+                    <FluentTextField Value="@Content.Email" TextFieldType="TextFieldType.Email">
+                    <FluentIcon Value="@(new Icons.Regular.Size16.Mail())" Slot="start" Color="Color.Neutral" />Email:
+                </FluentTextField>
+                <FluentTextField Value="@Content.Address" xs="12" Disabled>
+                    <FluentIcon Value="@(new Icons.Regular.Size16.Location())" Slot="start" Color="Color.Neutral" />Street:
+                </FluentTextField>
+                    <FluentTextField Value="@Content.PhoneNumber" TextFieldType="TextFieldType.Tel">
+                    <FluentIcon Value="@(new Icons.Regular.Size16.Phone())" Slot="start" Color="Color.Neutral" />Phone number:
+                    </FluentTextField>
+                </FluentCard>
+            </div>
+        </FluentGridItem>
+        <FluentGridItem xs="12" sm="6">
+            @* <FluentInputFile Id="my-file-uploader"
+                             Mode="InputFileMode.SaveToTemporaryFolder"
+                             Multiple="false"
+                             Disabled
+                             ShowPreview="true"
+                             MaximumFileCount="1"
+                             MaximumFileSize="50000000"
+                             Accept="image/*"
+                             OnCompleted="@OnCompleted"
+                             OnFileError="@OnError"
+                             Style="height: 300px;"
+                             Class="demopanel">
+
+                <label for="my-file-uploader">
+                    <FluentIcon Value="@(new @Icons.Regular.Size24.ArrowUpload())" />
+                </label>
+
+                <div>
+                    Drag file here you wish to upload,
+                    or <label for="my-file-uploader">browse</label>
+                    for them<span style="color: red;">*</span>.
+                    <br />
+                </div>
+            </FluentInputFile>
+
+            @if (Files.Any())
+            {
+                <h4>File(s) uploaded:</h4>
+                <ul>
+                    @foreach (var file in Files)
+                    {
+                        <li>
+                            <b>@file.Name</b> 🔹
+                            @($"{Decimal.Divide(file.Size, 1024):N} KB") 🔹
+                            @file.ContentType 🔹
+                            @file.LocalFile?.FullName
+                            @file.ErrorMessage
+                        </li>
+                    }
+                </ul>
+            } *@
+        </FluentGridItem>
+    </FluentGrid>
+</FluentDialogBody>

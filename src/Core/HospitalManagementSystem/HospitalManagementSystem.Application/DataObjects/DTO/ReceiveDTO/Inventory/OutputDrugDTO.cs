@@ -2,5 +2,5 @@
 
 public record OutputDrugDTO : DrugDTO
 {
-    public ICollection<GoodSupplingDTO>? GoodSupplingDTOs { get; init; }
+    public ICollection<OutputGoodSupplingDTO>? GoodSupplingDTOs { get; init; }
 }

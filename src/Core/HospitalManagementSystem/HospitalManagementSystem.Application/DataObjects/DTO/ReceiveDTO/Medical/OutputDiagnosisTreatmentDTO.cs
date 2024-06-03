@@ -2,6 +2,6 @@
 
 public record OutputDiagnosisTreatmentDTO : DiagnosisTreatmentDTO
 {
-    public TreatmentDTO? TreatmentDTO   { get; init; }
-    public DiagnosisDTO? DiagnosisDTO   { get; init; }
+    public OutputTreatmentDTO? TreatmentDTO   { get; init; }
+    public OutputDiagnosisDTO? DiagnosisDTO   { get; init; }
 }

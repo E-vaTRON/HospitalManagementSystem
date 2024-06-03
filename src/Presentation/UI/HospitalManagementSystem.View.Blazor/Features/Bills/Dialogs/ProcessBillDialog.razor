@@ -1,0 +1,51 @@
+﻿@namespace HospitalManagementSystem.Blazor
+
+<FluentDialogBody>
+    <FluentStack Orientation="Orientation.Vertical">
+        Deadline: 
+        <FluentBadge Style="font-size:larger" 
+                     Fill="somevalue" 
+                     BackgroundColor="#24acf2" 
+                     Color="white">
+            @Content.Deadline.ToString("dd/MM/yy")
+        </FluentBadge>
+        @if (DateTime.Now > Content.Deadline)
+        {
+            <FluentBadge Style="font-size:larger" 
+                         Fill="somevalue" 
+                         BackgroundColor="red" 
+                         Color="white"> Penalty 
+            </FluentBadge>
+        }
+        Amount: 
+        <FluentBadge Style="font-size:larger" 
+                     Fill="somevalue" 
+                     BackgroundColor="#0cffbb" 
+                     Color="white"> 
+            @PricePerBill()
+        </FluentBadge>
+        Customer paid: 
+        <FluentBadge Style="font-size:larger" 
+                     Fill="somevalue" 
+                     BackgroundColor="#5cd54a" 
+                     Color="white">
+            @amount.ToString("C2", CultureInfo.GetCultureInfo("en-PH"))
+        </FluentBadge>
+        <FluentNumberField @bind-Value="@amount" @oninput="@CheckBillPayment" Min="0">
+            <FluentIcon Value="@(new Icons.Regular.Size16.Money())" 
+                        Slot="start" 
+                        Color="Color.Neutral" />
+                        Amount:
+        </FluentNumberField>
+        <FluentBadge Style="font-size:larger" 
+                     Fill="somevalue" 
+                     BackgroundColor="@amountColor" 
+                     Color="white">@amountMessage
+        </FluentBadge>
+        <FluentDatePicker Label="Paid date" 
+                          Value="@Content!.PaidDate" />
+    </FluentStack>
+</FluentDialogBody>
+<FluentDialogFooter>
+</FluentDialogFooter>
+

@@ -23,16 +23,22 @@ public interface IUserServiceProvider : IIdentityServiceProviderBase<OutputUserD
     #region [ Role ]
     Task<IList<string>> GetRolesAsync(InputUserDTO user);
 
+    Task<IList<OutputUserDTO>> GetUsersInRoleAsync(string roleNormalizedName);
+
     Task<IdentityResult> AddToRoleAsync(InputUserDTO user, string roleNormalizedName);
 
     Task<IdentityResult> RemoveFromRoleAsync(InputUserDTO user, string role);
     #endregion
 
     #region [ Password ]
+    Task<string> GeneratePasswordResetTokenAsync(InputUserDTO user);
+
     Task<bool> HasPasswordAsync(InputUserDTO user);
 
     Task<bool> CheckPasswordAsync(InputUserDTO user, string password);
 
     Task<IdentityResult> ChangePasswordAsync(InputUserDTO user, string currentPassword, string newPassword);
-    #endregion
+
+    Task<IdentityResult> ResetPasswordAsync(InputUserDTO user, string token, string newPassword);
+    #endregion  
 }

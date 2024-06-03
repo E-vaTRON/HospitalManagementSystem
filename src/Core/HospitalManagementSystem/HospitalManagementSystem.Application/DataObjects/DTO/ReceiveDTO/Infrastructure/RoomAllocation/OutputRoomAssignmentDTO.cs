@@ -2,5 +2,5 @@
 
 public record OutputRoomAssignmentDTO : RoomAssignmentDTO
 {
-    public RoomDTO? RoomDTO { get; init; }
+    public OutputRoomDTO? RoomDTO { get; init; }
 }

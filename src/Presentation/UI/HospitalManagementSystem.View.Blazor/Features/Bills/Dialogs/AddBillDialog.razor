@@ -1,0 +1,120 @@
+﻿@namespace HospitalManagementSystem.Blazor
+
+<FluentDialogBody>
+    <FluentHorizontalScroll>
+        <div style="max-height: 320px; overflow-y: auto;">
+            <FluentStack Orientation="Orientation.Vertical">
+                <FluentAutocomplete Id="my-customized"
+                                    @ref="Users"
+                                    TOption="OutputUserDTO"
+                                    Width="100%"
+                                    Placeholder="Search User"
+                                    OnOptionsSearch="@OnSearch"
+                                    MaximumSelectedOptions="1"
+                                    OptionText="@(item => item.FirstName + " " + item.LastName)"
+                                    OptionStyle="min-height: 40px;"
+                                    ValueChanged="(selectedOptions) => OnAutocompleteValueChanged(selectedOptions)"
+                                    SelectedOptions="@Content.UserSelectList">
+
+                    <LabelTemplate>
+                        Select User 
+                        <FluentIcon Value="@(new Icons.Regular.Size20.ServiceBell())" />
+                    </LabelTemplate>
+
+                    <SelectedOptionTemplate>
+                        <FluentBadge Appearance="Appearance.Neutral"
+                                     Fill="somevalue"
+                                     Color="white"
+                                     OnDismissClick="@(async () => await Users.RemoveSelectedItemAsync(context))">
+                            @context.LastName
+                        </FluentBadge>
+                    </SelectedOptionTemplate>
+
+                    @* Template used with each Option items *@
+                    <OptionTemplate>
+                        <FluentBadge Appearance="Appearance.Neutral"
+                                     Fill="somevalue"
+                                     Color="white">
+                            @context.LastName
+                        </FluentBadge>
+                    </OptionTemplate>
+
+                    @* Template used when the maximum number of selected items (MaximumSelectedOptions) has been reached *@
+                    <MaximumSelectedOptionsMessage>
+                        The maximum number of selected items has been reached.
+                    </MaximumSelectedOptionsMessage>
+
+                    @* Content display at the top of the Popup area *@
+                    <HeaderContent>
+                        <FluentLabel Color="Color.Accent"
+                                     Style="padding: 8px; font-size: 11px; border-bottom: 1px solid var(--neutral-fill-stealth-hover);">
+                            Suggested services
+                        </FluentLabel>
+                    </HeaderContent>
+
+                    @* Content display at the bottom of the Popup area *@
+                    <FooterContent>
+                        @if (Content.SelectedUser is not null)
+                        {
+                            <FluentLabel Style="font-size: 11px; text-align: center; width: 200px;">
+                                No services found
+                            </FluentLabel>
+                        }
+                    </FooterContent>
+                </FluentAutocomplete>
+                @* @if (Content.UserSelectList!.Any())
+                {
+                    <ul>
+                        @foreach (var user in Content.UserSelectList!)
+                        {
+                            <li>
+                                <FluentNumberField @bind-Value="@user.Quantity"
+                                                   Disabled="@(selectedService.CalculationType == CalculationType.LotSizeMultiplication)"
+                                                   Min="1" Max="100" Label="@selectedService.Name" />
+                            </li>
+                        }
+                    </ul>
+
+                }
+                else
+                {
+                    <FluentBadge Fill="somevalue" BackgroundColor="red" Color="white">
+                            No selected services with quantity
+                    </FluentBadge>
+                } *@
+                @*hình như cái này là do không có cái j trong list nên tự tìm bằng id*@
+@*                 <FluentTextField @bind-Value="@userGuid"
+                                 Required
+                                 @onfocusout=@(async () => await CheckUserGuid())>
+                    <FluentIcon Value="@(new Icons.Regular.Size16.ContactCard())" Slot="start" Color="Color.Neutral" />User Id:
+                </FluentTextField> *@
+                @if (Content.SelectedUser is null || !Content.IsUserIdValid)
+                {
+                    <span style="color: red;">@errorMessage</span>
+                }
+                else
+                {
+                    <FluentPersona Name="@(Content?.SelectedUser is not null ? Content?.SelectedUser.Email : "No Email")"
+                        Status="PresenceStatus.Available"
+                        Image=":)"
+                        StatusTitle="You are online"
+                        ImageSize="35px" />
+@*                     @(@Content?.SelectedUser is not null ? Content?.SelectedUser.ProfileImageUrl : null) *@
+                }
+                <FluentDatePicker Label="Deadline" 
+                                  Value="@selectedDate" 
+                                  ValueChanged="(selectedOption) => HandleDatePickerValueChanged(selectedOption)" />
+                @if (!Content!.IsDeadlineValid)
+                {
+                    <FluentBadge Fill="somevalue" BackgroundColor="red" Color="white">
+                            Please provide a deadline for this bill
+                    </FluentBadge>
+                }
+                
+                    <FluentButton Appearance="Appearance.Accent" @onclick=ValidateBill>Validate bill</FluentButton>
+            </FluentStack>
+        </div>
+    </FluentHorizontalScroll>
+</FluentDialogBody>
+<FluentDialogFooter>
+</FluentDialogFooter>
