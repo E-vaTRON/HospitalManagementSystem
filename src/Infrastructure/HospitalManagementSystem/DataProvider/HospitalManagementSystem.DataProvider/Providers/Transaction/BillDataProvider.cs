@@ -27,6 +27,9 @@ public class BillDataProvider : DataProviderBase<CoreBill, DataBill>, IBillDataP
         var query = await GetQueryableAsync(false, cancellationToken);
 
         return await query.Include(x => x.MedicalExamEpisode)
+                          .Include(x => x.MedicalExamEpisode.AnalysisTests).ThenInclude(y => y.Id)
+                          .Include(x => x.MedicalExamEpisode.DrugPrescriptions).ThenInclude(y => y.Id)
+                          .Include(x => x.MedicalExamEpisode.RoomAllocations).ThenInclude(y => y.Id)
                           .WhereIf(id != null, bill => id!.Contains(bill.MedicalExamEpisode.MedicalExam.BookingAppointment!.PatientId))
                           .ToListAsync(cancellationToken);
     }

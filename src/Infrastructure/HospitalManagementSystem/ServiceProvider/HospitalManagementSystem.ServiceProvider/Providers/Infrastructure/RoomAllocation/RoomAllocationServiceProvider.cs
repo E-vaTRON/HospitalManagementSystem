@@ -18,6 +18,12 @@ public class RoomAllocationServiceProvider : ServiceProviderBase<DTORoomAllocati
     #endregion
 
     #region [ Methods ]
+    public async Task<IList<DTORoomAllocationOut>> GetAllIncludeRoomAsync()
+    {
+        var roomAllocations = await RoomAllocationDataProvider.GetAllIncludeRoomAsync();
+        return MapToDTOs(roomAllocations).ToList();
+    }
+
     public async Task<DTORoomAllocationOut> GetByIdIncludeRoomAsync(string id, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(id, nameof(id));

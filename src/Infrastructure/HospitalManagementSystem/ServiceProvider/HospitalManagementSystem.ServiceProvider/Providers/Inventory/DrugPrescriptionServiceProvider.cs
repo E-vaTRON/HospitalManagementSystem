@@ -18,6 +18,12 @@ public class DrugPrescriptionServiceProvider : ServiceProviderBase<DTODrugPrescr
     #endregion
 
     #region [ Methods ]
+    public async Task<IList<DTODrugPrescriptionOut>> GetAllIncludeDrugAsync()
+    {
+        var drugPrescriptions = await DrugPrescriptionDataProvider.GetAllIncludeDrugAsync();
+        return MapToDTOs(drugPrescriptions).ToList();
+    }
+
     public async Task<DTODrugPrescriptionOut> GetByIdIncludeDrugAsync(string id, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(id, nameof(id));

@@ -12,6 +12,15 @@ public class DrugPrescriptionDataProvider : DataProviderBase<CoreDrugPrescriptio
     #endregion
 
     #region [ Internal Methods ]
+    protected virtual async Task<IEnumerable<CoreDrugPrescription>> InternalGetAllIncludeDrugAsync(Expression<Func<CoreDrugPrescription, bool>>? predicate = null, CancellationToken cancellationToken = default)
+    {
+        var query = await GetQueryableAsync(false, cancellationToken);
+
+        return await query.Include(x => x.DrugInventory.Drug)
+                          .WhereIf(predicate != null, predicate!)
+                          .ToListAsync(cancellationToken);
+    }
+
     protected virtual async Task<IEnumerable<CoreDrugPrescription>> InternalFindByIdIncludeDrugAsync(string[] id, CancellationToken cancellationToken = default)
     {
         var mId = ParseIds(id!);
@@ -24,6 +33,13 @@ public class DrugPrescriptionDataProvider : DataProviderBase<CoreDrugPrescriptio
     #endregion
 
     #region [ Public - Methods ]
+    public async Task<IList<CoreDrugPrescription>> GetAllIncludeDrugAsync()
+    {
+        var drugPrescriptions = await InternalGetAllIncludeDrugAsync();
+        ArgumentNullException.ThrowIfNull(drugPrescriptions, nameof(drugPrescriptions));
+        return drugPrescriptions.ToList();
+    }
+
     public async Task<IList<CoreDrugPrescription>> GetMultipleByIdIncludeDrugAsync(string[] ids, CancellationToken cancellationToken = default)
     {
         var drugPrescriptions = await InternalFindByIdIncludeDrugAsync(ids);

@@ -1,0 +1,37 @@
+﻿@namespace HospitalManagementSystem.Blazor
+
+<FluentDialogBody>
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentBadge Fill="somevalue">@Content.Name</FluentBadge>
+        <FluentTextField Value=Content.Name 
+                        Required 
+                         @onfocusout=@(() => ValidateAndSetIsServiceNameValid())>
+            <FluentIcon Value="@(new Icons.Regular.Size16.ServiceBell())" Slot="start" Color="Color.Neutral" />Service name:
+        </FluentTextField>
+        @if (!Content.IsServiceNameValid)
+        {
+            <FluentBadge Fill="somevalue" BackgroundColor="red" Color="white">@(Content.IsNameNotDuplicated ?
+                "Please provide a serivce name" :
+                "Duplicated service name")
+            </FluentBadge>
+        }
+        <FluentNumberField Value=Content.ServicePrice 
+                           Min="1"
+                           Required
+                           @onfocusout=ValidateAndSetIsPriceValid>
+            <FluentIcon Value="@(new Icons.Regular.Size16.Money())" Slot="start" Color="Color.Neutral" />Price:
+        </FluentNumberField>
+        @if(!Content.IsPriceValid)
+        {
+            <FluentBadge Fill="somevalue" BackgroundColor="red" Color="white">Please provide a valid price</FluentBadge>
+        }
+@*         <FluentRadioGroup Required="true" @bind-Value=Content.UICalculationType Orientation="Orientation.Horizontal">
+            <FluentRadio Value="@("monthlyorpenalty")">Monthly and penalty?</FluentRadio>
+            <FluentRadio Value="@("directadd")">Direct add</FluentRadio>
+        </FluentRadioGroup> *@
+        <FluentButton Appearance="Appearance.Accent" @onclick=ValidateService>Check service information</FluentButton>
+    </FluentStack>
+</FluentDialogBody>
+<FluentDialogFooter>
+
+</FluentDialogFooter>

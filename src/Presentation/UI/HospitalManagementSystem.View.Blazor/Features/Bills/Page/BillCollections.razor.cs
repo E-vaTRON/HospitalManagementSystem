@@ -491,20 +491,24 @@ public partial class BillCollections : AuthenticationComponentBase
 
         var bills = await HMSContext.Bills.GetBillByMultipleUserIdAsync(State.Users.Select(x => x.Id).ToArray(), true);
 
+        var analysisTests = await HMSContext.AnalysisTests.GetAllIncludeServiceAsync();
+        var drugPrescriptions = await HMSContext.DrugPrescriptions.GetAllIncludeDrugAsync();
+        var roomAllocations = await HMSContext.RoomAllocations.GetAllIncludeRoomAsync();
+
         State.Users = users.ToList();
 
         foreach (var bill in bills)
         {
             var analysisTestIds = bill.MedicalExamEpisodeDTO!.AnalysisTestDTOs!.Select(x => x.Id).ToArray();
-            var analysisTests = await HMSContext.AnalysisTests.GetMultipleByIdIncludeServiceAsync(analysisTestIds);
+            var analysisTestBills = analysisTests.Where(analysisTest => analysisTestIds.Contains(analysisTest.Id));
             State.AnalysisTests = analysisTests.ToList();
 
             var drugPrescriptionIds = bill.MedicalExamEpisodeDTO!.DrugPrescriptionDTOs!.Select(x => x.Id).ToArray();
-            var drugPrescriptions = await HMSContext.DrugPrescriptions.GetMultipleByIdIncludeDrugAsync(drugPrescriptionIds);
+            var drugPrescriptionBills = drugPrescriptions.Where(drugPrescription => drugPrescriptionIds.Contains(drugPrescription.Id));
             State.DrugPrescriptions = drugPrescriptions.ToList();
 
             var roomAllocationIds = bill.MedicalExamEpisodeDTO!.RoomAllocationDTOs!.Select(x => x.Id).ToArray();
-            var roomAllocations = await HMSContext.RoomAllocations.GetMultipleByIdIncludeRoomAsync(roomAllocationIds);
+            var roomAllocationBills = roomAllocations.Where(roomAllocation => roomAllocationIds.Contains(roomAllocation.Id));
             State.RoomAllocations = roomAllocations.ToList();
 
             var updatedMedicalExamEpisodeDTO = bill.MedicalExamEpisodeDTO with

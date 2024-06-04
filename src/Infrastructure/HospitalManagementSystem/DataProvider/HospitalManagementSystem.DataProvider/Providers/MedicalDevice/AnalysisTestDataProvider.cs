@@ -12,6 +12,15 @@ public class AnalysisTestDataProvider : DataProviderBase<CoreAnalysisTest, DataA
     #endregion
 
     #region [ Internal Methods ]
+    protected virtual async Task<IEnumerable<CoreAnalysisTest>> InternalGetAllIncludeServiceAsync(Expression<Func<CoreAnalysisTest, bool>>? predicate = null, CancellationToken cancellationToken = default)
+    {
+        var query = await GetQueryableAsync(false, cancellationToken);
+
+        return await query.Include(x => x.DeviceService.Service)
+                          .WhereIf(predicate != null, predicate!)
+                          .ToListAsync(cancellationToken);
+    }
+
     protected virtual async Task<IEnumerable<CoreAnalysisTest>> InternalFindByIdIncludeServiceAsync(string[] id, CancellationToken cancellationToken = default)
     {
         var mId = ParseIds(id!);
@@ -24,6 +33,13 @@ public class AnalysisTestDataProvider : DataProviderBase<CoreAnalysisTest, DataA
     #endregion
 
     #region [ Public - Methods ]
+    public async Task<IList<CoreAnalysisTest>> GetAllIncludeServiceAsync()
+    {
+        var analysisTests = await InternalGetAllIncludeServiceAsync();
+        ArgumentNullException.ThrowIfNull(analysisTests, nameof(analysisTests));
+        return analysisTests.ToList();
+    }
+
     public async Task<IList<CoreAnalysisTest>> GetMultipleByIdIncludeServiceAsync(string[] ids, CancellationToken cancellationToken = default)
     {
         var analysisTests = await InternalFindByIdIncludeServiceAsync(ids);
