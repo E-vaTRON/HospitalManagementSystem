@@ -12,8 +12,10 @@ public partial class Login : LayoutComponentBase
     [Inject]
     public IToastService ToastService { get; set; }
 
+    [Inject]
     protected NavigationManager Navigator { get; set; }
 
+    [Inject]
     public LoginState State { get; set; }
 
     #endregion

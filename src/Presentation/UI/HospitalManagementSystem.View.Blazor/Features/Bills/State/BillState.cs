@@ -5,7 +5,11 @@ public class BillState : StateBase
     #region [ Fields ]
     private int     itemsPerPage;
     private int     currentPage;
+    private int     progressBarMaxValue;
+    private int     progressBarValue;
     private int[]   paginationCount;
+    private string? paid;
+    private string? percentage;
     private string? lastNameFilter;
     private string? amountRadioChoice;
     private string? createdDateRadioChoice;
@@ -24,7 +28,7 @@ public class BillState : StateBase
     private List<BillWithUserAndServicesModel>?     modifiedBills;
     #endregion
 
-    #region [ Fields ]
+    #region [ CTor ]
     public BillState()
     {
         paginationCount = [];
@@ -40,7 +44,7 @@ public class BillState : StateBase
     }
     #endregion
 
-    #region [ Fields ]
+    #region [ Properties ]
     public int ItemsPerPage
     {
         get { return this.itemsPerPage!; }
@@ -53,10 +57,35 @@ public class BillState : StateBase
         set { this.SetProperty(ref this.currentPage, value); }
     }
 
+    public int ProgressBarMaxValue
+    {
+        get { return this.progressBarMaxValue!; }
+        set { this.SetProperty(ref this.progressBarMaxValue, value); }
+    }
+
+    public int ProgressBarValue
+    {
+        get { return this.progressBarValue!; }
+        set { this.SetProperty(ref this.progressBarValue, value); }
+    }
+
     public int[] PaginationCount
     {
         get { return this.paginationCount!; }
         set { this.SetProperty(ref this.paginationCount, value); }
+    }
+
+    public string Paid
+    {
+        get { return this.paid!; }
+        set { this.SetProperty(ref this.paid, value); }
+    }
+
+
+    public string Percentage
+    {
+        get { return this.percentage!; }
+        set { this.SetProperty(ref this.percentage, value); }
     }
 
     public string LastNameFilter

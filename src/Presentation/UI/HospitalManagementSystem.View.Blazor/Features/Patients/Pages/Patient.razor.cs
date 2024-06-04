@@ -20,10 +20,16 @@ public partial class Patient : AuthenticationComponentBase
     #endregion
 
     #region [ CTor ]
-    public Patient(NavigationManager navigator) : base(navigator)
+    public Patient( NavigationManager navigator, 
+                    HMSServiceContext hmsContext, 
+                    ISServiceContext isContext) 
+        : base(navigator)
     {
+        HMSContext = hmsContext;
+        ISContext = isContext;
         State = new();
         State.ItemsPerPage = 15;
+        State.CurrentPage = 1;
     }
     #endregion
 
@@ -56,7 +62,7 @@ public partial class Patient : AuthenticationComponentBase
     {
         if (searchTerm.Length > 0 && !string.IsNullOrWhiteSpace(searchTerm))
         {
-            var filtered = this.State.ModifiedUser.Where(x => x.LastName.ToLower().Contains(searchTerm));
+            var filtered = this.State.ModifiedUsers.Where(x => x.LastName.ToLower().Contains(searchTerm));
             this.OnFilterData(filtered);
         }
     }
@@ -65,15 +71,15 @@ public partial class Patient : AuthenticationComponentBase
     {
         if (searchTerm.Length > 0 && !string.IsNullOrWhiteSpace(searchTerm))
         {
-            var filtered = this.State.ModifiedUser.Where(x => x.Address.ToLower().Contains(searchTerm));
+            var filtered = this.State.ModifiedUsers.Where(x => x.Address.ToLower().Contains(searchTerm));
             this.OnFilterData(filtered);
         }
     }
 
     private void OnFilterData(IEnumerable<UserWithPaymentModel> filtered)
     {
-        this.State.ModifiedUser.Clear();
-        this.State.ModifiedUser = filtered.ToList();
+        this.State.ModifiedUsers.Clear();
+        this.State.ModifiedUsers = filtered.ToList();
         this.StateHasChanged();
     }
     #endregion
@@ -83,7 +89,7 @@ public partial class Patient : AuthenticationComponentBase
         if (string.IsNullOrEmpty(firstName) || string.IsNullOrWhiteSpace(firstName) || State.Users is null)
             return;
 
-        var userInfo = State.ModifiedUser.FirstOrDefault(x => x.FirstName == firstName);
+        var userInfo = State.ModifiedUsers.FirstOrDefault(x => x.FirstName == firstName);
         if (userInfo is null)
             return;
 
@@ -409,22 +415,22 @@ public partial class Patient : AuthenticationComponentBase
 
     async Task DownloadExcel()
     {
-        if (State.ModifiedUser is null)
+        if (State.ModifiedUsers is null)
             return;
 
         string fileName = "HMS patient payment";
-        byte[] excelData = GenerateExcel(State.ModifiedUser);
+        byte[] excelData = GenerateExcel(State.ModifiedUsers);
         await JSRuntime.InvokeVoidAsync("saveAsFile", fileName, Convert.ToBase64String(excelData),
                                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
     }
     #endregion
 
-    #region [ RefreshData ]
+    #region [ Refresh Data ]
     private void Refresh( int currentPage = 1,
                           string lastNameFilter = "",
                           string addressFilter = "")
     {
-        State.ModifiedUser.Clear();
+        State.ModifiedUsers.Clear();
 
         var usersData = State.Users
             .GroupJoin( State.Bills, 
@@ -445,7 +451,7 @@ public partial class Patient : AuthenticationComponentBase
                         })
             .OrderByDescending(user => user.CreatedOn);
 
-        State.ModifiedUser = usersData.Skip((currentPage - 1) * State.ItemsPerPage)
+        State.ModifiedUsers = usersData.Skip((currentPage - 1) * State.ItemsPerPage)
                                       .Take(State.ItemsPerPage).ToList();
 
         OnLastNameFilter(lastNameFilter);
@@ -455,16 +461,15 @@ public partial class Patient : AuthenticationComponentBase
     }
     #endregion
 
-    #region [ LoadData ]
+    #region [ Load Data ]
     private async Task LoadDataAsync()
     {
         State.Users.Clear();
         State.Bills.Clear();
-        State.CurrentPage = 1;
         State.PaginationCount = [];
         State.ItemsPerPage = 15;
 
-        var users = await ISContext.Users.GetUsersInRoleAsync("Admin");
+        var users = await ISContext.Users.GetUsersInRoleAsync("Patient");
 
         var bills = await HMSContext.Bills.GetBillByMultipleUserIdAsync(State.Users.Select(x => x.Id).ToArray(), true);
 

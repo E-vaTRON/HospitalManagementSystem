@@ -151,9 +151,9 @@
                     @foreach (var currentPage in State.PaginationCount)
                     {
                         <FluentButton Appearance="PageButtonAppearance(currentPage)" 
-                                      @onclick="@( async () => 
+                                      @onclick="@(() => 
                                       {
-                                          Refresh(currentPage, State.LastNameFilter, State.AmountRadioChoice, State.CreatedDateRadioChoice, State.DeadlineRadioChoice);
+                                          RefreshData(currentPage, State.LastNameFilter, State.AmountRadioChoice, State.CreatedDateRadioChoice, State.DeadlineRadioChoice);
                                           State.CurrentPage = currentPage;
                                       })">
                             @State.CurrentPage

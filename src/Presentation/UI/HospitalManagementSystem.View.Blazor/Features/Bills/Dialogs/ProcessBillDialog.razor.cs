@@ -8,7 +8,6 @@ public partial class ProcessBillDialog : IDialogContentComponent<BillWithUserAnd
     #endregion
 
     #region [ Field ]
-    bool isLoading = false;
     decimal amount;
     string userGuid = string.Empty;
     string amountColor = string.Empty;
