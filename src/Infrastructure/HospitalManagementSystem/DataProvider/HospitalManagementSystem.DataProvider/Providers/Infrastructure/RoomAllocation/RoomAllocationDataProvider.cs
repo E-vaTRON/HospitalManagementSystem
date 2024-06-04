@@ -12,6 +12,15 @@ public class RoomAllocationDataProvider : DataProviderBase<CoreRoomAllocation, D
     #endregion
 
     #region [ Internal Methods ]
+    protected virtual async Task<IEnumerable<CoreRoomAllocation>> InternalGetAllIncludeRoomAsync(Expression<Func<CoreRoomAllocation, bool>>? predicate = null, CancellationToken cancellationToken = default)
+    {
+        var query = await GetQueryableAsync(false, cancellationToken);
+
+        return await query.Include(x => x.Room)
+                          .WhereIf(predicate != null, predicate!)
+                          .ToListAsync(cancellationToken);
+    }
+
     protected virtual async Task<IEnumerable<CoreRoomAllocation>> InternalFindByIdIncludeRoomAsync(string[] ids, CancellationToken cancellationToken = default)
     {
         var mId = ParseIds(ids!);
@@ -24,6 +33,13 @@ public class RoomAllocationDataProvider : DataProviderBase<CoreRoomAllocation, D
     #endregion
 
     #region [ Public - Methods ]
+    public async Task<IList<CoreRoomAllocation>> GetAllIncludeRoomAsync()
+    {
+        var roomAllocations = await InternalGetAllIncludeRoomAsync();
+        ArgumentNullException.ThrowIfNull(roomAllocations, nameof(roomAllocations));
+        return roomAllocations.ToList();
+    }
+
     public async Task<IList<CoreRoomAllocation>> GetMultipleByIdIncludeRoomAsync(string[] ids, CancellationToken cancellationToken = default)
     {
         var roomAllocations = await InternalFindByIdIncludeRoomAsync(ids);

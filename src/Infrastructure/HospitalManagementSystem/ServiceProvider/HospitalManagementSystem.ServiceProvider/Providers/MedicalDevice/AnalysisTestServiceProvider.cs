@@ -18,6 +18,12 @@ public class AnalysisTestServiceProvider : ServiceProviderBase<DTOAnalysisTestOu
     #endregion
 
     #region [ Methods ]
+    public async Task<IList<DTOAnalysisTestOut>> GetAllIncludeServiceAsync()
+    {
+        var analysisTest = await AnalysisTestDataProvider.GetAllIncludeServiceAsync();
+        return MapToDTOs(analysisTest).ToList();
+    }
+
     public async Task<DTOAnalysisTestOut> GetByIdIncludeServiceAsync(string id, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(id, nameof(id));

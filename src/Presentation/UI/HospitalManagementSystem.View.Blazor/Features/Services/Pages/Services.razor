@@ -1,0 +1,59 @@
+﻿@page "/services"
+@namespace HospitalManagementSystem.Blazor
+@rendermode InteractiveServer
+@attribute [StreamRendering]
+@inherits AuthenticationComponentBase
+
+<PageTitle>Services</PageTitle>
+
+<FluentStack VerticalGap="15" Orientation="Orientation.Vertical">
+    <FluentCard AreaRestricted="false">
+        <FluentToolbar id="toolbar-fluent-components-two" style="width:100%">
+            <FluentButton IconStart="@(new Icons.Regular.Size24.AddCircle())" Appearance="Appearance.Accent" OnClick="async () => await AddServiceDialog()">Add service</FluentButton>
+        </FluentToolbar>
+    </FluentCard>
+
+    @if (State.ModifiedServices is null)
+    {
+        <FluentProgressRing/>        
+    }
+    else
+    {
+        <FluentCard>
+            <FluentDataGrid Id="servicesgrid"
+                            Items=State.ModifiedServices.AsQueryable()
+                            GridTemplateColumns="1fr 1.4fr 2fr" 
+                            TGridItem=ServiceWithDeviceModel>
+                <PropertyColumn Title="Price" Property="@(c => c!.ServicePrice.ToString("C2", CultureInfo.GetCultureInfo("en-PH")))" Sortable="true" Align=Align.Start />
+                <TemplateColumn Title="Actions" Align=Align.Center>
+                    <FluentStack>
+                        @* Disabled=@DisableEditButton(context) *@
+                        <FluentButton IconStart="@(new Icons.Regular.Size24.Edit())" 
+                                      Appearance="Appearance.Outline" 
+                                      @onclick="@(() => EditServiceDialog(context))"/>
+
+                        <FluentButton IconStart="@(new Icons.Regular.Size24.Delete())"
+                                      Appearance="Appearance.Outline"
+                                      @onclick="@(() => Delete(context))" />
+                    </FluentStack>
+                </TemplateColumn>
+            </FluentDataGrid>
+            <br />
+            <div>
+                <FluentStack HorizontalGap="5">
+                    @foreach (var currentPage in State.PaginationCount)
+                    {
+                        <FluentButton Appearance="PageButtonAppearance(currentPage)" 
+                                      @onclick="@( async () => 
+                                      {
+                                          RefreshData(currentPage);
+                                          State.CurrentPage = currentPage;
+                                      })">
+                            @currentPage
+                        </FluentButton>
+                    }
+                </FluentStack>
+            </div>
+        </FluentCard>
+    }
+</FluentStack>
