@@ -1,6 +1,8 @@
-﻿namespace HospitalManagementSystem.Blazor;
+﻿using DocumentFormat.OpenXml.InkML;
 
-public partial class Bills : AuthenticationComponentBase
+namespace HospitalManagementSystem.Blazor;
+
+public partial class BillCollections : AuthenticationComponentBase
 {
     #region [ Properties - Inject ]
     [Inject]
@@ -14,21 +16,19 @@ public partial class Bills : AuthenticationComponentBase
     #endregion
 
     #region [ CTor ]
-    public Bills( NavigationManager navigator,
-                  HMSServiceContext hmsContext,
-                  ISServiceContext isContext)
+    public BillCollections( NavigationManager navigator, 
+                            HMSServiceContext hmsContext,
+                            ISServiceContext isContext)
         : base(navigator)
     {
         HMSContext = hmsContext;
         ISContext = isContext;
         State = new();
-        State.CurrentPage = 1;
         State.ItemsPerPage = 15;
     }
     #endregion
 
     #region [ Overrides ]
-
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -117,62 +117,6 @@ public partial class Bills : AuthenticationComponentBase
     }
     #endregion
 
-    private async Task DeleteAsync(BillWithUserAndServicesModel bill)
-    {
-        var dialog = await DialogService.ShowConfirmationAsync($"Record {bill.Id} will be move to archive?",
-                                                                "Yes", "No",
-                                                                "Do you want to delete this record?");
-        var result = await dialog.Result;
-        if (result.Cancelled)
-            return;
-
-        await HMSContext.Bills.DeleteAsync(bill);
-
-        await LoadDataAsync();
-        ToastService.ShowToast(ToastIntent.Success, "Record deleted successfully.");
-    }
-
-    #region [ Price - Calculation ]
-    private string PricePerBill(BillWithUserAndServicesModel bill)
-    {
-        var totalAmount = CalculateAmountPerBill(bill);
-        return totalAmount.ToString("C2", CultureInfo.GetCultureInfo("en-PH"));
-    }
-
-    private decimal CalculateAmountPerBill(BillWithUserAndServicesModel bill)
-    {
-        decimal totalAmount = 0;
-
-        foreach (var analysisTest in bill.Episode!.AnalysisTestDTOs!)
-        {
-            if (analysisTest.DeviceServiceDTO != null)
-            {
-                totalAmount += analysisTest.DeviceServiceDTO.ServiceDTO!.ServicePrice;
-            }
-        }
-
-        // Calculate based on drug prescriptions
-        foreach (var drugPrescription in bill.Episode!.DrugPrescriptionDTOs!)
-        {
-            if (drugPrescription.DrugInventoryDTO != null)
-            {
-                totalAmount += drugPrescription.DrugInventoryDTO.DrugDTO!.UnitPrice * drugPrescription.Amount;
-            }
-        }
-
-        // Calculate based on room allocations (if applicable)
-        foreach (var roomAllocation in bill.Episode!.RoomAllocationDTOs!)
-        {
-            if (roomAllocation.RoomDTO != null)
-            {
-                totalAmount += roomAllocation.RoomDTO.PricePerHour * (roomAllocation.EndTime - roomAllocation.StartTime).Hours;
-            }
-        }
-
-        return totalAmount;
-    }
-    #endregion
-
     #region [ Dialogs ]
     private async Task OpenAddBillDialog()
     {
@@ -185,23 +129,8 @@ public partial class Bills : AuthenticationComponentBase
             Title = $"Create new bill",
             Alignment = HorizontalAlignment.Center,
             OnDialogResult = EventCallback.Factory.Create<DialogResult>(this, result => HandleAddDialog(result)),
-            Width = "450px",
+            Width = "300px",
             Height = "450px",
-            TrapFocus = true,
-            Modal = true,
-            PrimaryActionEnabled = false
-        });
-    }
-
-    private async Task OpenProcessBillDialog(BillWithUserAndServicesModel bill)
-    {
-        await DialogService.ShowDialogAsync<ProcessBillDialog>(bill, new DialogParameters()
-        {
-            Title = $"{bill.User!.LastName}",
-            Alignment = HorizontalAlignment.Center,
-            OnDialogResult = EventCallback.Factory.Create<DialogResult>(this, result => HandleEditBillDialog(result)),
-            Width = "450px",
-            Height = "520px",
             TrapFocus = true,
             Modal = true,
         });
@@ -241,31 +170,86 @@ public partial class Bills : AuthenticationComponentBase
         RefreshData();
         ToastService.ShowToast(ToastIntent.Success, "New bill created !!!");
     }
-
-    private async Task HandleEditBillDialog(DialogResult result)
+    #endregion
+    #endregion
+    
+    private async Task Delete(BillWithUserAndServicesModel bill)
     {
+        var dialog = await DialogService.ShowConfirmationAsync($"Record {bill.Id} will be move to archive?",
+                                                                "Yes", "No",
+                                                                "Do you want to delete this record?");
+        var result = await dialog.Result;
         if (result.Cancelled)
             return;
 
-        if (result.Data is null)
-        {
-            ToastService.ShowToast(ToastIntent.Error, "Not enough information to create a bill");
-            return;
-        }
+        await HMSContext.Bills.DeleteAsync(bill);
 
-        BillWithSelectionModel? bill = result.Data as BillWithSelectionModel;
-        if (bill is null || bill!.PaidDate is null)
-        {
-            ToastService.ShowToast(ToastIntent.Error, "Not enough information to create a payment");
-            return;
-        }
-
-        await HMSContext.Bills.UpdateAsync(bill);
-
-        RefreshData();
-        ToastService.ShowToast(ToastIntent.Success, "Payment processed !!!");
+        await LoadDataAsync();
+        ToastService.ShowToast(ToastIntent.Success, "Record deleted successfully.");
     }
-    #endregion
+
+    #region [ Price - Calculation ]
+    private string ActualPricePerBillPaid(BillWithUserAndServicesModel bill)
+    {
+        decimal amount = default(decimal)!;
+        amount += CalculateAmountPerBill(bill);
+        amount += bill.ExcessAmount;
+        amount -= bill.UnderPaidAmount;
+        return amount.ToString("C2", CultureInfo.GetCultureInfo("en-PH"));
+    }
+
+    private string PriceInTotal()
+    {
+        decimal totalAmount = 0;
+
+        State.ModifiedBills.ForEach(bill =>
+        {
+            totalAmount = CalculateAmountPerBill(bill);
+        });
+
+        return totalAmount.ToString("C2", CultureInfo.GetCultureInfo("en-PH"));
+    }
+
+    private string PricePerBill(BillWithUserAndServicesModel bill)
+    {
+        var totalAmount = CalculateAmountPerBill(bill);
+        return totalAmount.ToString("C2", CultureInfo.GetCultureInfo("en-PH"));
+    }
+
+    private decimal CalculateAmountPerBill(BillWithUserAndServicesModel bill)
+    {
+        decimal totalAmount = 0;
+
+        foreach (var analysisTest in bill.Episode!.AnalysisTestDTOs!)
+        {
+            if (analysisTest.DeviceServiceDTO != null)
+            {
+                totalAmount += analysisTest.DeviceServiceDTO.ServiceDTO!.ServicePrice;
+            }
+        }
+
+        // Calculate based on drug prescriptions
+        foreach (var drugPrescription in bill.Episode!.DrugPrescriptionDTOs!)
+        {
+            if (drugPrescription.DrugInventoryDTO != null)
+            {
+                totalAmount += drugPrescription.DrugInventoryDTO.DrugDTO!.UnitPrice * drugPrescription.Amount;
+            }
+        }
+
+        // Calculate based on room allocations (if applicable)
+        foreach (var roomAllocation in bill.Episode!.RoomAllocationDTOs!)
+        {
+            if (roomAllocation.RoomDTO != null)
+            {
+                totalAmount += roomAllocation.RoomDTO.PricePerHour * (roomAllocation.EndTime - roomAllocation.StartTime).Hours;
+            }
+        }
+
+        totalAmount += bill.Episode!.TotalPrice;
+
+        return totalAmount;
+    }
     #endregion
 
     #region [ Appearance ]
@@ -323,6 +307,24 @@ public partial class Bills : AuthenticationComponentBase
                 sheetData.Append(headerRow);
 
                 // Add header cells
+                Cell header1 = new Cell() { CellReference = "A1", CellValue = new CellValue("Services"), DataType = CellValues.String };
+                headerRow.Append(header1);
+                Cell header2 = new Cell() { CellReference = "B1", CellValue = new CellValue("Created Date"), DataType = CellValues.String };
+                headerRow.Append(header2);
+                Cell header3 = new Cell() { CellReference = "C1", CellValue = new CellValue("Deadline"), DataType = CellValues.String };
+                headerRow.Append(header3);
+                Cell header4 = new Cell() { CellReference = "D1", CellValue = new CellValue("Paid Date"), DataType = CellValues.String };
+                headerRow.Append(header4);
+                Cell header5 = new Cell() { CellReference = "E1", CellValue = new CellValue("Full name"), DataType = CellValues.String };
+                headerRow.Append(header5);
+                Cell header6 = new Cell() { CellReference = "F1", CellValue = new CellValue("Amount"), DataType = CellValues.String };
+                headerRow.Append(header6);
+                Cell header7 = new Cell() { CellReference = "G1", CellValue = new CellValue("Excess"), DataType = CellValues.String };
+                headerRow.Append(header7);
+                Cell header8 = new Cell() { CellReference = "H1", CellValue = new CellValue("Under Paid"), DataType = CellValues.String };
+                headerRow.Append(header8);
+
+                // Add header cells
                 headerRow.Append(new Cell[]
                 {
                     new Cell() { CellReference = "A1", CellValue = new CellValue("User Episode"), DataType = CellValues.String },
@@ -330,21 +332,24 @@ public partial class Bills : AuthenticationComponentBase
                     new Cell() { CellReference = "C1", CellValue = new CellValue("Drug"), DataType = CellValues.String },
                     new Cell() { CellReference = "D1", CellValue = new CellValue("Room"), DataType = CellValues.String },
                     new Cell() { CellReference = "E1", CellValue = new CellValue("Created Date"), DataType = CellValues.String },
-                    new Cell() { CellReference = "F1", CellValue = new CellValue("Deadline"), DataType = CellValues.String },
-                    new Cell() { CellReference = "G1", CellValue = new CellValue("Amount"), DataType = CellValues.String }
+                    new Cell() { CellReference = "F1", CellValue = new CellValue("Amount"), DataType = CellValues.String },
+                    new Cell() { CellReference = "G1", CellValue = new CellValue("Deadline"), DataType = CellValues.String },
+                    new Cell() { CellReference = "H1", CellValue = new CellValue("Paid Date"), DataType = CellValues.String },
+                    new Cell() { CellReference = "I1", CellValue = new CellValue("Under Paid"), DataType = CellValues.String }
                 });
 
                 // Add user data
                 foreach (var bill in bills)
                 {
                     Row dataRow = new Row();
-                    //dataRow.Append(CreateTextCell(bill.User!.FirstName + " " + bill.User!.LastName + " " + (bill.Episode?.Id ?? string.Empty)));
-                    //dataRow.Append(CreateTextCell(string.Join("\r\n ", bill.Services.Select(test => test.Name) ?? Enumerable.Empty<string>())));
-                    //dataRow.Append(CreateTextCell(string.Join("\r\n", bill.Drugs.Select(drug => $"{drug.GoodName} ({drug.Amount})") ?? Enumerable.Empty<string>())));
-                    //dataRow.Append(CreateTextCell(string.Join("\r\n", bill.Rooms.Select(room => $"{room.Name} Start: {room.StartTime} End: {room.EndTime}") ?? Enumerable.Empty<string>())));
-                    //dataRow.Append(CreateTextCell(bill.CreatedOn.ToString("dd/MM/yy")));
-                    //dataRow.Append(CreateTextCell(bill.Deadline.ToString("dd/MM/yy")));
-                    //dataRow.Append(CreateTextCell(PricePerBill(bill)));
+                    //dataRow.Append(CreateTextCell(string.Join(", ", item.Services.Select(s => s.Name)) ?? string.Empty));
+                    //dataRow.Append(CreateTextCell(item.CreatedDate.ToString("dd/MM/yy")));
+                    //dataRow.Append(CreateTextCell(item.Deadline.ToString("dd/MM/yy")));
+                    //dataRow.Append(CreateTextCell(item.PaidDate is not null ? item.PaidDate.Value.ToString("dd/MM/yy") : string.Empty));
+                    //dataRow.Append(CreateTextCell(item.User!.FirstName + item.User.MiddleName ?? string.Empty + " " + item.User.LastName));
+                    //dataRow.Append(CreateTextCell(Sum(item).ToString("C2", CultureInfo.GetCultureInfo("en-PH"))));
+                    //dataRow.Append(CreateTextCell(item.ExcessAmount.ToString("C2", CultureInfo.GetCultureInfo("en-PH"))));
+                    //dataRow.Append(CreateTextCell(item.UnderPaidAmount.ToString("C2", CultureInfo.GetCultureInfo("en-PH"))));
 
                     dataRow.Append(new Cell[]
                     {
@@ -353,10 +358,12 @@ public partial class Bills : AuthenticationComponentBase
                         CreateTextCell(string.Join("\r\n", bill.Drugs.Select(drug => $"{drug.GoodName} ({drug.Amount})") ?? Enumerable.Empty<string>())),
                         CreateTextCell(string.Join("\r\n", bill.Rooms.Select(room => $"{room.Name} Start: {room.StartTime} End: {room.EndTime}") ?? Enumerable.Empty<string>())),
                         CreateTextCell(bill.CreatedOn.ToString("dd/MM/yy")),
+                        CreateTextCell(PricePerBill(bill)),
                         CreateTextCell(bill.Deadline.ToString("dd/MM/yy")),
-                        CreateTextCell(PricePerBill(bill))
-
+                        CreateTextCell(bill.PaidDate is not null ? bill.PaidDate.Value.ToString("dd/MM/yy") : string.Empty),
+                        CreateTextCell(bill.UnderPaidAmount.ToString("C2", CultureInfo.GetCultureInfo("en-PH"))),
                     });
+
                     sheetData.AppendChild(dataRow);
                 }
 
@@ -369,7 +376,6 @@ public partial class Bills : AuthenticationComponentBase
             return stream.ToArray();
         }
     }
-
     private Cell CreateTextCell(string text)
     {
         return new Cell(new CellValue(text))
@@ -391,7 +397,8 @@ public partial class Bills : AuthenticationComponentBase
         if (State.ModifiedBills is null)
             return;
 
-        string fileName = "HMS patient payment";
+        string fileName = "HMS patient payment collections";
+
         byte[] excelData = GenerateExcel(State.ModifiedBills);
         await JSRuntime.InvokeVoidAsync("saveAsFile", fileName, Convert.ToBase64String(excelData),
                                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -399,38 +406,13 @@ public partial class Bills : AuthenticationComponentBase
     #endregion
 
     #region [ Refresh Data ]
-    private void RefreshData(int currentPage = 1,
+    private void RefreshData(int index = 1,
                              string lastNameFilter = "",
                              string amountSorting = "1",
                              string createdDateSorting = "1",
                              string deadlineSorting = "1")
     {
         State.ModifiedBills.Clear();
-
-        //var drugWithAmountList = State.Bills
-        //    .SelectMany(bill => bill.MedicalExamEpisodeDTO!.DrugPrescriptionDTOs!
-        //        .Select(prescription => new DrugWithAmount
-        //        {
-        //            GoodName = prescription.DrugInventoryDTO!.DrugDTO!.GoodName,
-        //            ActiveIngredientName = prescription.DrugInventoryDTO!.DrugDTO!.ActiveIngredientName,
-        //            Unit = prescription.DrugInventoryDTO!.DrugDTO!.Unit,
-        //            UnitPrice = prescription.DrugInventoryDTO!.DrugDTO!.UnitPrice,
-        //            HealthInsurancePrice = prescription.DrugInventoryDTO!.DrugDTO!.HealthInsurancePrice,
-        //            Amount = prescription.Amount
-        //        }))
-        //    .ToList();
-
-        //var roomWithTimeList = State.Bills
-        //    .SelectMany(bill => bill.MedicalExamEpisodeDTO!.RoomAllocationDTOs!
-        //        .Select(roomAllocation => new RoomWithTime
-        //        {
-        //            Name = roomAllocation.RoomDTO!.Name,
-        //            PricePerHour = roomAllocation.RoomDTO!.PricePerHour,
-        //            RoomType = roomAllocation.RoomDTO!.RoomType,
-        //            StartTime = roomAllocation.StartTime,
-        //            EndTime = roomAllocation.EndTime
-        //        }))
-        //    .ToList();
 
         var billsData = State.Bills
             .Join(State.Users,
@@ -476,13 +458,24 @@ public partial class Bills : AuthenticationComponentBase
         OnCreatedDateSort(createdDateSorting);
         OnDeadlineSort(deadlineSorting);
 
-        State.ModifiedBills = billsData.Skip((currentPage - 1) * State.ItemsPerPage)
+        State.ModifiedBills = billsData.Skip((index - 1) * State.ItemsPerPage)
                                        .Take(State.ItemsPerPage).ToList();
+
+        var totalAmount = billsData.Sum(x => CalculateAmountPerBill(x));
+        if (totalAmount != 0)
+        {
+            var paid = billsData.Where(x => x.PaidDate != null).Sum(x => this.CalculateAmountPerBill(x));
+            State.Paid = paid.ToString("C2", CultureInfo.GetCultureInfo("en-PH"));
+            State.Percentage = ((paid / totalAmount) * 100).ToString("C2", CultureInfo.GetCultureInfo("en-PH"));
+            State.ProgressBarMaxValue = Convert.ToInt32(totalAmount);
+            State.ProgressBarValue = Convert.ToInt32(paid);
+        }
+
         StateHasChanged();
     }
     #endregion
 
-    #region [ Load Data ]
+    #region [ LoadData ]
     private async Task LoadDataAsync()
     {
         State.Users.Clear();
@@ -490,7 +483,9 @@ public partial class Bills : AuthenticationComponentBase
         State.AnalysisTests.Clear();
         State.DrugPrescriptions.Clear();
         State.RoomAllocations.Clear();
+        State.CurrentPage = 1;
         State.PaginationCount = [];
+        State.ItemsPerPage = 15;
 
         var users = await ISContext.Users.GetUsersInRoleAsync("Admin");
 
@@ -538,5 +533,7 @@ public partial class Bills : AuthenticationComponentBase
     }
     #endregion
     #endregion
+
+
 
 }

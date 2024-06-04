@@ -13,10 +13,10 @@
                 @State.Users?.Count() <FluentIcon Value="@(new Icons.Regular.Size20.People())" />
             </FluentLabel>
             <FluentLabel Typo="Typography.Subject">
-                @State.ModifiedUser?.Where(x => x.IsFullyPaid).Count() <FluentIcon Value="@(new Icons.Regular.Size20.PeopleMoney())" Color="Color.Success" />
+                @State.ModifiedUsers?.Where(x => x.IsFullyPaid).Count() <FluentIcon Value="@(new Icons.Regular.Size20.PeopleMoney())" Color="Color.Success" />
             </FluentLabel>
             <FluentLabel Typo="Typography.Subject">
-                @State.ModifiedUser?.Where(x => !x.IsFullyPaid).Count() <FluentIcon Value="@(new Icons.Regular.Size20.PeopleError())" Color="Color.Error" />
+                @State.ModifiedUsers?.Where(x => !x.IsFullyPaid).Count() <FluentIcon Value="@(new Icons.Regular.Size20.PeopleError())" Color="Color.Error" />
             </FluentLabel>
             <FluentCombobox slot="end" 
                             Items=@State.Users?.Select(x => x.FirstName).ToList()
@@ -109,7 +109,7 @@
                 <FluentDataGrid Id="membersgrid" 
                                 Style="overflow:auto;" 
                                 ResizableColumns=true 
-                                Items=@State.ModifiedUser.AsQueryable()
+                                Items=@State.ModifiedUsers.AsQueryable()
                                 GridTemplateColumns="3fr 2fr 2fr 1.5fr 1.5fr 2fr 3fr 4fr" 
                                 TGridItem=UserWithPaymentModel>
                     <TemplateColumn Title="Avatar">

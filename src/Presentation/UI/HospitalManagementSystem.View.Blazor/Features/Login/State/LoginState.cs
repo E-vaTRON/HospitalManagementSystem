@@ -3,7 +3,7 @@
 public class LoginState : StateBase
 {
     #region [ Fields ]
-    private LoginModel loginMode;
+    private LoginModel? loginMode;
     private PhoneNumberLoginRecord? phoneNumberLoginModel;
     private EmailLoginRecord? emailLoginModel;
     private UserNameLoginRecord? userNameLoginModel;

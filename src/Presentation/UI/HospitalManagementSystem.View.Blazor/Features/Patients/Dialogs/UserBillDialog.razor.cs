@@ -56,8 +56,6 @@ public partial class UserBillDialog : IDialogContentComponent<UserWithPaymentMod
             foreach (var bill in Content.Bills)
             {
                 totalAmount = CalculateAmountPerBill(bill);
-
-                totalAmount += bill.MedicalExamEpisodeDTO!.TotalPrice;
             }
 
             return totalAmount.ToString("C2", CultureInfo.GetCultureInfo("en-PH"));
@@ -107,6 +105,8 @@ public partial class UserBillDialog : IDialogContentComponent<UserWithPaymentMod
                 totalAmount += roomAllocation.RoomDTO.PricePerHour * (roomAllocation.EndTime - roomAllocation.StartTime).Hours;
             }
         }
+
+        totalAmount += bill.MedicalExamEpisodeDTO!.TotalPrice;
 
         return totalAmount;
     }

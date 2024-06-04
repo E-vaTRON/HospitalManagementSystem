@@ -13,7 +13,7 @@ public class PatientState : StateBase
     private List<OutputAnalysisTestDTO>?        analysisTests;
     private List<OutputDrugPrescriptionDTO>?    drugPrescriptions;
     private List<OutputRoomAllocationDTO>?      roomAllocations;
-    private List<UserWithPaymentModel>?         modifiedUser;
+    private List<UserWithPaymentModel>?         modifiedUsers;
     #endregion
 
     #region [ CTor ]
@@ -25,7 +25,7 @@ public class PatientState : StateBase
         analysisTests = new List<OutputAnalysisTestDTO>();
         drugPrescriptions = new List<OutputDrugPrescriptionDTO>();
         roomAllocations = new List<OutputRoomAllocationDTO>();
-        modifiedUser = new List<UserWithPaymentModel>();
+        modifiedUsers = new List<UserWithPaymentModel>();
     }
     #endregion
 
@@ -72,10 +72,10 @@ public class PatientState : StateBase
         set { this.SetProperty(ref this.bills, value); }
     }
 
-    public List<UserWithPaymentModel> ModifiedUser
+    public List<UserWithPaymentModel> ModifiedUsers
     {
-        get { return this.modifiedUser!; }
-        set { this.SetProperty(ref this.modifiedUser, value); }
+        get { return this.modifiedUsers!; }
+        set { this.SetProperty(ref this.modifiedUsers, value); }
     }
 
     public List<OutputAnalysisTestDTO> AnalysisTests
