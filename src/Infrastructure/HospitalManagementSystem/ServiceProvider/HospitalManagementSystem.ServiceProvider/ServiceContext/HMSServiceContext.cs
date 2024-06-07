@@ -31,7 +31,6 @@ public class HMSServiceContext
         IMedicalExamServiceProvider medicalExamServiceProvider,
         IMedicalExamEpisodeServiceProvider medicalExamEpisodeServiceProvider,
         ITreatmentServiceProvider treatmentServiceProvider,
-        ITreatmentExamEpisodeServiceProvider treatmentExamEpisodeServiceProvider,
 
         IAnalysisTestServiceProvider analysisTestServiceProvider,
         IMedicalDeviceServiceProvider medicalDeviceServiceProvider,
@@ -67,7 +66,6 @@ public class HMSServiceContext
         MedicalExams = medicalExamServiceProvider;
         MedicalExamEpisodes = medicalExamEpisodeServiceProvider;
         Treatments = treatmentServiceProvider;
-        TreatmentExamEpisodes = treatmentExamEpisodeServiceProvider;
 
         AnalysisTests = analysisTestServiceProvider;
         MedicalDevices = medicalDeviceServiceProvider;
@@ -111,7 +109,6 @@ public class HMSServiceContext
     public IICDVersionServiceProvider              ICDVersion              { get; set; }
     public IICDCodeVersionServiceProvider          ICDCodeVersion          { get; set; }
     public ITreatmentServiceProvider               Treatments              { get; set; }
-    public ITreatmentExamEpisodeServiceProvider    TreatmentExamEpisodes   { get; set; }
     public IMedicalExamServiceProvider             MedicalExams            { get; set; }
     public IMedicalExamEpisodeServiceProvider      MedicalExamEpisodes     { get; set; }
     #endregion

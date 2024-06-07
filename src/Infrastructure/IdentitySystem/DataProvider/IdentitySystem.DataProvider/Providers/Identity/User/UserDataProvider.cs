@@ -10,8 +10,8 @@ public class UserDataProvider : IdentityDataProviderBase<CoreUser, DataUser>, IU
     #endregion
 
     #region [ CTor ]
-    public UserDataProvider(IdentitySystemDbContext context, IUserManagerProvider userManagerProvider, IMapper mapper) 
-        : base(context, userManagerProvider, mapper)
+    public UserDataProvider(IUserManagerProvider userManagerProvider, IMapper mapper) 
+        : base(userManagerProvider, mapper)
     {
         UserManagerProvider = userManagerProvider;
     }

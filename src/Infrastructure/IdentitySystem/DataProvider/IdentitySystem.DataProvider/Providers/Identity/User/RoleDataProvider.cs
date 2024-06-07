@@ -10,8 +10,8 @@ public class RoleDataProvider : IdentityDataProviderBase<CoreRole, DataRole>, IR
     #endregion
 
     #region [ CTor ]
-    public RoleDataProvider(IdentitySystemDbContext context, IRoleManagerProvider roleManagerProvider, IMapper mapper) 
-        : base (context, roleManagerProvider, mapper)
+    public RoleDataProvider(IRoleManagerProvider roleManagerProvider, IMapper mapper) 
+        : base (roleManagerProvider, mapper)
     {
         RoleManagerProvider = roleManagerProvider;
     }

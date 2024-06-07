@@ -10,18 +10,18 @@ public abstract class IdentityDataProviderBase<TEntity, TEId, TModel, TMId, TMan
 
     public TManagerProvider ManagerProvider { get; protected set; }
 
-    public IdentitySystemDbContext DbContext { get; protected set; }
+    //public IdentitySystemDbContext DbContext { get; protected set; }
 
-    public DbSet<TModel> DbSet { get; protected set; }
+    //public DbSet<TModel> DbSet { get; protected set; }
     #endregion
 
     #region [ CTor ]
-    public IdentityDataProviderBase(IdentitySystemDbContext context, TManagerProvider managerProvider, IMapper mapper)
+    public IdentityDataProviderBase(TManagerProvider managerProvider, IMapper mapper)
     {
-        DbContext = context;
+        //DbContext = context;
         Mapper = mapper;
 
-        DbSet = DbContext.Set<TModel>();
+        //DbSet = DbContext.Set<TModel>();
         ManagerProvider = managerProvider;
     }
     #endregion
@@ -89,15 +89,15 @@ public abstract class IdentityDataProviderBase<TEntity, TEId, TModel, TMId, TMan
     #endregion
 }
 
-public abstract class IdentityDataProviderBase<TEntity, TModel>(IdentitySystemDbContext context, IIdentityManagerProviderBase<TEntity, string> managerProvider, IMapper mapper)
-    : IdentityDataProviderBase<TEntity, string, TModel, Guid, IIdentityManagerProviderBase<TEntity, string>>(context, managerProvider, mapper)
+public abstract class IdentityDataProviderBase<TEntity, TModel>(IIdentityManagerProviderBase<TEntity, string> managerProvider, IMapper mapper)
+    : IdentityDataProviderBase<TEntity, string, TModel, Guid, IIdentityManagerProviderBase<TEntity, string>>(managerProvider, mapper)
     where TEntity : class
     where TModel : class
 { 
 }
 
-public abstract class IdentityDataProviderIntBase<TEntity, TModel>(IdentitySystemDbContext context, IIdentityManagerProviderBase<TEntity, int> managerProvider, IMapper mapper)
-    : IdentityDataProviderBase<TEntity, int, TModel, int, IIdentityManagerProviderBase<TEntity, int>>(context, managerProvider, mapper)
+public abstract class IdentityDataProviderIntBase<TEntity, TModel>(IIdentityManagerProviderBase<TEntity, int> managerProvider, IMapper mapper)
+    : IdentityDataProviderBase<TEntity, int, TModel, int, IIdentityManagerProviderBase<TEntity, int>>(managerProvider, mapper)
     where TEntity : class
     where TModel : class
 {

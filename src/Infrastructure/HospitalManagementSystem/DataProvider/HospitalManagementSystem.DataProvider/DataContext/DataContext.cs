@@ -33,7 +33,6 @@ public class DataContext
         IMedicalExamDataProvider medicalExamDataProvider,
         IMedicalExamEpisodeDataProvider medicalExamEpisodeDataProvider,
         ITreatmentDataProvider treatmentDataProvider,
-        ITreatmentExamEpisodeDataProvider treatmentExamEpisodeDataProvider,
 
         IAnalysisTestDataProvider analysisTestDataProvider,
         IMedicalDeviceDataProvider medicalDeviceDataProvider,
@@ -69,7 +68,6 @@ public class DataContext
         MedicalExams = medicalExamDataProvider;
         MedicalExamEpisodes = medicalExamEpisodeDataProvider;
         Treatments = treatmentDataProvider;
-        TreatmentExamEpisodes = treatmentExamEpisodeDataProvider;
 
         AnalysisTests = analysisTestDataProvider;
         MedicalDevices = medicalDeviceDataProvider;
@@ -113,7 +111,6 @@ public class DataContext
     public IICDVersionDataProvider              ICDVersion              { get; set; }
     public IICDCodeVersionDataProvider          ICDCodeVersion          { get; set; }
     public ITreatmentDataProvider               Treatments              { get; set; }
-    public ITreatmentExamEpisodeDataProvider    TreatmentExamEpisodes   { get; set; }
     public IMedicalExamDataProvider             MedicalExams            { get; set; }
     public IMedicalExamEpisodeDataProvider      MedicalExamEpisodes     { get; set; }
     #endregion

@@ -27,7 +27,7 @@ public static class ServiceExtension
         //    return new StorageSharedKeyCredential(config.AccountName, config.AccountKey);
         //});
 
-        services.AddSingleton<HMSServiceContext>();
+        services.AddTransient<HMSServiceContext>();
 
         services.AddTransient<IBookingAppointmentServiceProvider,   BookingAppointmentServiceProvider>()
                 .AddTransient<IReExamAppointmentServiceProvider,    ReExamAppointmentServiceProvider>()

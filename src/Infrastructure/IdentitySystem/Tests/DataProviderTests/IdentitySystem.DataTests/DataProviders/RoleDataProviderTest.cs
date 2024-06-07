@@ -29,7 +29,7 @@ public class RoleDataProviderTest : DataProviderTestBase
         var roleSetName = Mapper.Map<Domain.Role>(roleAdd);
 
         // Act
-        var roleManagerProvider = new RoleDataProvider(DbContext, RoleManager, Mapper);
+        var roleManagerProvider = new RoleDataProvider(RoleManager, Mapper);
         var result = await roleManagerProvider.SetRoleNameAsync(roleSetName, newRoleName);
 
         // Assert
@@ -47,7 +47,7 @@ public class RoleDataProviderTest : DataProviderTestBase
         roleAdd.Id = Fixture.Create<Guid>().ToString();
 
         // Act
-        var roleDataProvider = new RoleDataProvider(DbContext, RoleManager, Mapper);
+        var roleDataProvider = new RoleDataProvider(RoleManager, Mapper);
         var roleAdded = await roleDataProvider.CreateAsync(roleAdd);
 
         // Assert
@@ -70,7 +70,7 @@ public class RoleDataProviderTest : DataProviderTestBase
         DbContext.Entry(roleAdd).State = EntityState.Detached;
 
         // Act
-        var roleManagerProvider = new RoleDataProvider(DbContext, RoleManager, Mapper);
+        var roleManagerProvider = new RoleDataProvider(RoleManager, Mapper);
         var roleExists = await roleManagerProvider.RoleExistsAsync(roleAdd.NormalizedName!);
 
         // Assert
@@ -89,7 +89,7 @@ public class RoleDataProviderTest : DataProviderTestBase
         await DbContext.SaveChangesAsync();
 
         // Act
-        var roleManagerProvider = new RoleDataProvider(DbContext, RoleManager, Mapper);
+        var roleManagerProvider = new RoleDataProvider(RoleManager, Mapper);
         var rolesFoundList = await roleManagerProvider.FindAll().ToListAsync();
 
         // Assert
@@ -114,7 +114,7 @@ public class RoleDataProviderTest : DataProviderTestBase
         var idList = roleAddList.Select(x => x.Id.ToString()).ToArray();
 
         // Act
-        var roleManagerProvider = new RoleDataProvider(DbContext, RoleManager, Mapper);
+        var roleManagerProvider = new RoleDataProvider(RoleManager, Mapper);
         var roleFounds = await roleManagerProvider.FindByMultipleGuidsAsync(idList);
         var roleFoundList = roleFounds.ToList();
 
@@ -139,7 +139,7 @@ public class RoleDataProviderTest : DataProviderTestBase
         //DbContext.Entry(userAdd).State = EntityState.Detached;
 
         // Act
-        var roleManagerProvider = new RoleDataProvider(DbContext, RoleManager, Mapper);
+        var roleManagerProvider = new RoleDataProvider(RoleManager, Mapper);
         var roleFound = await roleManagerProvider.FindByIdAsync(roleAdd.Id.ToString());
 
         // Assert
@@ -158,7 +158,7 @@ public class RoleDataProviderTest : DataProviderTestBase
         DbContext.Entry(roleAdd).State = EntityState.Detached;
 
         // Act
-        var roleManagerProvider = new RoleDataProvider(DbContext, RoleManager, Mapper);
+        var roleManagerProvider = new RoleDataProvider(RoleManager, Mapper);
         var roleFound = await roleManagerProvider.FindByNameAsync(roleAdd.NormalizedName!);
 
         // Assert
@@ -183,7 +183,7 @@ public class RoleDataProviderTest : DataProviderTestBase
         roleUpdate.Id = roleAdd.Id.ToString();
 
         // Act
-        var roleDataProvider = new RoleDataProvider(DbContext, RoleManager, Mapper);
+        var roleDataProvider = new RoleDataProvider(RoleManager, Mapper);
         var roleUpdated = await roleDataProvider.UpdateAsync(roleUpdate);
 
         // Assert
@@ -208,7 +208,7 @@ public class RoleDataProviderTest : DataProviderTestBase
         var roleDelete = Mapper.Map<Domain.Role>(roleAdd);
 
         // Act
-        var roleDataProvider = new RoleDataProvider(DbContext, RoleManager, Mapper);
+        var roleDataProvider = new RoleDataProvider(RoleManager, Mapper);
         var roleDeleted = await roleDataProvider.DeleteAsync(roleDelete);
 
         // Assert
@@ -238,7 +238,7 @@ public class RoleDataProviderTest : DataProviderTestBase
         var roleGetClaim = Mapper.Map<Domain.Role>(roleAdd);
 
         // Act
-        var roleManagerProvider = new RoleDataProvider(DbContext, RoleManager, Mapper);
+        var roleManagerProvider = new RoleDataProvider(RoleManager, Mapper);
         var claims = await roleManagerProvider.GetClaimsAsync(roleGetClaim);
 
         // Assert
@@ -267,7 +267,7 @@ public class RoleDataProviderTest : DataProviderTestBase
         var roleAddClaim = Mapper.Map<Domain.Role>(roleAdd);
 
         // Act
-        var roleManagerProvider = new RoleDataProvider(DbContext, RoleManager, Mapper);
+        var roleManagerProvider = new RoleDataProvider(RoleManager, Mapper);
         var result = await roleManagerProvider.AddClaimAsync(roleAddClaim, claim);
 
         // Assert
@@ -303,7 +303,7 @@ public class RoleDataProviderTest : DataProviderTestBase
         var roleRemoveClaim = Mapper.Map<Domain.Role>(roleAdd);
 
         // Act
-        var roleDataProvider = new RoleDataProvider(DbContext, RoleManager, Mapper);
+        var roleDataProvider = new RoleDataProvider(RoleManager, Mapper);
         var result = await roleDataProvider.RemoveClaimAsync(roleRemoveClaim, claimRemove);
 
         // Assert

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace IdentitySystem.DataProvider;
+﻿namespace IdentitySystem.DataProvider;
 
 public static class ServiceExtension
 {
@@ -32,13 +30,18 @@ public static class ServiceExtension
 
         services.AddTransient<IUserDataProvider, UserDataProvider>()
                 .AddTransient<IRoleDataProvider, RoleDataProvider>()
-                .AddTransient<IUserRoleDataProvider, UserRoleDataProvider>();
+                .AddTransient<IUserClaimDataProvider, UserClaimDataProvider>()
+                .AddTransient<IUserLoginDataProvider, UserLoginDataProvider>()
+                .AddTransient<IUserTokenDataProvider, UserTokenDataProvider>()
+                .AddTransient<IUserRoleDataProvider, UserRoleDataProvider>()
+                .AddTransient<IRoleClaimDataProvider, RoleClaimDataProvider>();
 
         services.AddTransient<INotificationDataProvider, NotificationDataProvider>();
 
         services.AddTransient<IScheduleDayDataProvider, ScheduleDayDataProvider>()
-                .AddTransient<IScheduleDayDataProvider, ScheduleDayDataProvider>();
+                .AddTransient<IScheduleSlotDataProvider, ScheduleSlotDataProvider>();
 
-        services.AddTransient<ISpecializationDataProvider, SpecializationDataProvider>();
+        services.AddTransient<ISpecializationDataProvider, SpecializationDataProvider>()
+                .AddTransient<IUserSpecializationDataProvider, UserSpecializationDataProvider>();
     }
 }

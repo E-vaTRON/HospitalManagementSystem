@@ -34,7 +34,7 @@ public class UserDataProviderTest : DataProviderTestBase
         var userSetName = Mapper.Map<Domain.User>(userAdd);
 
         // Act
-        var userManagerProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userManagerProvider = new UserDataProvider(UserManager, Mapper);
         var result = await userManagerProvider.SetUserNameAsync(userSetName, newUserName);
 
         // Assert
@@ -52,7 +52,7 @@ public class UserDataProviderTest : DataProviderTestBase
         userAdd.Id = Fixture.Create<Guid>().ToString();
 
         // Act
-        var userDataProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userDataProvider = new UserDataProvider(UserManager, Mapper);
         var userAdded = await userDataProvider.CreateAsync(userAdd);
 
         // Assert
@@ -71,7 +71,7 @@ public class UserDataProviderTest : DataProviderTestBase
         var password = Fixture.Create<string>();
 
         // Act
-        var userDataProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userDataProvider = new UserDataProvider(UserManager, Mapper);
         var userAdded = await userDataProvider.CreateAsync(userAdd, password);
 
         // Assert
@@ -93,7 +93,7 @@ public class UserDataProviderTest : DataProviderTestBase
         await DbContext.SaveChangesAsync();
 
         // Act
-        var userManagerProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userManagerProvider = new UserDataProvider(UserManager, Mapper);
         var userFoundList = await userManagerProvider.FindAll().ToListAsync();
 
         // Assert
@@ -118,7 +118,7 @@ public class UserDataProviderTest : DataProviderTestBase
         var idList = userAddList.Select(x => x.Id.ToString()).ToArray();
 
         // Act
-        var userManagerProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userManagerProvider = new UserDataProvider(UserManager, Mapper);
         var userFounds = await userManagerProvider.FindByMultipleGuidsAsync(idList);
         var userFoundList = userFounds.ToList();
 
@@ -143,7 +143,7 @@ public class UserDataProviderTest : DataProviderTestBase
         //DbContext.Entry(userAdd).State = EntityState.Detached;
 
         // Act
-        var userManagerProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userManagerProvider = new UserDataProvider(UserManager, Mapper);
         var userFound = await userManagerProvider.FindByIdAsync(userAdd.Id.ToString());
 
         // Assert
@@ -162,7 +162,7 @@ public class UserDataProviderTest : DataProviderTestBase
         //DbContext.Entry(userAdd).State = EntityState.Detached;
 
         // Act
-        var userManagerProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userManagerProvider = new UserDataProvider(UserManager, Mapper);
         var userFound = await userManagerProvider.FindByPhoneNumberAsync(userAdd.PhoneNumber!);
 
         // Assert
@@ -182,7 +182,7 @@ public class UserDataProviderTest : DataProviderTestBase
         DbContext.Entry(userAdd).State = EntityState.Detached;
 
         // Act
-        var userManagerProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userManagerProvider = new UserDataProvider(UserManager, Mapper);
         var userFound = await userManagerProvider.FindByEmailAsync(userAdd.NormalizedEmail!);
 
         // Assert
@@ -201,7 +201,7 @@ public class UserDataProviderTest : DataProviderTestBase
         DbContext.Entry(userAdd).State = EntityState.Detached;
 
         // Act
-        var userManagerProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userManagerProvider = new UserDataProvider(UserManager, Mapper);
         var userFound = await userManagerProvider.FindByNameAsync(userAdd.NormalizedUserName!);
 
         // Assert
@@ -226,7 +226,7 @@ public class UserDataProviderTest : DataProviderTestBase
         userUpdate.Id = userAdd.Id.ToString();
 
         // Act
-        var userDataProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userDataProvider = new UserDataProvider(UserManager, Mapper);
         var userUpdated = await userDataProvider.UpdateAsync(userUpdate);
 
         // Assert
@@ -251,7 +251,7 @@ public class UserDataProviderTest : DataProviderTestBase
         var userDelete = Mapper.Map<Domain.User>(userAdd);
 
         // Act
-        var userDataProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userDataProvider = new UserDataProvider(UserManager, Mapper);
         var userDeleted = await userDataProvider.DeleteAsync(userDelete);
 
         // Assert
@@ -292,7 +292,7 @@ public class UserDataProviderTest : DataProviderTestBase
         var userGetRole = Mapper.Map<Domain.User>(userAdd);
 
         // Act
-        var userDataProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userDataProvider = new UserDataProvider(UserManager, Mapper);
         var roles = await userDataProvider.GetRolesAsync(userGetRole);
 
         // Assert
@@ -323,7 +323,7 @@ public class UserDataProviderTest : DataProviderTestBase
         var userAddRole = Mapper.Map<Domain.User>(userAdd);
 
         // Act
-        var userDataProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userDataProvider = new UserDataProvider(UserManager, Mapper);
         var result = await userDataProvider.AddToRoleAsync(userAddRole, roleAdd.NormalizedName!);
 
         // Assert
@@ -356,7 +356,7 @@ public class UserDataProviderTest : DataProviderTestBase
         var roleNormalizedName = roleAdd.NormalizedName!;
 
         // Act
-        var userDataProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userDataProvider = new UserDataProvider(UserManager, Mapper);
         var result = await userDataProvider.RemoveFromRoleAsync(userRemoveRole, roleNormalizedName);
 
         Assert.NotNull(result);
@@ -383,7 +383,7 @@ public class UserDataProviderTest : DataProviderTestBase
         var userGetClaim = Mapper.Map<Domain.User>(userAdd);
 
         // Act
-        var userManagerProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userManagerProvider = new UserDataProvider(UserManager, Mapper);
         var claims = await userManagerProvider.GetClaimsAsync(userGetClaim);
 
         // Assert
@@ -412,7 +412,7 @@ public class UserDataProviderTest : DataProviderTestBase
         var userAddClaim = Mapper.Map<Domain.User>(userAdd);
 
         // Act
-        var userManagerProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userManagerProvider = new UserDataProvider(UserManager, Mapper);
         var result = await userManagerProvider.AddClaimAsync(userAddClaim, claim);
 
         // Assert
@@ -447,7 +447,7 @@ public class UserDataProviderTest : DataProviderTestBase
         var userRemoveClaim = Mapper.Map<Domain.User>(userAdd);
 
         // Act
-        var userDataProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userDataProvider = new UserDataProvider(UserManager, Mapper);
         var result = await userDataProvider.RemoveClaimAsync(userRemoveClaim, claimRemove);
 
         // Assert
@@ -475,7 +475,7 @@ public class UserDataProviderTest : DataProviderTestBase
         var userHasPassword = Mapper.Map<Domain.User>(userAdd);
 
         // Act
-        var userDataProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userDataProvider = new UserDataProvider(UserManager, Mapper);
         var hasPassword = await userDataProvider.HasPasswordAsync(userHasPassword);
 
         // Assert
@@ -500,7 +500,7 @@ public class UserDataProviderTest : DataProviderTestBase
         var userCheckPassword = Mapper.Map<Domain.User>(userAdd);
 
         // Act
-        var userDataProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userDataProvider = new UserDataProvider(UserManager, Mapper);
         var isPasswordValid = await userDataProvider.CheckPasswordAsync(userCheckPassword, password);
 
         // Assert
@@ -526,7 +526,7 @@ public class UserDataProviderTest : DataProviderTestBase
         var userChangePassword = Mapper.Map<Domain.User>(userAdd);
 
         // Act
-        var userDataProvider = new UserDataProvider(DbContext, UserManager, Mapper);
+        var userDataProvider = new UserDataProvider(UserManager, Mapper);
         var result = await userDataProvider.ChangePasswordAsync(userChangePassword, currentPassword, newPassword);
 
         // Assert

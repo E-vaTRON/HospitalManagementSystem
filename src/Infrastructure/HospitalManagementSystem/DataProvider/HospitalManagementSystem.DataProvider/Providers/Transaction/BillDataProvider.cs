@@ -14,7 +14,6 @@ public class BillDataProvider : DataProviderBase<CoreBill, DataBill>, IBillDataP
     #region [ Internal Methods ]
     protected virtual async Task<IEnumerable<CoreBill>> InternalFindByUserIdAsync(string[] id, CancellationToken cancellationToken = default)
     {
-        var mId = ParseIds(id!);
         var query = await GetQueryableAsync(false, cancellationToken);
 
         return await query.WhereIf(id != null, bill => id!.Contains(bill.MedicalExamEpisode.MedicalExam.BookingAppointment!.PatientId))
@@ -23,7 +22,6 @@ public class BillDataProvider : DataProviderBase<CoreBill, DataBill>, IBillDataP
 
     protected virtual async Task<IEnumerable<CoreBill>> InternalFindByUserIdIncludeEpisodeAsync(string[] id, CancellationToken cancellationToken = default)
     {
-        var mId = ParseIds(id!);
         var query = await GetQueryableAsync(false, cancellationToken);
 
         return await query.Include(x => x.MedicalExamEpisode)
