@@ -6,7 +6,7 @@ public static class ServiceExtension
     #region [ Public Methods - Add ]
     public static void AddHospitalManagementSystemDataProviders(this IServiceCollection services)
     {
-        services.AddSingleton<DataContext>();
+        services.AddTransient<DataContext>();
 
         services.AddTransient<IBookingAppointmentDataProvider,  BookingAppointmentDataProvider>()
                 .AddTransient<IReExamAppointmentDataProvider,   ReExamAppointmentDataProvider>()
@@ -14,7 +14,7 @@ public static class ServiceExtension
                 .AddTransient<IReferralDoctorDataProvider,      ReferralDoctorDataProvider>();
 
         services.AddTransient<IRoomAllocationDataProvider,  RoomAllocationDataProvider>()
-                .AddTransient<IRoomAssignmentDataProvider,  RoomAssignmentDataProvider>()
+                //.AddTransient<IRoomAssignmentDataProvider,  RoomAssignmentDataProvider>()
                 .AddTransient<IDepartmentDataProvider,      DepartmentDataProvider>()
                 .AddTransient<IRoomDataProvider,            RoomDataProvider>();
 

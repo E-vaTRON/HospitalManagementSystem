@@ -27,7 +27,7 @@ public partial class HospitalManagementSystemDbContext : DbContext
     public virtual DbSet<Department>        Departments     { get; set; } = null!;
     public virtual DbSet<Room>              Rooms           { get; set; } = null!;
     public virtual DbSet<RoomAllocation>    RoomAllocations { get; set; } = null!;
-    public virtual DbSet<RoomAssignment>    RoomAssignments { get; set; } = null!;
+    //public virtual DbSet<RoomAssignment>    RoomAssignments { get; set; } = null!;
 
     public virtual DbSet<Drug>              Drugs               { get; set; } = null!;
     public virtual DbSet<DrugInventory>     DrugInventorys      { get; set; } = null!;

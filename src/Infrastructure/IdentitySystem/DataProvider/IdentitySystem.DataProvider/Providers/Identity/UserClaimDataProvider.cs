@@ -1,7 +1,7 @@
 ﻿using CoreUserClaim = IdentitySystem.Domain.UserClaim;
 using DataUserClaim = IdentitySystem.DataProvider.UserClaim;
 
-namespace IdentitySystem.DataProvider.Providers.User;
+namespace IdentitySystem.DataProvider;
 
 public class UserClaimDataProvider : DataProviderIntBase<CoreUserClaim, DataUserClaim>, IUserClaimDataProvider
 {

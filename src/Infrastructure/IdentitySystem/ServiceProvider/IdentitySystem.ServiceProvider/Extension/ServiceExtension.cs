@@ -5,20 +5,25 @@ public static class ServiceExtension
     #region [ Public Methods - Add ]
     public static void AddIdentitySystemServicesProvider(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSingleton<ISServiceContext>();
+        services.AddTransient<ISServiceContext>();
 
         services.AddTransient<IDatabaseServiceProvider, DatabaseServiceProvider>();
 
         services.AddTransient<INotificationServiceProvider, NotificationServiceProvider>();
 
         services.AddTransient<IScheduleDayServiceProvider, ScheduleDayServiceProvider>()
-                .AddTransient<IScheduleDayServiceProvider, ScheduleDayServiceProvider>();
+                .AddTransient<IScheduleSlotServiceProvider, ScheduleSlotServiceProvider>();
 
-        services.AddTransient<ISpecializationServiceProvider, SpecializationServiceProvider>();
+        services.AddTransient<ISpecializationServiceProvider, SpecializationServiceProvider>()
+                .AddTransient<IUserSpecializationServiceProvider, UserSpecializationServiceProvider>();
 
         services.AddTransient<IUserServiceProvider, UserServiceProvider>()
                 .AddTransient<IRoleServiceProvider, RoleServiceProvider>()
-                .AddTransient<IUserRoleServiceProvider, UserRoleServiceProvider>();
+                .AddTransient<IUserClaimServiceProvider, UserClaimServiceProvider>()
+                .AddTransient<IUserLoginServiceProvider, UserLoginServiceProvider>()
+                .AddTransient<IUserTokenServiceProvider, UserTokenServiceProvider>()
+                .AddTransient<IUserRoleServiceProvider, UserRoleServiceProvider>()
+                .AddTransient<IRoleClaimServiceProvider, RoleClaimServiceProvider>();
     }
     #endregion
 }

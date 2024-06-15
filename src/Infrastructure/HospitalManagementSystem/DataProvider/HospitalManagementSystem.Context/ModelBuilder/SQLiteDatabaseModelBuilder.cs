@@ -34,7 +34,7 @@ public class SQLiteDatabaseModelBuilder
         this.ReferralDoctorModelBuilder(modelBuilder);
 
         this.RoomModelBuilder(modelBuilder);
-        this.RoomAssignmentModelBuilder(modelBuilder);
+        //this.RoomAssignmentModelBuilder(modelBuilder);
         this.RoomAllocationModelBuilder(modelBuilder);
         this.DepartmentModelBuilder(modelBuilder);
 
@@ -232,28 +232,28 @@ public class SQLiteDatabaseModelBuilder
                     .WithMany(d => d.Rooms)
                     .HasForeignKey(r => r.DepartmentId);
     }
-    private void RoomAssignmentModelBuilder(ModelBuilder modelBuilder)
-    {
-        this.BaseModelBuilder<RoomAssignment>(modelBuilder, nameof(RoomAssignment));
+    //private void RoomAssignmentModelBuilder(ModelBuilder modelBuilder)
+    //{
+    //    this.BaseModelBuilder<RoomAssignment>(modelBuilder, nameof(RoomAssignment));
 
-        modelBuilder.Entity<RoomAssignment>()
-                    .Property(x => x.StartTime)
-                    .HasColumnType("TEXT");
+    //    modelBuilder.Entity<RoomAssignment>()
+    //                .Property(x => x.StartTime)
+    //                .HasColumnType("TEXT");
 
-        modelBuilder.Entity<RoomAssignment>()
-                    .Property(x => x.EndTime)
-                    .HasColumnType("TEXT");
+    //    modelBuilder.Entity<RoomAssignment>()
+    //                .Property(x => x.EndTime)
+    //                .HasColumnType("TEXT");
 
-        modelBuilder.Entity<RoomAssignment>()
-                    .Property(x => x.EmployeeId)
-                    .HasColumnType("TEXT")
-                    .IsRequired(true);
+    //    modelBuilder.Entity<RoomAssignment>()
+    //                .Property(x => x.EmployeeId)
+    //                .HasColumnType("TEXT")
+    //                .IsRequired(true);
 
-        modelBuilder.Entity<RoomAssignment>()
-                    .HasOne(ra => ra.Room)
-                    .WithMany(r => r.RoomAssignments)
-                    .HasForeignKey(ra => ra.RoomId);
-    }
+    //    modelBuilder.Entity<RoomAssignment>()
+    //                .HasOne(ra => ra.Room)
+    //                .WithMany(r => r.RoomAssignments)
+    //                .HasForeignKey(ra => ra.RoomId);
+    //}
     private void RoomAllocationModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<RoomAllocation>(modelBuilder, nameof(RoomAllocation));
@@ -268,6 +268,11 @@ public class SQLiteDatabaseModelBuilder
 
         modelBuilder.Entity<RoomAllocation>()
                     .Property(x => x.PatientId)
+                    .HasColumnType("TEXT")
+                    .IsRequired(true);
+
+        modelBuilder.Entity<RoomAllocation>()
+                    .Property(x => x.EmployeeId)
                     .HasColumnType("TEXT")
                     .IsRequired(true);
 

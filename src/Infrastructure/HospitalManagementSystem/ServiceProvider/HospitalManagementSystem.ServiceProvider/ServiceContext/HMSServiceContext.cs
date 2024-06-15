@@ -11,7 +11,7 @@ public class HMSServiceContext
 
         IDepartmentServiceProvider departmentServiceProvider,
         IRoomAllocationServiceProvider roomAllocationServiceProvider,
-        IRoomAssignmentServiceProvider roomAssignmentServiceProvider,
+        //IRoomAssignmentServiceProvider roomAssignmentServiceProvider,
         IRoomServiceProvider roomServiceProvider,
 
         IDeviceInventoryServiceProvider deviceInventoryServiceProvider,
@@ -31,7 +31,6 @@ public class HMSServiceContext
         IMedicalExamServiceProvider medicalExamServiceProvider,
         IMedicalExamEpisodeServiceProvider medicalExamEpisodeServiceProvider,
         ITreatmentServiceProvider treatmentServiceProvider,
-        ITreatmentExamEpisodeServiceProvider treatmentExamEpisodeServiceProvider,
 
         IAnalysisTestServiceProvider analysisTestServiceProvider,
         IMedicalDeviceServiceProvider medicalDeviceServiceProvider,
@@ -46,7 +45,7 @@ public class HMSServiceContext
         ReferralDoctors = referralDoctorServiceProvider;
 
         RoomAllocations = roomAllocationServiceProvider;
-        RoomAssignments = roomAssignmentServiceProvider;
+        //RoomAssignments = roomAssignmentServiceProvider;
         Rooms = roomServiceProvider;
         Departments = departmentServiceProvider;
 
@@ -67,7 +66,6 @@ public class HMSServiceContext
         MedicalExams = medicalExamServiceProvider;
         MedicalExamEpisodes = medicalExamEpisodeServiceProvider;
         Treatments = treatmentServiceProvider;
-        TreatmentExamEpisodes = treatmentExamEpisodeServiceProvider;
 
         AnalysisTests = analysisTestServiceProvider;
         MedicalDevices = medicalDeviceServiceProvider;
@@ -90,7 +88,7 @@ public class HMSServiceContext
     public IDepartmentServiceProvider      Departments     { get; set; }
     public IRoomServiceProvider            Rooms           { get; set; }
     public IRoomAllocationServiceProvider  RoomAllocations { get; set; }
-    public IRoomAssignmentServiceProvider  RoomAssignments { get; set; }
+    //public IRoomAssignmentServiceProvider  RoomAssignments { get; set; }
     #endregion
 
     #region [ Inventory ]
@@ -111,7 +109,6 @@ public class HMSServiceContext
     public IICDVersionServiceProvider              ICDVersion              { get; set; }
     public IICDCodeVersionServiceProvider          ICDCodeVersion          { get; set; }
     public ITreatmentServiceProvider               Treatments              { get; set; }
-    public ITreatmentExamEpisodeServiceProvider    TreatmentExamEpisodes   { get; set; }
     public IMedicalExamServiceProvider             MedicalExams            { get; set; }
     public IMedicalExamEpisodeServiceProvider      MedicalExamEpisodes     { get; set; }
     #endregion

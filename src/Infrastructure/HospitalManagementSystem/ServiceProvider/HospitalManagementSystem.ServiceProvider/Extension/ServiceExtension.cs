@@ -27,7 +27,7 @@ public static class ServiceExtension
         //    return new StorageSharedKeyCredential(config.AccountName, config.AccountKey);
         //});
 
-        services.AddSingleton<HMSServiceContext>();
+        services.AddTransient<HMSServiceContext>();
 
         services.AddTransient<IBookingAppointmentServiceProvider,   BookingAppointmentServiceProvider>()
                 .AddTransient<IReExamAppointmentServiceProvider,    ReExamAppointmentServiceProvider>()
@@ -35,7 +35,7 @@ public static class ServiceExtension
                 .AddTransient<IReferralDoctorServiceProvider,       ReferralDoctorServiceProvider>();
 
         services.AddTransient<IRoomAllocationServiceProvider,   RoomAllocationServiceProvider>()
-                .AddTransient<IRoomAssignmentServiceProvider,   RoomAssignmentServiceProvider>()
+                //.AddTransient<IRoomAssignmentServiceProvider,   RoomAssignmentServiceProvider>()
                 .AddTransient<IDepartmentServiceProvider,       DepartmentServiceProvider>()
                 .AddTransient<IRoomServiceProvider,             RoomServiceProvider>();
 

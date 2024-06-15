@@ -1,0 +1,27 @@
+﻿@namespace HospitalManagementSystem.Blazor
+@inherits LayoutComponentBase
+
+<FluentDesignTheme Mode="DesignThemeModes.Dark" OfficeColor="OfficeColor.Sway">
+    <FluentLayout>
+        <FluentHeader>
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <UserInfoLayout @rendermode="RenderMode.InteractiveServer" />
+            </div>
+        </FluentHeader>
+        <br />
+        <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%">
+            <NavigationMenuLayout @rendermode="RenderMode.InteractiveServer"/>
+            <FluentBodyContent>
+                <div class="content">
+                    @Body
+                    <FluentDialogProvider @rendermode="RenderMode.InteractiveServer" />
+                    <FluentToastProvider @rendermode="RenderMode.InteractiveServer" />
+                </div>
+            </FluentBodyContent>
+        </FluentStack>
+        <br />
+        <FluentFooter>
+            HMS
+        </FluentFooter>
+    </FluentLayout>
+</FluentDesignTheme>

@@ -36,7 +36,7 @@ public class SQLDatabaseModelBuilder
         this.ReferralDoctorModelBuilder(modelBuilder);
 
         this.RoomModelBuilder(modelBuilder);
-        this.RoomAssignmentModelBuilder(modelBuilder);
+        //this.RoomAssignmentModelBuilder(modelBuilder);
         this.RoomAllocationModelBuilder(modelBuilder);
         this.DepartmentModelBuilder(modelBuilder);
 
@@ -244,29 +244,29 @@ public class SQLDatabaseModelBuilder
                     .HasForeignKey(r => r.DepartmentId)
                     .OnDelete(DeleteBehavior.Cascade);
     }
-    private void RoomAssignmentModelBuilder(ModelBuilder modelBuilder)
-    {
-        this.BaseModelBuilder<RoomAssignment>(modelBuilder, nameof(RoomAssignment));
+    //private void RoomAssignmentModelBuilder(ModelBuilder modelBuilder)
+    //{
+    //    this.BaseModelBuilder<RoomAssignment>(modelBuilder, nameof(RoomAssignment));
 
-        modelBuilder.Entity<RoomAssignment>()
-                    .Property(x => x.StartTime)
-                    .HasColumnType("datetime");
+    //    modelBuilder.Entity<RoomAssignment>()
+    //                .Property(x => x.StartTime)
+    //                .HasColumnType("datetime");
 
-        modelBuilder.Entity<RoomAssignment>()
-                    .Property(x => x.EndTime)
-                    .HasColumnType("datetime");
+    //    modelBuilder.Entity<RoomAssignment>()
+    //                .Property(x => x.EndTime)
+    //                .HasColumnType("datetime");
 
-        modelBuilder.Entity<RoomAssignment>()
-                    .Property(x => x.EmployeeId)
-                    .HasColumnType("nvarchar")
-                    .IsRequired(true);
+    //    modelBuilder.Entity<RoomAssignment>()
+    //                .Property(x => x.EmployeeId)
+    //                .HasColumnType("nvarchar")
+    //                .IsRequired(true);
 
-        modelBuilder.Entity<RoomAssignment>()
-                    .HasOne(ra => ra.Room)
-                    .WithMany(r => r.RoomAssignments)
-                    .HasForeignKey(ra => ra.RoomId)
-                    .OnDelete(DeleteBehavior.Cascade);
-    }
+    //    modelBuilder.Entity<RoomAssignment>()
+    //                .HasOne(ra => ra.Room)
+    //                .WithMany(r => r.RoomAssignments)
+    //                .HasForeignKey(ra => ra.RoomId)
+    //                .OnDelete(DeleteBehavior.Cascade);
+    //}
     private void RoomAllocationModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<RoomAllocation>(modelBuilder, nameof(RoomAllocation));
@@ -281,6 +281,11 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<RoomAllocation>()
                     .Property(x => x.PatientId)
+                    .HasColumnType("nvarchar")
+                    .IsRequired(true);
+
+        modelBuilder.Entity<RoomAllocation>()
+                    .Property(x => x.EmployeeId)
                     .HasColumnType("nvarchar")
                     .IsRequired(true);
 

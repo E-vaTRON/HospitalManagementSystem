@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public record OutputRoomAssignmentDTO : RoomAssignmentDTO
-{
-    public OutputRoomDTO? RoomDTO { get; init; }
-}
+//public record OutputRoomAssignmentDTO : RoomAssignmentDTO
+//{
+//    public OutputRoomDTO? RoomDTO { get; init; }
+//}
