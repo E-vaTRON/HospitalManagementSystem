@@ -13,7 +13,7 @@ public class DataContext
 
         IDepartmentDataProvider departmentDataProvider,
         IRoomAllocationDataProvider roomAllocationDataProvider,
-        IRoomAssignmentDataProvider roomAssignmentDataProvider,
+        //IRoomAssignmentDataProvider roomAssignmentDataProvider,
         IRoomDataProvider roomDataProvider,
 
         IDeviceInventoryDataProvider deviceInventoryDataProvider,
@@ -47,7 +47,7 @@ public class DataContext
         ReferralDoctors = referralDoctorDataProvider;
 
         RoomAllocations = roomAllocationDataProvider;
-        RoomAssignments = roomAssignmentDataProvider;
+        //RoomAssignments = roomAssignmentDataProvider;
         Rooms = roomDataProvider;
         Departments = departmentDataProvider;
 
@@ -90,7 +90,7 @@ public class DataContext
     public IDepartmentDataProvider      Departments     { get; set; }
     public IRoomDataProvider            Rooms           { get; set; }
     public IRoomAllocationDataProvider  RoomAllocations { get; set; }
-    public IRoomAssignmentDataProvider  RoomAssignments { get; set; }
+    //public IRoomAssignmentDataProvider  RoomAssignments { get; set; }
     #endregion
 
     #region [ Inventory ]

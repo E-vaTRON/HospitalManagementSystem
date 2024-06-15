@@ -14,7 +14,7 @@ public static class ServiceExtension
                 .AddTransient<IReferralDoctorDataProvider,      ReferralDoctorDataProvider>();
 
         services.AddTransient<IRoomAllocationDataProvider,  RoomAllocationDataProvider>()
-                .AddTransient<IRoomAssignmentDataProvider,  RoomAssignmentDataProvider>()
+                //.AddTransient<IRoomAssignmentDataProvider,  RoomAssignmentDataProvider>()
                 .AddTransient<IDepartmentDataProvider,      DepartmentDataProvider>()
                 .AddTransient<IRoomDataProvider,            RoomDataProvider>();
 

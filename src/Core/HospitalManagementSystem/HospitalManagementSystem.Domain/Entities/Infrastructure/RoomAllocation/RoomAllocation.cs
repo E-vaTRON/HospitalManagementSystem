@@ -6,6 +6,7 @@ public class RoomAllocation : EntityBase
     public DateTime     EndTime     { get; set; }
 
     public string?  PatientId   { get; set; } // User Id Role<Patient>
+    public string?  EmployeeId  { get; set; } // User Id Role<Employee>
 
     public string?              RoomId                  { get; set; }
     public Room                 Room                    { get; set; } = default!;

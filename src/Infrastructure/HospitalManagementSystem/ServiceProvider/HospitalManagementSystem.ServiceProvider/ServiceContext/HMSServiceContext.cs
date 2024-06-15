@@ -11,7 +11,7 @@ public class HMSServiceContext
 
         IDepartmentServiceProvider departmentServiceProvider,
         IRoomAllocationServiceProvider roomAllocationServiceProvider,
-        IRoomAssignmentServiceProvider roomAssignmentServiceProvider,
+        //IRoomAssignmentServiceProvider roomAssignmentServiceProvider,
         IRoomServiceProvider roomServiceProvider,
 
         IDeviceInventoryServiceProvider deviceInventoryServiceProvider,
@@ -45,7 +45,7 @@ public class HMSServiceContext
         ReferralDoctors = referralDoctorServiceProvider;
 
         RoomAllocations = roomAllocationServiceProvider;
-        RoomAssignments = roomAssignmentServiceProvider;
+        //RoomAssignments = roomAssignmentServiceProvider;
         Rooms = roomServiceProvider;
         Departments = departmentServiceProvider;
 
@@ -88,7 +88,7 @@ public class HMSServiceContext
     public IDepartmentServiceProvider      Departments     { get; set; }
     public IRoomServiceProvider            Rooms           { get; set; }
     public IRoomAllocationServiceProvider  RoomAllocations { get; set; }
-    public IRoomAssignmentServiceProvider  RoomAssignments { get; set; }
+    //public IRoomAssignmentServiceProvider  RoomAssignments { get; set; }
     #endregion
 
     #region [ Inventory ]

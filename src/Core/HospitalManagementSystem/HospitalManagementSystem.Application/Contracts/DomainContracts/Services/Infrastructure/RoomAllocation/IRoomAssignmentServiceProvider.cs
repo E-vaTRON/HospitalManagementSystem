@@ -1,5 +1,5 @@
-﻿namespace HospitalManagementSystem.Application;
+﻿//namespace HospitalManagementSystem.Application;
 
-public interface IRoomAssignmentServiceProvider : IServiceProviderBase<OutputRoomAssignmentDTO, InputRoomAssignmentDTO, string>
-{
-}
+//public interface IRoomAssignmentServiceProvider : IServiceProviderBase<OutputRoomAssignmentDTO, InputRoomAssignmentDTO, string>
+//{
+//}

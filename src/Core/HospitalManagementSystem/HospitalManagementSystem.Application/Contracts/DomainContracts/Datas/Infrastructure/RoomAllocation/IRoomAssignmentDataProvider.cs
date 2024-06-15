@@ -1,5 +1,5 @@
-﻿namespace HospitalManagementSystem.Application;
+﻿//namespace HospitalManagementSystem.Application;
 
-public interface IRoomAssignmentDataProvider : IDataProviderBase<RoomAssignment, string>
-{
-}
+//public interface IRoomAssignmentDataProvider : IDataProviderBase<RoomAssignment, string>
+//{
+//}

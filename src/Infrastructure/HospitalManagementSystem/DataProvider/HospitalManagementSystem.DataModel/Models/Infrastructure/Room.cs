@@ -12,5 +12,5 @@ public class Room : ModelBase
     public Department   Department      { get; set; } = default!;
 
     public virtual ICollection<RoomAllocation>  RoomAllocations     { get; set; } = new HashSet<RoomAllocation>();
-    public virtual ICollection<RoomAssignment>  RoomAssignments     { get; set; } = new HashSet<RoomAssignment>(); /// ???
+    //public virtual ICollection<RoomAssignment>  RoomAssignments     { get; set; } = new HashSet<RoomAssignment>(); /// ???
 }
