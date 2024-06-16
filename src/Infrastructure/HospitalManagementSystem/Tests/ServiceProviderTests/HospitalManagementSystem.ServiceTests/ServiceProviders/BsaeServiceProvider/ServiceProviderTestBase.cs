@@ -37,7 +37,7 @@ public abstract class ServiceProviderTestBase
             config.CreateMap<DepartmentDTO,     Domain.Department>().ReverseMap();
             config.CreateMap<RoomDTO,           Domain.Room>().ReverseMap();
             config.CreateMap<RoomAllocationDTO, Domain.RoomAllocation>().ReverseMap();
-            config.CreateMap<RoomAssignmentDTO, Domain.RoomAssignment>().ReverseMap();
+            //config.CreateMap<RoomAssignmentDTO, Domain.RoomAssignment>().ReverseMap();
 
             config.CreateMap<DrugDTO,               Domain.Drug>().ReverseMap();
             config.CreateMap<DrugInventoryDTO,      Domain.DrugInventory>().ReverseMap();

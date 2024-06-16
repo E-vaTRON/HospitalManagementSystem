@@ -22,7 +22,7 @@ public class SeedProvider
         Departments = new();
         Rooms = new();
         RoomAllocations = new();
-        RoomAssignments = new();
+        //RoomAssignments = new();
 
         Drugs = new();
         DrugInventorys = new();
@@ -60,7 +60,7 @@ public class SeedProvider
     public List<Domain.Department>        Departments     { get; private set; }
     public List<Domain.Room>              Rooms           { get; private set; }
     public List<Domain.RoomAllocation>    RoomAllocations { get; private set; }
-    public List<Domain.RoomAssignment>    RoomAssignments { get; private set; }
+    //public List<Domain.RoomAssignment>    RoomAssignments { get; private set; }
 
     public List<Domain.Drug>              Drugs               { get; private set; }
     public List<Domain.DrugInventory>     DrugInventorys      { get; private set; }
@@ -101,7 +101,7 @@ public class SeedProvider
         Departments.Clear();
         Rooms.Clear();
         RoomAllocations.Clear();
-        RoomAssignments.Clear();
+        //RoomAssignments.Clear();
 
         Drugs.Clear();
         DrugInventorys.Clear();
