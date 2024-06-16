@@ -399,3 +399,5 @@ FodyWeavers.xsd
 /src/Infrastructure/IdentitySystem/DataProvider/IdentitySystem.Context/Migrations/IdentitySystemDbContextModelSnapshot.cs
 /src/Infrastructure/IdentitySystem/DataProvider/IdentitySystem.Context/Migrations/20240519182801_Initial.cs
 /src/Presentation/UI/HospitalManagementSystem.View.Blazor/appsettings.json
+/src/Infrastructure/HospitalManagementSystem/DataProvider/HospitalManagementSystem.Context/Migrations/20240616041502_Initial.cs
+/src/Infrastructure/IdentitySystem/DataProvider/IdentitySystem.Context/Migrations/20240616041612_Initial.cs
