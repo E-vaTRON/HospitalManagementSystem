@@ -7,17 +7,6 @@ public static class ReferralDoctorFactory
         return new ReferralDoctor();
     }
 
-    public static ReferralDoctor Create(string referralStatus, string referredDoctorId, string referralId, string assignmentHistoryId)
-    {
-        return new ReferralDoctor()
-        {
-            ReferralStatus = referralStatus,
-            ReferredDoctorId = referredDoctorId,
-            ReferralId = referralId,
-            AssignmentHistoryId = assignmentHistoryId
-        };
-    }
-
     public static ReferralDoctor Create(string referralStatus, string referredDoctorId, string referralId)
     {
         return new ReferralDoctor()

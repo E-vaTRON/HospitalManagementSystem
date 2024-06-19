@@ -2,7 +2,7 @@
 
 public class ScheduleDay : EntityBase
 {
-    public DayOfWeek    WorkingDay  { get; set; } // DateTime
+    public DateTime     WorkingDay  { get; set; } // DateTime
     public bool         IsFlexible  { get; set; } // cho phép thời gian linh động
 
     public string?  UserId  { get; set; }

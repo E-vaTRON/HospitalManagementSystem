@@ -7,7 +7,7 @@ public static class ScheduleDayFactory
         return new ScheduleDay();
     }
 
-    public static ScheduleDay Create(DayOfWeek workingDay, bool isFlexible, string userId)
+    public static ScheduleDay Create(DateTime workingDay, bool isFlexible, string userId)
     {
         return new ScheduleDay()
         {

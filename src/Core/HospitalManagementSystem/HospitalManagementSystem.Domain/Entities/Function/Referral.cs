@@ -9,5 +9,5 @@ public class Referral : EntityBase
     public string?      MedicalExamId   { get; set; }
     public MedicalExam  MedicalExam     { get; set; } = default!;
 
-    public virtual ICollection<AssignmentHistory> AssignmentHistorys { get; set; } = new HashSet<AssignmentHistory>();
+    public virtual ICollection<ReferralDoctor> ReferralDoctors { get; set; } = new HashSet<ReferralDoctor>();
 }

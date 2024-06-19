@@ -57,7 +57,7 @@ public abstract class DataProviderTestBase
             config.CreateMap<Domain.Department,     DataProvider.Department>().ReverseMap();
             config.CreateMap<Domain.Room,           DataProvider.Room>().ReverseMap();
             config.CreateMap<Domain.RoomAllocation, DataProvider.RoomAllocation>().ReverseMap();
-            config.CreateMap<Domain.RoomAssignment, DataProvider.RoomAssignment>().ReverseMap();
+            //config.CreateMap<Domain.RoomAssignment, DataProvider.RoomAssignment>().ReverseMap();
 
             config.CreateMap<Domain.Drug,               DataProvider.Drug>().ReverseMap();
             config.CreateMap<Domain.DrugInventory,      DataProvider.DrugInventory>().ReverseMap();

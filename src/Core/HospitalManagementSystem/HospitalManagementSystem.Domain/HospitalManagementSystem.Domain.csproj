@@ -8,4 +8,8 @@
 	<Configurations>Debug;Release;Test</Configurations>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\Transaction\" />
+  </ItemGroup>
+
 </Project>
