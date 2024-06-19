@@ -11,8 +11,8 @@ public class MedicalExamEpisode : ModelBase
     public Guid?                MedicalExamId       { get; set; }
     public MedicalExam          MedicalExam         { get; set; } = default!;
 
-    public ReExamAppointment?   ReExamAppointment   { get; set; } // This is Principal Table
-    public Bill?                Bill                { get; set; }
+    public ReExamAppointment?   ReExamAppointment   { get; set; } // MedicalExamEpisode is Principal Table
+    public Bill?                Bill                { get; set; } // MedicalExamEpisode is Principal Table
 
     public virtual ICollection<AssignmentHistory>       AssignmentHistories     { get; set; } = new HashSet<AssignmentHistory>();
     public virtual ICollection<Diagnosis>               Diagnoses               { get; set; } = new HashSet<Diagnosis>();

@@ -6,13 +6,4 @@ public static class MedicalExamFactory
     {
         return new MedicalExam();
     }
-
-    public static MedicalExam Create(int? finalPrice, string bookingAppointmentId)
-    {
-        return new MedicalExam()
-        {
-            FinalPrice = finalPrice,
-            BookingAppointmentId = bookingAppointmentId
-        };
-    }
 }

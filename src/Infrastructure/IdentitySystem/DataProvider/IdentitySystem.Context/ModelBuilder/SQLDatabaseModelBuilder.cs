@@ -504,10 +504,6 @@ public class SQLDatabaseModelBuilder
                     .HasColumnType("nvarchar");
 
         modelBuilder.Entity<Notification>()
-                    .Property(n => n.UserId)
-                    .HasColumnType("nvarchar");
-
-        modelBuilder.Entity<Notification>()
                     .HasOne(n => n.User)
                     .WithMany(u => u.Notifications)
                     .HasForeignKey(n => n.UserId);
@@ -520,17 +516,13 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<ScheduleDay>()
                     .Property(sd => sd.WorkingDay)
-                    .HasColumnType("int")
+                    .HasColumnType("datetime")
                     .IsRequired(true);
 
         modelBuilder.Entity<ScheduleDay>()
                     .Property(sd => sd.IsFlexible)
                     .HasColumnType("bit")
                     .IsRequired(true);
-
-        modelBuilder.Entity<ScheduleDay>()
-                    .Property(sd => sd.UserId)
-                    .HasColumnType("nvarchar");
 
         modelBuilder.Entity<ScheduleDay>()
                     .HasOne(sd => sd.User)

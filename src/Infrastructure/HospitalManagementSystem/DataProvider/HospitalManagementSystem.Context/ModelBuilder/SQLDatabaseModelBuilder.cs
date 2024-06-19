@@ -531,7 +531,8 @@ public class SQLDatabaseModelBuilder
                     .HasOne(ah => ah.ReferralDoctor)
                     .WithOne(rd => rd.AssignmentHistory)
                     .HasForeignKey<AssignmentHistory>(ah => ah.ReferralDoctorId)
-                    .IsRequired(false);
+                    .IsRequired(false)
+                    .OnDelete(DeleteBehavior.NoAction);
     }
     private void DiagnosisModelBuilder(ModelBuilder modelBuilder)
     {

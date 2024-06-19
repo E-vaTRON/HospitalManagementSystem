@@ -12,7 +12,7 @@ public static class ICDCodeVersionFactory
         return new ICDCodeVersion()
         {
             ICDCodeId = icdCodeId,
-            ICDVersionId = icdCodeId
+            ICDVersionId = icdVersionId
         };
     }
 }

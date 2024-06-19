@@ -13,7 +13,7 @@ public static class BookingAppointmentFactory
         return new BookingAppointment()
         {
             AppointmentDate = dateTime,
-            MedicalExamId = medicalExamId,
+            //MedicalExamId = medicalExamId,
             PatientId = patientId,
             DoctorId = doctorId,
             Notes = notes
@@ -25,7 +25,7 @@ public static class BookingAppointmentFactory
         return new BookingAppointment()
         {
             AppointmentDate = DateTime.Now,
-            MedicalExamId = medicalExamId,
+            //MedicalExamId = medicalExamId,
             PatientId = patientId,
             DoctorId = doctorId,
             Notes = notes
