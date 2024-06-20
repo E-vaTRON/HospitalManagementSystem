@@ -2,6 +2,9 @@
 
 public enum Units
 {
-    tablets,
-    tube
+    Tablets,
+    Capsules,
+    Injection,
+    Inhaler,
+    Film
 }

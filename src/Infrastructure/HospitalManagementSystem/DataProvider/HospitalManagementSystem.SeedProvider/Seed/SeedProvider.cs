@@ -1,4 +1,5 @@
 ﻿using HospitalManagementSystem.Domain;
+using Microsoft.Identity.Client.Extensions.Msal;
 using System.Linq;
 
 namespace HospitalManagementSystem.DataProvider;
@@ -25,23 +26,22 @@ public class SeedProvider
         Departments = new();
         Rooms = new();
         RoomAllocations = new();
-        //RoomAssignments = new();
 
         Drugs = new();
-        DrugInventorys = new();
         DrugPrescriptions = new();
         Storages = new();
-        GoodSupplings = new();
         Importations = new();
-        DeviceInventorys = new();
+        DeviceInventories = new();
 
         AssignmentHistories = new();
         Diagnoses = new();
         Diseases = new();
+        ICDCodes = new();
+        ICDCodeVersions = new();
+        ICDVersions = new();
         MedicalExams = new();
         MedicalExamEposodes = new();
         Treatments = new();
-        TreatmentExamEpisodes = new();
 
         DeviceServices = new();
         MedicalDevices = new();
@@ -55,40 +55,40 @@ public class SeedProvider
 
     #region [ Properties ]
     //public virtual DbSet<AppointmentBase>       AppointmentBases    { get; set; } = null!;
-    public List<Domain.BookingAppointment>    BookingAppointments { get; private set; }
-    public List<Domain.ReExamAppointment>     ReExamAppointments  { get; private set; }
-    public List<Domain.Referral>              Referrals           { get; private set; }
-    public List<Domain.ReferralDoctor>        ReferralDoctors     { get; private set; }
+    public List<Domain.BookingAppointment> BookingAppointments { get; private set; }
+    public List<Domain.ReExamAppointment> ReExamAppointments { get; private set; }
+    public List<Domain.Referral> Referrals { get; private set; }
+    public List<Domain.ReferralDoctor> ReferralDoctors { get; private set; }
 
-    public List<Domain.Department>        Departments     { get; private set; }
-    public List<Domain.Room>              Rooms           { get; private set; }
-    public List<Domain.RoomAllocation>    RoomAllocations { get; private set; }
+    public List<Domain.Department> Departments { get; private set; }
+    public List<Domain.Room> Rooms { get; private set; }
+    public List<Domain.RoomAllocation> RoomAllocations { get; private set; }
     //public List<Domain.RoomAssignment>    RoomAssignments { get; private set; }
 
-    public List<Domain.Drug>              Drugs               { get; private set; }
-    public List<Domain.DrugInventory>     DrugInventorys      { get; private set; }
-    public List<Domain.DrugPrescription>  DrugPrescriptions   { get; private set; }
-    public List<Domain.Storage>           Storages            { get; private set; }
-    public List<Domain.GoodSuppling>      GoodSupplings       { get; private set; }
-    public List<Domain.Importation>       Importations        { get; private set; }
-    public List<Domain.DeviceInventory>   DeviceInventorys    { get; private set; }
+    public List<Domain.Drug> Drugs { get; private set; }
+    public List<Domain.DrugInventory> DrugInventories { get; private set; }
+    public List<Domain.DrugPrescription> DrugPrescriptions { get; private set; }
+    public List<Domain.Storage> Storages { get; private set; }
+    //public List<Domain.GoodSuppling> GoodSupplings { get; private set; }
+    public List<Domain.Importation> Importations { get; private set; }
+    public List<Domain.DeviceInventory> DeviceInventories { get; private set; }
 
-    public List<Domain.AssignmentHistory>       AssignmentHistories     { get; private set; }
-    public List<Domain.Diagnosis>               Diagnoses               { get; private set; }
+    public List<Domain.AssignmentHistory> AssignmentHistories { get; private set; }
+    public List<Domain.Diagnosis> Diagnoses { get; private set; }
     //public virtual DbSet<DiagnosisSuggestion>   DiagnosisSuggestions    { get; set; }
-    public List<Domain.Diseases>                Diseases                { get; private set; }
-    public List<Domain.ICDCode>                 ICDCodes                { get; private set; }
-    public List<Domain.ICDCodeVersion>          ICDCodeVersions         { get; private set; }
-    public List<Domain.ICDVersion>              ICDVersions             { get; private set; }
-    public List<Domain.MedicalExam>             MedicalExams            { get; private set; }
-    public List<Domain.MedicalExamEpisode>      MedicalExamEposodes     { get; private set; }
-    public List<Domain.Treatment>               Treatments              { get; private set; }
-    public List<Domain.TreatmentExamEpisode>    TreatmentExamEpisodes   { get; private set; }
+    public List<Domain.Diseases> Diseases { get; private set; }
+    public List<Domain.ICDCode> ICDCodes { get; private set; }
+    public List<Domain.ICDCodeVersion> ICDCodeVersions { get; private set; }
+    public List<Domain.ICDVersion> ICDVersions { get; private set; }
+    public List<Domain.MedicalExam> MedicalExams { get; private set; }
+    public List<Domain.MedicalExamEpisode> MedicalExamEposodes { get; private set; }
+    public List<Domain.Treatment> Treatments { get; private set; }
+    public List<Domain.TreatmentExamEpisode> TreatmentExamEpisodes { get; private set; }
 
-    public List<Domain.DeviceService>   DeviceServices  { get; private set; }
-    public List<Domain.MedicalDevice>   MedicalDevices  { get; private set; }
-    public List<Domain.Service>         Services        { get; private set; }
-    public List<Domain.AnalysisTest>    AnalysisTests   { get; private set; }
+    public List<Domain.DeviceService> DeviceServices { get; private set; }
+    public List<Domain.MedicalDevice> MedicalDevices { get; private set; }
+    public List<Domain.Service> Services { get; private set; }
+    public List<Domain.AnalysisTest> AnalysisTests { get; private set; }
     #endregion
 
     #region [ Private Methods ]
@@ -107,29 +107,27 @@ public class SeedProvider
         Departments.Clear();
         Rooms.Clear();
         RoomAllocations.Clear();
-        //RoomAssignments.Clear();
 
-        Drugs.Clear();
-        DrugInventorys.Clear();
+        Drugs.Clear();                  //
+        DrugInventories.Clear();        //
         DrugPrescriptions.Clear();
-        Storages.Clear();
-        GoodSupplings.Clear();
-        Importations.Clear();
-        DeviceInventorys.Clear();
+        Storages.Clear();               //
+        Importations.Clear();           //
+        DeviceInventories.Clear();      //
 
         AssignmentHistories.Clear();
-        Diagnoses.Clear();
-        Diseases.Clear();
-        ICDCodes.Clear();
-        ICDCodeVersions.Clear();
-        ICDVersions.Clear();
+        Diagnoses.Clear();              // ??
+        Diseases.Clear();               //
+        ICDCodes.Clear();               //
+        ICDCodeVersions.Clear();        //
+        ICDVersions.Clear();            //
         MedicalExams.Clear();
         MedicalExamEposodes.Clear();
-        Treatments.Clear();
+        Treatments.Clear();             //
 
-        DeviceServices.Clear();
-        MedicalDevices.Clear();
-        Services.Clear();
+        DeviceServices.Clear();         //
+        MedicalDevices.Clear();         //
+        Services.Clear();               //
         AnalysisTests.Clear();
     }
     #endregion
@@ -302,46 +300,541 @@ public class SeedProvider
 
     private void LoadTreatments()
     {
-        //this.Treatments.Add(TreatmentFactory.Create("Stopping causative substances", "If the anemia is caused by exposure to certain substances, such as toxins or certain medications, stopping exposure to these substances can help treat the condition."));
-        this.Treatments.Add(TreatmentFactory.Create("Antibiotic Therapy", "Treatment involves antibiotics such as penicillin to kill the bacteria causing syphilis."));
-        this.Treatments.Add(TreatmentFactory.Create("Stopping causative substances", "If the syphilis is caused by exposure to certain substances, such as toxins or certain medications, stopping exposure to these substances can help treat the condition."));
-        this.Treatments.Add(TreatmentFactory.Create("Follow-up blood tests and exams", "After treatment, regular blood tests and exams are needed to make sure the treatment is working."));
+        this.Treatments.Add(TreatmentFactory.Create("Antibiotic Therapy", "This treatment involves the use of antibiotics to kill bacteria causing various infections."));
+        this.Treatments.Add(TreatmentFactory.Create("Antiviral Medication", "This treatment involves the use of antiviral medications to treat viral infections."));
+        this.Treatments.Add(TreatmentFactory.Create("Chemotherapy", "This treatment involves the use of drugs to kill cancer cells."));
+        this.Treatments.Add(TreatmentFactory.Create("Radiation Therapy", "This treatment uses high-energy radiation to shrink tumors and kill cancer cells."));
+        this.Treatments.Add(TreatmentFactory.Create("Surgery", "This treatment involves surgical procedures to remove tumors or repair damage."));
+        this.Treatments.Add(TreatmentFactory.Create("Lifestyle Changes", "This treatment involves changes in diet, exercise, and other lifestyle factors to manage various conditions."));
+        this.Treatments.Add(TreatmentFactory.Create("Regular Check-ups", "This involves regular medical check-ups to monitor for any signs of disease recurrence or complications."));
+        this.Treatments.Add(TreatmentFactory.Create("Further Testing", "This involves additional testing to confirm a diagnosis and determine the cause of abnormal findings."));
+        this.Treatments.Add(TreatmentFactory.Create("Targeted Therapy", "This treatment involves the use of drugs or other substances to identify and attack specific types of cancer cells."));
+        this.Treatments.Add(TreatmentFactory.Create("Blood Transfusions", "This treatment involves receiving blood or parts of blood through an IV line."));
+        this.Treatments.Add(TreatmentFactory.Create("Chelation Therapy", "This treatment involves the administration of chelating agents to remove heavy metals from the body."));
+        this.Treatments.Add(TreatmentFactory.Create("Liver Transplant", "This treatment involves transplanting a healthy liver from a donor to replace a diseased liver."));
+        this.Treatments.Add(TreatmentFactory.Create("Medication", "This treatment involves the use of medication to manage symptoms or treat the underlying cause of a condition."));
+    }
 
-        this.Treatments.Add(TreatmentFactory.Create("Antiviral Medication", "Treatment involves antiviral medications to cure most cases of hepatitis C."));
+    private void LoadMedicalDevice()
+    {
+        // Ultrasound Machines
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("GE Voluson E10 Ultrasound Machine", "USA", "", "", 10, 100));
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Philips EPIQ Elite Ultrasound Machine", "USA", "", "", 10, 100));
 
-        this.Treatments.Add(TreatmentFactory.Create("Liver Transplantation", "In severe cases, liver transplantation may be considered."));
-        this.Treatments.Add(TreatmentFactory.Create("Chemotherapy", "Chemotherapy can be used to kill cancer cells."));
+        // Electrocardiogram (ECG) Machines
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("GE MAC 5500 HD ECG Machine", "Germany", "", "", 20, 200));
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Philips PageWriter TC70 ECG Machine", "Germany", "", "", 20, 200));
 
-        this.Treatments.Add(TreatmentFactory.Create("Surgery and Chemotherapy", "Treatment usually involves a combination of surgery and chemotherapy."));
-
-        this.Treatments.Add(TreatmentFactory.Create("Statins", "Medications like statins can help lower cholesterol levels."));
-
-        this.Treatments.Add(TreatmentFactory.Create("Dietary Advice", "Treatment can include dietary advice to manage iron levels."));
-        this.Treatments.Add(TreatmentFactory.Create("Medication", "Treatment can include medication to reduce the iron levels in your blood."));
-
-        this.Treatments.Add(TreatmentFactory.Create("Medications and Therapies", "Treatment focuses on medicines and therapies to clear the airway and improve the function of the faulty CFTR protein."));
+        // X-ray Machines
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("GE Optima XR220amx X-ray Machine", "Japan", "", "", 30, 300));
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Philips DigitalDiagnost C90 X-ray Machine", "Japan", "", "", 30, 300));
 
 
-        // Treatments for "Other sideroblastic anemias"
-        this.Treatments.Add(TreatmentFactory.Create("Blood Transfusions", "In some cases, blood transfusions may be needed to treat anemia."));
-        this.Treatments.Add(TreatmentFactory.Create("Chelation Therapy", "If iron overload occurs due to the anemia, chelation therapy may be used to remove excess iron from the body."));
+        // Magnetic Resonance Imaging (MRI) Machines
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("GE SIGNA Premier MRI Machine", "USA", "", "", 40, 400));
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Philips Ingenia Elition MRI Machine", "USA", "", "", 40, 400));
 
-        // Treatments for "Alcoholic cirrhosis of liver without ascites"
-        this.Treatments.Add(TreatmentFactory.Create("Lifestyle Changes", "The primary treatment for alcoholic cirrhosis is to stop drinking alcohol. A healthy diet and regular exercise can also help improve liver health."));
-        this.Treatments.Add(TreatmentFactory.Create("Medications", "Medications may be used to manage symptoms or complications of cirrhosis."));
-        this.Treatments.Add(TreatmentFactory.Create("Liver Transplant", "In severe cases, a liver transplant may be considered."));
- 
-        // Treatments for "Unspecified cirrhosis of liver"
-        this.Treatments.Add(TreatmentFactory.Create("Lifestyle Changes", "Lifestyle changes such as reducing salt intake, stopping alcohol consumption, and maintaining a healthy diet can help manage cirrhosis."));
+        // Computed Tomography (CT) Scanners
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("GE Revolution CT Scanner", "Germany", "", "", 50, 500));
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Philips Incisive CT Scanner", "Germany", "", "", 50, 500));
 
-        // Treatments for "Other abnormal tumor markers"
-        this.Treatments.Add(TreatmentFactory.Create("Further Testing", "Abnormal tumor markers can indicate the presence of cancer, but further testing is usually needed to confirm the diagnosis."));
-        this.Treatments.Add(TreatmentFactory.Create("Targeted Therapy", "If cancer is confirmed, targeted therapies may be used to treat cancers that have specific tumor markers."));
+        // Positron Emission Tomography (PET) Scanners
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("GE Discovery MI PET Scanner", "Japan", "", "", 60, 600));
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Philips Vereos PET Scanner", "Japan", "", "", 60, 600));
 
-        // Treatments for "Malignant neoplasm of colon, unspecified"
-        this.Treatments.Add(TreatmentFactory.Create("Surgery", "Surgery is often the main treatment for colon cancer, and may range from minimally invasive techniques to more extensive surgery."));
-        this.Treatments.Add(TreatmentFactory.Create("Chemotherapy", "Chemotherapy may be used to kill cancer cells, especially in more advanced stages of colon cancer."));
-        this.Treatments.Add(TreatmentFactory.Create("Radiation Therapy", "Radiation therapy may be used to kill cancer cells and shrink tumors, often in combination with surgery and chemotherapy."));
+        // Defibrillators
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("GE Responder 2000 Defibrillator", "USA", "", "", 70, 700));
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Philips HeartStart XL Defibrillator", "USA", "", "", 70, 700));
+
+        // Ventilators
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("GE CARESCAPE R860 Ventilator", "Germany", "", "", 80, 800));
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Philips V680 Ventilator", "Germany", "", "", 80, 800));
+
+        // Dialysis Machines
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Fresenius 2008K Dialysis Machine", "Japan", "", "", 90, 900));
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Baxter HomeChoice Pro Dialysis Machine", "Japan", "", "", 90, 900));
+    }
+
+    private void LoadService()
+    {
+        // Common services
+        this.Services.Add(ServiceFactory.Create("Routine Check-up", Domain.ServiceType.Visit, 50, 100, 80, Domain.FormTypes.TestForm));
+        this.Services.Add(ServiceFactory.Create("Blood Test", Domain.ServiceType.Test, 20, 40, 30, Domain.FormTypes.TestForm));
+        this.Services.Add(ServiceFactory.Create("X-ray", Domain.ServiceType.Scan, 100, 200, 150, Domain.FormTypes.AnalysisForm));
+        this.Services.Add(ServiceFactory.Create("MRI Scan", Domain.ServiceType.Scan, 500, 1000, 750, Domain.FormTypes.AnalysisForm));
+        this.Services.Add(ServiceFactory.Create("Ultrasound", Domain.ServiceType.Scan, 200, 400, 300, Domain.FormTypes.AnalysisForm));
+        this.Services.Add(ServiceFactory.Create("Physical Therapy Session", Domain.ServiceType.Session, 75, 150, 100, Domain.FormTypes.TestForm));
+        this.Services.Add(ServiceFactory.Create("Vaccination", Domain.ServiceType.Dose, 25, 50, 40, Domain.FormTypes.AnalysisForm));
+        this.Services.Add(ServiceFactory.Create("Dental Cleaning", Domain.ServiceType.Visit, 100, 200, 150, Domain.FormTypes.TestForm));
+        this.Services.Add(ServiceFactory.Create("Eye Examination", Domain.ServiceType.Visit, 75, 150, 100, Domain.FormTypes.TestForm));
+        this.Services.Add(ServiceFactory.Create("Dermatology Consultation", Domain.ServiceType.Visit, 80, 160, 120, Domain.FormTypes.TestForm));
+        this.Services.Add(ServiceFactory.Create("Psychiatry Consultation", Domain.ServiceType.Visit, 120, 240, 180, Domain.FormTypes.TestForm));
+
+        // Rare services
+        this.Services.Add(ServiceFactory.Create("Cardiac Catheterization", Domain.ServiceType.Procedure, 2000, 4000, 3000, Domain.FormTypes.AnalysisForm));
+        this.Services.Add(ServiceFactory.Create("Colonoscopy", Domain.ServiceType.Procedure, 800, 1600, 1200, Domain.FormTypes.AnalysisForm));
+        this.Services.Add(ServiceFactory.Create("Endoscopy", Domain.ServiceType.Procedure, 800, 1600, 1200, Domain.FormTypes.AnalysisForm));
+        this.Services.Add(ServiceFactory.Create("Joint Replacement Surgery", Domain.ServiceType.Surgery, 20000, 40000, 30000, Domain.FormTypes.AnalysisForm));
+        this.Services.Add(ServiceFactory.Create("Cataract Surgery", Domain.ServiceType.Surgery, 3500, 7000, 5000, Domain.FormTypes.AnalysisForm));
+        this.Services.Add(ServiceFactory.Create("Chemotherapy Session", Domain.ServiceType.Session, 2000, 4000, 3000, Domain.FormTypes.AnalysisForm));
+
+        // Really rare services
+        this.Services.Add(ServiceFactory.Create("Organ Transplant", Domain.ServiceType.Surgery, 100000, 200000, 150000, Domain.FormTypes.AnalysisForm));
+        this.Services.Add(ServiceFactory.Create("Gamma Knife Surgery", Domain.ServiceType.Surgery, 20000, 40000, 30000, Domain.FormTypes.AnalysisForm));
+        this.Services.Add(ServiceFactory.Create("Bone Marrow Transplant", Domain.ServiceType.Surgery, 50000, 100000, 75000, Domain.FormTypes.AnalysisForm));
+    }
+
+    private void LoadStorage()
+    {
+        this.Storages.Add(StorageFactory.Create("Location 1"));
+        this.Storages.Add(StorageFactory.Create("Location 2"));
+    }
+
+    private void LoadDeviceInventories()
+    {
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("GE Voluson E10 Ultrasound Machine"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Philips EPIQ Elite Ultrasound Machine"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("GE MAC 5500 HD ECG Machine"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Philips PageWriter TC70 ECG Machine"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("GE Optima XR220amx X-ray Machine"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Philips DigitalDiagnost C90 X-ray Machine"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location  1"))!);
+
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("GE SIGNA Premier MRI Machine"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 2"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Philips Ingenia Elition MRI Machine"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 2"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("GE Revolution CT Scanner"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 2"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Philips Incisive CT Scanner"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 2"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("GE Discovery MI PET Scanner"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 2"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Philips Vereos PET Scanner"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 2"))!);
+
+        foreach (var item in MedicalDevices)
+        {
+            this.DeviceInventories.AddRange(item.DeviceInventories);
+        }
+    }
+
+    private void LoadDeviceServices()
+    {
+        this.Services.FirstOrDefault(s => s.Name.Equals("Ultrasound"))!
+                     .AddToDeviceInventories(this.DeviceInventories.Where(x => x.MedicalDevice!.Name.Equals("GE Voluson E10 Ultrasound Machine"))!.ToList());
+        this.Services.FirstOrDefault(s => s.Name.Equals("Ultrasound"))!
+                     .AddToDeviceInventories(this.DeviceInventories.Where(x => x.MedicalDevice!.Name.Equals("Philips EPIQ Elite Ultrasound Machine"))!.ToList());
+
+        this.Services.FirstOrDefault(s => s.Name.Equals("Routine Check-up"))!
+                     .AddToDeviceInventories(this.DeviceInventories.Where(x => x.MedicalDevice!.Name.Equals("GE MAC 5500 HD ECG Machine"))!.ToList());
+        this.Services.FirstOrDefault(s => s.Name.Equals("Routine Check-up"))!
+                     .AddToDeviceInventories(this.DeviceInventories.Where(x => x.MedicalDevice!.Name.Equals("Philips PageWriter TC70 ECG Machine"))!.ToList());
+        this.Services.FirstOrDefault(s => s.Name.Equals("Routine Check-up"))!
+                     .AddToDeviceInventories(this.DeviceInventories.Where(x => x.MedicalDevice!.Name.Equals("GE Revolution CT Scanner"))!.ToList());
+        this.Services.FirstOrDefault(s => s.Name.Equals("Routine Check-up"))!
+                     .AddToDeviceInventories(this.DeviceInventories.Where(x => x.MedicalDevice!.Name.Equals("Philips Incisive CT Scanner"))!.ToList());
+        this.Services.FirstOrDefault(s => s.Name.Equals("Routine Check-up"))!
+                     .AddToDeviceInventories(this.DeviceInventories.Where(x => x.MedicalDevice!.Name.Equals("GE Discovery MI PET Scanner"))!.ToList());
+        this.Services.FirstOrDefault(s => s.Name.Equals("Routine Check-up"))!
+                     .AddToDeviceInventories(this.DeviceInventories.Where(x => x.MedicalDevice!.Name.Equals("Philips Vereos PET Scanner"))!.ToList());
+
+        this.Services.FirstOrDefault(s => s.Name.Equals("X-ray"))!
+                     .AddToDeviceInventories(this.DeviceInventories.Where(x => x.MedicalDevice!.Name.Equals("GE Optima XR220amx X-ray Machine"))!.ToList());
+        this.Services.FirstOrDefault(s => s.Name.Equals("X-ray"))!
+                     .AddToDeviceInventories(this.DeviceInventories.Where(x => x.MedicalDevice!.Name.Equals("Philips DigitalDiagnost C90 X-ray Machine"))!.ToList());
+
+        this.Services.FirstOrDefault(s => s.Name.Equals("MRI Scan"))!
+                     .AddToDeviceInventories(this.DeviceInventories.Where(x => x.MedicalDevice!.Name.Equals("GE SIGNA Premier MRI Machine"))!.ToList());
+        this.Services.FirstOrDefault(s => s.Name.Equals("MRI Scan"))!
+                     .AddToDeviceInventories(this.DeviceInventories.Where(x => x.MedicalDevice!.Name.Equals("Philips Ingenia Elition MRI Machine"))!.ToList());
+
+        foreach (var item in Services)
+        {
+            this.DeviceServices.AddRange(item.DeviceServices);
+        }
+    }
+
+    private void LoadDrugs()
+    {
+        this.Drugs.Add(DrugFactory.Create("Lipitor", "Atorvastatin",
+                                          "This drug can interact with grapefruit juice, which can lead to potentially dangerous effects.", " Common side effects include headache, stomach pain, and mild muscle pain.", 
+                                          Domain.Units.Tablets, "Statins", 10, 5, "USA", "A01"));
+        this.Drugs.Add(DrugFactory.Create("Nexium", "Esomeprazole",
+                                          "This drug can interact with certain other stomach acid drugs like sucralfate.", "Common side effects include headache, diarrhea, nausea, gas, stomach pain, constipation, and dry mouth.", 
+                                          Domain.Units.Tablets, "Proton Pump Inhibitors", 15, 7, "USA", "A02"));
+        this.Drugs.Add(DrugFactory.Create("Plavix", "Clopidogrel",
+                                          "This drug can interact with omeprazole or esomeprazole, reducing its effectiveness.", " Common side effects include bleeding, nausea, and diarrhea.", 
+                                          Domain.Units.Tablets, "Antiplatelet", 20, 10, "USA", "A03"));
+        this.Drugs.Add(DrugFactory.Create("Advair Diskus", "Fluticasone/Salmeterol",
+                                          "This drug can interact with certain other drugs like ritonavir, atazanavir, clarithromycin, indinavir, itraconazole, nefazodone, nelfinavir, ketoconazole, telithromycin, conivaptan, lopinavir, nefazodone, voriconazole, and others.", "Common side effects include throat irritation, hoarseness, voice changes, nausea, vomiting.", 
+                                          Domain.Units.Inhaler, "Bronchodilator", 30, 15, "USA", "A04"));
+        this.Drugs.Add(DrugFactory.Create("Abilify", "Aripiprazole",
+                                          "This drug can interact with certain other drugs like carbamazepine, phenytoin, rifampin, and others.", "Common side effects include weight gain, headache, agitation, anxiety, insomnia, and nausea.", 
+                                          Domain.Units.Tablets, "Antipsychotic", 40, 20, "USA", "A05"));
+        this.Drugs.Add(DrugFactory.Create("Seroquel", "Quetiapine",
+                                          "This drug can interact with certain other drugs like phenytoin, thioridazine, and others.", "SCommon side effects include drowsiness, dizziness, and constipation.", 
+                                          Domain.Units.Tablets, "Antipsychotic", 50, 25, "USA", "A06"));
+        this.Drugs.Add(DrugFactory.Create("Singulair", "Montelukast",
+                                          "This drug can interact with certain other drugs like phenobarbital and rifampin.", "Common side effects include headache, stomach pain, heartburn, upset stomach, nausea, diarrhea, tooth pain, tiredness, fever, stuffy nose, sore throat, cough, hoarseness, and flu-like symptoms.", 
+                                          Domain.Units.Tablets, "Leukotriene Receptor Antagonist", 60, 30, "USA", "A07"));
+        this.Drugs.Add(DrugFactory.Create("Crestor", "Rosuvastatin",
+                                          "This drug can interact with certain other drugs like cyclosporine, gemfibrozil.", "Common side effects include muscle pain, constipation, nausea, stomach pain, and weakness.", 
+                                          Domain.Units.Tablets, "Statins", 70, 35, "USA", "A08"));
+        this.Drugs.Add(DrugFactory.Create("Actos", "Pioglitazone",
+                                          "This drug can interact with gemfibrozil, rifampin.", "Common side effects include sore throat, weight gain, and sinusitis.", 
+                                          Domain.Units.Tablets, "Antidiabetic", 80, 40, "USA", "A09"));
+        this.Drugs.Add(DrugFactory.Create("Epogen", "Epoetin Alfa",
+                                          "This drug can interact with certain other drugs like lenalidomide, pomalidomide, thalidomide.", "Common side effects include joint, muscle, or bone pain.", 
+                                           Domain.Units.Injection, "Erythropoiesis-Stimulating Agent", 90, 45, "USA", "A10"));
+        this.Drugs.Add(DrugFactory.Create("Diovan", "Valsartan",
+                                          "This drug can interact with aliskiren, lithium.", "Common side effects include headache, dizziness, viral infection, fatigue, abdominal pain, cough, diarrhea, and nausea.", 
+                                          Domain.Units.Tablets, "Angiotensin II Receptor Blocker", 100, 50, "USA", "A11"));
+        this.Drugs.Add(DrugFactory.Create("Lantus", "Insulin Glargine",
+                                          "Can interact with rosiglitazone",
+                                          "Common side effects include hypoglycemia, allergic reactions, injection site reactions, lipodystrophy, pruritus, rash, edema",
+                                          Domain.Units.Injection, "Long-Acting Insulin", 110, 55, "USA", "A12"));
+        this.Drugs.Add(DrugFactory.Create("Cymbalta", "Duloxetine",
+                                          "Can interact with MAO inhibitors, thioridazine, procarbazine",
+                                          "Common side effects include nausea, dry mouth, sleepiness, fatigue, constipation, loss of appetite, and sweating",
+                                          Domain.Units.Capsules, "Serotonin-Norepinephrine Reuptake Inhibitor", 120, 60, "USA", "A13"));
+        this.Drugs.Add(DrugFactory.Create("Vyvanse", "Lisdexamfetamine",
+                                          "Can interact with MAO inhibitors",
+                                          "Common side effects include anxiety, decreased appetite, weight loss, irritability, nausea, vomiting, and dizziness",
+                                          Domain.Units.Capsules, "Stimulant", 130, 65, "USA", "A14"));
+        this.Drugs.Add(DrugFactory.Create("Lyrica", "Pregabalin",
+                                          "Can interact with alcohol, opioids",
+                                          "Common side effects include dizziness, sleepiness, weight gain, swelling of hands and feet, trouble concentrating, and dry mouth",
+                                          Domain.Units.Capsules, "Anticonvulsant", 140, 70, "USA", "A15"));
+        this.Drugs.Add(DrugFactory.Create("Spiriva", "Tiotropium",
+                                          "Can interact with atropine, belladonna, cimetidine, clidinium, dicyclomine, glycopyrrolate, hyoscyamine, mepenzolate, methantheline, methscopolamine, propantheline, scopolamine",
+                                          "Common side effects include dry mouth, sinusitis, pharyngitis, non-specific chest pain, urinary tract infection, indigestion",
+                                          Domain.Units.Inhaler, "Bronchodilator", 150, 75, "USA", "A16"));
+        this.Drugs.Add(DrugFactory.Create("Januvia", "Sitagliptin",
+                                          "Can interact with insulin or a sulfonylurea",
+                                          "Common side effects include upper respiratory tract infection, stuffy or runny nose and sore throat, and headache",
+                                          Domain.Units.Tablets, "Dipeptidyl Peptidase-4 Inhibitor", 160, 80, "USA", "A17"));
+        this.Drugs.Add(DrugFactory.Create("Bystolic", "Nebivolol",
+                                          "Can interact with reserpine, monoamine oxidase (MAO) inhibitors",
+                                          "Common side effects include headache, fatigue, dizziness, diarrhea, nausea, insomnia, chest pain, bradycardia, dyspnea, rash",
+                                          Domain.Units.Tablets, "Beta Blocker", 170, 85, "USA", "A18"));
+        this.Drugs.Add(DrugFactory.Create("Suboxone", "Buprenorphine/Naloxone",
+                                          "Can interact with other CNS depressants",
+                                          "Common side effects include headache, drug withdrawal syndrome, insomnia, pain, sweating, nausea, and constipation",
+                                          Domain.Units.Film, "Opioid Partial Agonist and Antagonist", 180, 90, "USA", "A19"));
+        this.Drugs.Add(DrugFactory.Create("Tamiflu", "Oseltamivir",
+                                          "Can interact with live attenuated influenza vaccine",
+                                          "Common side effects include nausea and vomiting",
+                                          Domain.Units.Capsules, "Neuraminidase Inhibitor", 190, 95, "USA", "A20"));
+        this.Drugs.Add(DrugFactory.Create("Zestril", "Lisinopril", 
+                                          "Can interact with potassium supplements or diuretics", 
+                                          "Common side effects include cough, dizziness, and lightheadedness", 
+                                          Domain.Units.Tablets, "ACE inhibitors", 200, 100, "USA", "A21"));
+        this.Drugs.Add(DrugFactory.Create("Norvasc", "Amlodipine", 
+                                          "Can interact with dantrolene and simvastatin", 
+                                          "Common side effects include swelling of the ankles/feet, dizziness, and flushing", 
+                                          Domain.Units.Tablets, "Calcium channel blockers", 210, 105, "USA", "A22"));
+        this.Drugs.Add(DrugFactory.Create("Prinivil", "Lisinopril", 
+                                          "Can interact with aliskiren, lithium, gold injections, and drugs that weaken the immune system", 
+                                          "Common side effects include dizziness, lightheadedness, and tiredness", 
+                                          Domain.Units.Tablets, "ACE inhibitors", 220, 110, "USA", "A23"));
+        this.Drugs.Add(DrugFactory.Create("Glucophage", "Metformin", 
+                                          "Can interact with cephalexin", 
+                                          "Common side effects include stomach upset, nausea, and diarrhea", 
+                                          Domain.Units.Tablets, "Biguanides", 230, 115, "USA", "A24"));
+        this.Drugs.Add(DrugFactory.Create("Zocor", "Simvastatin", 
+                                          "Can interact with red yeast rice", 
+                                          "Common side effects include muscle pain, tenderness, and weakness", 
+                                          Domain.Units.Tablets, "Statins", 240, 120, "USA", "A25"));
+        this.Drugs.Add(DrugFactory.Create("Microzide", "Hydrochlorothiazide", 
+                                          "Can interact with dofetilide", 
+                                          "Common side effects include dizziness, lightheadedness, and blurred vision", 
+                                          Domain.Units.Tablets, "Thiazides", 250, 125, "USA", "A26"));
+        this.Drugs.Add(DrugFactory.Create("Synthroid", 
+                                          "Levothyroxine", "Can interact with estrogens", 
+                                          "Common side effects include hair loss, sweating, and heat intolerance", 
+                                          Domain.Units.Tablets, "Thyroid drugs", 260, 130, "USA", "A27"));
+        this.Drugs.Add(DrugFactory.Create("Lopressor", "Metoprolol", 
+                                          "Can interact with bupropion", 
+                                          "Common side effects include drowsiness, dizziness, and tiredness", 
+                                          Domain.Units.Tablets, "Beta blockers", 270, 135, "USA", "A28"));
+        this.Drugs.Add(DrugFactory.Create("Cozaar", "Losartan", 
+                                          "Can interact with lithium", 
+                                          "Common side effects include dizziness, lightheadedness, and stuffy nose",
+                                          Domain.Units.Tablets, "ARBs", 280, 140, "USA", "A29"));
+        this.Drugs.Add(DrugFactory.Create("Zithromax", "Azithromycin", 
+                                          "Can interact with aluminum and magnesium antacids", 
+                                          "Common side effects include diarrhea, nausea, and stomach pain", 
+                                          Domain.Units.Capsules, "Macrolides", 290, 145, "USA", "A30"));
+        this.Drugs.Add(DrugFactory.Create("Amoxil", "Amoxicillin", 
+                                          "Can interact with methotrexate", 
+                                          "Common side effects include nausea, vomiting, and diarrhea", 
+                                          Domain.Units.Capsules, "Penicillins", 300, 150, "USA", "A31"));
+        this.Drugs.Add(DrugFactory.Create("Vicodin", "Hydrocodone/Acetaminophen", 
+                                          "Can interact with azelastine", 
+                                          "Common side effects include lightheadedness, dizziness, and nausea", 
+                                          Domain.Units.Film, "Narcotic analgesics", 310, 155, "USA", "A32"));
+        this.Drugs.Add(DrugFactory.Create("Deltasone", "Prednisone", 
+                                          "Can interact with aldesleukin", 
+                                          "Common side effects include nausea, loss of appetite, and heartburn", 
+                                          Domain.Units.Tablets, "Corticosteroids", 320, 160, "USA", "A33"));
+        this.Drugs.Add(DrugFactory.Create("Neurontin", "Gabapentin", 
+                                          "Can interact with antacids containing aluminum or magnesium", 
+                                          "Common side effects include drowsiness, dizziness, and loss of coordination", 
+                                          Domain.Units.Capsules, "Anti-convulsants", 330, 165, "USA", "A34"));
+        this.Drugs.Add(DrugFactory.Create("Prilosec", "Omeprazole", 
+                                          "Can interact with clopidogrel", 
+                                          "Common side effects include headache, abdominal pain, and nausea", 
+                                          Domain.Units.Capsules, "Proton pump inhibitors", 340, 170, "USA", "A35"));
+        this.Drugs.Add(DrugFactory.Create("Norvasc", "Amlodipine", 
+                                          "Can interact with dantrolene and simvastatin", 
+                                          "Common side effects include swelling of the ankles/feet, dizziness, and flushing", 
+                                          Domain.Units.Tablets, "Calcium channel blockers", 350, 175, "USA", "A36"));
+        this.Drugs.Add(DrugFactory.Create("Glucophage", "Metformin", 
+                                          "Can interact with cephalexin", 
+                                          "Common side effects include stomach upset, nausea, and diarrhea", 
+                                          Domain.Units.Tablets, "Biguanides", 360, 180, "USA", "A37"));
+        this.Drugs.Add(DrugFactory.Create("Zocor", "Simvastatin", 
+                                          "Can interact with red yeast rice", 
+                                          "Common side effects include muscle pain, tenderness, and weakness", 
+                                          Domain.Units.Tablets, "Statins", 370, 185, "USA", "A38"));
+        this.Drugs.Add(DrugFactory.Create("Microzide", "Hydrochlorothiazide", 
+                                          "Can interact with dofetilide", 
+                                          "Common side effects include dizziness, lightheadedness, and blurred vision", 
+                                          Domain.Units.Tablets, "Thiazides", 380, 190, "USA", "A39"));
+        this.Drugs.Add(DrugFactory.Create("Synthroid", "Levothyroxine", 
+                                          "Can interact with estrogens", 
+                                          "Common side effects include hair loss, sweating, and heat intolerance", 
+                                          Domain.Units.Tablets, "Thyroid drugs", 390, 195, "USA", "A40"));
+
+
+
+        this.Drugs.Add(DrugFactory.Create("Gleevec", "Imatinib",
+                                          "Can interact with grapefruit juice, St. John’s wort, and others",
+                                          "Common side effects include edema, nausea, vomiting, muscle cramps, bone pain, diarrhea, rash, fatigue, and abdominal pain",
+                                          Domain.Units.Tablets, "Tyrosine-Kinase Inhibitor", 1000, 500, "USA", "B01"));
+        this.Drugs.Add(DrugFactory.Create("Herceptin", "Trastuzumab",
+                                          "Can interact with anthracycline-based chemotherapy drugs",
+                                          "Common side effects include fever, nausea, vomiting, infusion reactions, diarrhea, infections, increased cough, headache, fatigue, shortness of breath, rash, neutropenia, anemia, and myalgia",
+                                          Domain.Units.Injection, "Monoclonal Antibody", 2000, 1000, "USA", "B02"));
+        this.Drugs.Add(DrugFactory.Create("Revlimid", "Lenalidomide",
+                                          "Can interact with digoxin and warfarin",
+                                          "Common side effects include fatigue, constipation, diarrhea, muscle cramp, nausea, and rash",
+                                          Domain.Units.Capsules, "Immunomodulatory Agents", 2000, 1000, "USA", "B03"));
+        this.Drugs.Add(DrugFactory.Create("Opdivo", "Nivolumab",
+                                          "Can interact with corticosteroids and hormone replacement therapy",
+                                          "Common side effects include fatigue, rash, musculoskeletal pain, pruritus, diarrhea, nausea, and asthenia",
+                                          Domain.Units.Injection, "Monoclonal Antibody", 2100, 1050, "USA", "B04"));
+        this.Drugs.Add(DrugFactory.Create("Keytruda", "Pembrolizumab",
+                                          "Can interact with corticosteroids and hormone replacement therapy",
+                                          "Common side effects include fatigue, musculoskeletal pain, decreased appetite, pruritus, diarrhea, nausea, rash, pyrexia, cough, dyspnea, constipation, pain, and abdominal pain",
+                                          Domain.Units.Injection, "Monoclonal Antibody", 2200, 1100, "USA", "B05"));
+        this.Drugs.Add(DrugFactory.Create("Herceptin", "Trastuzumab",
+                                          "Can interact with anthracycline-based chemotherapy drugs",
+                                          "Common side effects include fever, nausea, vomiting, infusion reactions, diarrhea, infections, increased cough, headache, fatigue, shortness of breath, rash, neutropenia, anemia, and myalgia",
+                                          Domain.Units.Injection, "Monoclonal Antibody", 2300, 1150, "USA", "B06"));
+        this.Drugs.Add(DrugFactory.Create("Rituxan", "Rituximab",
+                                          "Can interact with cisplatin",
+                                          "Common side effects include infusion reactions, fever, lymphopenia, chills, infection, and asthenia",
+                                          Domain.Units.Injection, "Monoclonal Antibody", 2400, 1200, "USA", "B07"));
+    }
+
+    private void LoadImportations()
+    {
+        this.Importations.Add(ImportationFactory.Create("Receipt 1", "Bill 1", DateTime.Now, DateTime.Now.AddDays(1), 10, 1000, "Company 1"));
+        this.Importations.Add(ImportationFactory.Create("Receipt 2", "Bill 2", DateTime.Now, DateTime.Now.AddDays(2), 20, 2000, "Company 2"));
+    }
+
+    private void LoadDrugInventories()
+    {
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Lipitor"))!
+                  .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!, 
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!, 
+                                "Atorvastatin", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Nexium"))!
+                  .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!, 
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!, 
+                                "Esomeprazole", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Plavix"))!
+                  .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!, 
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 2"))!, 
+                                "Clopidogrel", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Advair Diskus"))!
+                  .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!, 
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 2"))!, 
+                                "Fluticasone/Salmeterol", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Abilify"))!
+                  .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!, 
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!, 
+                                "Aripiprazole", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Seroquel"))!
+                  .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!, 
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 2"))!,
+                                "Quetiapine", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Singulair"))!
+                  .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!, 
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!, 
+                                "Montelukast", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Crestor"))!
+                  .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!, 
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 2"))!, 
+                                "Rosuvastatin", DateTime.Now.AddYears(2), 100);
+
+        // Rare case drugs
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Gleevec"))!
+                  .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!,
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!, 
+                                "Imatinib", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Herceptin"))!
+                  .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!,
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 2"))!, 
+                                "Trastuzumab", DateTime.Now.AddYears(2), 100);
+
+        foreach (var item in this.Drugs)
+        {
+            this.DrugInventories.AddRange(item.DrugInventories);
+        }
+    }
+
+    private void LoadDepartments()
+    {
+        this.Departments.Add(DepartmentFactory.Create("Anesthesiology"));
+        this.Departments.Add(DepartmentFactory.Create("Dermatology"));
+        this.Departments.Add(DepartmentFactory.Create("Emergency Medicine"));
+        this.Departments.Add(DepartmentFactory.Create("Endocrinology"));
+        this.Departments.Add(DepartmentFactory.Create("Gastroenterology"));
+        this.Departments.Add(DepartmentFactory.Create("Geriatrics"));
+        this.Departments.Add(DepartmentFactory.Create("Hematology"));
+        this.Departments.Add(DepartmentFactory.Create("Infectious Disease"));
+        this.Departments.Add(DepartmentFactory.Create("Nephrology"));
+        this.Departments.Add(DepartmentFactory.Create("Obstetrics and Gynecology"));
+        this.Departments.Add(DepartmentFactory.Create("Oncology"));
+        this.Departments.Add(DepartmentFactory.Create("Ophthalmology"));
+        this.Departments.Add(DepartmentFactory.Create("Otolaryngology"));
+        this.Departments.Add(DepartmentFactory.Create("Pathology"));
+        this.Departments.Add(DepartmentFactory.Create("Psychiatry"));
+        this.Departments.Add(DepartmentFactory.Create("Pulmonology"));
+        this.Departments.Add(DepartmentFactory.Create("Rheumatology"));
+        this.Departments.Add(DepartmentFactory.Create("Surgery"));
+        this.Departments.Add(DepartmentFactory.Create("Urology"));
+    }
+
+    private void LoadRoom()
+    {
+        // For Anesthesiology Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Anesthesiology"))!.AddRoom("F1R1", Domain.RoomType.Procedure, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Anesthesiology"))!.AddRoom("F1R2", Domain.RoomType.Procedure, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Anesthesiology"))!.AddRoom("F2R3", Domain.RoomType.Recovery, 2);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Anesthesiology"))!.AddRoom("F2R4", Domain.RoomType.Recovery, 2);
+
+        // For Dermatology Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Dermatology"))!.AddRoom("F1R1", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Dermatology"))!.AddRoom("F1R2", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Dermatology"))!.AddRoom("F2R1", Domain.RoomType.Procedure, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Dermatology"))!.AddRoom("F2R2", Domain.RoomType.Inpatient, 2);
+
+        // For Emergency Medicine Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Emergency Medicine"))!.AddRoom("F1R1", Domain.RoomType.Triage, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Emergency Medicine"))!.AddRoom("F1R2", Domain.RoomType.TreatmentBay, 4);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Emergency Medicine"))!.AddRoom("F2R1", Domain.RoomType.Resuscitation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Emergency Medicine"))!.AddRoom("F2R2", Domain.RoomType.ShortStay, 4);
+
+        // For Endocrinology Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Endocrinology"))!.AddRoom("F1R1", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Endocrinology"))!.AddRoom("F1R2", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Endocrinology"))!.AddRoom("F2R1", Domain.RoomType.Inpatient, 2);
+
+        // For Gastroenterology Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Gastroenterology"))!.AddRoom("F1R1", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Gastroenterology"))!.AddRoom("F1R2", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Gastroenterology"))!.AddRoom("F2R1", Domain.RoomType.Procedure, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Gastroenterology"))!.AddRoom("F2R2", Domain.RoomType.Inpatient, 2);
+
+        // For Geriatrics Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Geriatrics"))!.AddRoom("F1R1", Domain.RoomType.General, 2);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Geriatrics"))!.AddRoom("F1R2", Domain.RoomType.General, 2);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Geriatrics"))!.AddRoom("F2R1", Domain.RoomType.General, 2);
+
+        // For Hematology Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Hematology"))!.AddRoom("F1R1", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Hematology"))!.AddRoom("F1R2", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Hematology"))!.AddRoom("F2R1", Domain.RoomType.Procedure, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Hematology"))!.AddRoom("F2R2", Domain.RoomType.Inpatient, 2);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Hematology"))!.AddRoom("F2R3", Domain.RoomType.Isolation, 1);
+
+        // For Infectious Disease Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Infectious Disease"))!.AddRoom("F1R1", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Infectious Disease"))!.AddRoom("F1R2", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Infectious Disease"))!.AddRoom("F2R1", Domain.RoomType.Isolation, 2);
+
+        // For Nephrology Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Nephrology"))!.AddRoom("F1R1", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Nephrology"))!.AddRoom("F1R2", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Nephrology"))!.AddRoom("F2R1", Domain.RoomType.DialysisStation, 4);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Nephrology"))!.AddRoom("F2R2", Domain.RoomType.Inpatient, 2);
+
+        // For Obstetrics and Gynecology Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Obstetrics and Gynecology"))!.AddRoom("F1R1", Domain.RoomType.LaborAndDelivery, 2);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Obstetrics and Gynecology"))!.AddRoom("F1R2", Domain.RoomType.GynecologicalConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Obstetrics and Gynecology"))!.AddRoom("F2R1", Domain.RoomType.Postpartum, 2);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Obstetrics and Gynecology"))!.AddRoom("F2R2", Domain.RoomType.Operating, 1);
+
+        // For Oncology Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Oncology"))!.AddRoom("F1R1", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Oncology"))!.AddRoom("F1R2", Domain.RoomType.Chemotherapy, 4);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Oncology"))!.AddRoom("F2R1", Domain.RoomType.Inpatient, 2);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Oncology"))!.AddRoom("F2R2", Domain.RoomType.Isolation, 2);
+
+        // For Ophthalmology Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Ophthalmology"))!.AddRoom("F1R1", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Ophthalmology"))!.AddRoom("F1R2", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Ophthalmology"))!.AddRoom("F2R1", Domain.RoomType.Procedure, 1);
+
+        // For Pathology Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Pathology"))!.AddRoom("F1R1", Domain.RoomType.Laboratory, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Pathology"))!.AddRoom("F1R2", Domain.RoomType.Laboratory, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Pathology"))!.AddRoom("F2R1", Domain.RoomType.Laboratory, 1);
+
+        // For Psychiatry Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Psychiatry"))!.AddRoom("F1R1", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Psychiatry"))!.AddRoom("F1R2", Domain.RoomType.Therapy, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Psychiatry"))!.AddRoom("F2R1", Domain.RoomType.Inpatient, 2);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Psychiatry"))!.AddRoom("F2R2", Domain.RoomType.Inpatient, 2);
+
+        // For Pulmonology Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Pulmonology"))!.AddRoom("F1R1", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Pulmonology"))!.AddRoom("F1R2", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Pulmonology"))!.AddRoom("F2R1", Domain.RoomType.Procedure, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Pulmonology"))!.AddRoom("F2R2", Domain.RoomType.Inpatient, 2);
+
+        // For Rheumatology Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Rheumatology"))!.AddRoom("F1R1", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Rheumatology"))!.AddRoom("F1R2", Domain.RoomType.OutpatientConsultation, 1);
+
+        // For Surgery Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Surgery"))!.AddRoom("F1R1", Domain.RoomType.Operating, 2);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Surgery"))!.AddRoom("F1R2", Domain.RoomType.Operating, 2);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Surgery"))!.AddRoom("F2R1", Domain.RoomType.Recovery, 4);
+
+        // For Urology Department
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Urology"))!.AddRoom("F1R1", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Urology"))!.AddRoom("F1R2", Domain.RoomType.OutpatientConsultation, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Urology"))!.AddRoom("F2R1", Domain.RoomType.Procedure, 1);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Urology"))!.AddRoom("F2R2", Domain.RoomType.Inpatient, 2);
+
     }
     #endregion
 }

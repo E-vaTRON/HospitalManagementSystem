@@ -3,7 +3,7 @@
 public class Service : EntityBase
 {
     public string       Name                    { get; set; } = string.Empty;
-    public Units        Unit                    { get; set; }                       //đơn vị tính
+    public ServiceType  Type                    { get; set; }
     public int          UnitPrice               { get; set; }                       //đơn giá
     public int          ServicePrice            { get; set; }                       //giá thu phí
     public int          HealthInsurancePrice    { get; set; }                       //giá bảo hiểm y tế

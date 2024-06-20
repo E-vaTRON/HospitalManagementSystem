@@ -8,7 +8,7 @@ public static class DeviceServiceExtensions
         ArgumentException.ThrowIfNullOrEmpty(nameof(analysisTest));
 
         // Assuming DeviceServiceId and MedicalExamEpisodeId together should be unique
-        if (deviceService.AnalysisTests.Any(at => at.DeviceServiceId == analysisTest.DeviceServiceId && at.MedicalExamEpisodeId == analysisTest.MedicalExamEpisodeId))
+        if (deviceService.AnalysisTests.Any(x => x.Id == analysisTest.Id))
         {
             return deviceService;
         }

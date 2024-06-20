@@ -32,6 +32,24 @@ public static class StorageExtensions
         storage.DeviceInventories.Add(deviceInventory);
         return storage;
     }
+
+    private static Storage AddDeviceInventory(this Storage storage, MedicalDevice medicalDevice, DeviceInventory deviceInventory)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(nameof(deviceInventory));
+
+        if (storage.DrugInventories.Any(x => x.Id == deviceInventory.Id))
+        {
+            return storage;
+        }
+
+        deviceInventory.StorageId = storage.Id;
+        deviceInventory.Storage = storage;
+        deviceInventory.MedicalDeviceId = medicalDevice.Id;
+        deviceInventory.MedicalDevice = medicalDevice;
+        medicalDevice.DeviceInventories.Add(deviceInventory);
+        storage.DeviceInventories.Add(deviceInventory);
+        return storage;
+    }
     #endregion
 
     #region [ Public Methods ]

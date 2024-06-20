@@ -7,12 +7,12 @@ public static class ServiceFactory
         return new Service();
     }
 
-    public static Service Create(string name, Units unit, int unitPrice, int servicePrice, int healthInsurancePrice, FormTypes resultFromType)
+    public static Service Create(string name, ServiceType type, int unitPrice, int servicePrice, int healthInsurancePrice, FormTypes resultFromType)
     {
         return new Service()
         {
             Name = name,
-            Unit = unit,
+            Type = type,
             UnitPrice = unitPrice,
             ServicePrice = servicePrice,
             HealthInsurancePrice = healthInsurancePrice,
@@ -20,12 +20,12 @@ public static class ServiceFactory
         };
     }
 
-    public static Service Create(string name, Units unit, FormTypes resultFromType)
+    public static Service Create(string name, ServiceType type, FormTypes resultFromType)
     {
         return new Service()
         {
             Name = name,
-            Unit = unit,
+            Type = type,
             UnitPrice = default!,
             ServicePrice = default!,
             HealthInsurancePrice = default!,

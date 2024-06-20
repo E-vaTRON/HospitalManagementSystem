@@ -307,7 +307,7 @@ public class SQLiteDatabaseModelBuilder
 
         modelBuilder.Entity<DeviceInventory>()
                     .HasOne(di => di.MedicalDevice)
-                    .WithMany(md => md.DeviceInventorys)
+                    .WithMany(md => md.DeviceInventories)
                     .HasForeignKey(di => di.MedicalDeviceId);
 
         modelBuilder.Entity<DeviceInventory>()
@@ -747,9 +747,9 @@ public class SQLiteDatabaseModelBuilder
                     .IsRequired(true);
 
         modelBuilder.Entity<Service>()
-                    .Property(x => x.Unit)
+                    .Property(x => x.Type)
                     .HasColumnType("TEXT")
-                    .HasConversion(new EnumToStringConverter<Units>())
+                    .HasConversion(new EnumToStringConverter<ServiceType>())
                     .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
                     .IsRequired(true);
 

@@ -323,7 +323,7 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<DeviceInventory>()
                     .HasOne(di => di.MedicalDevice)
-                    .WithMany(md => md.DeviceInventorys)
+                    .WithMany(md => md.DeviceInventories)
                     .HasForeignKey(di => di.MedicalDeviceId)
                     .OnDelete(DeleteBehavior.Cascade);
 
@@ -827,9 +827,9 @@ public class SQLDatabaseModelBuilder
                     .IsRequired(true);
 
         modelBuilder.Entity<Service>()
-                    .Property(x => x.Unit)
+                    .Property(x => x.Type)
                     .HasColumnType("nvarchar")
-                    .HasConversion(new EnumToStringConverter<Units>())
+                    .HasConversion(new EnumToStringConverter<ServiceType>())
                     .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
                     .IsRequired(true);
 

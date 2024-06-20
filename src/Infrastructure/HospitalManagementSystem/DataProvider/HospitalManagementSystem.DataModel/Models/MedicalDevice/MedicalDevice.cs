@@ -9,5 +9,5 @@ public class MedicalDevice : ModelBase
     public int          Min             { get; set; }                      //MIN
     public int          Max             { get; set; }                      //MAX
 
-    public virtual ICollection<DeviceInventory>     DeviceInventorys    { get; set; } = new HashSet<DeviceInventory>();
+    public virtual ICollection<DeviceInventory>     DeviceInventories    { get; set; } = new HashSet<DeviceInventory>();
 }
