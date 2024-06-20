@@ -55,46 +55,61 @@ public class SeedProvider
 
     #region [ Properties ]
     //public virtual DbSet<AppointmentBase>       AppointmentBases    { get; set; } = null!;
-    public List<Domain.BookingAppointment> BookingAppointments { get; private set; }
-    public List<Domain.ReExamAppointment> ReExamAppointments { get; private set; }
-    public List<Domain.Referral> Referrals { get; private set; }
-    public List<Domain.ReferralDoctor> ReferralDoctors { get; private set; }
+    public List<Domain.BookingAppointment>  BookingAppointments { get; private set; }
+    public List<Domain.ReExamAppointment>   ReExamAppointments  { get; private set; }
+    public List<Domain.Referral>            Referrals           { get; private set; }
+    public List<Domain.ReferralDoctor>      ReferralDoctors     { get; private set; }
 
-    public List<Domain.Department> Departments { get; private set; }
-    public List<Domain.Room> Rooms { get; private set; }
-    public List<Domain.RoomAllocation> RoomAllocations { get; private set; }
+    public List<Domain.Department>      Departments     { get; private set; }
+    public List<Domain.Room>            Rooms           { get; private set; }
+    public List<Domain.RoomAllocation>  RoomAllocations { get; private set; }
     //public List<Domain.RoomAssignment>    RoomAssignments { get; private set; }
 
-    public List<Domain.Drug> Drugs { get; private set; }
-    public List<Domain.DrugInventory> DrugInventories { get; private set; }
-    public List<Domain.DrugPrescription> DrugPrescriptions { get; private set; }
-    public List<Domain.Storage> Storages { get; private set; }
+    public List<Domain.Drug>                Drugs               { get; private set; }
+    public List<Domain.DrugInventory>       DrugInventories     { get; private set; }
+    public List<Domain.DrugPrescription>    DrugPrescriptions   { get; private set; }
+    public List<Domain.Storage>             Storages            { get; private set; }
     //public List<Domain.GoodSuppling> GoodSupplings { get; private set; }
-    public List<Domain.Importation> Importations { get; private set; }
-    public List<Domain.DeviceInventory> DeviceInventories { get; private set; }
+    public List<Domain.Importation>         Importations        { get; private set; }
+    public List<Domain.DeviceInventory>     DeviceInventories   { get; private set; }
 
-    public List<Domain.AssignmentHistory> AssignmentHistories { get; private set; }
-    public List<Domain.Diagnosis> Diagnoses { get; private set; }
+    public List<Domain.AssignmentHistory>       AssignmentHistories     { get; private set; }
+    public List<Domain.Diagnosis>               Diagnoses               { get; private set; }
     //public virtual DbSet<DiagnosisSuggestion>   DiagnosisSuggestions    { get; set; }
-    public List<Domain.Diseases> Diseases { get; private set; }
-    public List<Domain.ICDCode> ICDCodes { get; private set; }
-    public List<Domain.ICDCodeVersion> ICDCodeVersions { get; private set; }
-    public List<Domain.ICDVersion> ICDVersions { get; private set; }
-    public List<Domain.MedicalExam> MedicalExams { get; private set; }
-    public List<Domain.MedicalExamEpisode> MedicalExamEposodes { get; private set; }
-    public List<Domain.Treatment> Treatments { get; private set; }
-    public List<Domain.TreatmentExamEpisode> TreatmentExamEpisodes { get; private set; }
+    public List<Domain.Diseases>                Diseases                { get; private set; }
+    public List<Domain.ICDCode>                 ICDCodes                { get; private set; }
+    public List<Domain.ICDCodeVersion>          ICDCodeVersions         { get; private set; }
+    public List<Domain.ICDVersion>              ICDVersions             { get; private set; }
+    public List<Domain.MedicalExam>             MedicalExams            { get; private set; }
+    public List<Domain.MedicalExamEpisode>      MedicalExamEposodes     { get; private set; }
+    public List<Domain.Treatment>               Treatments              { get; private set; }
+    public List<Domain.TreatmentExamEpisode>    TreatmentExamEpisodes   { get; private set; }
 
-    public List<Domain.DeviceService> DeviceServices { get; private set; }
-    public List<Domain.MedicalDevice> MedicalDevices { get; private set; }
-    public List<Domain.Service> Services { get; private set; }
-    public List<Domain.AnalysisTest> AnalysisTests { get; private set; }
+    public List<Domain.DeviceService> DeviceServices    { get; private set; }
+    public List<Domain.MedicalDevice> MedicalDevices    { get; private set; }
+    public List<Domain.Service> Services                { get; private set; }
+    public List<Domain.AnalysisTest> AnalysisTests      { get; private set; }
     #endregion
 
     #region [ Private Methods ]
     private void Load()
     {
         LoadDiseases();
+        LoadICDVersions();
+        LoadICDCodes();
+        LoadICDCodeVersions();
+        LoadDiagnoses();  // ??
+        LoadTreatments();
+        LoadMedicalDevice();
+        LoadService();
+        LoadStorage();
+        LoadDeviceInventories();
+        LoadDeviceServices();
+        LoadDrugs();
+        LoadImportations();
+        LoadDrugInventories();
+        LoadDepartments();
+        LoadRoom();
     }
 
     private void Clear()
@@ -104,8 +119,8 @@ public class SeedProvider
         Referrals.Clear();
         ReferralDoctors.Clear();
 
-        Departments.Clear();
-        Rooms.Clear();
+        Departments.Clear();            //
+        Rooms.Clear();                  //
         RoomAllocations.Clear();
 
         Drugs.Clear();                  //
@@ -135,44 +150,93 @@ public class SeedProvider
     #region [ Seed Create ]
     private void LoadDiseases()
     {
-        var diseases = new List<(string Name, string Description, Domain.CodeStatus Status)>
-        {
-            ("Syphilis of liver and other viscera", "A bacterial infection affecting the liver and other organs", Domain.CodeStatus.Active),
-            ("Chronic viral hepatitis C", "A long-term infection caused by the hepatitis C virus", Domain.CodeStatus.Active),
-            ("Malignant neoplasm of liver, not specified as primary or secondary", "A type of liver cancer not specified as primary or secondary", Domain.CodeStatus.Active),
-            ("Malignant neoplasm of unspecified ovary", "Cancer in an unspecified ovary", Domain.CodeStatus.Active),
-            ("Mixed hyperlipidemia", "A disorder characterized by high levels of cholesterol and triglycerides", Domain.CodeStatus.Active),
-            ("Other disorders of iron metabolism", "Disorders related to the processing of iron in the body", Domain.CodeStatus.Active),
-            ("Cystic fibrosis, unspecified", "A genetic disorder affecting the lungs and digestive system", Domain.CodeStatus.Active),
-            ("Other sideroblastic anemias", "A group of blood disorders characterized by anemia with ringed sideroblasts in the bone marrow", Domain.CodeStatus.Active),
-            ("Alcoholic cirrhosis of liver without ascites", "Liver scarring due to alcohol abuse, without fluid accumulation in the abdomen", Domain.CodeStatus.Active),
-            ("Chronic hepatitis, unspecified", "Long-term inflammation of the liver, unspecified type", Domain.CodeStatus.Active),
-            ("Unspecified cirrhosis of liver", "Liver scarring with an unspecified cause", Domain.CodeStatus.Active),
-            ("Other abnormal tumor markers", "Presence of tumor markers in the blood that are not normally found", Domain.CodeStatus.Active),
-            ("Malignant neoplasm of colon, unspecified", "Cancer in an unspecified part of the colon", Domain.CodeStatus.Active),
-            ("Malignant neoplasm of rectum", "Cancer in the rectum", Domain.CodeStatus.Active),
-            ("Malignant neoplasm of intestinal tract, part unspecified", "Cancer in an unspecified part of the intestinal tract", Domain.CodeStatus.Active),
-            ("Malignant neoplasm of unspecified part of unspecified bronchus or lung", "Cancer in an unspecified part of the bronchus or lung", Domain.CodeStatus.Active),
-            ("Malignant neoplasm of unspecified site of unspecified female breast", "Cancer in an unspecified site of the female breast", Domain.CodeStatus.Active),
-            ("Malignant neoplasm of unspecified ovary", "Cancer in an unspecified ovary", Domain.CodeStatus.Active),
-            ("Finding of unspecified substance, not normally found in blood", "Presence of an unspecified substance in the blood that is not normally found", Domain.CodeStatus.Active),
-            ("Other specified abnormal findings of blood chemistry", "Other specified abnormalities found in blood chemistry tests", Domain.CodeStatus.Active),
-            ("Elevated carcinoembryonic antigen [CEA]", "Elevated levels of carcinoembryonic antigen, which may indicate cancer", Domain.CodeStatus.Active),
-            ("Other abnormal tumor markers", "Presence of tumor markers in the blood that are not normally found", Domain.CodeStatus.Active),
-            ("Personal history of malignant neoplasm of breast", "A personal history of breast cancer", Domain.CodeStatus.Inactive), // Assuming Inactive status due to 'history'
-            ("Personal history of malignant neoplasm of ovary", "A personal history of ovarian cancer", Domain.CodeStatus.Inactive), // Assuming Inactive status due to 'history'
-            ("Malignant neoplasm of endocervix", "Cancer in the endocervix", Domain.CodeStatus.Active),
-            ("Malignant neoplasm of corpus uteri, unspecified", "Cancer in an unspecified part of the corpus uteri", Domain.CodeStatus.Active),
-            ("Malignant neoplasm of unspecified fallopian tube", "Cancer in an unspecified fallopian tube", Domain.CodeStatus.Active),
-            ("Malignant neoplasm of uterine adnexa, unspecified", "Cancer in an unspecified uterine adnexa", Domain.CodeStatus.Active),
-            ("Secondary malignant neoplasm of unspecified ovary", "Secondary cancer in an unspecified ovary", Domain.CodeStatus.Active)
-        };
-
-        foreach (var (Name, Description, Status) in diseases)
-        {
-            this.Diseases.Add(DiseasesFactory.Create(Name, Description, Status));
-        }
-
+        this.Diseases.Add(DiseasesFactory.Create("Syphilis of liver and other viscera", 
+                                                 "A bacterial infection affecting the liver and other organs", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Chronic viral hepatitis C", 
+                                                 "A long-term infection caused by the hepatitis C virus",
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Malignant neoplasm of liver, not specified as primary or secondary", 
+                                                 "A type of liver cancer not specified as primary or secondary",
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Malignant neoplasm of unspecified ovary",
+                                                 "Cancer in an unspecified ovary", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Mixed hyperlipidemia",
+                                                 "A disorder characterized by high levels of cholesterol and triglycerides", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Other disorders of iron metabolism", 
+                                                 "Disorders related to the processing of iron in the body", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Cystic fibrosis, unspecified", 
+                                                 "A genetic disorder affecting the lungs and digestive system", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Other sideroblastic anemias", 
+                                                 "A group of blood disorders characterized by anemia with ringed sideroblasts in the bone marrow", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Alcoholic cirrhosis of liver without ascites",
+                                                 "Liver scarring due to alcohol abuse, without fluid accumulation in the abdomen", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Chronic hepatitis, unspecified", 
+                                                 "Long-term inflammation of the liver, unspecified type", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Unspecified cirrhosis of liver", 
+                                                 "Liver scarring with an unspecified cause", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Other abnormal tumor markers", 
+                                                 "Presence of tumor markers in the blood that are not normally found",
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Malignant neoplasm of colon, unspecified", 
+                                                 "Cancer in an unspecified part of the colon", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Malignant neoplasm of rectum", 
+                                                 "Cancer in the rectum", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Malignant neoplasm of intestinal tract, part unspecified", 
+                                                 "Cancer in an unspecified part of the intestinal tract", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Malignant neoplasm of unspecified part of unspecified bronchus or lung",
+                                                 "Cancer in an unspecified part of the bronchus or lung", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Malignant neoplasm of unspecified site of unspecified female breast", 
+                                                 "Cancer in an unspecified site of the female breast", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Malignant neoplasm of unspecified ovary",
+                                                 "Cancer in an unspecified ovary", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Finding of unspecified substance, not normally found in blood", 
+                                                 "Presence of an unspecified substance in the blood that is not normally found",
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Other specified abnormal findings of blood chemistry",
+                                                 "Other specified abnormalities found in blood chemistry tests", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Elevated carcinoembryonic antigen [CEA]", 
+                                                 "Elevated levels of carcinoembryonic antigen, which may indicate cancer", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Other abnormal tumor markers", 
+                                                 "Presence of tumor markers in the blood that are not normally found", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Personal history of malignant neoplasm of breast", 
+                                                 "A personal history of breast cancer",
+                                                 Domain.CodeStatus.Inactive));
+        this.Diseases.Add(DiseasesFactory.Create("Personal history of malignant neoplasm of ovary", 
+                                                 "A personal history of ovarian cancer",
+                                                 Domain.CodeStatus.Inactive));
+        this.Diseases.Add(DiseasesFactory.Create("Malignant neoplasm of endocervix", 
+                                                 "Cancer in the endocervix", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Malignant neoplasm of corpus uteri, unspecified", 
+                                                 "Cancer in an unspecified part of the corpus uteri", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Malignant neoplasm of unspecified fallopian tube", 
+                                                 "Cancer in an unspecified fallopian tube",
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Malignant neoplasm of uterine adnexa, unspecified", 
+                                                 "Cancer in an unspecified uterine adnexa", 
+                                                 Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Secondary malignant neoplasm of unspecified ovary", 
+                                                 "Secondary cancer in an unspecified ovary", 
+                                                 Domain.CodeStatus.Active));
     }
 
     private void LoadICDVersions()
@@ -463,150 +527,200 @@ public class SeedProvider
     private void LoadDrugs()
     {
         this.Drugs.Add(DrugFactory.Create("Lipitor", "Atorvastatin",
-                                          "This drug can interact with grapefruit juice, which can lead to potentially dangerous effects.", " Common side effects include headache, stomach pain, and mild muscle pain.", 
+                                          "This drug can interact with grapefruit juice, which can lead to potentially dangerous effects.", 
+                                          " Common side effects include headache, stomach pain, and mild muscle pain.", 
                                           Domain.Units.Tablets, "Statins", 10, 5, "USA", "A01"));
+
         this.Drugs.Add(DrugFactory.Create("Nexium", "Esomeprazole",
-                                          "This drug can interact with certain other stomach acid drugs like sucralfate.", "Common side effects include headache, diarrhea, nausea, gas, stomach pain, constipation, and dry mouth.", 
+                                          "This drug can interact with certain other stomach acid drugs like sucralfate.", 
+                                          "Common side effects include headache, diarrhea, nausea, gas, stomach pain, constipation, and dry mouth.", 
                                           Domain.Units.Tablets, "Proton Pump Inhibitors", 15, 7, "USA", "A02"));
+
         this.Drugs.Add(DrugFactory.Create("Plavix", "Clopidogrel",
-                                          "This drug can interact with omeprazole or esomeprazole, reducing its effectiveness.", " Common side effects include bleeding, nausea, and diarrhea.", 
+                                          "This drug can interact with omeprazole or esomeprazole, reducing its effectiveness.", 
+                                          " Common side effects include bleeding, nausea, and diarrhea.", 
                                           Domain.Units.Tablets, "Antiplatelet", 20, 10, "USA", "A03"));
+
         this.Drugs.Add(DrugFactory.Create("Advair Diskus", "Fluticasone/Salmeterol",
-                                          "This drug can interact with certain other drugs like ritonavir, atazanavir, clarithromycin, indinavir, itraconazole, nefazodone, nelfinavir, ketoconazole, telithromycin, conivaptan, lopinavir, nefazodone, voriconazole, and others.", "Common side effects include throat irritation, hoarseness, voice changes, nausea, vomiting.", 
+                                          "This drug can interact with certain other drugs like ritonavir, atazanavir, clarithromycin, indinavir, itraconazole, nefazodone, nelfinavir, ketoconazole, telithromycin, conivaptan, lopinavir, nefazodone, voriconazole, and others.", 
+                                          "Common side effects include throat irritation, hoarseness, voice changes, nausea, vomiting.", 
                                           Domain.Units.Inhaler, "Bronchodilator", 30, 15, "USA", "A04"));
+
         this.Drugs.Add(DrugFactory.Create("Abilify", "Aripiprazole",
-                                          "This drug can interact with certain other drugs like carbamazepine, phenytoin, rifampin, and others.", "Common side effects include weight gain, headache, agitation, anxiety, insomnia, and nausea.", 
+                                          "This drug can interact with certain other drugs like carbamazepine, phenytoin, rifampin, and others.", 
+                                          "Common side effects include weight gain, headache, agitation, anxiety, insomnia, and nausea.", 
                                           Domain.Units.Tablets, "Antipsychotic", 40, 20, "USA", "A05"));
+
         this.Drugs.Add(DrugFactory.Create("Seroquel", "Quetiapine",
-                                          "This drug can interact with certain other drugs like phenytoin, thioridazine, and others.", "SCommon side effects include drowsiness, dizziness, and constipation.", 
+                                          "This drug can interact with certain other drugs like phenytoin, thioridazine, and others.", 
+                                          "SCommon side effects include drowsiness, dizziness, and constipation.", 
                                           Domain.Units.Tablets, "Antipsychotic", 50, 25, "USA", "A06"));
+
         this.Drugs.Add(DrugFactory.Create("Singulair", "Montelukast",
-                                          "This drug can interact with certain other drugs like phenobarbital and rifampin.", "Common side effects include headache, stomach pain, heartburn, upset stomach, nausea, diarrhea, tooth pain, tiredness, fever, stuffy nose, sore throat, cough, hoarseness, and flu-like symptoms.", 
+                                          "This drug can interact with certain other drugs like phenobarbital and rifampin.", 
+                                          "Common side effects include headache, stomach pain, heartburn, upset stomach, nausea, diarrhea, tooth pain, tiredness, fever, stuffy nose, sore throat, cough, hoarseness, and flu-like symptoms.", 
                                           Domain.Units.Tablets, "Leukotriene Receptor Antagonist", 60, 30, "USA", "A07"));
+
         this.Drugs.Add(DrugFactory.Create("Crestor", "Rosuvastatin",
-                                          "This drug can interact with certain other drugs like cyclosporine, gemfibrozil.", "Common side effects include muscle pain, constipation, nausea, stomach pain, and weakness.", 
+                                          "This drug can interact with certain other drugs like cyclosporine, gemfibrozil.", 
+                                          "Common side effects include muscle pain, constipation, nausea, stomach pain, and weakness.", 
                                           Domain.Units.Tablets, "Statins", 70, 35, "USA", "A08"));
+
         this.Drugs.Add(DrugFactory.Create("Actos", "Pioglitazone",
-                                          "This drug can interact with gemfibrozil, rifampin.", "Common side effects include sore throat, weight gain, and sinusitis.", 
+                                          "This drug can interact with gemfibrozil, rifampin.", 
+                                          "Common side effects include sore throat, weight gain, and sinusitis.", 
                                           Domain.Units.Tablets, "Antidiabetic", 80, 40, "USA", "A09"));
+
         this.Drugs.Add(DrugFactory.Create("Epogen", "Epoetin Alfa",
-                                          "This drug can interact with certain other drugs like lenalidomide, pomalidomide, thalidomide.", "Common side effects include joint, muscle, or bone pain.", 
+                                          "This drug can interact with certain other drugs like lenalidomide, pomalidomide, thalidomide.", 
+                                          "Common side effects include joint, muscle, or bone pain.", 
                                            Domain.Units.Injection, "Erythropoiesis-Stimulating Agent", 90, 45, "USA", "A10"));
+
         this.Drugs.Add(DrugFactory.Create("Diovan", "Valsartan",
-                                          "This drug can interact with aliskiren, lithium.", "Common side effects include headache, dizziness, viral infection, fatigue, abdominal pain, cough, diarrhea, and nausea.", 
+                                          "This drug can interact with aliskiren, lithium.", 
+                                          "Common side effects include headache, dizziness, viral infection, fatigue, abdominal pain, cough, diarrhea, and nausea.", 
                                           Domain.Units.Tablets, "Angiotensin II Receptor Blocker", 100, 50, "USA", "A11"));
+
         this.Drugs.Add(DrugFactory.Create("Lantus", "Insulin Glargine",
                                           "Can interact with rosiglitazone",
                                           "Common side effects include hypoglycemia, allergic reactions, injection site reactions, lipodystrophy, pruritus, rash, edema",
                                           Domain.Units.Injection, "Long-Acting Insulin", 110, 55, "USA", "A12"));
+
         this.Drugs.Add(DrugFactory.Create("Cymbalta", "Duloxetine",
                                           "Can interact with MAO inhibitors, thioridazine, procarbazine",
                                           "Common side effects include nausea, dry mouth, sleepiness, fatigue, constipation, loss of appetite, and sweating",
                                           Domain.Units.Capsules, "Serotonin-Norepinephrine Reuptake Inhibitor", 120, 60, "USA", "A13"));
+
         this.Drugs.Add(DrugFactory.Create("Vyvanse", "Lisdexamfetamine",
                                           "Can interact with MAO inhibitors",
                                           "Common side effects include anxiety, decreased appetite, weight loss, irritability, nausea, vomiting, and dizziness",
                                           Domain.Units.Capsules, "Stimulant", 130, 65, "USA", "A14"));
+
         this.Drugs.Add(DrugFactory.Create("Lyrica", "Pregabalin",
                                           "Can interact with alcohol, opioids",
                                           "Common side effects include dizziness, sleepiness, weight gain, swelling of hands and feet, trouble concentrating, and dry mouth",
                                           Domain.Units.Capsules, "Anticonvulsant", 140, 70, "USA", "A15"));
+
         this.Drugs.Add(DrugFactory.Create("Spiriva", "Tiotropium",
                                           "Can interact with atropine, belladonna, cimetidine, clidinium, dicyclomine, glycopyrrolate, hyoscyamine, mepenzolate, methantheline, methscopolamine, propantheline, scopolamine",
                                           "Common side effects include dry mouth, sinusitis, pharyngitis, non-specific chest pain, urinary tract infection, indigestion",
                                           Domain.Units.Inhaler, "Bronchodilator", 150, 75, "USA", "A16"));
+
         this.Drugs.Add(DrugFactory.Create("Januvia", "Sitagliptin",
                                           "Can interact with insulin or a sulfonylurea",
                                           "Common side effects include upper respiratory tract infection, stuffy or runny nose and sore throat, and headache",
                                           Domain.Units.Tablets, "Dipeptidyl Peptidase-4 Inhibitor", 160, 80, "USA", "A17"));
+
         this.Drugs.Add(DrugFactory.Create("Bystolic", "Nebivolol",
                                           "Can interact with reserpine, monoamine oxidase (MAO) inhibitors",
                                           "Common side effects include headache, fatigue, dizziness, diarrhea, nausea, insomnia, chest pain, bradycardia, dyspnea, rash",
                                           Domain.Units.Tablets, "Beta Blocker", 170, 85, "USA", "A18"));
+
         this.Drugs.Add(DrugFactory.Create("Suboxone", "Buprenorphine/Naloxone",
                                           "Can interact with other CNS depressants",
                                           "Common side effects include headache, drug withdrawal syndrome, insomnia, pain, sweating, nausea, and constipation",
                                           Domain.Units.Film, "Opioid Partial Agonist and Antagonist", 180, 90, "USA", "A19"));
+
         this.Drugs.Add(DrugFactory.Create("Tamiflu", "Oseltamivir",
                                           "Can interact with live attenuated influenza vaccine",
                                           "Common side effects include nausea and vomiting",
                                           Domain.Units.Capsules, "Neuraminidase Inhibitor", 190, 95, "USA", "A20"));
+
         this.Drugs.Add(DrugFactory.Create("Zestril", "Lisinopril", 
                                           "Can interact with potassium supplements or diuretics", 
                                           "Common side effects include cough, dizziness, and lightheadedness", 
                                           Domain.Units.Tablets, "ACE inhibitors", 200, 100, "USA", "A21"));
+
         this.Drugs.Add(DrugFactory.Create("Norvasc", "Amlodipine", 
                                           "Can interact with dantrolene and simvastatin", 
                                           "Common side effects include swelling of the ankles/feet, dizziness, and flushing", 
                                           Domain.Units.Tablets, "Calcium channel blockers", 210, 105, "USA", "A22"));
+
         this.Drugs.Add(DrugFactory.Create("Prinivil", "Lisinopril", 
                                           "Can interact with aliskiren, lithium, gold injections, and drugs that weaken the immune system", 
                                           "Common side effects include dizziness, lightheadedness, and tiredness", 
                                           Domain.Units.Tablets, "ACE inhibitors", 220, 110, "USA", "A23"));
+
         this.Drugs.Add(DrugFactory.Create("Glucophage", "Metformin", 
                                           "Can interact with cephalexin", 
                                           "Common side effects include stomach upset, nausea, and diarrhea", 
                                           Domain.Units.Tablets, "Biguanides", 230, 115, "USA", "A24"));
+
         this.Drugs.Add(DrugFactory.Create("Zocor", "Simvastatin", 
                                           "Can interact with red yeast rice", 
                                           "Common side effects include muscle pain, tenderness, and weakness", 
                                           Domain.Units.Tablets, "Statins", 240, 120, "USA", "A25"));
+
         this.Drugs.Add(DrugFactory.Create("Microzide", "Hydrochlorothiazide", 
                                           "Can interact with dofetilide", 
                                           "Common side effects include dizziness, lightheadedness, and blurred vision", 
                                           Domain.Units.Tablets, "Thiazides", 250, 125, "USA", "A26"));
+
         this.Drugs.Add(DrugFactory.Create("Synthroid", 
                                           "Levothyroxine", "Can interact with estrogens", 
                                           "Common side effects include hair loss, sweating, and heat intolerance", 
                                           Domain.Units.Tablets, "Thyroid drugs", 260, 130, "USA", "A27"));
+
         this.Drugs.Add(DrugFactory.Create("Lopressor", "Metoprolol", 
                                           "Can interact with bupropion", 
                                           "Common side effects include drowsiness, dizziness, and tiredness", 
                                           Domain.Units.Tablets, "Beta blockers", 270, 135, "USA", "A28"));
+
         this.Drugs.Add(DrugFactory.Create("Cozaar", "Losartan", 
                                           "Can interact with lithium", 
                                           "Common side effects include dizziness, lightheadedness, and stuffy nose",
                                           Domain.Units.Tablets, "ARBs", 280, 140, "USA", "A29"));
+
         this.Drugs.Add(DrugFactory.Create("Zithromax", "Azithromycin", 
                                           "Can interact with aluminum and magnesium antacids", 
                                           "Common side effects include diarrhea, nausea, and stomach pain", 
                                           Domain.Units.Capsules, "Macrolides", 290, 145, "USA", "A30"));
+
         this.Drugs.Add(DrugFactory.Create("Amoxil", "Amoxicillin", 
                                           "Can interact with methotrexate", 
                                           "Common side effects include nausea, vomiting, and diarrhea", 
                                           Domain.Units.Capsules, "Penicillins", 300, 150, "USA", "A31"));
+
         this.Drugs.Add(DrugFactory.Create("Vicodin", "Hydrocodone/Acetaminophen", 
                                           "Can interact with azelastine", 
                                           "Common side effects include lightheadedness, dizziness, and nausea", 
                                           Domain.Units.Film, "Narcotic analgesics", 310, 155, "USA", "A32"));
+
         this.Drugs.Add(DrugFactory.Create("Deltasone", "Prednisone", 
                                           "Can interact with aldesleukin", 
                                           "Common side effects include nausea, loss of appetite, and heartburn", 
                                           Domain.Units.Tablets, "Corticosteroids", 320, 160, "USA", "A33"));
+
         this.Drugs.Add(DrugFactory.Create("Neurontin", "Gabapentin", 
                                           "Can interact with antacids containing aluminum or magnesium", 
                                           "Common side effects include drowsiness, dizziness, and loss of coordination", 
                                           Domain.Units.Capsules, "Anti-convulsants", 330, 165, "USA", "A34"));
+
         this.Drugs.Add(DrugFactory.Create("Prilosec", "Omeprazole", 
                                           "Can interact with clopidogrel", 
                                           "Common side effects include headache, abdominal pain, and nausea", 
                                           Domain.Units.Capsules, "Proton pump inhibitors", 340, 170, "USA", "A35"));
+
         this.Drugs.Add(DrugFactory.Create("Norvasc", "Amlodipine", 
                                           "Can interact with dantrolene and simvastatin", 
                                           "Common side effects include swelling of the ankles/feet, dizziness, and flushing", 
                                           Domain.Units.Tablets, "Calcium channel blockers", 350, 175, "USA", "A36"));
+
         this.Drugs.Add(DrugFactory.Create("Glucophage", "Metformin", 
                                           "Can interact with cephalexin", 
                                           "Common side effects include stomach upset, nausea, and diarrhea", 
                                           Domain.Units.Tablets, "Biguanides", 360, 180, "USA", "A37"));
+
         this.Drugs.Add(DrugFactory.Create("Zocor", "Simvastatin", 
                                           "Can interact with red yeast rice", 
                                           "Common side effects include muscle pain, tenderness, and weakness", 
                                           Domain.Units.Tablets, "Statins", 370, 185, "USA", "A38"));
+
         this.Drugs.Add(DrugFactory.Create("Microzide", "Hydrochlorothiazide", 
                                           "Can interact with dofetilide", 
                                           "Common side effects include dizziness, lightheadedness, and blurred vision", 
                                           Domain.Units.Tablets, "Thiazides", 380, 190, "USA", "A39"));
+
         this.Drugs.Add(DrugFactory.Create("Synthroid", "Levothyroxine", 
                                           "Can interact with estrogens", 
                                           "Common side effects include hair loss, sweating, and heat intolerance", 
@@ -618,30 +732,37 @@ public class SeedProvider
                                           "Can interact with grapefruit juice, St. John’s wort, and others",
                                           "Common side effects include edema, nausea, vomiting, muscle cramps, bone pain, diarrhea, rash, fatigue, and abdominal pain",
                                           Domain.Units.Tablets, "Tyrosine-Kinase Inhibitor", 1000, 500, "USA", "B01"));
+
         this.Drugs.Add(DrugFactory.Create("Herceptin", "Trastuzumab",
                                           "Can interact with anthracycline-based chemotherapy drugs",
                                           "Common side effects include fever, nausea, vomiting, infusion reactions, diarrhea, infections, increased cough, headache, fatigue, shortness of breath, rash, neutropenia, anemia, and myalgia",
                                           Domain.Units.Injection, "Monoclonal Antibody", 2000, 1000, "USA", "B02"));
+
         this.Drugs.Add(DrugFactory.Create("Revlimid", "Lenalidomide",
                                           "Can interact with digoxin and warfarin",
                                           "Common side effects include fatigue, constipation, diarrhea, muscle cramp, nausea, and rash",
                                           Domain.Units.Capsules, "Immunomodulatory Agents", 2000, 1000, "USA", "B03"));
+
         this.Drugs.Add(DrugFactory.Create("Opdivo", "Nivolumab",
                                           "Can interact with corticosteroids and hormone replacement therapy",
                                           "Common side effects include fatigue, rash, musculoskeletal pain, pruritus, diarrhea, nausea, and asthenia",
                                           Domain.Units.Injection, "Monoclonal Antibody", 2100, 1050, "USA", "B04"));
+
         this.Drugs.Add(DrugFactory.Create("Keytruda", "Pembrolizumab",
                                           "Can interact with corticosteroids and hormone replacement therapy",
                                           "Common side effects include fatigue, musculoskeletal pain, decreased appetite, pruritus, diarrhea, nausea, rash, pyrexia, cough, dyspnea, constipation, pain, and abdominal pain",
                                           Domain.Units.Injection, "Monoclonal Antibody", 2200, 1100, "USA", "B05"));
+
         this.Drugs.Add(DrugFactory.Create("Herceptin", "Trastuzumab",
                                           "Can interact with anthracycline-based chemotherapy drugs",
                                           "Common side effects include fever, nausea, vomiting, infusion reactions, diarrhea, infections, increased cough, headache, fatigue, shortness of breath, rash, neutropenia, anemia, and myalgia",
                                           Domain.Units.Injection, "Monoclonal Antibody", 2300, 1150, "USA", "B06"));
+
         this.Drugs.Add(DrugFactory.Create("Rituxan", "Rituximab",
                                           "Can interact with cisplatin",
                                           "Common side effects include infusion reactions, fever, lymphopenia, chills, infection, and asthenia",
                                           Domain.Units.Injection, "Monoclonal Antibody", 2400, 1200, "USA", "B07"));
+
     }
 
     private void LoadImportations()
@@ -819,6 +940,7 @@ public class SeedProvider
         this.Departments.FirstOrDefault(x => x.Name.Equals("Pulmonology"))!.AddRoom("F1R2", Domain.RoomType.OutpatientConsultation, 1);
         this.Departments.FirstOrDefault(x => x.Name.Equals("Pulmonology"))!.AddRoom("F2R1", Domain.RoomType.Procedure, 1);
         this.Departments.FirstOrDefault(x => x.Name.Equals("Pulmonology"))!.AddRoom("F2R2", Domain.RoomType.Inpatient, 2);
+        this.Departments.FirstOrDefault(x => x.Name.Equals("Pulmonology"))!.AddRoom("F2R3", Domain.RoomType.ICU, 2);
 
         // For Rheumatology Department
         this.Departments.FirstOrDefault(x => x.Name.Equals("Rheumatology"))!.AddRoom("F1R1", Domain.RoomType.OutpatientConsultation, 1);
@@ -834,7 +956,6 @@ public class SeedProvider
         this.Departments.FirstOrDefault(x => x.Name.Equals("Urology"))!.AddRoom("F1R2", Domain.RoomType.OutpatientConsultation, 1);
         this.Departments.FirstOrDefault(x => x.Name.Equals("Urology"))!.AddRoom("F2R1", Domain.RoomType.Procedure, 1);
         this.Departments.FirstOrDefault(x => x.Name.Equals("Urology"))!.AddRoom("F2R2", Domain.RoomType.Inpatient, 2);
-
     }
     #endregion
 }

@@ -3,6 +3,28 @@
 public static class UserExtensions
 {
     #region [ Private Methods ]
+    private static User AddPasswordHash(this User user, string password)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(nameof(password));
+
+        // Create salt
+        byte[] salt = new byte[16];
+        RandomNumberGenerator.Fill(salt);
+
+        // Create hash
+        using var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000, HashAlgorithmName.SHA256);
+        byte[] hash = pbkdf2.GetBytes(32);
+
+        // Combine salt and hash
+        byte[] hashBytes = new byte[36];
+        Array.Copy(salt, 0, hashBytes, 0, 16);
+        Array.Copy(hash, 0, hashBytes, 16, 20);
+
+        // Convert to base64 string
+        user.PasswordHash = Convert.ToBase64String(hashBytes);
+        return user;
+    }
+
     private static User AddUserRole(this User user, UserRole userRole)
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(userRole));
@@ -81,6 +103,11 @@ public static class UserExtensions
     #endregion
 
     #region [ Public Methods ]
+    public static User AddPassword(this User user, string password)
+    {
+        return user.AddPasswordHash(password);
+    }
+
     public static User AddUserRole(this User user)
     {
         var newUserRole = UserRoleFactory.Create();

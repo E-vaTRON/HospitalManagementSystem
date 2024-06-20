@@ -7,7 +7,6 @@ public static class RoleExtensions
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(userRole));
 
-        // Assuming UserId and RoleId together should be unique
         if (role.UserRoles.Any(x => x.Id == userRole.Id))
         {
             return role;
@@ -23,7 +22,6 @@ public static class RoleExtensions
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(roleClaim));
 
-        // Assuming ClaimType and ClaimValue together should be unique for a RoleId
         if (role.RoleClaims.Any(x => x.Id == roleClaim.Id))
         {
             return role;

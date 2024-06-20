@@ -7,14 +7,13 @@ public static class ScheduleSlotFactory
         return new ScheduleSlot();
     }
 
-    public static ScheduleSlot Create(int startTime, int endTime, string task, string scheduleDayId)
+    public static ScheduleSlot Create(int startTime, int endTime, string task)
     {
         return new ScheduleSlot()
         {
             StartTime = startTime,
             EndTime = endTime,
             Task = task,
-            ScheduleDayId = scheduleDayId
         };
     }
 
