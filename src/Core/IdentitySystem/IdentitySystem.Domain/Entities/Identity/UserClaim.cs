@@ -8,4 +8,9 @@ public class UserClaim : IdentityUserClaim<string>, IEntity<int>, IHasCreatedOn,
     public DateTime?    DeleteOn        { get; set; }
 
     public User User { get; set; } = default!;
+
+    public UserClaim()
+    {
+        IsDeleted = false;
+    }
 }

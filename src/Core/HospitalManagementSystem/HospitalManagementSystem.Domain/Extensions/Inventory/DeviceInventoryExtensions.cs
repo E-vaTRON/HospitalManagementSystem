@@ -3,18 +3,18 @@
 public static class DeviceInventoryExtensions
 {
     #region [ Private Methods ]
-    private static DeviceInventory AddDeviceService(this DeviceInventory deviceInventory, DeviceService deviceService)
+    private static DeviceInventory AddAnalysisTest(this DeviceInventory deviceInventory, AnalysisTest analysisTest)
     {
-        ArgumentException.ThrowIfNullOrEmpty(nameof(deviceService));
+        ArgumentException.ThrowIfNullOrEmpty(nameof(analysisTest));
 
-        if (deviceInventory.DeviceServices.Any(x => x.Id == deviceService.Id))
+        if (deviceInventory.AnalysisTests.Any(x => x.Id == analysisTest.Id))
         {
             return deviceInventory;
         }
 
-        deviceService.DeviceInventoryId = deviceInventory.Id;
-        deviceService.DeviceInventory = deviceInventory;
-        deviceInventory.DeviceServices.Add(deviceService);
+        analysisTest.DeviceInventoryId = deviceInventory.Id;
+        analysisTest.DeviceInventory = deviceInventory;
+        deviceInventory.AnalysisTests.Add(analysisTest);
         return deviceInventory;
     }
     #endregion
@@ -22,12 +22,25 @@ public static class DeviceInventoryExtensions
     #region [ Public Methods ]
     public static DeviceInventory AddDeviceService(this DeviceInventory deviceInventory)
     {
-        return deviceInventory.AddDeviceService(DeviceServiceFactory.Create());
+        return deviceInventory.AddAnalysisTest(AnalysisTestFactory.Create());
     }
 
-    public static DeviceInventory AddDeviceService(this DeviceInventory deviceInventory, string deviceInventoryId, string serviceId)
+    public static DeviceInventory AddDeviceService(this DeviceInventory deviceInventory, string result)
     {
-        return deviceInventory.AddDeviceService(DeviceServiceFactory.Create(deviceInventoryId, serviceId));
+        return deviceInventory.AddAnalysisTest(AnalysisTestFactory.Create(result));
+    }
+
+    public static DeviceInventory AddDeviceService(this DeviceInventory deviceInventory, string doctorComment, string result)
+    {
+        return deviceInventory.AddAnalysisTest(AnalysisTestFactory.Create(doctorComment, result));
+    }
+
+    public static DeviceInventory RemoveRelated(this DeviceInventory deviceInventory)
+    {
+        deviceInventory.Storage = null!;
+        deviceInventory.MedicalDevice = null!;
+        deviceInventory.AnalysisTests.Clear();
+        return deviceInventory;
     }
     #endregion
 }

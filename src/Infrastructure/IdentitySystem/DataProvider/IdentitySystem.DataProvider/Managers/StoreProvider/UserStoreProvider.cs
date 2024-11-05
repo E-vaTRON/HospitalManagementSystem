@@ -133,6 +133,7 @@ public class UserStoreProvider : IUserStore<CoreUser>,
     {
         var userMId = ParseId(userId);
         var userRoles = await UserRoleDbSet
+            .Include(ur => ur.Role)
             .Where(ur => ur.UserId == userMId).Include(ur => ur.Role).ToListAsync(cancellationToken);
         return userRoles;
     }
@@ -141,6 +142,7 @@ public class UserStoreProvider : IUserStore<CoreUser>,
     {
         var roleMId = ParseId(roleId);
         var userRoles = await UserRoleDbSet
+            .Include(ur => ur.User)
             .Where(ur => ur.RoleId == roleMId).ToListAsync(cancellationToken);
         return userRoles;
     }

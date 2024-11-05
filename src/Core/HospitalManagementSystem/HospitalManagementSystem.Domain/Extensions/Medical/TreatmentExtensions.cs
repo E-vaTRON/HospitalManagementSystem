@@ -34,5 +34,11 @@ public static class TreatmentExtensions
     {
         return AddDiagnosisTreatment(treatment, DiagnosisTreatmentFactory.Create(diagnosisId, treatmentId));
     }
+
+    public static Treatment RemoveRelated(this Treatment treatment)
+    {
+        treatment.DiagnosisTreatments.Clear();
+        return treatment;
+    }
     #endregion
 }

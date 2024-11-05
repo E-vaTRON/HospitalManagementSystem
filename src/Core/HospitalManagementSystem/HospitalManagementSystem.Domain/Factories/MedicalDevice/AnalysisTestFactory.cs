@@ -7,25 +7,21 @@ public static class AnalysisTestFactory
         return new AnalysisTest();
     }
 
-    public static AnalysisTest Create(string doctorComment, string result, string deviceServiceId, string medicalExamEpisodeId)
+    public static AnalysisTest Create(string doctorComment, string resultSummary)
     {
         return new AnalysisTest()
         {
             DoctorComment = doctorComment,
-            Result = result,
-            DeviceServiceId = deviceServiceId,
-            MedicalExamEpisodeId = medicalExamEpisodeId
+            ResultSummary = resultSummary,
         };
     }
 
-    public static AnalysisTest Create(string result, string deviceServiceId, string medicalExamEpisodeId)
+    public static AnalysisTest Create(string resultSummary)
     {
         return new AnalysisTest()
         {
             DoctorComment = string.Empty,
-            Result = result,
-            DeviceServiceId = deviceServiceId,
-            MedicalExamEpisodeId = medicalExamEpisodeId
+            ResultSummary = resultSummary,
         };
     }
 }

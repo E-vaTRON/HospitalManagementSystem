@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.Blazor;
 
-public record ServiceWithDeviceModel : InputServiceDTO
+public record ServiceWithDeviceModel : InputMedicalServiceDTO
 {
     public ICollection<DeviceInventoryDTO>? DevicesServiceAvailable { get; set; }
 

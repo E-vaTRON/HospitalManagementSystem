@@ -2,8 +2,8 @@
 
 public record OutputDeviceInventoryDTO : DeviceInventoryDTO
 {
-    public OutputMedicalDeviceDTO?    MedicalDeviceDTO    { get; init; }
-    public OutputStorageDTO?          StorageDTO          { get; init; }
+    public OutputMedicalDeviceDTO?    MedicalDevice    { get; init; }
+    public OutputStorageDTO?          Storage          { get; init; }
 
-    public virtual ICollection<OutputDeviceServiceDTO>? DeviceServiceDTOs { get; init; }
+    public virtual ICollection<OutputAnalysisTestDTO>? AnalysisTests { get; init; }
 }

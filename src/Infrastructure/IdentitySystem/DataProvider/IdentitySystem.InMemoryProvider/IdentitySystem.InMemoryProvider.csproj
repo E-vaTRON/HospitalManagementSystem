@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IdentitySystem.Context\IdentitySystem.Context.csproj" />
     <ProjectReference Include="..\IdentitySystem.DataProvider\IdentitySystem.DataProvider.csproj" />
+    <ProjectReference Include="..\IdentitySystem.SeedProvider\IdentitySystem.SeedProvider.csproj" />
   </ItemGroup>
 
 </Project>

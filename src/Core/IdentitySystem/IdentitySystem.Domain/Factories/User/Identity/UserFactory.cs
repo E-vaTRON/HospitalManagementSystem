@@ -30,16 +30,20 @@ public static class UserFactory
         };
     }
 
-    public static User Create(string userName, string normalizedUserName, 
+    public static User Create(string id, 
+                              string userName, string normalizedUserName, 
                               string email, string normalizedEmail, bool emailConfirmed,
                               string securityStamp, string concurrencyStamp, 
                               string phoneNumber, bool phoneNumberConfirmed, 
                               bool twoFactorEnabled, bool lockoutEnabled, int accessFailedCount, 
-        string firstName, string lastName, int age, bool gender, string address, 
+        string firstName, string lastName, int age, 
+        //DateTime dayOfBirth, 
+        bool gender, string address, 
         string cardID, int? specialistLevel, bool verified)
     {
         return new User()
         {
+            Id = id,
             UserName = userName,
             NormalizedUserName = normalizedUserName,
             Email = email,
@@ -55,11 +59,13 @@ public static class UserFactory
             FirstName = firstName,
             LastName = lastName,
             Age = age,
+            DayOfBirth = DateTime.UtcNow.AddYears(-age),
             Gender = gender,
             Address = address,
             CardID = cardID,
             SpecialistLevel = specialistLevel,
-            Verified = verified
+            Verified = verified,
+            CreatedOn = DateTime.UtcNow,
         };
     }
 }

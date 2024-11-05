@@ -52,10 +52,16 @@ public abstract class ServiceProviderBase<TOutputDto, TInputDto, TDId, TEntity, 
     #endregion
 
     #region [ Public Method ]
-    public virtual async Task<IEnumerable<TOutputDto>> FindAllAsync(Expression<Func<TInputDto, bool>>? dtoPredicate = null, CancellationToken cancellationToken = default)
+    public virtual async Task<IEnumerable<TOutputDto>> FindAllWithPredicateAsync(Expression<Func<TInputDto, bool>>? dtoPredicate = null, CancellationToken cancellationToken = default)
     {
         var entityPredicate = dtoPredicate != null ? MapToEntityPredicate(dtoPredicate) : null;
-        var entities = await DataProvider.FindAllAsync(entityPredicate, cancellationToken);
+        var entities = await DataProvider.FindAllWithPredicateAsync(entityPredicate, cancellationToken);
+        return MapToDTOs(entities);
+    }
+
+    public async Task<IEnumerable<TOutputDto>> FindAllAsync(CancellationToken cancellationToken = default)
+    {
+        var entities = await DataProvider.FindAllAsync(cancellationToken);
         return MapToDTOs(entities);
     }
 

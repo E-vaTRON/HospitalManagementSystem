@@ -25,14 +25,20 @@ public static class ImportationExtensions
         return importation.AddDrugInventory(DrugInventoryFactory.Create());
     } 
 
-    public static Importation AddDrugInventory(this Importation importation, string goodInformation, DateTime expiryDate, int orinaryAmount, string importationId, string drugId)
+    public static Importation AddDrugInventory(this Importation importation, string goodInformation, DateTime expiryDate, int orinaryAmount)
     {
-        return importation.AddDrugInventory(DrugInventoryFactory.Create(goodInformation, expiryDate, orinaryAmount, importationId, drugId));
+        return importation.AddDrugInventory(DrugInventoryFactory.Create(goodInformation, expiryDate, orinaryAmount));
     }
 
-    public static Importation AddDrugInventory(this Importation importation, int currentAmount, string goodInformation, DateTime expiryDate, int orinaryAmount, string importationId, string drugId, string storageId)
+    public static Importation AddDrugInventory(this Importation importation, int currentAmount, string goodInformation, DateTime expiryDate, int orinaryAmount)
     {
-        return importation.AddDrugInventory(DrugInventoryFactory.Create(currentAmount, goodInformation, expiryDate, orinaryAmount, importationId, drugId, storageId));
+        return importation.AddDrugInventory(DrugInventoryFactory.Create(currentAmount, goodInformation, expiryDate, orinaryAmount));
+    }
+
+    public static Importation RemoveRelated(this Importation importation)
+    {
+        importation.DrugInventories.Clear();
+        return importation;
     }
     #endregion
 }

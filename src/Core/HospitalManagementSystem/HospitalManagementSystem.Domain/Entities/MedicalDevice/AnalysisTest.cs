@@ -2,11 +2,14 @@
 
 public class AnalysisTest : EntityBase
 {
-    public string?  DoctorComment       { get; set; }
-    public string?  Result              { get; set; }
+    public string?  DoctorComment           { get; set; }
+    public string?  ResultSummary           { get; set; }
+    public string?  SpecificMeasurements    { get; set; }
+    public string?  UserId                  { get; set; } // ID of user
+    public string?  TechnicianSignature     { get; set; }
 
-    public string?              DeviceServiceId         { get; set; }
-    public DeviceService        DeviceService           { get; set; } = default!;
+    public string?              DeviceInventoryId       { get; set; }
+    public DeviceInventory      DeviceInventory         { get; set; } = default!;
     public string?              MedicalExamEpisodeId    { get; set; }
     public MedicalExamEpisode   MedicalExamEpisode      { get; set; } = default!;
 

@@ -64,27 +64,27 @@ public partial class Home
     {
         decimal totalAmount = 0;
 
-        foreach (var analysisTest in bill.Episode!.AnalysisTestDTOs!)
+        foreach (var episodeService in bill.Episode!.ServiceEpisodes!)
         {
-            if (analysisTest.DeviceServiceDTO != null)
+            if (episodeService.MedicalService != null)
             {
-                totalAmount += analysisTest.DeviceServiceDTO.ServiceDTO!.ServicePrice;
+                totalAmount += episodeService.MedicalService.ServicePrice;
             }
         }
 
-        foreach (var drugPrescription in bill.Episode!.DrugPrescriptionDTOs!)
+        foreach (var drugPrescription in bill.Episode!.DrugPrescriptions!)
         {
-            if (drugPrescription.DrugInventoryDTO != null)
+            if (drugPrescription.DrugInventory != null)
             {
-                totalAmount += drugPrescription.DrugInventoryDTO.DrugDTO!.UnitPrice * drugPrescription.Amount;
+                totalAmount += drugPrescription.DrugInventory.Drug!.UnitPrice * drugPrescription.Amount;
             }
         }
 
-        foreach (var roomAllocation in bill.Episode!.RoomAllocationDTOs!)
+        foreach (var roomAllocation in bill.Episode!.RoomAllocations!)
         {
-            if (roomAllocation.RoomDTO != null)
+            if (roomAllocation.Room != null)
             {
-                totalAmount += roomAllocation.RoomDTO.PricePerHour * (roomAllocation.EndTime - roomAllocation.StartTime).Hours;
+                totalAmount += roomAllocation.Room.PricePerHour * (roomAllocation.EndTime - roomAllocation.StartTime).Hours;
             }
         }
 
@@ -96,11 +96,11 @@ public partial class Home
         decimal totalAmount = 0;
         State.ModifiedBills!.ForEach(bill =>
         {
-            foreach (var analysisTest in bill.Episode!.AnalysisTestDTOs!)
+            foreach (var episodeService in bill.Episode!.ServiceEpisodes!)
             {
-                if (analysisTest.DeviceServiceDTO != null)
+                if (episodeService.MedicalService != null)
                 {
-                    totalAmount += analysisTest.DeviceServiceDTO.ServiceDTO!.ServicePrice;
+                    totalAmount += episodeService.MedicalService.ServicePrice;
                 }
             }
         });
@@ -128,11 +128,11 @@ public partial class Home
         decimal totalAmount = 0;
         State.ModifiedBills!.ForEach(bill =>
         {
-            foreach (var roomAllocation in bill.Episode!.RoomAllocationDTOs!)
+            foreach (var roomAllocation in bill.Episode!.RoomAllocations!)
             {
-                if (roomAllocation.RoomDTO != null)
+                if (roomAllocation.Room != null)
                 {
-                    totalAmount += roomAllocation.RoomDTO.PricePerHour * (roomAllocation.EndTime - roomAllocation.StartTime).Hours;
+                    totalAmount += roomAllocation.Room.PricePerHour * (roomAllocation.EndTime - roomAllocation.StartTime).Hours;
                 }
             }
         });
@@ -144,11 +144,11 @@ public partial class Home
         decimal totalAmount = 0;
         State.ModifiedBills!.ForEach(bill =>
         {
-            foreach (var drugPrescription in bill.Episode!.DrugPrescriptionDTOs!)
+            foreach (var drugPrescription in bill.Episode!.DrugPrescriptions!)
             {
-                if (drugPrescription.DrugInventoryDTO != null)
+                if (drugPrescription.DrugInventory != null)
                 {
-                    totalAmount += drugPrescription.DrugInventoryDTO.DrugDTO!.UnitPrice * drugPrescription.Amount;
+                    totalAmount += drugPrescription.DrugInventory.Drug!.UnitPrice * drugPrescription.Amount;
                 }
             }
         });
@@ -237,44 +237,44 @@ public partial class Home
         State.BarChart.InitializeAsync(State.LineChartData, options).GetAwaiter();
     }
 
-    private void RenderServiceChartAsync()
-    {
-        // Create chart data
-        State.ChartData = new ChartData
-        {
-            Labels = State.ModifiedServices.Select(e => e.Name).ToList()!,
-            Datasets = new List<IChartDataset>
-            {
-                new DoughnutChartDataset
-                {
-                    Data = State.ModifiedServices.Select(service => Math.Round((service.AnalysisTextAmount) / CalculateTotalService() * 100, 2))
-                                                 .ToList()
-                                                 .ConvertAll(d => (double)d),
-                    BackgroundColor = ColorBuilder.CategoricalTwelveColors
-                                                  .Take(State.ModifiedServices.Count)
-                                                  .ToList(),
-                }
-            }
-        };
+    //private void RenderServiceChartAsync()
+    //{
+    //    // Create chart data
+    //    State.ChartData = new ChartData
+    //    {
+    //        Labels = State.ModifiedServices.Select(e => e.Name).ToList()!,
+    //        Datasets = new List<IChartDataset>
+    //        {
+    //            new DoughnutChartDataset
+    //            {
+    //                Data = State.ModifiedServices.Select(service => Math.Round((service.AnalysisTextAmount) / CalculateTotalService() * 100, 2))
+    //                                             .ToList()
+    //                                             .ConvertAll(d => (double)d),
+    //                BackgroundColor = ColorBuilder.CategoricalTwelveColors
+    //                                              .Take(State.ModifiedServices.Count)
+    //                                              .ToList(),
+    //            }
+    //        }
+    //    };
 
-        // Configure chart options
-        State.DoughnutChartOptions = new DoughnutChartOptions
-        {
-            Responsive = true,
-            Plugins = new()
-            {
-                Title = new()
-                {
-                    Text = "Expenses Distribution",
-                    Display = true,
-                    Color = "white"
-                }
-            }
-        };
+    //    // Configure chart options
+    //    State.DoughnutChartOptions = new DoughnutChartOptions
+    //    {
+    //        Responsive = true,
+    //        Plugins = new()
+    //        {
+    //            Title = new()
+    //            {
+    //                Text = "Expenses Distribution",
+    //                Display = true,
+    //                Color = "white"
+    //            }
+    //        }
+    //    };
 
-        // Initialize the chart
-        State.DoughnutChart.InitializeAsync(State.ChartData, State.DoughnutChartOptions).GetAwaiter();
-    }
+    //    // Initialize the chart
+    //    State.DoughnutChart.InitializeAsync(State.ChartData, State.DoughnutChartOptions).GetAwaiter();
+    //}
 
     #region [ UI Update ]
     private void UpdateYearBillAsync()
@@ -332,29 +332,29 @@ public partial class Home
                 ExcessAmount = bill.ExcessAmount,
                 UnderPaidAmount = bill.UnderPaidAmount,
                 CreatedOn = bill.CreatedOn,
-                Services = bill.MedicalExamEpisodeDTO!.AnalysisTestDTOs!
-                            .Select(test => test.DeviceServiceDTO!.ServiceDTO!).ToList(),
-                Drugs = bill.MedicalExamEpisodeDTO!.DrugPrescriptionDTOs!
+                Services = bill.MedicalExamEpisode!.ServiceEpisodes!
+                            .Select(service => service.MedicalService).ToList(),
+                Drugs = bill.MedicalExamEpisode!.DrugPrescriptions!
                             .Select(prescription => new DrugWithAmount
                             {
-                                GoodName = prescription.DrugInventoryDTO!.DrugDTO!.GoodName,
-                                ActiveIngredientName = prescription.DrugInventoryDTO!.DrugDTO!.ActiveIngredientName,
-                                Unit = prescription.DrugInventoryDTO!.DrugDTO!.Unit,
-                                UnitPrice = prescription.DrugInventoryDTO!.DrugDTO!.UnitPrice,
-                                HealthInsurancePrice = prescription.DrugInventoryDTO!.DrugDTO!.HealthInsurancePrice,
+                                GoodName = prescription.DrugInventory!.Drug!.GoodName,
+                                ActiveIngredientName = prescription.DrugInventory!.Drug!.ActiveIngredientName,
+                                Unit = prescription.DrugInventory!.Drug!.Unit,
+                                UnitPrice = prescription.DrugInventory!.Drug!.UnitPrice,
+                                HealthInsurancePrice = prescription.DrugInventory!.Drug!.HealthInsurancePrice,
                                 Amount = prescription.Amount
                             }).ToList(),
-                Rooms = bill.MedicalExamEpisodeDTO!.RoomAllocationDTOs!
+                Rooms = bill.MedicalExamEpisode!.RoomAllocations!
                             .Select(roomAllocation => new RoomWithTime
                             {
-                                Name = roomAllocation.RoomDTO!.Name,
-                                PricePerHour = roomAllocation.RoomDTO!.PricePerHour,
-                                RoomType = roomAllocation.RoomDTO!.RoomType,
+                                Name = roomAllocation.Room!.Name,
+                                PricePerHour = roomAllocation.Room!.PricePerHour,
+                                RoomType = roomAllocation.Room!.RoomType,
                                 StartTime = roomAllocation.StartTime,
                                 EndTime = roomAllocation.EndTime
                             })
                             .ToList(),
-                Episode = bill.MedicalExamEpisodeDTO!
+                Episode = bill.MedicalExamEpisode!
             })
             .OrderByDescending(user => user.CreatedOn);
 
@@ -369,21 +369,21 @@ public partial class Home
                 UnitPrice = service.UnitPrice,
                 ServicePrice = service.ServicePrice,
                 HealthInsurancePrice = service.HealthInsurancePrice,
-                AnalysisTextAmount = service.DeviceServiceDTOs!.Sum(deviceService => deviceService.AnalysisTestDTOs!.Count)
+                //AnalysisTextAmount = service.DeviceServices!.Sum(deviceService => deviceService.AnalysisTests!.Count)
             });
 
         State.ModifiedServices = servicesData.ToList();
 
-        DateTime startDate = new DateTime(int.Parse(State.SelectedYear.Text!), 1, 1);
+        //DateTime startDate = new DateTime(int.Parse(State.SelectedYear.Text!), 1, 1);
 
-        State.YearOptions = CreateYearComboBoxOptions(State.ModifiedBills);
-        State.MonthlyList = Enumerable.Range(0, 12)
-                                      .Select(i => startDate.AddMonths(i).ToString("MMMM yyyy"))
-                                      .ToList();
+        //State.YearOptions = CreateYearComboBoxOptions(State.ModifiedBills);
+        //State.MonthlyList = Enumerable.Range(0, 12)
+        //                              .Select(i => startDate.AddMonths(i).ToString("MMMM yyyy"))
+        //                              .ToList();
 
 
         RenderYearBillAsync();
-        RenderServiceChartAsync();
+        //RenderServiceChartAsync();
 
         StateHasChanged();
     }
@@ -395,59 +395,63 @@ public partial class Home
         State.Bills.Clear();
         State.Services.Clear();
 
-        var users = await ISContext.Users.GetUsersInRoleAsync("Admin");
+        var users = await ISContext.Users.GetUsersInRoleAsync("Patient");
 
-        var bills = await HMSContext.Bills.GetBillByMultipleUserIdAsync(users.Select(x => x.Id).ToArray(), true);
+        var booking = await HMSContext.BookingAppointments.FindByUserIdAsync(users.Select(x => x.Id).ToArray());
 
-        var analysisTests = await HMSContext.AnalysisTests.GetAllIncludeServiceAsync();
-        var deviceServices = analysisTests.Select(analysis => analysis.DeviceServiceDTO!).Distinct().ToList();
+        var medicalExams = await HMSContext.MedicalExams.FindByBookingIdAsync(booking.Select(x => x.Id).ToArray());
 
-        var services = analysisTests.GroupBy(analysis => analysis.DeviceServiceDTO!.ServiceDTO!) // Group by Service
-                                    .Select(group => group.Key) // Select distinct services
-                                    .ToList();
-        foreach (var service in services)
-        {
-            var deviceServiceIds = service.DeviceServiceDTOs!.Select(x => x.Id).ToArray();
-            var deviceServiceServices = deviceServices.Where(deviceService => deviceServiceIds.Contains(deviceService.Id)).ToList();
+        var medicalExamEpisodes = await HMSContext.MedicalExamEpisodes.FindByMedicalExamIdAsync(medicalExams.Select(x => x.Id).ToArray());
 
-            foreach (var deviceService in deviceServiceServices)
-            {
-                deviceService.AnalysisTestDTOs!.Clear();
-                var analysis = analysisTests.Where(analysis => analysis.DeviceServiceDTO!.Id.Equals(deviceService.Id));
-                foreach (var item in analysis)
-                {
-                    deviceService.AnalysisTestDTOs.Add(item);
-                }
-            }
-            State.Services.Add(service);
-        }
+        var bills = await HMSContext.Bills.FindAllAsync();
 
+        //var deviceServices = analysisTests.Select(analysis => analysis.DeviceService!).Distinct().ToList();
 
-        var drugPrescriptions = await HMSContext.DrugPrescriptions.GetAllIncludeDrugAsync();
-        var roomAllocations = await HMSContext.RoomAllocations.GetAllIncludeRoomAsync();
+        //var services = analysisTests.GroupBy(analysis => analysis.DeviceService!.Service!) // Group by Service
+        //                            .Select(group => group.Key) // Select distinct services
+        //                            .ToList();
+        //foreach (var service in services)
+        //{
+        //    var deviceServiceIds = service.DeviceServices!.Select(x => x.Id).ToArray();
+        //    var deviceServiceServices = deviceServices.Where(deviceService => deviceServiceIds.Contains(deviceService.Id)).ToList();
 
-        foreach (var bill in bills)
-        {
-            var analysisTestIds = bill.MedicalExamEpisodeDTO!.AnalysisTestDTOs!.Select(x => x.Id).ToArray();
-            var analysisTestBills = analysisTests.Where(analysisTest => analysisTestIds.Contains(analysisTest.Id));
+        //    foreach (var deviceService in deviceServiceServices)
+        //    {
+        //        deviceService.AnalysisTests!.Clear();
+        //        var analysis = analysisTests.Where(analysis => analysis.DeviceService!.Id.Equals(deviceService.Id));
+        //        foreach (var item in analysis)
+        //        {
+        //            deviceService.AnalysisTests.Add(item);
+        //        }
+        //    }
+        //    State.Services.Add(service);
+        //}
 
-            var drugPrescriptionIds = bill.MedicalExamEpisodeDTO!.DrugPrescriptionDTOs!.Select(x => x.Id).ToArray();
-            var drugPrescriptionBills = drugPrescriptions.Where(drugPrescription => drugPrescriptionIds.Contains(drugPrescription.Id));
+        //var drugPrescriptions = await HMSContext.DrugPrescriptions.GetAllIncludeDrugAsync();
+        //var roomAllocations = await HMSContext.RoomAllocations.GetAllIncludeRoomAsync();
 
-            var roomAllocationIds = bill.MedicalExamEpisodeDTO!.RoomAllocationDTOs!.Select(x => x.Id).ToArray();
-            var roomAllocationBills = roomAllocations.Where(roomAllocation => roomAllocationIds.Contains(roomAllocation.Id));
+        //foreach (var bill in bills)
+        //{
+        //    var analysisTestIds = bill.MedicalExamEpisode!.AnalysisTests!.Select(x => x.Id).ToArray();
+        //    var analysisTestBills = analysisTests.Where(analysisTest => analysisTestIds.Contains(analysisTest.Id));
 
-            var updatedMedicalExamEpisodeDTO = bill.MedicalExamEpisodeDTO with
-            {
-                AnalysisTestDTOs = analysisTestBills.ToList(),
-                DrugPrescriptionDTOs = drugPrescriptionBills.ToList(),
-                RoomAllocationDTOs = roomAllocationBills.ToList()
-            };
+        //    var drugPrescriptionIds = bill.MedicalExamEpisode!.DrugPrescriptions!.Select(x => x.Id).ToArray();
+        //    var drugPrescriptionBills = drugPrescriptions.Where(drugPrescription => drugPrescriptionIds.Contains(drugPrescription.Id));
 
-            var updatedBill = bill with { MedicalExamEpisodeDTO = updatedMedicalExamEpisodeDTO };
+        //    var roomAllocationIds = bill.MedicalExamEpisode!.RoomAllocations!.Select(x => x.Id).ToArray();
+        //    var roomAllocationBills = roomAllocations.Where(roomAllocation => roomAllocationIds.Contains(roomAllocation.Id));
 
-            State.Bills.Add(updatedBill);
-        }
+        //    var updatedMedicalExamEpisode = bill.MedicalExamEpisode with
+        //    {
+        //        AnalysisTests = analysisTestBills.ToList(),
+        //        DrugPrescriptions = drugPrescriptionBills.ToList(),
+        //        RoomAllocations = roomAllocationBills.ToList()
+        //    };
+
+        //    var updatedBill = bill with { MedicalExamEpisode = updatedMedicalExamEpisode };
+
+        //    State.Bills.Add(updatedBill);
+        //}
 
         RefreshData();
 

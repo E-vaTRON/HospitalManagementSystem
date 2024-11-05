@@ -27,6 +27,8 @@ public static class ServiceExtension
         //    return new StorageSharedKeyCredential(config.AccountName, config.AccountKey);
         //});
 
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
         services.AddTransient<HMSServiceContext>();
 
         services.AddTransient<IBookingAppointmentServiceProvider,   BookingAppointmentServiceProvider>()
@@ -58,10 +60,14 @@ public static class ServiceExtension
                 .AddTransient<ITreatmentServiceProvider,            TreatmentServiceProvider>();
         //services.AddTransient<ITreatmentExamEpisodeDataProvider, TreatmentExamEpisodeDataProvider>();
 
-        services.AddTransient<IAnalysisTestServiceProvider,     AnalysisTestServiceProvider>()
-                .AddTransient<IDeviceServiceServiceProvider,    DeviceServiceServiceProvider>()
-                .AddTransient<IMedicalDeviceServiceProvider,    MedicalDeviceServiceProvider>()
-                .AddTransient<IServiceServiceProvider,          ServiceServiceProvider>();
+        services.AddTransient<IAnalysisTestServiceProvider,         AnalysisTestServiceProvider>()
+                .AddTransient<IFormTypeServiceProvider,             FormTypeServiceProvider>()
+                .AddTransient<IMeasurementUnitServiceProvider,      MeasurementUnitServiceProvider>()
+                .AddTransient<IMedicalDeviceServiceProvider,        MedicalDeviceServiceProvider>()
+                .AddTransient<IDeviceUnitServiceProvider,           DeviceUnitServiceProvider>()
+                .AddTransient<IMedicalDeviceFormServiceProvider,    MedicalDeviceFormServiceProvider>()
+                .AddTransient<IMedicalServiceServicesProvider,      MedicalServiceServiceProvider>()
+                .AddTransient<IServiceEpisodeServiceProvider,       ServiceEpisodeServiceProvider>();
 
         services.AddTransient<IBillServiceProvider, BillServiceProvider>();
     }

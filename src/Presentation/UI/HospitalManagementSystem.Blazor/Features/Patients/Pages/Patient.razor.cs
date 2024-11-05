@@ -39,11 +39,11 @@ public partial class Patient : AuthenticationComponentBase
 
         if (firstRender)
         {
-            //if (await base.IsNotLogin())
-            //{
-            //    this.Navigator.NavigateTo("/login", replace: true);
-            //    return;
-            //}
+            if (await base.IsNotLogin())
+            {
+                this.Navigator.NavigateTo("/login", replace: true);
+                return;
+            }
             await LoadDataAsync();
         }
     }
@@ -428,7 +428,7 @@ public partial class Patient : AuthenticationComponentBase
         var usersData = State.Users
             .GroupJoin( State.Bills, 
                         user => user.Id, 
-                        bill => bill.MedicalExamEpisodeDTO!.MedicalExamDTO!.BookingAppointmentDTO!.PatientId,
+                        bill => bill.MedicalExamEpisode!.MedicalExam!.BookingAppointment!.PatientId,
                         (user, bill) => new UserWithPaymentModel
                         {
                             Id = user.Id,
@@ -469,26 +469,26 @@ public partial class Patient : AuthenticationComponentBase
 
         foreach (var bill in bills)
         {
-            var analysisTestIds = bill.MedicalExamEpisodeDTO!.AnalysisTestDTOs!.Select(x => x.Id).ToArray();
-            var analysisTests = await HMSContext.AnalysisTests.GetMultipleByIdIncludeServiceAsync(analysisTestIds);
-            State.AnalysisTests = analysisTests.ToList();
+            var analysisTestIds = bill.MedicalExamEpisode!.AnalysisTests!.Select(x => x.Id).ToArray();
+            //var analysisTests = await HMSContext.AnalysisTests.GetMultipleByIdIncludeServiceAsync(analysisTestIds);
+            //State.AnalysisTests = analysisTests.ToList();
 
-            var drugPrescriptionIds = bill.MedicalExamEpisodeDTO!.DrugPrescriptionDTOs!.Select(x => x.Id).ToArray();
+            var drugPrescriptionIds = bill.MedicalExamEpisode!.DrugPrescriptions!.Select(x => x.Id).ToArray();
             var drugPrescriptions = await HMSContext.DrugPrescriptions.GetMultipleByIdIncludeDrugAsync(drugPrescriptionIds);
             State.DrugPrescriptions = drugPrescriptions.ToList();
 
-            var roomAllocationIds = bill.MedicalExamEpisodeDTO!.RoomAllocationDTOs!.Select(x => x.Id).ToArray();
+            var roomAllocationIds = bill.MedicalExamEpisode!.RoomAllocations!.Select(x => x.Id).ToArray();
             var roomAllocations = await HMSContext.RoomAllocations.GetMultipleByIdIncludeRoomAsync(roomAllocationIds);
             State.RoomAllocations = roomAllocations.ToList();
 
-            var updatedMedicalExamEpisodeDTO = bill.MedicalExamEpisodeDTO with
+            var updatedMedicalExamEpisodeDTO = bill.MedicalExamEpisode with
             {
-                AnalysisTestDTOs = State.AnalysisTests,
-                DrugPrescriptionDTOs = State.DrugPrescriptions,
-                RoomAllocationDTOs = State.RoomAllocations
+                AnalysisTests = State.AnalysisTests,
+                DrugPrescriptions = State.DrugPrescriptions,
+                RoomAllocations = State.RoomAllocations
             };
 
-            var updatedBill = bill with { MedicalExamEpisodeDTO = updatedMedicalExamEpisodeDTO };
+            var updatedBill = bill with { MedicalExamEpisode = updatedMedicalExamEpisodeDTO };
 
             State.Bills.Add(updatedBill);
         }
@@ -497,7 +497,7 @@ public partial class Patient : AuthenticationComponentBase
 
         State.PaginationCount = Enumerable.Range(1, paginationCount).ToArray();
 
-        var medicalExamEpisodes = bills.Select(x => x.MedicalExamEpisodeDTO);
+        var medicalExamEpisodes = bills.Select(x => x.MedicalExamEpisode);
 
         Refresh();
 

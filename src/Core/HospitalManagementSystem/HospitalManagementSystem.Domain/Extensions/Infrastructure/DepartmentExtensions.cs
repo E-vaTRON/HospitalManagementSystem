@@ -30,9 +30,10 @@ public static class DepartmentExtensions
         return department.AddRoom(RoomFactory.Create(name, roomType, capacity));
     }
 
-    public static Department AddRoom(this Department department, string name, RoomType roomType, int capacity, string departmentId)
+    public static Department RemoveRelated(this Department department)
     {
-        return department.AddRoom(RoomFactory.Create(name, roomType, capacity, departmentId));
+        department.Rooms.Clear();
+        return department;
     }
     #endregion
 }

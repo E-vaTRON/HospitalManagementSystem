@@ -18,11 +18,17 @@ public class MedicalExamEpisodeServiceProvider : ServiceProviderBase<DTOMedicalE
     #endregion
 
     #region [ Public - Methods ]
-    public async Task<IList<DTOMedicalExamEpisodeOut>> GetMedicalExamEpisodeByIdAsync(string id, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<DTOMedicalExamEpisodeOut>> FindByIdIncludedAsync(string[] ids, CancellationToken cancellationToken = default)
     {
-        var medicalExamEpisodes = await MedicalExamEpisodeDataProvider.GetMedicalExamEpisodeByIdAsync(id);
+        var medicalExamEpisodes = await MedicalExamEpisodeDataProvider.FindByIdIncludedAsync(ids, cancellationToken);
         ArgumentNullException.ThrowIfNull(medicalExamEpisodes, nameof(CoreMedicalExamEpisode));
-        return MapToDTOs(medicalExamEpisodes).ToList();
+        return MapToDTOs(medicalExamEpisodes);
+    }
+
+    public async Task<IEnumerable<DTOMedicalExamEpisodeOut>> FindByMedicalExamIdAsync(string[] ids, CancellationToken cancellationToken = default)
+    {
+        var medicalExamEpisodes = await MedicalExamEpisodeDataProvider.FindByMedicalExamIdAsync(ids, cancellationToken);
+        return MapToDTOs(medicalExamEpisodes);
     }
     #endregion
 }

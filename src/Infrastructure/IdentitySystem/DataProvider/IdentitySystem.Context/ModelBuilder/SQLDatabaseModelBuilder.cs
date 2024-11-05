@@ -87,7 +87,6 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<User>()
                     .Property(r => r.Id)
                     .HasColumnType("uniqueidentifier")
-                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
                     .IsRequired(true);
 
         modelBuilder.Entity<User>()
@@ -117,7 +116,7 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<User>()
                     .Property(u => u.PasswordHash)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.PASSWORD_FIELD_LENGTH);
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<User>()
                     .Property(u => u.SecurityStamp)
@@ -157,11 +156,13 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<User>()
                     .Property(u => u.FirstName)
                     .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
                     .IsRequired(true);
 
         modelBuilder.Entity<User>()
                     .Property(u => u.LastName)
                     .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
                     .IsRequired(true);
 
         modelBuilder.Entity<User>()
@@ -171,8 +172,7 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<User>()
                     .Property(u => u.DayOfBirth)
-                    .HasColumnType("datetime")
-                    .IsRequired(true);
+                    .HasColumnType("datetime");
 
         modelBuilder.Entity<User>()
                     .Property(u => u.Gender)
@@ -181,11 +181,13 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<User>()
                     .Property(u => u.Address)
-                    .HasColumnType("nvarchar");
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.ADDRESS_FIELD_LENGTH);
 
         modelBuilder.Entity<User>()
                     .Property(u => u.CardID)
-                    .HasColumnType("nvarchar");
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH);
 
         modelBuilder.Entity<User>()
                     .Property(u => u.SpecialistLevel)
@@ -226,7 +228,6 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<Role>()
                     .Property(r => r.Id)
                     .HasColumnType("uniqueidentifier")
-                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
                     .IsRequired(true);
 
         modelBuilder.Entity<Role>()
@@ -270,7 +271,6 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<UserRole>()
                     .Property(r => r.Id)
                     .HasColumnType("uniqueidentifier")
-                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
                     .IsRequired(true);
 
         modelBuilder.Entity<UserRole>()
@@ -362,7 +362,7 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<UserLogin>()
                     .Property(ul => ul.ProviderKey)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH)
                     .IsRequired(true);
 
         modelBuilder.Entity<UserLogin>()
@@ -493,15 +493,18 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<Notification>()
                     .Property(n => n.Status)
-                    .HasColumnType("nvarchar");
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<Notification>()
                     .Property(n => n.Message)
-                    .HasColumnType("nvarchar");
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<Notification>()
                     .Property(n => n.RedirectUrl)
-                    .HasColumnType("nvarchar");
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.ADDRESS_FIELD_LENGTH);
 
         modelBuilder.Entity<Notification>()
                     .HasOne(n => n.User)
@@ -536,17 +539,16 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<ScheduleSlot>()
                     .Property(ss => ss.StartTime)
-                    .HasColumnType("int")
-                    .IsRequired(true);
+                    .HasColumnType("int");
 
         modelBuilder.Entity<ScheduleSlot>()
                     .Property(ss => ss.EndTime)
-                    .HasColumnType("int")
-                    .IsRequired(true);
+                    .HasColumnType("int");
 
         modelBuilder.Entity<ScheduleSlot>()
                     .Property(ss => ss.Task)
-                    .HasColumnType("nvarchar");
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.APPOINTMENT_NOTE_FIELD_LENGTH);
 
         modelBuilder.Entity<ScheduleSlot>()
                     .HasOne(ss => ss.ScheduleDay)
@@ -561,11 +563,12 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<Specialization>()
                     .Property(s => s.Name)
                     .HasColumnType("nvarchar")
-                    .IsRequired(true);
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<Specialization>()
                     .Property(s => s.Description)
-                    .HasColumnType("nvarchar");
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
     }
 
     private void UserSpecializationModelBuilder(ModelBuilder modelBuilder)

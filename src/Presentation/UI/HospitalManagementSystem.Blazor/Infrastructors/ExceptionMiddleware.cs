@@ -2,20 +2,20 @@
 
 public class ExceptionMiddleware
 {
-    private readonly RequestDelegate _next;
-    private readonly ILogger<ExceptionMiddleware> _logger;
+    private readonly RequestDelegate Next;
+    private readonly ILogger<ExceptionMiddleware> Logger;
 
     public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
-        _next = next;
-        _logger = logger;
+        Next = next;
+        Logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext httpContext)
     {
         try
         {
-            await _next(httpContext);
+            await Next(httpContext);
         }
         catch (Exception ex)
         {

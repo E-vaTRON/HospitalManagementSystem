@@ -7,13 +7,15 @@ namespace HospitalManagementSystem.ServiceProvider;
 public class BillServiceProvider : ServiceProviderBase<DTOBillOut, DTOBillIn, CoreBill>, IBillServiceProvider
 {
     #region [ Fields ]
-    protected readonly IBillDataProvider BillDataProvider;
+    protected readonly DataContext DataContext;
+    protected IBillDataProvider BillDataProvider => DataContext.Bills;
     #endregion
 
+
     #region [ CTor ]
-    public BillServiceProvider(IBillDataProvider dataProvider, IMapper mapper) : base(dataProvider, mapper)
+    public BillServiceProvider(DataContext dataProvider, IMapper mapper) : base(dataProvider.Bills, mapper)
     {
-        BillDataProvider = dataProvider;
+        DataContext = dataProvider;
     }
     #endregion
 

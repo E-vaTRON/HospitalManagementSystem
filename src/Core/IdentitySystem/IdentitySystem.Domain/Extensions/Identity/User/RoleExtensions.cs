@@ -40,19 +40,14 @@ public static class RoleExtensions
         return role.AddUserRole(UserRoleFactory.Create());
     }
 
-    public static Role AddUserRole(this Role role, string userId, string roleId)
-    {
-        return role.AddUserRole(UserRoleFactory.Create(userId, roleId));
-    }
-
     public static Role AddRoleClaim(this Role role)
     {
         return role.AddRoleClaim(RoleClaimFactory.Create());
     }
 
-    public static Role AddRoleClaim(this Role role, string claimType, string claimValue)
+    public static Role AddRoleClaim(this Role role, int id, string claimType, string claimValue)
     {
-        return role.AddRoleClaim(RoleClaimFactory.Create(role.Id.ToString(), claimType, claimValue));
+        return role.AddRoleClaim(RoleClaimFactory.Create(id, claimType, claimValue));
     }
     #endregion
 }

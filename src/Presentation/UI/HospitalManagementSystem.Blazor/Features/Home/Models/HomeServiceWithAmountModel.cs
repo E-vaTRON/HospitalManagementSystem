@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.Blazor;
 
-public record HomeServiceWithAmountModel : InputServiceDTO
+public record HomeServiceWithAmountModel : InputMedicalServiceDTO
 {
     public int AnalysisTextAmount { get; set; }
 }

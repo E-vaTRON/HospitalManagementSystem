@@ -1,4 +1,5 @@
-﻿using CoreMedicalExamEpisode = HospitalManagementSystem.Domain.MedicalExamEpisode;
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+using CoreMedicalExamEpisode = HospitalManagementSystem.Domain.MedicalExamEpisode;
 using DataMedicalExamEpisode = HospitalManagementSystem.DataProvider.MedicalExamEpisode;
 
 namespace HospitalManagementSystem.DataProvider;
@@ -12,26 +13,39 @@ public class MedicalExamEpisodeDataProvider : DataProviderBase<CoreMedicalExamEp
     }
     #endregion
 
-    #region [ Internal Methods ]
-    protected virtual async Task<IEnumerable<CoreMedicalExamEpisode>> InternalFindByIdIncludeRelatedEntitiesAsync(string[] id, CancellationToken cancellationToken = default)
+    #region [ Internal - Methods ]
+    protected virtual Task<IQueryable<CoreMedicalExamEpisode>> InternalGetQueryableIncludedAsync(bool asNoTracking = true, CancellationToken cancellationToken = default)
     {
-        var mId = ParseIds(id!);
-        var query = await GetQueryableAsync(false, cancellationToken);
+        var query = DbSet.AsQueryable();
+        if (asNoTracking)
+            query = query.AsNoTracking();
 
-        return await query.Include(x => x.RoomAllocations)
-                          .Include(x => x.DrugPrescriptions)
-                          .Include(x => x.AnalysisTests)
-                          .WhereIf(id != null, medicalExamEpisode => id!.Contains(medicalExamEpisode.Id))
-                          .ToListAsync(cancellationToken);
+        query.Include(x => x.AnalysisTests)
+             .Include(x => x.DrugPrescriptions)
+             .AsSplitQuery();
+
+        return Task.FromResult(query.ProjectTo<CoreMedicalExamEpisode>(Mapper.ConfigurationProvider));
     }
     #endregion
 
     #region [ Public - Methods ]
-    public async Task<IList<CoreMedicalExamEpisode>> GetMedicalExamEpisodeByIdAsync(string id, CancellationToken cancellationToken = default)
+    public async Task<IList<CoreMedicalExamEpisode>> FindByIdIncludedAsync(string[] ids, CancellationToken cancellationToken = default)
     {
-        var medicalExamEpisodes = await InternalFindByIdIncludeRelatedEntitiesAsync(new string[] { id });
-        ArgumentNullException.ThrowIfNull(medicalExamEpisodes, nameof(CoreMedicalExamEpisode));
-        return medicalExamEpisodes.ToList();
+
+        var query = await InternalGetQueryableIncludedAsync();
+
+        ArgumentNullException.ThrowIfNull(query, nameof(CoreMedicalExamEpisode));
+
+        return await query.Where(examEp => ids.Contains(examEp.Id))
+                          .ToListAsync(cancellationToken);
+    }
+
+    public async Task<IEnumerable<CoreMedicalExamEpisode>> FindByMedicalExamIdAsync(string[] ids, CancellationToken cancellationToken = default)
+    {
+        var query = await GetQueryableAsync();
+
+        return await query.Where(examEp => ids.Contains(examEp.MedicalExamId))
+                          .ToListAsync(cancellationToken);
     }
     #endregion
 }

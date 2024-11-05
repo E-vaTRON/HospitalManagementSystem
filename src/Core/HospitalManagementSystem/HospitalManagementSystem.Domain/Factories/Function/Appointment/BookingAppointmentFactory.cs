@@ -8,7 +8,7 @@ public static class BookingAppointmentFactory
         return new BookingAppointment();
     }
 
-    public static BookingAppointment Create(string doctorId, string patientId, string medicalExamId, string notes, DateTime dateTime)
+    public static BookingAppointment Create(string doctorId, string patientId, string notes, DateTime dateTime)
     {
         return new BookingAppointment()
         {
@@ -20,7 +20,7 @@ public static class BookingAppointmentFactory
         };
     }
 
-    public static BookingAppointment Create(string patientId, string doctorId, string medicalExamId, string notes)
+    public static BookingAppointment Create(string patientId, string doctorId, string notes)
     {
         return new BookingAppointment()
         {

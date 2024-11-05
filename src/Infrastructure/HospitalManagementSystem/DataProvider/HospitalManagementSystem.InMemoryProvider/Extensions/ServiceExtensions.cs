@@ -4,7 +4,7 @@ public static class ServiceExtensions
 {
     #region [ Public Methods - Add ]
 
-    public static void AddHospitalManagementSystemInMemoryDataProviders(this IServiceCollection services,string databaseName = "HospitalDataBase") 
+    public static void AddHospitalManagementSystemInMemoryDataProviders(this IServiceCollection services, string databaseName = "HospitalDataBase") 
     {
         var options = new DbContextOptions<HospitalManagementSystemDbContext>();
         var optionsBuilder = new DbContextOptionsBuilder<HospitalManagementSystemDbContext>(options);
@@ -21,8 +21,13 @@ public static class ServiceExtensions
 
         });
 
+        //Context
+        services.AddTransient<HospitalManagementSystemDbContext>(p => p.GetRequiredService<IDbContextFactory<HospitalManagementSystemDbContext>>()
+                                                                       .CreateDbContext());
+
         //Providers
         services.AddHospitalManagementSystemDataProviders();
+        services.AddHospitalManagementSystemSeedDataProviders();
 
     }
     #endregion

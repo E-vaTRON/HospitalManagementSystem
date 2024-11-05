@@ -2,8 +2,8 @@
 
 public record OutputDiagnosisDTO : DiagnosisDTO
 {
-    public OutputMedicalExamEpisodeDTO?   MedicalExamEpisodeDTO   { get; init; }
-    public OutputDiseasesDTO?             DiseasesDTO             { get; init; }
+    public OutputMedicalExamEpisodeDTO?   MedicalExamEpisode   { get; init; }
+    public OutputDiseasesDTO?             Diseases             { get; init; }
 
-    public virtual ICollection<OutputDiagnosisTreatmentDTO>? DiagnosisTreatmentDTOs { get; init; }
+    public virtual ICollection<OutputDiagnosisTreatmentDTO>? DiagnosisTreatments { get; init; }
 }

@@ -7,28 +7,14 @@ public static class RoomAllocationFactory
         return new RoomAllocation();
     }
 
-    public static RoomAllocation Create(DateTime startTime, DateTime endTime, string patientId, string employeeId, string roomId, string medicalExamEpisodeId)
+    public static RoomAllocation Create(DateTime startTime, DateTime endTime, string patientId, string employeeId)
     {
         return new RoomAllocation()
         {
             StartTime = startTime,
             EndTime = endTime,
             PatientId = patientId,
-            EmployeeId = employeeId,
-            RoomId = roomId,
-            MedicalExamEpisodeId = medicalExamEpisodeId
-        };
-    }
-
-    public static RoomAllocation Create(DateTime endTime, string patientId, string employeeId, string roomId)
-    {
-        return new RoomAllocation()
-        {
-            StartTime = DateTime.Now,
-            EndTime = endTime,
-            PatientId = patientId,
-            EmployeeId = employeeId,
-            RoomId = roomId
+            EmployeeId = employeeId
         };
     }
 }

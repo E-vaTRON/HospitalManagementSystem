@@ -7,11 +7,12 @@ public class ICDCodeFactory
         return new ICDCode();
     }
 
-    public static ICDCode Create(string code)
+    public static ICDCode Create(string code, string condition)
     {
         return new ICDCode()
         {
-            Code = code
+            Code = code,
+            Condition = condition
         };
     }
 }

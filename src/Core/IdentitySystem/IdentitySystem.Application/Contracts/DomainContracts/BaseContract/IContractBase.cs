@@ -4,7 +4,9 @@ public interface IContractBase<TOutputEntity, TInputEntity, TEId>
     where TOutputEntity : IEntity<TEId>
     where TInputEntity : IEntity<TEId>
 {
-    Task<IEnumerable<TOutputEntity>> FindAllAsync(Expression<Func<TInputEntity, bool>>? predicate = null, CancellationToken cancellationToken = default);
+    Task<IEnumerable<TOutputEntity>> FindAllWithPredicateAsync(Expression<Func<TInputEntity, bool>>? predicate = null, CancellationToken cancellationToken = default);
+
+    Task<IEnumerable<TOutputEntity>> FindAllAsync(CancellationToken cancellationToken = default);
 
     Task<TOutputEntity?> FindByIdAsync(TEId id, CancellationToken cancellationToken = default!, bool isQuickFind = true);
 

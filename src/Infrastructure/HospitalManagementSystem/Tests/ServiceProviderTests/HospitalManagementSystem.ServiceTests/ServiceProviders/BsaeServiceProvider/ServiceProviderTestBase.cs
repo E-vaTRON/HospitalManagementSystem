@@ -58,9 +58,9 @@ public abstract class ServiceProviderTestBase
             config.CreateMap<MedicalExamEpisodeDTO, Domain.MedicalExamEpisode>().ReverseMap();
             config.CreateMap<TreatmentDTO,          Domain.Treatment>().ReverseMap();
 
-            config.CreateMap<DeviceServiceDTO,      Domain.DeviceService>().ReverseMap();
+            config.CreateMap<ServiceEpisodeDTO,     Domain.ServiceEpisode>().ReverseMap();
             config.CreateMap<MedicalDeviceDTO,      Domain.MedicalDevice>().ReverseMap();
-            config.CreateMap<ServiceDTO,            Domain.Service>().ReverseMap();
+            config.CreateMap<MedicalServiceDTO,     Domain.MedicalService>().ReverseMap();
             config.CreateMap<AnalysisTestDTO,       Domain.AnalysisTest>().ReverseMap();
         });
         Mapper = new Mapper(configuration);

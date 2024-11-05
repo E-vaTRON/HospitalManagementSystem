@@ -29,5 +29,14 @@ public static class DrugInventoryExtensions
     {
         return drugInventory.AddDrugPrescription(DrugPrescriptionFactory.Create(medicalExamEpisodeId, drugInventoryId));
     }
+
+    public static DrugInventory RemoveRelated(this DrugInventory drugInventory)
+    {
+        drugInventory.Drug = null!;
+        drugInventory.Importation = null!;
+        drugInventory.Storage = null!;
+        drugInventory.DrugPrescriptions.Clear();
+        return drugInventory;
+    }
     #endregion
 }

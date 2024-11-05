@@ -2,7 +2,7 @@
 
 public record AssignmentHistoryDTO : DTOBase
 {
-    public string? AssignmentStatus { get; init; }
+    public AssignmentStatus     AssignmentStatus    { get; init; }
 
-    public string?  DoctorId    { get; init; } // User Id Role<Doctor>
+    public string?              DoctorId            { get; init; } // User Id Role<Doctor>
 }

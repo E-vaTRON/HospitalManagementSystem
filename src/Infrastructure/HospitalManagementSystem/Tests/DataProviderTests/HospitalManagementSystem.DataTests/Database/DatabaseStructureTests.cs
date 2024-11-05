@@ -19,11 +19,11 @@ public class DatabaseStructureTests
         var optionsBuilder = new DbContextOptionsBuilder<HospitalManagementSystemDbContext>().UseModel(SQLDatabaseModelBuilder.SQLModel.GetModel())
                                                                                              .EnableSensitiveDataLogging(true);
 
-        if (string.IsNullOrEmpty(DatabaseConfiguration.ConnectionString))
+        if (string.IsNullOrEmpty(DatabaseConfiguration.HMSConnection))
             optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString())
                           .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         else
-            optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString);
+            optionsBuilder.UseSqlServer(DatabaseConfiguration.HMSConnection);
 
         var options = optionsBuilder.Options;
 
@@ -40,7 +40,7 @@ public class DatabaseStructureTests
         #endregion
 
         #region [ Act ]
-        var actual = SqlDatabaseHelper.DatabaseExists(DatabaseConfiguration.ConnectionString);
+        var actual = SqlDatabaseHelper.DatabaseExists(DatabaseConfiguration.HMSConnection);
         #endregion
 
         #region [ Assert ]

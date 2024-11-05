@@ -1,11 +1,11 @@
-﻿using DTOServiceIn = HospitalManagementSystem.Application.InputServiceDTO;
-using DTOServiceOut = HospitalManagementSystem.Application.OutputServiceDTO;
+﻿using DTOServiceIn = HospitalManagementSystem.Application.InputMedicalServiceDTO;
+using DTOServiceOut = HospitalManagementSystem.Application.OutputMedicalServiceDTO;
 
 namespace HospitalManagementSystem.REST;
 
 public class ServiceController : BaseHMSController<DTOServiceOut, DTOServiceIn>
 {
-    public ServiceController(IServiceServiceProvider serviceProvider) : base(serviceProvider)
+    public ServiceController(IMedicalServiceServicesProvider serviceProvider) : base(serviceProvider)
     {
     }
 }

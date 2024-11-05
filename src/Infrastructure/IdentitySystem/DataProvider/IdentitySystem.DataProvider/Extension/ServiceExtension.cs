@@ -4,13 +4,21 @@ public static class ServiceExtension
 {
     public static void AddIdentitySystemDataProviders(this IServiceCollection services)
     {
-        services.AddSingleton<UserStoreProvider>()
-                .AddSingleton<RoleStoreProvider>();
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+        services.AddTransient<UserStoreProvider>()
+                .AddTransient<RoleStoreProvider>();
 
         services.AddTransient<ISignInProvider, SignInProvider>();
 
         services.AddTransient<IUserManagerProvider, UserManagerProvider>()
                 .AddTransient<IRoleManagerProvider, RoleManagerProvider>();
+
+        services.AddTransient<IPasswordHasher<Domain.User>, PasswordHasher<Domain.User>>();
+        services.AddTransient<IUserValidator<Domain.User>, UserValidator<Domain.User>>();
+        services.AddTransient<IPasswordValidator<Domain.User>, PasswordValidator<Domain.User>>();
+        services.AddTransient<ILookupNormalizer, UpperInvariantLookupNormalizer>();
+        services.AddTransient<ILogger<UserManager<Domain.User>>, Logger<UserManager<Domain.User>>>();
 
         services.AddIdentity<Domain.User, Domain.Role>(options =>
         {
@@ -25,6 +33,8 @@ public static class ServiceExtension
           .AddUserStore<UserStoreProvider>()
           .AddRoleStore<RoleStoreProvider>()
           .AddDefaultTokenProviders();
+
+        services.AddTransient<DataContext>();
 
         services.AddTransient<IDatabaseDataProvider, DatabaseDataProvider>();
 

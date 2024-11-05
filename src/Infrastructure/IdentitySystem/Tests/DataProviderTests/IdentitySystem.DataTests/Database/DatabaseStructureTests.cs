@@ -19,11 +19,11 @@ public class DatabaseStructureTests
         var optionsBuilder = new DbContextOptionsBuilder<IdentitySystemDbContext>().UseModel(SQLDatabaseModelBuilder.SQLModel.GetModel())
                                                                                    .EnableSensitiveDataLogging(true);
 
-        if (string.IsNullOrEmpty(DatabaseConfiguration.ConnectionString))
+        if (string.IsNullOrEmpty(DatabaseConfiguration.ISConnection))
             optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString())
                           .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         else
-            optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString);
+            optionsBuilder.UseSqlServer(DatabaseConfiguration.ISConnection);
 
         var options = optionsBuilder.Options;
 

@@ -25,14 +25,21 @@ public static class ReferralDoctorExtensions
         return referralDoctor.AddAssignmentHistory(AssignmentHistoryFactory.Create());
     }
 
-    public static ReferralDoctor AddAssignmentHistory(this ReferralDoctor referralDoctor, string assignmentStatus, string doctorId, string medicalExamEpisodeId, string referralDoctorId)
+    public static ReferralDoctor AddAssignmentHistory(this ReferralDoctor referralDoctor, string assignmentStatus, string doctorId, string referralDoctorId)
     {
-        return referralDoctor.AddAssignmentHistory(AssignmentHistoryFactory.Create(assignmentStatus, doctorId, medicalExamEpisodeId, referralDoctorId));
+        return referralDoctor.AddAssignmentHistory(AssignmentHistoryFactory.Create(assignmentStatus, doctorId, referralDoctorId));
     }
 
-    public static ReferralDoctor AddAssignmentHistory(this ReferralDoctor referralDoctor, string assignmentStatus, string doctorId, string medicalExamEpisodeId)
+    public static ReferralDoctor AddAssignmentHistory(this ReferralDoctor referralDoctor, string assignmentStatus, string doctorId)
     {
-        return referralDoctor.AddAssignmentHistory(AssignmentHistoryFactory.Create(assignmentStatus, doctorId, medicalExamEpisodeId));
+        return referralDoctor.AddAssignmentHistory(AssignmentHistoryFactory.Create(assignmentStatus, doctorId));
+    }
+
+    public static ReferralDoctor RemoveRelated(this ReferralDoctor referralDoctor)
+    {
+        referralDoctor.Referral = null!;
+        referralDoctor.AssignmentHistory = null!;
+        return referralDoctor;
     }
     #endregion
 }

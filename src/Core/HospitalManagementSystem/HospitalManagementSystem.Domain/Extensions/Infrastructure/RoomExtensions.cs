@@ -25,14 +25,16 @@ public static class RoomExtensions
         return room.AddRoomAllocation(RoomAllocationFactory.Create());
     }
 
-    public static Room AddRoomAllocation(this Room room, DateTime endTime, string patientId, string employeeId, string roomId)
+    public static Room AddRoomAllocation(this Room room, DateTime startTime, DateTime endTime, string patientId, string employeeId)
     {
-        return room.AddRoomAllocation(RoomAllocationFactory.Create(endTime, patientId, employeeId, roomId));
+        return room.AddRoomAllocation(RoomAllocationFactory.Create(startTime, endTime, patientId, employeeId));
     }
 
-    public static Room AddRoomAllocation(this Room room, DateTime startTime, DateTime endTime, string patientId, string employeeId, string roomId, string medicalExamEpisodeId)
+    public static Room RemoveRelated(this Room room)
     {
-        return room.AddRoomAllocation(RoomAllocationFactory.Create(startTime, endTime, patientId, employeeId, roomId, medicalExamEpisodeId));
+        room.Department = null!;
+        room.RoomAllocations.Clear();
+        return room;
     }
     #endregion
 }

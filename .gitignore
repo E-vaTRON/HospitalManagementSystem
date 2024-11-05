@@ -368,3 +368,6 @@ FodyWeavers.xsd
 /src/Presentation/REST/HospitalManagementSystem.REST/appsettings.Development.json
 /src/Presentation/UI/HospitalManagementSystem.Blazor/appsettings.json
 /src/Presentation/UI/HospitalManagementSystem.Blazor/appsettings.Development.json
+
+src/Infrastructure/HospitalManagementSystem/DataProvider/HospitalManagementSystem.Context/Migrations/
+src/Infrastructure/IdentitySystem/DataProvider/IdentitySystem.Context/Migrations/

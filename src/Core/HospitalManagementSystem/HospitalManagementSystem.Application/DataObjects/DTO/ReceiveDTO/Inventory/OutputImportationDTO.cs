@@ -2,5 +2,7 @@
 
 public record OutputImportationDTO : ImportationDTO
 {
-    public ICollection<OutputGoodSupplingDTO>? GoodSupplingDTOs { get; init; }
+    //public ICollection<OutputGoodSupplingDTO>? GoodSupplings { get; init; }
+
+    public ICollection<DrugInventoryDTO>? DrugInventories { get; init; }
 }

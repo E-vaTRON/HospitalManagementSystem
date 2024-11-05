@@ -7,15 +7,12 @@ public static class RoleFactory
         return new Role();
     }
 
-    public static Role Create(string roleName, bool isDeleted, DateTime createdOn, DateTime? lastUpdatedOn, DateTime? deleteOn)
+    public static Role Create(string roleName)
     {
         return new Role()
         {
             Name = roleName,
-            IsDeleted = isDeleted,
-            CreatedOn = createdOn,
-            LastUpdatedOn = lastUpdatedOn,
-            DeleteOn = deleteOn
+            CreatedOn = DateTime.UtcNow,
         };
     }
 }

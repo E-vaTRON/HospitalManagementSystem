@@ -9,8 +9,8 @@ public static class ServiceExtension
     #region [ Public Methods - Add ]
     public static void AddHospitalManagementSystemSqlServerDataProviders(this IServiceCollection services, IConfiguration configuration)
     {
-        // Can Use This
-        //var connectionString = configuration.GetSection("ConnectionStrings:DefaultConnection").Value;
+        ////Can Use This
+        //var connectionString = configuration.GetSection("DatabaseConfiguration:HMSConnection").Value;
         //if (string.IsNullOrEmpty(connectionString))
         //    throw new Exception("The connection string is null or empty");
 
@@ -18,13 +18,13 @@ public static class ServiceExtension
 
         var options = new DbContextOptions<HospitalManagementSystemDbContext>();
         var optionsBuilder = new DbContextOptionsBuilder<HospitalManagementSystemDbContext>(options);
-        optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString);
+        optionsBuilder.UseSqlServer(DatabaseConfiguration.HMSConnection);
         optionsBuilder.EnableSensitiveDataLogging(false);
 
         services.AddPooledDbContextFactory<HospitalManagementSystemDbContext>(options =>
         {
             options.UseModel(SQLDatabaseModelBuilder.SQLModel.GetModel());
-            options.UseSqlServer(DatabaseConfiguration.ConnectionString, sqlServerOptionsAction => sqlServerOptionsAction.EnableRetryOnFailure());
+            options.UseSqlServer(DatabaseConfiguration.HMSConnection, sqlServerOptionsAction => sqlServerOptionsAction.EnableRetryOnFailure());
 #if DEBUG
             options.EnableDetailedErrors();
             options.EnableSensitiveDataLogging();
@@ -36,6 +36,7 @@ public static class ServiceExtension
 
         //Providers
         services.AddHospitalManagementSystemDataProviders();
+        services.AddHospitalManagementSystemSeedDataProviders();
     }
     #endregion
 }

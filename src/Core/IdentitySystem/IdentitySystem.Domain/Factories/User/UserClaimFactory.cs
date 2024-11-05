@@ -6,11 +6,11 @@ public class UserClaimFactory
     {
         return new UserClaim();
     }
-    public static UserClaim Create(string userId, string claimType, string claimValue)
+    public static UserClaim Create(int id, string claimType, string claimValue)
     {
         return new UserClaim()
         {
-            UserId = userId,
+            Id = id,
             ClaimType = claimType,
             ClaimValue = claimValue
         };

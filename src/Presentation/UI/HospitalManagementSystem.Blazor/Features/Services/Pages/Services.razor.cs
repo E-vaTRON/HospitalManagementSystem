@@ -100,17 +100,16 @@ public partial class Services : AuthenticationComponentBase
                 return;
             }
 
-            InputServiceDTO service = new()
+            InputMedicalServiceDTO service = new()
             {
                 Name = data!.Name,
                 Unit = data!.Unit,
                 UnitPrice = data!.UnitPrice,
                 ServicePrice = data!.ServicePrice,
-                HealthInsurancePrice = data!.HealthInsurancePrice,
-                ResultFromType = data!.ResultFromType
+                HealthInsurancePrice = data!.HealthInsurancePrice
             };
 
-            await HMSContext.Services.AddAsync(service);
+            await HMSContext.MedicalServices.AddAsync(service);
             state = "Add";
         }
         else
@@ -128,7 +127,7 @@ public partial class Services : AuthenticationComponentBase
                 return;
             }
 
-            await HMSContext.Services.UpdateAsync(data);
+            await HMSContext.MedicalServices.UpdateAsync(data);
             state = "Update";
         }
 
@@ -150,7 +149,7 @@ public partial class Services : AuthenticationComponentBase
 
         service.IsDeleted = true;
         service.DeleteOn = DateTime.UtcNow;
-        await HMSContext.Services.UpdateAsync(service);
+        await HMSContext.MedicalServices.UpdateAsync(service);
 
         ToastService.ShowToast(ToastIntent.Success, "Delete successfully");
         await LoadDataAsync();
@@ -178,7 +177,7 @@ public partial class Services : AuthenticationComponentBase
 
                 typeof(ServiceWithDeviceModel).GetProperties().ToList().ForEach(property =>
                 {
-                    var matchingProperty = typeof(OutputServiceDTO).GetProperty(property.Name);
+                    var matchingProperty = typeof(OutputMedicalServiceDTO).GetProperty(property.Name);
                     if (matchingProperty != null)
                     {
                         var value = matchingProperty.GetValue(service);
@@ -186,10 +185,10 @@ public partial class Services : AuthenticationComponentBase
                     }
                 });
 
-                service.DeviceServiceDTOs!.Select(devices => devices.DeviceInventoryDTO).ToList().ForEach(device =>
-                {
-                    serviceWithDevice.DevicesServiceAvailable!.Add(device!);
-                });
+                //service.ServiceEpisodes!.Select(devices => devices.DeviceInventory).ToList().ForEach(device =>
+                //{
+                //    serviceWithDevice.DevicesServiceAvailable!.Add(device!);
+                //});
 
                 return serviceWithDevice;
             })
@@ -206,18 +205,18 @@ public partial class Services : AuthenticationComponentBase
         State.PaginationCount = [];
         State.ItemsPerPage = 15;
 
-        var services = await HMSContext.Services.FindAllAsync();
+        var services = await HMSContext.MedicalServices.FindAllAsync();
 
         var serviceIds = services.Select(x => x.Id).ToArray();
-        var deviceServices = await HMSContext.DeviceServices.GetByMultipleServiceIdIncludeDeviceAsync(serviceIds);
+        //var deviceServices = await HMSContext.MedicalExamEpisodes.GetByServiceIdIncludeDeviceAsync(serviceIds);
 
         foreach ( var service in services)
         {
-            var deviceServicesPerService = deviceServices.Where(deviceService => deviceService.ServiceDTO!.Id == service.Id).ToList();
+            //var deviceServicesPerService = deviceServices.Where(deviceService => deviceService.Service!.Id == service.Id).ToList();
 
             var updatedServiceDTO = service with
             {
-                DeviceServiceDTOs = deviceServicesPerService
+                //DeviceServices = deviceServicesPerService
             };
 
             State.Services.Add(updatedServiceDTO);

@@ -10,4 +10,10 @@ public class UserRole : IdentityUserRole<string>, IEntity<string>, IHasCreatedOn
 
     public virtual User? User { get; set; }
     public virtual Role? Role { get; set; }
+
+    public UserRole() 
+    {
+        Id = Guid.NewGuid().ToString();
+        IsDeleted = false;
+    }
 }

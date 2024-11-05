@@ -7,11 +7,11 @@ public class RoleClaimFactory
         return new RoleClaim();
     }
 
-    public static RoleClaim Create(string roleId, string claimType, string claimValue)
+    public static RoleClaim Create(int id, string claimType, string claimValue)
     {
         return new RoleClaim()
         {
-            RoleId = roleId,
+            Id = id,
             ClaimType = claimType,
             ClaimValue = claimValue
         };

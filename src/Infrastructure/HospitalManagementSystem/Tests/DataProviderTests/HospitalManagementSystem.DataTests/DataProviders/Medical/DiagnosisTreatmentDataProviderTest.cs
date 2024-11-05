@@ -262,11 +262,11 @@ public class DiagnosisTreatmentDataProviderTest : DataProviderTestBase
     public async void FindAll_Success()
     {
         //Arrange
-        var icdAdd = Fixture.Build<DataProvider.Diseases>()
+        var icdCodeAdd = Fixture.Build<DataProvider.ICDCode>()
                     .Create();
 
         var diagnosisAdd = Fixture.Build<DataProvider.Diagnosis>()
-                                  .With(i => i.DiseasesId, icdAdd.Id)
+                                  .With(i => i.ICDCodeId, icdCodeAdd.Id)
                                   .Create();
 
         var treatmentAdd = Fixture.Build<DataProvider.Treatment>()
@@ -277,7 +277,7 @@ public class DiagnosisTreatmentDataProviderTest : DataProviderTestBase
                                                .With(i => i.TreatmentId, treatmentAdd.Id)
                                                .CreateMany().ToArray();
 
-        await DbContext.Diseases.AddAsync(icdAdd);
+        await DbContext.ICDCodes.AddAsync(icdCodeAdd);
         await DbContext.Diagnoses.AddAsync(diagnosisAdd);
         await DbContext.Treatments.AddAsync(treatmentAdd);
         await DbContext.DiagnosisTreatments.AddRangeAsync(diagnosisTreatmentAddList);

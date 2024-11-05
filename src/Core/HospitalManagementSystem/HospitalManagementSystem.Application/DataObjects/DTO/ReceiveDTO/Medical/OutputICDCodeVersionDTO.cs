@@ -2,6 +2,6 @@
 
 public record OutputICDCodeVersionDTO : ICDCodeVersionDTO
 {
-    public OutputICDCodeDTO?      ICDCodeDTO      { get; init; }
-    public OutputICDVersionDTO?   ICDVersionDTO   { get; init; }
+    public OutputICDCodeDTO?      ICDCode      { get; init; }
+    public OutputICDVersionDTO?   ICDVersion   { get; init; }
 }

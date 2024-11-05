@@ -135,7 +135,7 @@ public partial class Archive : AuthenticationComponentBase
 
         service.IsDeleted = true;
         service.DeleteOn = DateTime.UtcNow;
-        await HMSContext.Services.UpdateAsync(service);
+        await HMSContext.MedicalServices.UpdateAsync(service);
 
         await LoadDataAsync();
         ToastService.ShowToast(ToastIntent.Success, "Record deleted permanently.");
@@ -152,7 +152,7 @@ public partial class Archive : AuthenticationComponentBase
 
         service.IsDeleted = false;
         service.DeleteOn = default(DateTime)!;
-        await HMSContext.Services.UpdateAsync(service);
+        await HMSContext.MedicalServices.UpdateAsync(service);
 
         await LoadDataAsync();
         ToastService.ShowToast(ToastIntent.Success, "Record restored.");
@@ -243,29 +243,29 @@ public partial class Archive : AuthenticationComponentBase
     {
         decimal totalAmount = 0;
 
-        foreach (var analysisTest in bill.Episode!.AnalysisTestDTOs!)
+        foreach (var episodeService in bill.Episode!.ServiceEpisodes!)
         {
-            if (analysisTest.DeviceServiceDTO != null)
+            if (episodeService.MedicalService != null)
             {
-                totalAmount += analysisTest.DeviceServiceDTO.ServiceDTO!.ServicePrice;
+                totalAmount += episodeService.MedicalService.ServicePrice;
             }
         }
 
         // Calculate based on drug prescriptions
-        foreach (var drugPrescription in bill.Episode!.DrugPrescriptionDTOs!)
+        foreach (var drugPrescription in bill.Episode!.DrugPrescriptions!)
         {
-            if (drugPrescription.DrugInventoryDTO != null)
+            if (drugPrescription.DrugInventory != null)
             {
-                totalAmount += drugPrescription.DrugInventoryDTO.DrugDTO!.UnitPrice * drugPrescription.Amount;
+                totalAmount += drugPrescription.DrugInventory.Drug!.UnitPrice * drugPrescription.Amount;
             }
         }
 
         // Calculate based on room allocations (if applicable)
-        foreach (var roomAllocation in bill.Episode!.RoomAllocationDTOs!)
+        foreach (var roomAllocation in bill.Episode!.RoomAllocations!)
         {
-            if (roomAllocation.RoomDTO != null)
+            if (roomAllocation.Room != null)
             {
-                totalAmount += roomAllocation.RoomDTO.PricePerHour * (roomAllocation.EndTime - roomAllocation.StartTime).Hours;
+                totalAmount += roomAllocation.Room.PricePerHour * (roomAllocation.EndTime - roomAllocation.StartTime).Hours;
             }
         }
 
@@ -351,7 +351,7 @@ public partial class Archive : AuthenticationComponentBase
 
         var billsData = State.Bills
             .Join(State.Users,
-                   bill => bill.MedicalExamEpisodeDTO!.MedicalExamDTO!.BookingAppointmentDTO!.PatientId,
+                   bill => bill.MedicalExamEpisode!.MedicalExam!.BookingAppointment!.PatientId,
                    user => user.Id,
                    (bill, user) => new ArchiveBillWithUserModel
                    {
@@ -362,7 +362,7 @@ public partial class Archive : AuthenticationComponentBase
                        UnderPaidAmount = bill.UnderPaidAmount,
                        CreatedOn = bill.CreatedOn,
                        User = user,
-                       Episode = bill.MedicalExamEpisodeDTO!
+                       Episode = bill.MedicalExamEpisode!
                    })
             .OrderByDescending(user => user.CreatedOn);
 
@@ -382,7 +382,7 @@ public partial class Archive : AuthenticationComponentBase
 
                 typeof(ArchiveServiceModel).GetProperties().ToList().ForEach(property =>
                 {
-                    var matchingProperty = typeof(OutputServiceDTO).GetProperty(property.Name);
+                    var matchingProperty = typeof(OutputMedicalServiceDTO).GetProperty(property.Name);
                     if (matchingProperty != null)
                     {
                         var value = matchingProperty.GetValue(service);
@@ -474,7 +474,7 @@ public partial class Archive : AuthenticationComponentBase
 
         var bills = await HMSContext.Bills.GetBillByMultipleUserIdAsync(State.Users.Select(x => x.Id).ToArray(), true);
 
-        var services = await HMSContext.Services.FindAllAsync();
+        var services = await HMSContext.MedicalServices.FindAllAsync();
 
         var drugs = await HMSContext.Drugs.FindAllAsync();
 

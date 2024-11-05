@@ -22,7 +22,7 @@ public static class DrugExtensions
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(drugInventory));
 
-        drugInventory.DrugId = drug.Id;
+        drugInventory.DrugId = drug.Id; 
         drugInventory.Drug = drug;
         drugInventory.StorageId = storage.Id;
         drugInventory.Storage = storage;
@@ -41,7 +41,7 @@ public static class DrugExtensions
         return drug.AddDrugInventory(DrugInventoryFactory.Create());
     }
 
-    public static Drug AddToStorage(this Drug drug, Storage storage, Importation importation,)
+    public static Drug AddToStorage(this Drug drug, Storage storage, Importation importation)
     {
         return drug.AddToStorage(storage, importation, DrugInventoryFactory.Create());
     }
@@ -59,6 +59,12 @@ public static class DrugExtensions
     public static Drug AddDrugInventory(this Drug drug, int currentAmount, string goodInformation, DateTime expiryDate, int orinaryAmount)
     {
         return drug.AddDrugInventory(DrugInventoryFactory.Create(currentAmount, goodInformation, expiryDate, orinaryAmount));
+    }
+
+    public static Drug RemoveRelated(this Drug drug)
+    {
+        drug.DrugInventories.Clear();
+        return drug;
     }
     #endregion
 }

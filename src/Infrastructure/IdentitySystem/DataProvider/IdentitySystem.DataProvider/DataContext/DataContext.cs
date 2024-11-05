@@ -12,8 +12,13 @@ public class DataContext
         IUserDataProvider userDataProvider,
         IRoleDataProvider roleDataProvider,
         IUserRoleDataProvider userRoleDataProvider,
+        IUserClaimDataProvider userClaimDataProvider,
+        IUserLoginDataProvider userLoginDataProvider,
+        IUserTokenDataProvider userTokenDataProvider,
+        IRoleClaimDataProvider roleClaimDataProvider,
 
-        ISpecializationDataProvider specializationDataProvider)
+        ISpecializationDataProvider specializationDataProvider,
+        IUserSpecializationDataProvider userSpecializationDataProvider)
     {
         Notifications = notificationDataProvider;
         ScheduleDays = scheduleDayDataProvider;
@@ -21,29 +26,39 @@ public class DataContext
         Users = userDataProvider;
         Roles = roleDataProvider;
         UserRoles = userRoleDataProvider;
+        UserClaims = userClaimDataProvider;
+        UserLogins = userLoginDataProvider;
+        UserTokens = userTokenDataProvider;
+        RoleClaims = roleClaimDataProvider;
         Specializations = specializationDataProvider;
+        UserSpecializations = userSpecializationDataProvider;
     }
     #endregion
 
     #region [ Methods ]
 
-    #region [  ]
+    #region [ Notification ]
     public INotificationDataProvider Notifications { get; set; }
     #endregion
 
-    #region [  ]
+    #region [ Schedule ]
     public IScheduleDayDataProvider ScheduleDays { get; set; }
     public IScheduleSlotDataProvider ScheduleSlots { get; set; }
     #endregion
 
-    #region [  ]
-    public IUserDataProvider Users { get; set; }
-    public IRoleDataProvider Roles { get; set; }
-    public IUserRoleDataProvider UserRoles { get; set; }
+    #region [ Identity ]
+    public IUserDataProvider        Users       { get; set; }
+    public IRoleDataProvider        Roles       { get; set; }
+    public IUserRoleDataProvider    UserRoles   { get; set; }
+    public IUserClaimDataProvider   UserClaims  { get; set; }
+    public IUserLoginDataProvider   UserLogins  { get; set; }
+    public IUserTokenDataProvider   UserTokens  { get; set; }
+    public IRoleClaimDataProvider   RoleClaims  { get; set; }
     #endregion
 
-    #region [  ]
-    public ISpecializationDataProvider Specializations { get; set; }
+    #region [ Specialization ]
+    public ISpecializationDataProvider      Specializations     { get; set; }
+    public IUserSpecializationDataProvider  UserSpecializations { get; set; }
     #endregion
     #endregion
 }

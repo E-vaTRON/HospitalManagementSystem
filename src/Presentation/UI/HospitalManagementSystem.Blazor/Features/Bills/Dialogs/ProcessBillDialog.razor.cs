@@ -31,29 +31,29 @@ public partial class ProcessBillDialog : IDialogContentComponent<BillWithUserAnd
     {
         decimal totalAmount = 0;
 
-        foreach (var analysisTest in Content.Episode.AnalysisTestDTOs!)
+        foreach (var episodeService in Content.Episode.ServiceEpisodes!)
         {
-            if (analysisTest.DeviceServiceDTO != null)
+            if (episodeService.MedicalService != null)
             {
-                totalAmount += analysisTest.DeviceServiceDTO.ServiceDTO!.ServicePrice;
+                totalAmount += episodeService.MedicalService.ServicePrice;
             }
         }
 
         // Calculate based on drug prescriptions
-        foreach (var drugPrescription in Content.Episode.DrugPrescriptionDTOs!)
+        foreach (var drugPrescription in Content.Episode.DrugPrescriptions!)
         {
-            if (drugPrescription.DrugInventoryDTO != null)
+            if (drugPrescription.DrugInventory != null)
             {
-                totalAmount += drugPrescription.DrugInventoryDTO.DrugDTO!.UnitPrice * drugPrescription.Amount;
+                totalAmount += drugPrescription.DrugInventory.Drug!.UnitPrice * drugPrescription.Amount;
             }
         }
 
         // Calculate based on room allocations (if applicable)
-        foreach (var roomAllocation in Content.Episode.RoomAllocationDTOs!)
+        foreach (var roomAllocation in Content.Episode.RoomAllocations!)
         {
-            if (roomAllocation.RoomDTO != null)
+            if (roomAllocation.Room != null)
             {
-                totalAmount += roomAllocation.RoomDTO.PricePerHour * (roomAllocation.EndTime - roomAllocation.StartTime).Hours;
+                totalAmount += roomAllocation.Room.PricePerHour * (roomAllocation.EndTime - roomAllocation.StartTime).Hours;
             }
         }
 

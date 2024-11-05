@@ -2,5 +2,5 @@
 
 public record OutputTreatmentDTO : TreatmentDTO
 {
-    public ICollection<OutputDiagnosisTreatmentDTO>? DiagnosisTreatmentDTOs { get; init; }
+    public ICollection<OutputDiagnosisTreatmentDTO>? DiagnosisTreatments { get; init; }
 }

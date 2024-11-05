@@ -29,7 +29,7 @@ public class ArchiveState : StateBase
     #region [ Service ]
     private int                         serviceCurrentPage;
     private int[]                       servicePaginationCount;
-    private List<OutputServiceDTO>?     services;
+    private List<OutputMedicalServiceDTO>?     services;
     private List<ArchiveServiceModel>?  modifiedServices;
     #endregion
 
@@ -58,7 +58,7 @@ public class ArchiveState : StateBase
         roomPaginationCount = [];
         bills = new List<OutputBillDTO>();
         users = new List<OutputUserDTO>();
-        services = new List<OutputServiceDTO>();
+        services = new List<OutputMedicalServiceDTO>();
         drugs = new List<OutputDrugDTO>();
         rooms = new List<OutputRoomDTO>();
         modifiedBills = new List<ArchiveBillWithUserModel>();
@@ -171,7 +171,7 @@ public class ArchiveState : StateBase
         set { this.SetProperty(ref this.servicePaginationCount, value); }
     }
 
-    public List<OutputServiceDTO> Services
+    public List<OutputMedicalServiceDTO> Services
     {
         get { return this.services!; }
         set { this.SetProperty(ref this.services, value); }

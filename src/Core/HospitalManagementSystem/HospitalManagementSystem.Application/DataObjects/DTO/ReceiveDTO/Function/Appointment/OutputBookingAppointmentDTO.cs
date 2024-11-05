@@ -2,5 +2,5 @@
 
 public record OutputBookingAppointmentDTO : BookingAppointmentDTO
 {
-    public OutputMedicalExamDTO? MedicalExamDTO { get; init; }
+    public OutputMedicalExamDTO? MedicalExam { get; init; }
 }

@@ -9,4 +9,10 @@ public class Role : IdentityRole<string>, IHasCreatedOn, IHasLastUpdatedOn, IHas
 
     public virtual ICollection<UserRole>    UserRoles   { get; set; } = new HashSet<UserRole>();
     public virtual ICollection<RoleClaim>   RoleClaims  { get; set; } = new HashSet<RoleClaim>();
+
+    public Role() 
+    {
+        Id = Guid.NewGuid().ToString();
+        IsDeleted = false;
+    }
 }

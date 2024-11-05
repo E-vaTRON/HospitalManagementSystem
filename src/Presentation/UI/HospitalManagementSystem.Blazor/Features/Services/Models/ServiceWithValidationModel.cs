@@ -1,6 +1,6 @@
 ﻿namespace HospitalManagementSystem.Blazor;
 
-public record ServiceWithValidationModel : InputServiceDTO
+public record ServiceWithValidationModel : InputMedicalServiceDTO
 {
     public bool IsServiceNameValid { get; set; }
     public bool IsNameNotDuplicated { get; set; }

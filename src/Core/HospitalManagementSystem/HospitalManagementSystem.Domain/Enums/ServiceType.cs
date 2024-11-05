@@ -3,10 +3,12 @@
 public enum ServiceType
 {
     Visit,
-    Test,
+    Testing,
+    Monitoring,
     Scan,
     Session,
     Dose,
     Procedure,
     Surgery,
+    Therapy
 }

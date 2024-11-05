@@ -25,7 +25,7 @@
                         GridTemplateColumns="2fr 2fr 2fr 2fr 2fr 2fr"
                         TGridItem=OutputBillDTO>
             <TemplateColumn Title="Services" Align=Align.Start>
-                @if (!context!.MedicalExamEpisodeDTO!.AnalysisTestDTOs!.Any())
+                @if (!context!.MedicalExamEpisode!.AnalysisTests!.Any())
                 {
                     <FluentBadge Fill="somevalue" 
                                  BackgroundColor="black" 
@@ -35,10 +35,10 @@
                 }
                 else{
                     <FluentHorizontalScroll Speed="600" Easing=ScrollEasing.EaseInOut>
-                        @foreach (var analysis in context!.MedicalExamEpisodeDTO!.AnalysisTestDTOs!)
+                        @foreach (var service in context!.MedicalExamEpisode!.ServiceEpisodes!)
                         {
                             <FluentBadge Fill="somevalue">
-                                @analysis.DeviceServiceDTO!.ServiceDTO!.Name
+                                @service.MedicalService!.Name
                             </FluentBadge>
                         }
                     </FluentHorizontalScroll >

@@ -2,5 +2,7 @@
 
 public interface IMedicalExamEpisodeDataProvider : IDataProviderBase<MedicalExamEpisode, string>
 {
-    Task<IList<MedicalExamEpisode>> GetMedicalExamEpisodeByIdAsync(string id, CancellationToken cancellationToken = default!);
+    Task<IList<MedicalExamEpisode>> FindByIdIncludedAsync(string[] ids, CancellationToken cancellationToken = default);
+
+    Task<IEnumerable<MedicalExamEpisode>> FindByMedicalExamIdAsync(string[] ids, CancellationToken cancellationToken = default!);
 }

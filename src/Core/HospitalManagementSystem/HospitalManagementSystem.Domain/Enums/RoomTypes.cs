@@ -22,4 +22,7 @@ public enum RoomType
     Postpartum,
     Laboratory,
     Operating,
+    XRay,
+    MRI,
+    Ultrasound,
 }

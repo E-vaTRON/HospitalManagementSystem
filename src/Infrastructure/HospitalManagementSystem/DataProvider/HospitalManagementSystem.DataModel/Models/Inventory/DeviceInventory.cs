@@ -9,5 +9,5 @@ public class DeviceInventory : ModelBase
     public Guid?            StorageId           { get; set; }       //mã kho
     public Storage          Storage             { get; set; } = default!;
 
-    public virtual ICollection<DeviceService> DeviceServices { get; set; } = new HashSet<DeviceService>();
+    public virtual ICollection<AnalysisTest>    AnalysisTests   { get; set; } = new HashSet<AnalysisTest>();
 }

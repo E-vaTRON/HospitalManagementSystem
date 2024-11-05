@@ -101,5 +101,5 @@ public abstract class DataProviderTestBase
         Mapper = ServiceProvider.GetRequiredService<IMapper>();
 
     }
-    #endregion [ CTors ]
+    #endregion
 }

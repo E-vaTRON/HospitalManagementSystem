@@ -2,6 +2,6 @@
 
 public record OutputRoomAllocationDTO : RoomAllocationDTO
 {
-    public OutputRoomDTO?                 RoomDTO                 { get; init; }
-    public OutputMedicalExamEpisodeDTO?   MedicalExamEpisodeDTO   { get; init; }
+    public OutputRoomDTO?                 Room                 { get; init; }
+    public OutputMedicalExamEpisodeDTO?   MedicalExamEpisode   { get; init; }
 }

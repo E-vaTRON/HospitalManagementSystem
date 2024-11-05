@@ -138,29 +138,29 @@ public partial class Bills : AuthenticationComponentBase
     {
         decimal totalAmount = 0;
 
-        foreach (var analysisTest in bill.Episode!.AnalysisTestDTOs!)
+        foreach (var episodeService in bill.Episode!.ServiceEpisodes!)
         {
-            if (analysisTest.DeviceServiceDTO != null)
+            if (episodeService.MedicalService != null)
             {
-                totalAmount += analysisTest.DeviceServiceDTO.ServiceDTO!.ServicePrice;
+                totalAmount += episodeService.MedicalService!.ServicePrice;
             }
         }
 
         // Calculate based on drug prescriptions
-        foreach (var drugPrescription in bill.Episode!.DrugPrescriptionDTOs!)
+        foreach (var drugPrescription in bill.Episode!.DrugPrescriptions!)
         {
-            if (drugPrescription.DrugInventoryDTO != null)
+            if (drugPrescription.DrugInventory != null)
             {
-                totalAmount += drugPrescription.DrugInventoryDTO.DrugDTO!.UnitPrice * drugPrescription.Amount;
+                totalAmount += drugPrescription.DrugInventory.Drug!.UnitPrice * drugPrescription.Amount;
             }
         }
 
         // Calculate based on room allocations (if applicable)
-        foreach (var roomAllocation in bill.Episode!.RoomAllocationDTOs!)
+        foreach (var roomAllocation in bill.Episode!.RoomAllocations!)
         {
-            if (roomAllocation.RoomDTO != null)
+            if (roomAllocation.Room != null)
             {
-                totalAmount += roomAllocation.RoomDTO.PricePerHour * (roomAllocation.EndTime - roomAllocation.StartTime).Hours;
+                totalAmount += roomAllocation.Room.PricePerHour * (roomAllocation.EndTime - roomAllocation.StartTime).Hours;
             }
         }
 
@@ -429,7 +429,7 @@ public partial class Bills : AuthenticationComponentBase
 
         var billsData = State.Bills
             .Join(State.Users,
-                   bill => bill.MedicalExamEpisodeDTO!.MedicalExamDTO!.BookingAppointmentDTO!.PatientId,
+                   bill => bill.MedicalExamEpisode!.MedicalExam!.BookingAppointment!.PatientId,
                    user => user.Id,
                    (bill, user) => new BillWithUserAndServicesModel
                    {
@@ -440,29 +440,29 @@ public partial class Bills : AuthenticationComponentBase
                        UnderPaidAmount = bill.UnderPaidAmount,
                        CreatedOn = bill.CreatedOn,
                        User = user,
-                       Services = bill.MedicalExamEpisodeDTO!.AnalysisTestDTOs!
-                                    .Select(test => test.DeviceServiceDTO!.ServiceDTO!).ToList(),
-                       Drugs = bill.MedicalExamEpisodeDTO!.DrugPrescriptionDTOs!
+                       Services = bill.MedicalExamEpisode!.ServiceEpisodes!
+                                    .Select(test => test.MedicalService!).ToList(),
+                       Drugs = bill.MedicalExamEpisode!.DrugPrescriptions!
                                     .Select(prescription => new DrugWithAmount
                                     {
-                                        GoodName = prescription.DrugInventoryDTO!.DrugDTO!.GoodName,
-                                        ActiveIngredientName = prescription.DrugInventoryDTO!.DrugDTO!.ActiveIngredientName,
-                                        Unit = prescription.DrugInventoryDTO!.DrugDTO!.Unit,
-                                        UnitPrice = prescription.DrugInventoryDTO!.DrugDTO!.UnitPrice,
-                                        HealthInsurancePrice = prescription.DrugInventoryDTO!.DrugDTO!.HealthInsurancePrice,
+                                        GoodName = prescription.DrugInventory!.Drug!.GoodName,
+                                        ActiveIngredientName = prescription.DrugInventory!.Drug!.ActiveIngredientName,
+                                        Unit = prescription.DrugInventory!.Drug!.Unit,
+                                        UnitPrice = prescription.DrugInventory!.Drug!.UnitPrice,
+                                        HealthInsurancePrice = prescription.DrugInventory!.Drug!.HealthInsurancePrice,
                                         Amount = prescription.Amount
                                     }).ToList(),
-                       Rooms = bill.MedicalExamEpisodeDTO!.RoomAllocationDTOs!
+                       Rooms = bill.MedicalExamEpisode!.RoomAllocations!
                                     .Select(roomAllocation => new RoomWithTime
                                     {
-                                        Name = roomAllocation.RoomDTO!.Name,
-                                        PricePerHour = roomAllocation.RoomDTO!.PricePerHour,
-                                        RoomType = roomAllocation.RoomDTO!.RoomType,
+                                        Name = roomAllocation.Room!.Name,
+                                        PricePerHour = roomAllocation.Room!.PricePerHour,
+                                        RoomType = roomAllocation.Room!.RoomType,
                                         StartTime = roomAllocation.StartTime,
                                         EndTime = roomAllocation.EndTime
                                     })
                                     .ToList(),
-                       Episode = bill.MedicalExamEpisodeDTO!
+                       Episode = bill.MedicalExamEpisode!
                    })
             .OrderByDescending(user => user.CreatedOn);
 
@@ -491,7 +491,7 @@ public partial class Bills : AuthenticationComponentBase
 
         var bills = await HMSContext.Bills.GetBillByMultipleUserIdAsync(State.Users.Select(x => x.Id).ToArray(), true);
 
-        var analysisTests = await HMSContext.AnalysisTests.GetAllIncludeServiceAsync();
+        //var analysisTests = await HMSContext.AnalysisTests.GetAllIncludeServiceAsync();
         var drugPrescriptions = await HMSContext.DrugPrescriptions.GetAllIncludeDrugAsync();
         var roomAllocations = await HMSContext.RoomAllocations.GetAllIncludeRoomAsync();
 
@@ -499,26 +499,26 @@ public partial class Bills : AuthenticationComponentBase
 
         foreach (var bill in bills)
         {
-            var analysisTestIds = bill.MedicalExamEpisodeDTO!.AnalysisTestDTOs!.Select(x => x.Id).ToArray();
-            var analysisTestBills = analysisTests.Where(analysisTest => analysisTestIds.Contains(analysisTest.Id));
-            State.AnalysisTests = analysisTestBills.ToList();
+            var analysisTestIds = bill.MedicalExamEpisode!.AnalysisTests!.Select(x => x.Id).ToArray();
+            //var analysisTestBills = analysisTests.Where(analysisTest => analysisTestIds.Contains(analysisTest.Id));
+            //State.AnalysisTests = analysisTestBills.ToList();
 
-            var drugPrescriptionIds = bill.MedicalExamEpisodeDTO!.DrugPrescriptionDTOs!.Select(x => x.Id).ToArray();
+            var drugPrescriptionIds = bill.MedicalExamEpisode!.DrugPrescriptions!.Select(x => x.Id).ToArray();
             var drugPrescriptionBills = drugPrescriptions.Where(drugPrescription => drugPrescriptionIds.Contains(drugPrescription.Id));
             State.DrugPrescriptions = drugPrescriptionBills.ToList();
 
-            var roomAllocationIds = bill.MedicalExamEpisodeDTO!.RoomAllocationDTOs!.Select(x => x.Id).ToArray();
+            var roomAllocationIds = bill.MedicalExamEpisode!.RoomAllocations!.Select(x => x.Id).ToArray();
             var roomAllocationBills = roomAllocations.Where(roomAllocation => roomAllocationIds.Contains(roomAllocation.Id));
             State.RoomAllocations = roomAllocationBills.ToList();
 
-            var updatedMedicalExamEpisodeDTO = bill.MedicalExamEpisodeDTO with
+            var updatedMedicalExamEpisodeDTO = bill.MedicalExamEpisode with
             {
-                AnalysisTestDTOs = State.AnalysisTests,
-                DrugPrescriptionDTOs = State.DrugPrescriptions,
-                RoomAllocationDTOs = State.RoomAllocations
+                AnalysisTests = State.AnalysisTests,
+                DrugPrescriptions = State.DrugPrescriptions,
+                RoomAllocations = State.RoomAllocations
             };
 
-            var updatedBill = bill with { MedicalExamEpisodeDTO = updatedMedicalExamEpisodeDTO };
+            var updatedBill = bill with { MedicalExamEpisode = updatedMedicalExamEpisodeDTO };
 
             State.Bills.Add(updatedBill);
         }

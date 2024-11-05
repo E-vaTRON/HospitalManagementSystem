@@ -2,6 +2,7 @@
 global using HospitalManagementSystem.Application;
 global using HospitalManagementSystem.DataProvider;
 global using HospitalManagementSystem.Domain;
+global using System.Text.RegularExpressions;
 global using System.Diagnostics;
 global using System.Linq.Expressions;
 global using Microsoft.EntityFrameworkCore;

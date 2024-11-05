@@ -3,11 +3,29 @@
 public static class MedicalDeviceExtensions
 {
     #region [ Private Methods ]
+    private static MedicalDevice AddDeviceUnit(this MedicalDevice medicalDevice, MeasurementUnit measurementUnit, DeviceUnit deviceUnit)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(nameof(measurementUnit));
+        ArgumentException.ThrowIfNullOrEmpty(nameof(deviceUnit));
+
+        if (medicalDevice.DeviceUnits.Any(x => x.Id == measurementUnit.Id))
+        {
+            return medicalDevice;
+        }
+
+        deviceUnit.MedicalDeviceId = medicalDevice.Id;
+        deviceUnit.MedicalDevice = medicalDevice;
+        deviceUnit.MeasurementUnitId = measurementUnit.Id;
+        deviceUnit.MeasurementUnit = measurementUnit;
+        medicalDevice.DeviceUnits.Add(deviceUnit);
+        measurementUnit.DeviceUnits.Add(deviceUnit);
+        return medicalDevice;
+    }
+
     private static MedicalDevice AddDeviceInventory(this MedicalDevice medicalDevice, DeviceInventory deviceInventory)
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(deviceInventory));
 
-        // Assuming MedicalDeviceId and StorageId together should be unique
         if (medicalDevice.DeviceInventories.Any(x => x.MedicalDeviceId == deviceInventory.Id))
         {
             return medicalDevice;
@@ -22,6 +40,12 @@ public static class MedicalDeviceExtensions
     private static MedicalDevice AddToStorage(this MedicalDevice medicalDevice, Storage storage, DeviceInventory deviceInventory)
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(deviceInventory));
+        ArgumentException.ThrowIfNullOrEmpty(nameof(storage));
+
+        if (medicalDevice.DeviceInventories.Any(x => x.MedicalDeviceId == deviceInventory.Id))
+        {
+            return medicalDevice;
+        }
 
         deviceInventory.MedicalDeviceId = medicalDevice.Id;
         deviceInventory.MedicalDevice = medicalDevice;
@@ -47,6 +71,13 @@ public static class MedicalDeviceExtensions
     public static MedicalDevice AddDeviceInventory(this MedicalDevice medicalDevice, int currentAmount, string medicalDeviceId, string storageId)
     {
         return medicalDevice.AddDeviceInventory(DeviceInventoryFactory.Create(currentAmount, medicalDeviceId, storageId));
+    }
+
+    public static MedicalDevice RemoveRelated(this MedicalDevice medicalDevice)
+    {
+        medicalDevice.DeviceInventories.Clear();
+        medicalDevice.MedicalDeviceForms.Clear();
+        return medicalDevice;
     }
     #endregion
 }

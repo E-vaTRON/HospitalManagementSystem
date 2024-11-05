@@ -59,9 +59,13 @@ public class SQLiteDatabaseModelBuilder
         this.TreatmentModelBuilder(modelBuilder);
         //this.TreatmentExamEpisodeModelBuilder(modelBuilder);
 
-        this.DeviceServiceModelBuilder(modelBuilder);
+        this.ServiceEpisodeModelBuilder(modelBuilder);
+        this.MeasurementUnitModelBuilder(modelBuilder);
+        this.DeviceUnitModelBuilder(modelBuilder);
+        this.FormTypeModelBuilder(modelBuilder);
         this.MedicalDeviceModelBuilder(modelBuilder);
-        this.ServiceModelBuilder(modelBuilder);
+        this.MedicalDeviceFormModelBuilder(modelBuilder);
+        this.MedicalServiceModelBuilder(modelBuilder);
         this.AnalysisTestModelBuilder(modelBuilder);
 
         this.BillModelBuilder(modelBuilder);
@@ -282,9 +286,9 @@ public class SQLiteDatabaseModelBuilder
                     .HasForeignKey(ra => ra.RoomId);
 
         modelBuilder.Entity<RoomAllocation>()
-                    .HasOne(ra => ra.MedicalExamEposode)
+                    .HasOne(ra => ra.MedicalExamEpisode)
                     .WithMany(mee => mee.RoomAllocations)
-                    .HasForeignKey(ra => ra.MedicalExamEposodeId);
+                    .HasForeignKey(ra => ra.MedicalExamEpisodeId);
     }
     private void DepartmentModelBuilder(ModelBuilder modelBuilder)
     {
@@ -412,7 +416,7 @@ public class SQLiteDatabaseModelBuilder
                     .HasColumnType("INTEGER");
 
         modelBuilder.Entity<DrugPrescription>()
-                    .HasOne(dd => dd.MedicalExamEposode)
+                    .HasOne(dd => dd.MedicalExamEpisode)
                     .WithMany(mee => mee.DrugPrescriptions)
                     .HasForeignKey(dd => dd.MedicalExamEposodeId);
 
@@ -513,12 +517,12 @@ public class SQLiteDatabaseModelBuilder
                     .HasColumnType("TEXT");
 
         modelBuilder.Entity<Diagnosis>()
-                    .HasOne(t => t.Diseases)
+                    .HasOne(t => t.ICDCode)
                     .WithMany(i => i.Diagnoses)
-                    .HasForeignKey(t => t.DiseasesId);
+                    .HasForeignKey(t => t.ICDCodeId);
 
         modelBuilder.Entity<Diagnosis>()
-                    .HasOne(t => t.MedicalExamEposode)
+                    .HasOne(t => t.MedicalExamEpisode)
                     .WithMany(i => i.Diagnoses)
                     .HasForeignKey(t => t.MedicalExamEpisodeId);
     }
@@ -573,6 +577,10 @@ public class SQLiteDatabaseModelBuilder
                     .IsRequired(true);
 
         modelBuilder.Entity<ICDCode>()
+                    .Property(x => x.Condition)
+                    .HasColumnType("TEXT");
+
+        modelBuilder.Entity<ICDCode>()
                     .HasOne(ic => ic.Diseases)
                     .WithMany(d => d.ICDCodes)
                     .HasForeignKey(ic => ic.DiseasesId);
@@ -622,10 +630,6 @@ public class SQLiteDatabaseModelBuilder
                     .Property(x => x.DateTakeExam)
                     .HasColumnType("TEXT")
                     .IsRequired(true);
-
-        modelBuilder.Entity<MedicalExamEpisode>()
-                    .Property(x => x.DateReExam)
-                    .HasColumnType("TEXT");
 
         modelBuilder.Entity<MedicalExamEpisode>()
                     .Property(x => x.LineNumber)
@@ -687,22 +691,76 @@ public class SQLiteDatabaseModelBuilder
     #endregion
 
     #region [ Medical Device ]
-    private void DeviceServiceModelBuilder(ModelBuilder modelBuilder)
+    private void ServiceEpisodeModelBuilder(ModelBuilder modelBuilder)
     {
-        this.BaseModelBuilder<DeviceService>(modelBuilder, nameof(DeviceService));
+        this.BaseModelBuilder<ServiceEpisode>(modelBuilder, nameof(ServiceEpisode));
 
-        modelBuilder.Entity<DeviceService>()
-                    .HasOne(ds => ds.DeviceInventory)
-                    .WithMany(di => di.DeviceServices)
-                    .HasForeignKey(ds => ds.DeviceInventoryId)
+        modelBuilder.Entity<ServiceEpisode>()
+                    .HasOne(ds => ds.MedicalExamEpisode)
+                    .WithMany(di => di.ServiceEpisodes)
+                    .HasForeignKey(ds => ds.MedicalExamEpisodeId)
                     .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<DeviceService>()
-                    .HasOne(ds => ds.Service)
-                    .WithMany(s => s.DeviceServices)
-                    .HasForeignKey(ds => ds.ServiceId)
+        modelBuilder.Entity<ServiceEpisode>()
+                    .HasOne(ds => ds.MedicalService)
+                    .WithMany(s => s.ServiceEpisodes)
+                    .HasForeignKey(ds => ds.MedicalServiceId)
                     .OnDelete(DeleteBehavior.Cascade);
     }
+
+    private void MeasurementUnitModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<MeasurementUnit>(modelBuilder, nameof(MeasurementUnit));
+
+        modelBuilder.Entity<MeasurementUnit>()
+                    .Property(x => x.Name)
+                    .HasColumnType("TEXT")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<MeasurementUnit>()
+                    .Property(x => x.Symbol)
+                    .HasColumnType("TEXT")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
+    }
+
+    private void DeviceUnitModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<DeviceUnit>(modelBuilder, nameof(DeviceUnit));
+
+        modelBuilder.Entity<DeviceUnit>()
+                    .HasOne(du => du.MedicalDevice)
+                    .WithMany(mee => mee.DeviceUnits)
+                    .HasForeignKey(du => du.MedicalDeviceId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<DeviceUnit>()
+                    .HasOne(du => du.MeasurementUnit)
+                    .WithMany(s => s.DeviceUnits)
+                    .HasForeignKey(du => du.MeasurementUnitId)
+                    .OnDelete(DeleteBehavior.Cascade);
+    }
+    private void FormTypeModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<FormType>(modelBuilder, nameof(FormType));
+
+        modelBuilder.Entity<FormType>()
+                    .Property(x => x.Name)
+                    .HasColumnType("TEXT")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
+                    .IsRequired(true);
+
+        modelBuilder.Entity<FormType>()
+                    .Property(x => x.Description)
+                    .HasColumnType("TEXT")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<FormType>()
+                    .Property(x => x.DocumentPath)
+                    .HasColumnType("TEXT")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
+    }
+
     private void MedicalDeviceModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<MedicalDevice>(modelBuilder, nameof(MedicalDevice));
@@ -736,40 +794,51 @@ public class SQLiteDatabaseModelBuilder
                     .Property(x => x.Max)
                     .HasColumnType("INTEGER");
     }
-    private void ServiceModelBuilder(ModelBuilder modelBuilder)
-    {
-        this.BaseModelBuilder<Service>(modelBuilder, nameof(Service));
 
-        modelBuilder.Entity<Service>()
+    private void MedicalDeviceFormModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<MedicalDeviceForm>(modelBuilder, nameof(MedicalDeviceForm));
+
+        modelBuilder.Entity<MedicalDeviceForm>()
+                    .HasOne(mdf => mdf.MedicalDevice)
+                    .WithMany(md => md.MedicalDeviceForms)
+                    .HasForeignKey(mdf => mdf.MedicalDeviceId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<MedicalDeviceForm>()
+                    .HasOne(mdf => mdf.FormType)
+                    .WithMany(ft => ft.MedicalDeviceForms)
+                    .HasForeignKey(mdf => mdf.FormTypeId)
+                    .OnDelete(DeleteBehavior.Cascade);
+    }
+    private void MedicalServiceModelBuilder(ModelBuilder modelBuilder)
+    {
+        this.BaseModelBuilder<MedicalService>(modelBuilder, nameof(MedicalService));
+
+        modelBuilder.Entity<MedicalService>()
                     .Property(x => x.Name)
                     .HasColumnType("TEXT")
                     .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
                     .IsRequired(true);
 
-        modelBuilder.Entity<Service>()
+        modelBuilder.Entity<MedicalService>()
                     .Property(x => x.Type)
                     .HasColumnType("TEXT")
                     .HasConversion(new EnumToStringConverter<ServiceType>())
                     .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
                     .IsRequired(true);
 
-        modelBuilder.Entity<Service>()
+        modelBuilder.Entity<MedicalService>()
                     .Property(x => x.UnitPrice)
                     .HasColumnType("INTEGER");
 
-        modelBuilder.Entity<Service>()
+        modelBuilder.Entity<MedicalService>()
                     .Property(x => x.ServicePrice)
                     .HasColumnType("INTEGER");
 
-        modelBuilder.Entity<Service>()
+        modelBuilder.Entity<MedicalService>()
                     .Property(x => x.HealthInsurancePrice)
                     .HasColumnType("INTEGER");
-
-        modelBuilder.Entity<Service>()
-                    .Property(x => x.ResultFromType)
-                    .HasColumnType("TEXT")
-                    .HasConversion(new EnumToStringConverter<FormTypes>())
-                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH);
     }
     private void AnalysisTestModelBuilder(ModelBuilder modelBuilder)
     {
@@ -786,9 +855,9 @@ public class SQLiteDatabaseModelBuilder
                     .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<AnalysisTest>()
-                    .HasOne(at => at.DeviceService)
+                    .HasOne(at => at.DeviceInventory)
                     .WithMany(ds => ds.AnalysisTests)
-                    .HasForeignKey(at => at.DeviceServiceId)
+                    .HasForeignKey(at => at.DeviceInventoryId)
                     .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<AnalysisTest>()
