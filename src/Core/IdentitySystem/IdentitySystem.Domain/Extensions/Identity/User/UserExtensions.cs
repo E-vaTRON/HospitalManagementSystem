@@ -3,7 +3,7 @@
 public static class UserExtensions
 {
     #region [ Private Methods ]
-    private static User AddUserRole(this User user, UserRole userRole)
+    private static User AddUserRole(this User user, Role role, UserRole userRole)
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(userRole));
 
@@ -13,7 +13,8 @@ public static class UserExtensions
         }
 
         userRole.UserId = user.Id;
-        userRole.User = user;
+        userRole.RoleId = role.Id;
+        role.UserRoles.Add(userRole);
         user.UserRoles.Add(userRole);
         return user;
     }
@@ -28,7 +29,6 @@ public static class UserExtensions
         }
 
         userToken.UserId = user.Id;
-        userToken.User = user;
         user.UserTokens.Add(userToken);
         return user;
     }
@@ -43,7 +43,6 @@ public static class UserExtensions
         }
 
         userClaim.UserId = user.Id;
-        userClaim.User = user;
         user.UserClaims.Add(userClaim);
         return user;
     }
@@ -59,12 +58,11 @@ public static class UserExtensions
         }
 
         userLogin.UserId = user.Id;
-        userLogin.User = user;
         user.UserLogins.Add(userLogin);
         return user;
     }
 
-    private static User AddUserSpecialization(this User user, UserSpecialization userSpecialization)
+    private static User AddUserSpecialization(this User user, Specialization specialization, UserSpecialization userSpecialization)
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(userSpecialization));
 
@@ -74,74 +72,42 @@ public static class UserExtensions
         }
 
         userSpecialization.UserId = user.Id;
-        userSpecialization.User = user;
+        userSpecialization.SpecializationId = specialization.Id;
+        specialization.UserSpecializations.Add(userSpecialization);
         user.UserSpecializations.Add(userSpecialization);
         return user;
     }
     #endregion
 
     #region [ Public Methods ]
-    public static User AddUserRole(this User user)
+    public static User AddUserRole(this User user, Role role)
     {
-        var newUserRole = UserRoleFactory.Create();
-        return user;
-    }
-
-    public static User AddUserRole(this User user, string userId, string roleId)
-    {
-        var newUserRole = UserRoleFactory.Create(userId, roleId);
-        return user;
-    }
-
-    public static User AddUserToken(this User user)
-    {
-        var newUserToken = UserTokenFactory.Create();
-        return user;
+        return user.AddUserRole(role, UserRoleFactory.Create());
     }
 
     public static User AddUserToken(this User user, string loginProvider, string name, string value)
     {
-        var newUserToken = UserTokenFactory.Create(loginProvider, name, value, user.Id.ToString());
-        return user;
+        return user.AddUserToken(UserTokenFactory.Create(loginProvider, name, value));
     }
 
-    public static User AddUserClaim(this User user)
+    public static User AddUserClaim(this User user, int id, string claimType, string claimValue)
     {
-        var newUserClaim = UserClaimFactory.Create();
-        return user;
-    }
-
-    public static User AddUserClaim(this User user, string claimType, string claimValue)
-    {
-        var newUserClaim = UserClaimFactory.Create(user.Id.ToString(), claimType, claimValue);
-        return user;
+        return user.AddUserClaim(UserClaimFactory.Create(id, claimType, claimValue));
     }
 
     public static User AddUserLogin(this User user)
     {
-        var newUserLogin = UserLoginFactory.Create();
-        return user;
+        return user.AddUserLogin(UserLoginFactory.Create());
     }
 
-    public static User AddUserLogin(this User user, string loginProvider, string providerKey, string providerDisplayName)
+    public static User AddUserLogin(this User user, string loginProvider, string providerDisplayName)
     {
-        var newUserLogin = UserLoginFactory.Create(loginProvider, providerKey, providerDisplayName, user.Id.ToString());
-        return user;
+        return user.AddUserLogin(UserLoginFactory.Create(loginProvider, loginProvider + user.Id + user.UserName, providerDisplayName));
     }
 
-    public static User AddUserSpecialization(this User user)
+    public static User AddUserSpecialization(this User user, Specialization specialization)
     {
-        var newUserSpecialization = UserSpecializationFactory.Create();
-        return user;
+        return user.AddUserSpecialization(specialization, UserSpecializationFactory.Create());
     }
-
-    public static User AddUserSpecialization(this User user, string specializationId)
-    {
-        var newUserSpecialization = UserSpecializationFactory.Create(user.Id.ToString(), specializationId);
-        return user;
-    }
-
-    
-
     #endregion
 }

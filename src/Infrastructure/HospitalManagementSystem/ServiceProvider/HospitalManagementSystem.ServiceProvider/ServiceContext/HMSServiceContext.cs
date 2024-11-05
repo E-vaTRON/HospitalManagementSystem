@@ -1,4 +1,6 @@
-﻿namespace HospitalManagementSystem.ServiceProvider;
+﻿using HospitalManagementSystem.Application;
+
+namespace HospitalManagementSystem.ServiceProvider;
 
 public class HMSServiceContext
 {
@@ -33,9 +35,13 @@ public class HMSServiceContext
         ITreatmentServiceProvider treatmentServiceProvider,
 
         IAnalysisTestServiceProvider analysisTestServiceProvider,
+        IMeasurementUnitServiceProvider measurementUnitServiceProvider,
+        IFormTypeServiceProvider formTypeServiceProvider,
         IMedicalDeviceServiceProvider medicalDeviceServiceProvider,
-        IServiceServiceProvider serviceServiceProvider,
-        IDeviceServiceServiceProvider deviceServiceServiceProvider,
+        IDeviceUnitServiceProvider deviceUnitServiceProvider,
+        IMedicalDeviceFormServiceProvider medicalDeviceFormServiceProvider,
+        IMedicalServiceServicesProvider medicalServiceServiceProvider,
+        IServiceEpisodeServiceProvider serviceEpisodeServiceProvider,
 
         IBillServiceProvider billServiceProvider)
     {
@@ -68,9 +74,13 @@ public class HMSServiceContext
         Treatments = treatmentServiceProvider;
 
         AnalysisTests = analysisTestServiceProvider;
+        MeasurementUnits = measurementUnitServiceProvider;
+        FormTypes = formTypeServiceProvider;
         MedicalDevices = medicalDeviceServiceProvider;
-        Services = serviceServiceProvider;
-        DeviceServices = deviceServiceServiceProvider;
+        DeviceUnits = deviceUnitServiceProvider;
+        MedicalDeviceForms = medicalDeviceFormServiceProvider;
+        MedicalServices = medicalServiceServiceProvider;
+        ServiceEpisodes = serviceEpisodeServiceProvider;
 
         Bills = billServiceProvider;
     }
@@ -114,10 +124,14 @@ public class HMSServiceContext
     #endregion
 
     #region [ MedicalDevice ]
-    public IAnalysisTestServiceProvider    AnalysisTests   { get; set; }
-    public IDeviceServiceServiceProvider   DeviceServices  { get; set; }
-    public IMedicalDeviceServiceProvider   MedicalDevices  { get; set; }
-    public IServiceServiceProvider         Services        { get; set; }
+    public IAnalysisTestServiceProvider         AnalysisTests       { get; set; }
+    public IMeasurementUnitServiceProvider      MeasurementUnits    { get; set; }
+    public IFormTypeServiceProvider             FormTypes           { get; set; }
+    public IServiceEpisodeServiceProvider       ServiceEpisodes     { get; set; }
+    public IMedicalDeviceFormServiceProvider    MedicalDeviceForms  { get; set; }
+    public IDeviceUnitServiceProvider           DeviceUnits         { get; set; }
+    public IMedicalDeviceServiceProvider        MedicalDevices      { get; set; }
+    public IMedicalServiceServicesProvider      MedicalServices     { get; set; }
     #endregion
 
     #region [ Transaction ]

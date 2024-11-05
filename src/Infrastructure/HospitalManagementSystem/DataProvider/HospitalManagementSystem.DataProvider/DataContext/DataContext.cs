@@ -1,4 +1,5 @@
-﻿using HospitalManagementSystem.Domain;
+﻿using HospitalManagementSystem.Application;
+using HospitalManagementSystem.Domain;
 
 namespace HospitalManagementSystem.DataProvider;
 
@@ -35,11 +36,15 @@ public class DataContext
         ITreatmentDataProvider treatmentDataProvider,
 
         IAnalysisTestDataProvider analysisTestDataProvider,
+        IMeasurementUnitDataProvider measurementUnitDataProvider,
+        IFormTypeDataProvider formTypeDataProvider,
         IMedicalDeviceDataProvider medicalDeviceDataProvider,
-        IServiceDataProvider serviceDataProvider,
-        IDeviceServiceDataProvider deviceServiceDataProvider,
+        IDeviceUnitDataProvider deviceUnitDataProvider,
+        IMedicalDeviceFormDataProvider medicalDeviceFormDataProvider,
+        IMedicalServiceDataProvider medicalServiceDataProvider,
+        IServiceEpisodeDataProvider serviceEpisodeDataProvider,
 
-        IBillServiceProvider billDataProvider)
+        IBillDataProvider billDataProvider)
     {
         BookingAppointments = bookingAppointmentDataProvider;
         ReExamAppointments = reExamAppointmentDataProvider;
@@ -63,16 +68,20 @@ public class DataContext
         DiagnosisTreatments = diagnosisTreatmentDataProvider;
         Diseases = diseasesDataProvider;
         ICDCodes = iCDCodeDataProvider;
-        ICDCodeVersion = iCDCodeVersionDataProvider;
-        ICDVersion = iCDVersionDataProvider;
+        ICDCodeVersions = iCDCodeVersionDataProvider;
+        ICDVersions = iCDVersionDataProvider;
         MedicalExams = medicalExamDataProvider;
         MedicalExamEpisodes = medicalExamEpisodeDataProvider;
         Treatments = treatmentDataProvider;
 
         AnalysisTests = analysisTestDataProvider;
+        MeasurementUnits = measurementUnitDataProvider;
+        FormTypes = formTypeDataProvider;
         MedicalDevices = medicalDeviceDataProvider;
-        Services = serviceDataProvider;
-        DeviceServices = deviceServiceDataProvider;
+        DeviceUnits = deviceUnitDataProvider;
+        MedicalDeviceForms = medicalDeviceFormDataProvider;
+        MedicalServices = medicalServiceDataProvider;
+        ServiceEpisodes = serviceEpisodeDataProvider;
 
         Bills = billDataProvider;
     }
@@ -108,22 +117,26 @@ public class DataContext
     public IDiagnosisTreatmentDataProvider      DiagnosisTreatments     { get; set; }
     public IDiseasesDataProvider                Diseases                { get; set; }
     public IICDCodeDataProvider                 ICDCodes                { get; set; }
-    public IICDVersionDataProvider              ICDVersion              { get; set; }
-    public IICDCodeVersionDataProvider          ICDCodeVersion          { get; set; }
+    public IICDVersionDataProvider              ICDVersions             { get; set; }
+    public IICDCodeVersionDataProvider          ICDCodeVersions         { get; set; }
     public ITreatmentDataProvider               Treatments              { get; set; }
     public IMedicalExamDataProvider             MedicalExams            { get; set; }
     public IMedicalExamEpisodeDataProvider      MedicalExamEpisodes     { get; set; }
     #endregion
 
     #region [ MedicalDevice ]
-    public IAnalysisTestDataProvider    AnalysisTests   { get; set; }
-    public IDeviceServiceDataProvider   DeviceServices  { get; set; }
-    public IMedicalDeviceDataProvider   MedicalDevices  { get; set; }
-    public IServiceDataProvider         Services        { get; set; }
+    public IAnalysisTestDataProvider        AnalysisTests       { get; set; }
+    public IMeasurementUnitDataProvider     MeasurementUnits    { get; set; }
+    public IFormTypeDataProvider            FormTypes           { get; set; }
+    public IServiceEpisodeDataProvider      ServiceEpisodes     { get; set; }
+    public IMedicalDeviceFormDataProvider   MedicalDeviceForms  { get; set; }
+    public IDeviceUnitDataProvider          DeviceUnits         { get; set; }
+    public IMedicalDeviceDataProvider       MedicalDevices      { get; set; }
+    public IMedicalServiceDataProvider      MedicalServices     { get; set; }
     #endregion
 
     #region [ Transaction ]
-    public IBillServiceProvider Bills { get; set; }
+    public IBillDataProvider Bills { get; set; }
     #endregion
     #endregion
 }

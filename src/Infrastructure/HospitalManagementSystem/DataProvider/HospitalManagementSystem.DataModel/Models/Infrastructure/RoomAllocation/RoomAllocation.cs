@@ -10,6 +10,6 @@ public class RoomAllocation : ModelBase
 
     public Guid?                RoomId                  { get; set; }
     public Room                 Room                    { get; set; } = default!;
-    public Guid?                MedicalExamEposodeId    { get; set; }
-    public MedicalExamEpisode   MedicalExamEposode      { get; set; } = default!;
+    public Guid?                MedicalExamEpisodeId    { get; set; }
+    public MedicalExamEpisode   MedicalExamEpisode      { get; set; } = default!;
 }

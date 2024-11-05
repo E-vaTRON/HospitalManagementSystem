@@ -2,7 +2,7 @@
 
 public class ScheduleDay : ModelBase
 {
-    public DayOfWeek    WorkingDay  { get; set; } // DateTime
+    public DateTime     WorkingDay  { get; set; } 
     public bool         IsFlexible  { get; set; } // cho phép thời gian linh động
 
     public Guid?    UserId  { get; set; }

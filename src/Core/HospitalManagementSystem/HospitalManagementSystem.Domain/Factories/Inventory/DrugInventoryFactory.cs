@@ -7,29 +7,24 @@ public static class DrugInventoryFactory
         return new DrugInventory();
     }
 
-    public static DrugInventory Create(int currentAmount, string goodInformation, DateTime expiryDate, int orinaryAmount, string importationId, string drugId, string storageId)
+    public static DrugInventory Create(int currentAmount, string goodInformation, DateTime expiryDate, int orinaryAmount)
     {
         return new DrugInventory()
         {
             CurrentAmount = currentAmount,
-            StorageId = storageId,
             GoodInformation = goodInformation,
             ExpiryDate = expiryDate,
-            OrinaryAmount = orinaryAmount,
-            ImportationId = importationId,
-            DrugId = drugId
+            OrinaryAmount = orinaryAmount
         };
     }
 
-    public static DrugInventory Create(string goodInformation, DateTime expiryDate, int orinaryAmount, string importationId, string drugId)
+    public static DrugInventory Create(string goodInformation, DateTime expiryDate, int orinaryAmount)
     {
         return new DrugInventory()
         {
             GoodInformation = goodInformation,
             ExpiryDate = expiryDate,
-            OrinaryAmount = orinaryAmount,
-            ImportationId = importationId,
-            DrugId = drugId
+            OrinaryAmount = orinaryAmount
         };
     }
 }

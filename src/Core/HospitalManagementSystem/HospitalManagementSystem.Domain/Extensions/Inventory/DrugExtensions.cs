@@ -17,6 +17,22 @@ public static class DrugExtensions
         drug.DrugInventories.Add(drugInventory);
         return drug;
     }
+
+    private static Drug AddToStorage(this Drug drug, Storage storage, Importation importation, DrugInventory drugInventory)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(nameof(drugInventory));
+
+        drugInventory.DrugId = drug.Id; 
+        drugInventory.Drug = drug;
+        drugInventory.StorageId = storage.Id;
+        drugInventory.Storage = storage;
+        drugInventory.ImportationId = importation.Id;
+        drugInventory.Importation = importation;
+        importation.DrugInventories.Add(drugInventory);
+        drug.DrugInventories.Add(drugInventory);
+        storage.DrugInventories.Add(drugInventory);
+        return drug;
+    }
     #endregion
 
     #region [ Public Methods ]
@@ -25,14 +41,30 @@ public static class DrugExtensions
         return drug.AddDrugInventory(DrugInventoryFactory.Create());
     }
 
-    public static Drug AddDrugInventory(this Drug drug, string goodInformation, DateTime expiryDate, int orinaryAmount, string importationId, string drugId)
+    public static Drug AddToStorage(this Drug drug, Storage storage, Importation importation)
     {
-        return drug.AddDrugInventory(DrugInventoryFactory.Create(goodInformation, expiryDate, orinaryAmount, importationId, drugId));
+        return drug.AddToStorage(storage, importation, DrugInventoryFactory.Create());
     }
 
-    public static Drug AddDrugInventory(this Drug drug, int currentAmount, string goodInformation, DateTime expiryDate, int orinaryAmount, string importationId, string drugId, string storageId)
+    public static Drug AddDrugInventory(this Drug drug, string goodInformation, DateTime expiryDate, int orinaryAmount)
     {
-        return drug.AddDrugInventory(DrugInventoryFactory.Create(currentAmount, goodInformation, expiryDate, orinaryAmount, importationId, drugId, storageId));
+        return drug.AddDrugInventory(DrugInventoryFactory.Create(goodInformation, expiryDate, orinaryAmount));
+    }
+
+    public static Drug AddToStorage(this Drug drug, Storage storage, Importation importation, string goodInformation, DateTime expiryDate, int orinaryAmount)
+    {
+        return drug.AddToStorage(storage, importation, DrugInventoryFactory.Create(goodInformation, expiryDate, orinaryAmount));
+    }
+
+    public static Drug AddDrugInventory(this Drug drug, int currentAmount, string goodInformation, DateTime expiryDate, int orinaryAmount)
+    {
+        return drug.AddDrugInventory(DrugInventoryFactory.Create(currentAmount, goodInformation, expiryDate, orinaryAmount));
+    }
+
+    public static Drug RemoveRelated(this Drug drug)
+    {
+        drug.DrugInventories.Clear();
+        return drug;
     }
     #endregion
 }

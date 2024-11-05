@@ -36,7 +36,7 @@ public partial class AddServiceDialog : IDialogContentComponent<ServiceWithValid
     {
         string pattern = @"^[A-Za-z]+(?:\s+[A-Za-z]+)*$";
         bool regexValid = Regex.IsMatch(Content.Name ?? "", pattern);
-        var duplicateName = await HMSContext.Services.FindAllAsync(x => !x.IsDeleted);
+        var duplicateName = await HMSContext.MedicalServices.FindAllWithPredicateAsync(x => !x.IsDeleted);
         bool isDuplicate = duplicateName.ToList().Any(s => s.Name == Content.Name);
         if (regexValid && !isDuplicate)
             Content.IsServiceNameValid = true;

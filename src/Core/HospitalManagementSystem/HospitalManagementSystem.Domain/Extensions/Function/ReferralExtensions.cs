@@ -29,5 +29,12 @@ public static class ReferralExtensions
     {
         return referral.AddReferralDoctor(ReferralDoctorFactory.Create(assignmentStatus, doctorId, medicalExamEpisodeId));
     }
+
+    public static Referral RemoveRelated(this Referral referral)
+    {
+        referral.MedicalExam = null!;
+        referral.ReferralDoctors.Clear();
+        return referral;
+    }
     #endregion
 }

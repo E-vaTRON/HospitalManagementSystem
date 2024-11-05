@@ -7,14 +7,13 @@ public class UserLoginFactory
         return new UserLogin();
     }
 
-    public static UserLogin Create(string loginProvider, string providerKey, string providerDisplayName, string userId)
+    public static UserLogin Create(string loginProvider, string providerKey, string providerDisplayName)
     {
         return new UserLogin()
         {
             LoginProvider = loginProvider,
             ProviderKey = providerKey,
             ProviderDisplayName = providerDisplayName,
-            UserId = userId
         };
     }
 }

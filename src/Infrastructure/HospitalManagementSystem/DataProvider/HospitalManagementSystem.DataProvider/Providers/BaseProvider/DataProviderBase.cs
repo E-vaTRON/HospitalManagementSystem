@@ -1,4 +1,6 @@
-﻿namespace HospitalManagementSystem.DataProvider;
+﻿using AutoMapper.Internal;
+
+namespace HospitalManagementSystem.DataProvider;
 
 public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProviderBase<TEntity, TEId>
     where TEntity : class, IEntity<TEId>
@@ -28,7 +30,7 @@ public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProvi
         => Mapper.Map<TMId>(id);
 
     protected virtual TMId[] ParseIds(TEId[] id)
-    => Mapper.Map<TMId[]>(id);
+        => Mapper.Map<TMId[]>(id);
 
     [DebuggerStepThrough]
     protected virtual TModel? MapToDataModel(TEntity? entity)
@@ -41,12 +43,13 @@ public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProvi
     [DebuggerStepThrough]
     protected virtual IEnumerable<TModel> MapToDbEntities(IEnumerable<TEntity?> entities)
         => Mapper.Map<IEnumerable<TModel>>(entities);
+
+    [DebuggerStepThrough]
+    protected virtual IEnumerable<TEntity> MapToEntities(IEnumerable<TModel?> dbEntities)
+        => Mapper.Map<IEnumerable<TEntity>>(dbEntities);
     #endregion
 
-    protected virtual Task<IQueryable<TEntity>> GetQueryableAsync(CancellationToken cancellationToken = default)
-        => GetQueryableAsync(false, cancellationToken);
-
-    protected virtual Task<IQueryable<TEntity>> GetQueryableAsync(bool asNoTracking = false, CancellationToken cancellationToken = default)
+    protected virtual Task<IQueryable<TEntity>> GetQueryableAsync(bool asNoTracking = true, CancellationToken cancellationToken = default)
     {
         var query = DbSet.AsQueryable();
         if (asNoTracking)
@@ -68,10 +71,16 @@ public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProvi
     #endregion
 
     #region [ Public - Method ]
-    public virtual async Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default)
+    public virtual async Task<IEnumerable<TEntity>> FindAllWithPredicateAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default)
     {
         var query = await GetQueryableAsync(false, cancellationToken);
         return await query.WhereIf(predicate != null, predicate!).ToListAsync(cancellationToken);
+    }
+
+    public virtual async Task<IEnumerable<TEntity>> FindAllAsync(CancellationToken cancellationToken = default)
+    {
+        var dbEntities = await DbSet.ToListAsync(cancellationToken);
+        return MapToEntities(dbEntities);
     }
 
     public virtual async Task<TEntity?> FindByIdAsync(TEId id, CancellationToken cancellationToken = default, bool isQuickFind = true)

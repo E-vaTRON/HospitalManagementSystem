@@ -2,12 +2,14 @@
 
 public record OutputMedicalExamEpisodeDTO : MedicalExamEpisodeDTO
 {
-    public OutputMedicalExamDTO?          MedicalExamDTO          { get; init; }
-    public OutputReExamAppointmentDTO?    ReExamAppointmentDTO    { get; init; }
+    public OutputMedicalExamDTO?          MedicalExam          { get; init; }
+    public OutputReExamAppointmentDTO?    ReExamAppointment    { get; init; }
+    public OutputBillDTO?                 Bill                  { get; init; }
 
-    public ICollection<OutputAssignmentHistoryDTO>?   AssignmentHistoryDTOs   { get; init; }
-    public ICollection<OutputDiagnosisDTO>?           DiagnosisDTOs           { get; init; }
-    public ICollection<OutputRoomAllocationDTO>?      RoomAllocationDTOs      { get; init; }
-    public ICollection<OutputDrugPrescriptionDTO>?    DrugPrescriptionDTOs    { get; init; }
-    public ICollection<OutputAnalysisTestDTO>?        AnalysisTestDTOs        { get; init; }
+    public ICollection<OutputAssignmentHistoryDTO>?     AssignmentHistories { get; init; }
+    public ICollection<OutputDiagnosisDTO>?             Diagnoses           { get; init; }
+    public ICollection<OutputRoomAllocationDTO>?        RoomAllocations     { get; init; }
+    public ICollection<OutputDrugPrescriptionDTO>?      DrugPrescriptions   { get; init; }
+    public ICollection<OutputAnalysisTestDTO>?          AnalysisTests       { get; init; }
+    public ICollection<OutputServiceEpisodeDTO>?        ServiceEpisodes     { get; init; }
 }

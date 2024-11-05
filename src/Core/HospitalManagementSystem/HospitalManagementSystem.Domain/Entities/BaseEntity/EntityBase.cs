@@ -10,7 +10,7 @@ public class EntityBase : Entity<string> , IHasCreatedOn , IHasLastUpdatedOn, IH
 
     public EntityBase()
     {
-        Id = string.Empty;
+        Id = Guid.NewGuid().ToString();
         IsDeleted = false;
     }
 }

@@ -79,10 +79,12 @@ public abstract class DataProviderTestBase
             config.CreateMap<Domain.Treatment,              DataProvider.Treatment>().ReverseMap();
             config.CreateMap<Domain.TreatmentExamEpisode,   DataProvider.TreatmentExamEpisode>().ReverseMap();
 
-            config.CreateMap<Domain.DeviceService,  DataProvider.DeviceService>().ReverseMap();
+            config.CreateMap<Domain.ServiceEpisode, DataProvider.ServiceEpisode>().ReverseMap();
             config.CreateMap<Domain.MedicalDevice,  DataProvider.MedicalDevice>().ReverseMap();
-            config.CreateMap<Domain.Service,        DataProvider.Service>().ReverseMap();
+            config.CreateMap<Domain.MedicalService, DataProvider.MedicalService>().ReverseMap();
             config.CreateMap<Domain.AnalysisTest,   DataProvider.AnalysisTest>().ReverseMap();
+
+            config.CreateMap<Domain.Bill, DataProvider.Bill>().ReverseMap();
         });
         Mapper = new Mapper(configuration);
     }

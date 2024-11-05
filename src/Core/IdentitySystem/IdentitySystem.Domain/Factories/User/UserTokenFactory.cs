@@ -7,14 +7,13 @@ public class UserTokenFactory
         return new UserToken();
     }
 
-    public static UserToken Create(string loginProvider, string name, string value, string userId)
+    public static UserToken Create(string loginProvider, string name, string value)
     {
         return new UserToken()
         {
             LoginProvider = loginProvider,
             Name = name,
             Value = value,
-            UserId = userId
         };
     }
 }

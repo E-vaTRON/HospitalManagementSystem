@@ -5,8 +5,8 @@ public class AnalysisTest : ModelBase
     public string?  DoctorComment       { get; set; }
     public string?  Result              { get; set; }
 
-    public Guid?                DeviceServiceId         { get; set; }
-    public DeviceService        DeviceService           { get; set; } = default!;
+    public Guid?                DeviceInventoryId       { get; set; }
+    public DeviceInventory      DeviceInventory         { get; set; } = default!;
     public Guid?                MedicalExamEpisodeId    { get; set; }
     public MedicalExamEpisode   MedicalExamEpisode      { get; set; } = default!;
 

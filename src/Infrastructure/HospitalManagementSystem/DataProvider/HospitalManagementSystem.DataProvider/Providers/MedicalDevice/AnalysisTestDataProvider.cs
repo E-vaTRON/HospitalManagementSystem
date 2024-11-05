@@ -12,44 +12,43 @@ public class AnalysisTestDataProvider : DataProviderBase<CoreAnalysisTest, DataA
     #endregion
 
     #region [ Internal Methods ]
-    protected virtual async Task<IEnumerable<CoreAnalysisTest>> InternalGetAllIncludeServiceAsync(Expression<Func<CoreAnalysisTest, bool>>? predicate = null, CancellationToken cancellationToken = default)
+    protected virtual async Task<IEnumerable<CoreAnalysisTest>> InternalGetAllIncludeDeviceAsync(Expression<Func<CoreAnalysisTest, bool>>? predicate = null, CancellationToken cancellationToken = default)
     {
         var query = await GetQueryableAsync(false, cancellationToken);
 
-        return await query.Include(x => x.DeviceService.Service)
-                          .WhereIf(predicate != null, predicate!)
+        return await query.Include(x => x.DeviceInventory)
                           .ToListAsync(cancellationToken);
     }
 
-    protected virtual async Task<IEnumerable<CoreAnalysisTest>> InternalFindByIdIncludeServiceAsync(string[] id, CancellationToken cancellationToken = default)
+    protected virtual async Task<IEnumerable<CoreAnalysisTest>> InternalFindByIdIncludeDeviceAsync(string[] id, CancellationToken cancellationToken = default)
     {
         var mId = ParseIds(id!);
         var query = await GetQueryableAsync(false, cancellationToken);
 
-        return await query.Include(x => x.DeviceService.Service)
+        return await query.Include(x => x.DeviceInventory)
                           .WhereIf(id != null, service => id!.Contains(service.Id))
                           .ToListAsync(cancellationToken);
     }
     #endregion
 
     #region [ Public - Methods ]
-    public async Task<IList<CoreAnalysisTest>> GetAllIncludeServiceAsync()
+    public async Task<IList<CoreAnalysisTest>> GetAllIncludeDeviceAsync()
     {
-        var analysisTests = await InternalGetAllIncludeServiceAsync();
+        var analysisTests = await InternalGetAllIncludeDeviceAsync();
         ArgumentNullException.ThrowIfNull(analysisTests, nameof(analysisTests));
         return analysisTests.ToList();
     }
 
-    public async Task<IList<CoreAnalysisTest>> GetMultipleByIdIncludeServiceAsync(string[] ids, CancellationToken cancellationToken = default)
+    public async Task<IList<CoreAnalysisTest>> GetMultipleByIdIncludeDeviceAsync(string[] ids, CancellationToken cancellationToken = default)
     {
-        var analysisTests = await InternalFindByIdIncludeServiceAsync(ids);
+        var analysisTests = await InternalFindByIdIncludeDeviceAsync(ids);
         ArgumentNullException.ThrowIfNull(analysisTests, nameof(analysisTests));
         return analysisTests.ToList();
     }
 
-    public async Task<CoreAnalysisTest> GetByIdIncludeServiceAsync(string id, CancellationToken cancellationToken = default)
+    public async Task<CoreAnalysisTest> GetByIdIncludeDeviceAsync(string id, CancellationToken cancellationToken = default)
     {
-        var analysisTests = await InternalFindByIdIncludeServiceAsync(new string[] { id });
+        var analysisTests = await InternalFindByIdIncludeDeviceAsync(new string[] { id });
         ArgumentNullException.ThrowIfNull(analysisTests, nameof(analysisTests));
         return analysisTests.First();
     }

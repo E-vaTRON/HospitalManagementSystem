@@ -2,6 +2,6 @@
 
 public record OutputDiseasesDTO : DiseasesDTO
 {
-    public ICollection<OutputDiagnosisDTO>?   DiagnosisDTOs   { get; init; }
-    public ICollection<OutputICDCodeDTO>?     ICDCodesDTOs    { get; init; }
+    public ICollection<OutputDiagnosisDTO>?   Diagnosis   { get; init; }
+    public ICollection<OutputICDCodeDTO>?     ICDCodes    { get; init; }
 }

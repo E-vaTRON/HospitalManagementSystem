@@ -18,6 +18,26 @@ public static class MedicalExamExtensions
         return medicalExam;
     }
 
+    private static MedicalExam AddMedicalExamEpisode(this MedicalExam medicalExam, MedicalExamEpisode medicalExamEpisode, ReExamAppointment reExamAppointment)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(nameof(medicalExamEpisode));
+
+        if (medicalExam.MedicalExamEpisodes.Any(x => x.Id == medicalExamEpisode.Id))
+        {
+            return medicalExam;
+        }
+
+        if (medicalExamEpisode.ReExamAppointment is not null && reExamAppointment is not null)
+        {
+            reExamAppointment.MedicalExamEpisodeId = medicalExamEpisode.Id;
+        }
+
+        medicalExamEpisode.MedicalExamId = medicalExam.Id;
+        medicalExamEpisode.MedicalExam = medicalExam;
+        medicalExam.MedicalExamEpisodes.Add(medicalExamEpisode);
+        return medicalExam;
+    }
+
     private static MedicalExam AddReferral(this MedicalExam medicalExam, Referral referral)
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(referral));
@@ -40,17 +60,16 @@ public static class MedicalExamExtensions
         return medicalExam.AddMedicalExamEpisode(MedicalExamEpisodeFactory.Create());
     }
 
-    public static MedicalExam AddMedicalExamEpisode(this MedicalExam medicalExam, DateTime dateTakeExam, DateTime dateReExam, int lineNumber, DateTime recordDay, int totalPrice, string medicalExamId)
+    public static MedicalExam AddMedicalExamEpisode(this MedicalExam medicalExam, DateTime dateTakeExam, int lineNumber, DateTime recordDay, int totalPrice)
     {
-        return medicalExam.AddMedicalExamEpisode(MedicalExamEpisodeFactory.Create(dateTakeExam, dateReExam, lineNumber, recordDay, totalPrice, medicalExamId));
+        return medicalExam.AddMedicalExamEpisode(MedicalExamEpisodeFactory.Create(dateTakeExam, lineNumber, recordDay, totalPrice));
     }
 
-    public static MedicalExam AddMedicalExamEpisode(this MedicalExam medicalExam, DateTime dateReExam, int lineNumber, DateTime recordDay, int totalPrice, string medicalExamId)
+    public static MedicalExam AddMedicalExamEpisode(this MedicalExam medicalExam, ReExamAppointment reExamAppointment, DateTime dateTakeExam, int lineNumber, DateTime recordDay, int totalPrice, string patientId, string notes, DateTime dateTime)
     {
-        return medicalExam.AddMedicalExamEpisode(MedicalExamEpisodeFactory.Create(dateReExam, lineNumber, recordDay, totalPrice, medicalExamId));
+        return medicalExam.AddMedicalExamEpisode(MedicalExamEpisodeFactory.Create(dateTakeExam, lineNumber, recordDay, totalPrice), ReExamAppointmentFactory.Create(patientId, notes, dateTime));
     }
 
-    // Overloads for AddReferral
     public static MedicalExam AddReferral(this MedicalExam medicalExam)
     {
         return medicalExam.AddReferral(ReferralFactory.Create());
@@ -64,6 +83,14 @@ public static class MedicalExamExtensions
     public static MedicalExam AddReferral(this MedicalExam medicalExam, string patientId, string doctorId, string medicalExamId)
     {
         return medicalExam.AddReferral(ReferralFactory.Create(patientId, doctorId, medicalExamId));
+    }
+
+    public static MedicalExam RemoveRelated(this MedicalExam medicalExam)
+    {
+        medicalExam.BookingAppointment = null!;
+        medicalExam.Referrals.Clear();
+        medicalExam.MedicalExamEpisodes.Clear();
+        return medicalExam;
     }
     #endregion
 }

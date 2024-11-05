@@ -2,6 +2,6 @@
 
 public record OutputDrugPrescriptionDTO : DrugPrescriptionDTO
 {
-    public OutputMedicalExamEpisodeDTO?   MedicalExamEpisodeDTO   { get; init; }
-    public OutputDrugInventoryDTO?        DrugInventoryDTO        { get; init; }
+    public OutputMedicalExamEpisodeDTO?   MedicalExamEpisode   { get; init; }
+    public OutputDrugInventoryDTO?        DrugInventory        { get; init; }
 }

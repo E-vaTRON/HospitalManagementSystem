@@ -2,5 +2,5 @@
 
 public record OutputDepartmentDTO : DepartmentDTO
 {
-    public ICollection<OutputRoomDTO>? RoomDTOs { get; init; }
+    public ICollection<OutputRoomDTO>? Rooms { get; init; }
 }

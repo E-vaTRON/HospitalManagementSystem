@@ -2,6 +2,7 @@
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Configuration;
+global using System.Text.RegularExpressions;
 global using System.Diagnostics;
 global using System.Linq.Expressions;
 global using System.Security.Claims;

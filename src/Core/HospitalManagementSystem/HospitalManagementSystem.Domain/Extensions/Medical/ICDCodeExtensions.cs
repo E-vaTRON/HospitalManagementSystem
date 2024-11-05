@@ -39,14 +39,16 @@ public static class ICDCodeExtensions
         return icdCode.AddICDCodeVersion(ICDCodeVersionFactory.Create());
     }
 
-    public static ICDCode AddICDCodeVersion(this ICDCode icdCode, string icdCodeId, string icdVersionId)
+    public static ICDCode AddICDCodeVersion(this ICDCode icdCode, ICDVersion icdVersion)
     {
-        return icdCode.AddICDCodeVersion(ICDCodeVersionFactory.Create(icdCodeId, icdVersionId));
+        return icdCode.AddICDCodeVersion(ICDCodeVersionFactory.Create(), icdVersion);
     }
 
-    public static ICDCode AddICDCodeVersion(this ICDCode icdCode, ICDVersion icdVersion, string icdCodeId, string icdVersionId)
+    public static ICDCode RemoveRelated(this ICDCode icdCode)
     {
-        return icdCode.AddICDCodeVersion(ICDCodeVersionFactory.Create(icdCodeId, icdVersionId), icdVersion);
+        icdCode.Diseases = null!;
+        icdCode.ICDCodeVersions.Clear();
+        return icdCode;
     }
     #endregion
 }

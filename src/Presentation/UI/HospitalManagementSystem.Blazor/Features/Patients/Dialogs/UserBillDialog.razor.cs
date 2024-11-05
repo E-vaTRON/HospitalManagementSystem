@@ -80,33 +80,33 @@ public partial class UserBillDialog : IDialogContentComponent<UserWithPaymentMod
     {
         decimal totalAmount = 0;
 
-        foreach (var analysisTest in bill.MedicalExamEpisodeDTO!.AnalysisTestDTOs!)
+        foreach (var episodeService in bill.MedicalExamEpisode!.ServiceEpisodes!)
         {
-            if (analysisTest.DeviceServiceDTO != null)
+            if (episodeService.MedicalService != null)
             {
-                totalAmount += analysisTest.DeviceServiceDTO.ServiceDTO!.ServicePrice;
+                totalAmount += episodeService.MedicalService!.ServicePrice;
             }
         }
 
         // Calculate based on drug prescriptions
-        foreach (var drugPrescription in bill.MedicalExamEpisodeDTO!.DrugPrescriptionDTOs!)
+        foreach (var drugPrescription in bill.MedicalExamEpisode!.DrugPrescriptions!)
         {
-            if (drugPrescription.DrugInventoryDTO != null)
+            if (drugPrescription.DrugInventory != null)
             {
-                totalAmount += drugPrescription.DrugInventoryDTO.DrugDTO!.UnitPrice * drugPrescription.Amount;
+                totalAmount += drugPrescription.DrugInventory.Drug!.UnitPrice * drugPrescription.Amount;
             }
         }
 
         // Calculate based on room allocations (if applicable)
-        foreach (var roomAllocation in bill.MedicalExamEpisodeDTO!.RoomAllocationDTOs!)
+        foreach (var roomAllocation in bill.MedicalExamEpisode!.RoomAllocations!)
         {
-            if (roomAllocation.RoomDTO != null)
+            if (roomAllocation.Room != null)
             {
-                totalAmount += roomAllocation.RoomDTO.PricePerHour * (roomAllocation.EndTime - roomAllocation.StartTime).Hours;
+                totalAmount += roomAllocation.Room.PricePerHour * (roomAllocation.EndTime - roomAllocation.StartTime).Hours;
             }
         }
 
-        totalAmount += bill.MedicalExamEpisodeDTO!.TotalPrice;
+        totalAmount += bill.MedicalExamEpisode!.TotalPrice;
 
         return totalAmount;
     }

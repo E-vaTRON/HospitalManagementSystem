@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace IdentitySystem.Domain;
 
-namespace IdentitySystem.Domain.Extensions.Identity
+public static class SpecializationExtensions
 {
-    internal class SpecializationExtensions
-    {
-    }
 }

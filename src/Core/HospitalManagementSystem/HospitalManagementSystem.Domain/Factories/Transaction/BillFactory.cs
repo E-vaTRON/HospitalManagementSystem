@@ -9,8 +9,7 @@ public static class BillFactory
 
     public static Bill Create(DateTime deadline, DateTime? paidDate, string status,
                 decimal totalAmount, decimal excessAmount, decimal underPaidAmount,
-                decimal discountAmount, decimal adjustmentAmount, string paymentMethod,
-                string medicalExamEpisodeId)
+                decimal discountAmount, decimal adjustmentAmount, string paymentMethod)
     {
         return new Bill()
         {
@@ -22,13 +21,12 @@ public static class BillFactory
             UnderPaidAmount = underPaidAmount,
             DiscountAmount = discountAmount,
             AdjustmentAmount = adjustmentAmount,
-            PaymentMethod = paymentMethod,
-            MedicalExamEpisodeId = medicalExamEpisodeId
+            PaymentMethod = paymentMethod
         };
     }
 
     public static Bill Create(string status, decimal totalAmount, decimal excessAmount, decimal underPaidAmount,
-        decimal discountAmount, decimal adjustmentAmount, string paymentMethod, string medicalExamEpisodeId)
+        decimal discountAmount, decimal adjustmentAmount, string paymentMethod)
     {
         return new Bill()
         {
@@ -38,8 +36,7 @@ public static class BillFactory
             UnderPaidAmount = underPaidAmount,
             DiscountAmount = discountAmount,
             AdjustmentAmount = adjustmentAmount,
-            PaymentMethod = paymentMethod,
-            MedicalExamEpisodeId = medicalExamEpisodeId
+            PaymentMethod = paymentMethod
         };
     }
 }

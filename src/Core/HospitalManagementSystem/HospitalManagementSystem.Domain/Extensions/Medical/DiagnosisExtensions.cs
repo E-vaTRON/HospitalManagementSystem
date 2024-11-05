@@ -10,7 +10,7 @@ public static class DiagnosisExtensions
             return diagnosis;
         }
 
-        diagnosisTreatment.DiagnosisId = diagnosis.Id.ToString();
+        diagnosisTreatment.DiagnosisId = diagnosis.Id;
         diagnosisTreatment.Diagnosis = diagnosis;
         diagnosis.DiagnosisTreatments.Add(diagnosisTreatment);
         return diagnosis;
@@ -31,6 +31,14 @@ public static class DiagnosisExtensions
     public static Diagnosis AddDiagnosisTreatment(this Diagnosis diagnosis, string treatmentId)
     {
         return diagnosis.AddDiagnosisTreatment(DiagnosisTreatmentFactory.Create(diagnosis.Id.ToString(), treatmentId));
+    }
+
+    public static Diagnosis RemoveRelated(this Diagnosis diagnosis)
+    {
+        diagnosis.MedicalExamEpisode = null!;
+        diagnosis.ICDCode = null!;
+        diagnosis.DiagnosisTreatments.Clear();
+        return diagnosis;
     }
     #endregion
 }

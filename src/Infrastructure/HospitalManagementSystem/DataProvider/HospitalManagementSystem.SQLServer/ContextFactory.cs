@@ -12,12 +12,13 @@ public class ContextFactory : IDesignTimeDbContextFactory<HospitalManagementSyst
         var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
                                                       .AddJsonFile(Path.Combine(AppContext.BaseDirectory, "appsettings.json"))
                                                       .Build();
+
         configuration.GetSection("DatabaseConfiguration").Bind(this.DatabaseConfiguration);
 
         var modelBuilder = SQLDatabaseModelBuilder.SQLModel.GetModel();
         var options = new DbContextOptions<HospitalManagementSystemDbContext>();
         var optionsBuilder = new DbContextOptionsBuilder<HospitalManagementSystemDbContext>(options);
-        optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString, sqlServerOptionsAction => sqlServerOptionsAction.EnableRetryOnFailure());
+        optionsBuilder.UseSqlServer(DatabaseConfiguration.HMSConnection, sqlServerOptionsAction => sqlServerOptionsAction.EnableRetryOnFailure());
         optionsBuilder.UseModel(modelBuilder);
         optionsBuilder.EnableSensitiveDataLogging(false);
 

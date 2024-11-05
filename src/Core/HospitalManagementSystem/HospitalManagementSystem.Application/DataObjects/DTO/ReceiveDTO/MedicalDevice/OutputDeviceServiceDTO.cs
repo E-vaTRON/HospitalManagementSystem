@@ -1,9 +1,9 @@
 ﻿namespace HospitalManagementSystem.Application;
 
-public record OutputDeviceServiceDTO : DeviceServiceDTO
+public record OutputServiceEpisodeDTO : ServiceEpisodeDTO
 {
-    public OutputDeviceInventoryDTO?  DeviceInventoryDTO  { get; init; }
-    public OutputServiceDTO?          ServiceDTO          { get; init; }
+    public OutputMedicalExamEpisodeDTO?     MedicalExamEpisode  { get; init; }
+    public OutputMedicalServiceDTO?         MedicalService      { get; init; }
 
-    public ICollection<OutputAnalysisTestDTO>? AnalysisTestDTOs { get; init; }
+    //public ICollection<OutputAnalysisTestDTO>? AnalysisTests { get; init; }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using HospitalManagementSystem.Application;
+using Microsoft.Extensions.Configuration;
 
 namespace HospitalManagementSystem.DataProvider;
 public static class ServiceExtension
@@ -6,6 +7,8 @@ public static class ServiceExtension
     #region [ Public Methods - Add ]
     public static void AddHospitalManagementSystemDataProviders(this IServiceCollection services)
     {
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
         services.AddTransient<DataContext>();
 
         services.AddTransient<IBookingAppointmentDataProvider,  BookingAppointmentDataProvider>()
@@ -37,10 +40,14 @@ public static class ServiceExtension
                 .AddTransient<ITreatmentDataProvider,           TreatmentDataProvider>();
         //services.AddTransient<ITreatmentExamEpisodeDataProvider, TreatmentExamEpisodeDataProvider>();
 
-        services.AddTransient<IAnalysisTestDataProvider,    AnalysisTestDataProvider>()
-                .AddTransient<IDeviceServiceDataProvider,   DeviceServiceDataProvider>()
-                .AddTransient<IMedicalDeviceDataProvider,   MedicalDeviceDataProvider>()
-                .AddTransient<IServiceDataProvider,         ServiceDataProvider>();
+        services.AddTransient<IAnalysisTestDataProvider,        AnalysisTestDataProvider>()
+                .AddTransient<IMeasurementUnitDataProvider,     MeasurementUnitDataProvider>()
+                .AddTransient<IFormTypeDataProvider,            FormTypeDataProvider>()
+                .AddTransient<IServiceEpisodeDataProvider,      ServiceEpisodeDataProvider>()
+                .AddTransient<IMedicalDeviceFormDataProvider,   MedicalDeviceFormDataProvider>()
+                .AddTransient<IDeviceUnitDataProvider,          DeviceUnitDataProvider>()
+                .AddTransient<IMedicalDeviceDataProvider,       MedicalDeviceDataProvider>()
+                .AddTransient<IMedicalServiceDataProvider,      MedicalServiceDataProvider>();
 
         services.AddTransient<IBillDataProvider, BillDataProvider>();
     }

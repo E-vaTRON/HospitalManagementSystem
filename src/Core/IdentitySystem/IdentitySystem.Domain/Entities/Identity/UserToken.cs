@@ -9,4 +9,10 @@ public class UserToken: IdentityUserToken<string>, IEntity<string>, IHasCreatedO
     public DateTime?    DeleteOn        { get; set; }
 
     public User User { get; set; } = default!;
+
+    public UserToken()
+    {
+        Id = Guid.NewGuid().ToString();
+        IsDeleted = false;
+    }
 }

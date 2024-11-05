@@ -1,5 +1,4 @@
-﻿using IdentitySystem.Application;
-using CoreUser = IdentitySystem.Domain.User;
+﻿using CoreUser = IdentitySystem.Domain.User;
 using DTOUserIn = IdentitySystem.Application.InputUserDTO;
 using DTOUserOut = IdentitySystem.Application.OutputUserDTO;
 
@@ -37,40 +36,13 @@ public class UserServiceProvider : IdentityServiceProviderBase<DTOUserOut, DTOUs
         ArgumentNullException.ThrowIfNull(user, nameof(user));
         return await UserDataProvider.CreateAsync(user, password);
     }
-
-    //public Task<IdentityResult> CreateAsync(DTOUser userDto)
-    //{
-    //    var user = MapToEntity(userDto);
-    //    ArgumentNullException.ThrowIfNull(user, nameof(user));
-    //    return DataProvider.CreateAsync(user);
-    //}
     #endregion
 
     #region [ Read ]
-    //public IQueryable<DTOUser> FindAll(Expression<Func<DTOUser, bool>>? dtoPredicate = null)
-    //{
-    //    var entityPredicate = dtoPredicate != null ? MapToEntityPredicate(dtoPredicate) : null;
-    //    var entities = DataProvider.FindAll(entityPredicate);
-    //    return MapToDTOs(entities).AsQueryable();
-    //}
-
-    //public async Task<IReadOnlyCollection<DTOUser>> FindByMultipleGuidsAsync(string[] userGuids)
-    //{
-    //    var users = await DataProvider.FindByMultipleGuidsAsync(userGuids);
-    //    return MapToDTOs(users).ToList().AsReadOnly();
-    //}
-
-    //public async Task<DTOUser?> FindByIdAsync(string userId)
-    //{
-    //    ArgumentNullException.ThrowIfNull(userId, nameof(userId));
-    //    var user = await DataProvider.FindByIdAsync(userId);
-    //    return MapToDTO(user);
-    //}
-
-    public async Task<DTOUserOut?> FindByEmailAsync(string email)
+    public async Task<DTOUserOut?> FindByEmailAsync(string normalizedEmail)
     {
-        ArgumentNullException.ThrowIfNull(email, nameof(email));
-        var user = await UserDataProvider.FindByEmailAsync(email);
+        ArgumentNullException.ThrowIfNull(normalizedEmail, nameof(normalizedEmail));
+        var user = await UserDataProvider.FindByEmailAsync(normalizedEmail);
         return MapToDTO(user);
     }
 
@@ -80,31 +52,6 @@ public class UserServiceProvider : IdentityServiceProviderBase<DTOUserOut, DTOUs
         var user = await UserDataProvider.FindByPhoneNumberAsync(phoneNumber);
         return MapToDTO(user);
     }
-
-    //public async Task<DTOUser?> FindByNameAsync(string normalizedUserName)
-    //{
-    //    ArgumentNullException.ThrowIfNull(normalizedUserName, nameof(normalizedUserName));
-    //    var user = await DataProvider.FindByNameAsync(normalizedUserName);
-    //    return MapToDTO(user);
-    //}
-    #endregion
-
-    #region [ Update ]
-    //public async Task<IdentityResult> UpdateAsync(DTOUserIn userDto)
-    //{
-    //    var user = MapToEntity(userDto);
-    //    ArgumentNullException.ThrowIfNull(user, nameof(user));
-    //    return await DataProvider.UpdateAsync(user);
-    //}
-    #endregion
-
-    #region [ Delete ]
-    //public async Task<IdentityResult> DeleteAsync(DTOUser userDto)
-    //{
-    //    var user = MapToEntity(userDto);
-    //    ArgumentNullException.ThrowIfNull(user, nameof(user));
-    //    return await DataProvider.DeleteAsync(user);
-    //}
     #endregion
 
     #region [ Check ]
@@ -114,34 +61,8 @@ public class UserServiceProvider : IdentityServiceProviderBase<DTOUserOut, DTOUs
         ArgumentNullException.ThrowIfNull(user, nameof(user));
         ArgumentNullException.ThrowIfNull(password, nameof(password));
 
-        switch (mode)
-        {
-            case LoginMode.UserName:
-                if (user.NormalizedUserName is not null)
-                {
-                    var result = await UserDataProvider.FindByNameAsync(user.NormalizedUserName);
-                    return result is not null ? await SignInProvider.CheckPasswordSignInAsync(result, password, lockoutOnFailure)
-                                              : SignInResult.Failed;
-                }
-                break;
-            case LoginMode.Email:
-                if (user.NormalizedEmail is not null)
-                {
-                    var result = await UserDataProvider.FindByEmailAsync(user.NormalizedEmail);
-                    return result is not null ? await SignInProvider.CheckPasswordSignInAsync(result, password, lockoutOnFailure)
-                                              : SignInResult.Failed;
-                }
-                break;
-            case LoginMode.PhoneNumber:
-                if (user.PhoneNumber is not null)
-                {
-                    var result = await UserDataProvider.FindByPhoneNumberAsync(user.PhoneNumber);
-                    return result is not null ? await SignInProvider.CheckPasswordSignInAsync(result, password, lockoutOnFailure)
-                                              : SignInResult.Failed;
-                }
-                break;
-        }
-        return SignInResult.Failed;
+        return user is not null ? await SignInProvider.CheckPasswordSignInAsync(user, password, lockoutOnFailure)
+                          : SignInResult.Failed;
     }
     #endregion
 

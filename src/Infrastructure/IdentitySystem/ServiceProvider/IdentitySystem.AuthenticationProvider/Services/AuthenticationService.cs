@@ -14,6 +14,7 @@ public class AuthenticationService : IAuthenticationService
     private readonly IUserServiceProvider UserServiceProvider;
     private readonly IDatabaseServiceProvider DatabaseServiceProvider;
     private readonly IJwtTokenService JwtTokenService;
+    private readonly IPasswordHasher<DataProvider.User> PasswordHasher;
     #endregion
 
     #region [ CTor ]
@@ -26,6 +27,7 @@ public class AuthenticationService : IAuthenticationService
         UserServiceProvider = userServiceProvider;
         DatabaseServiceProvider = databaseServiceProvider;
         JwtTokenService = jwtTokenService;
+        PasswordHasher = new PasswordHasher<DataProvider.User>();
     }
     #endregion
 
@@ -135,6 +137,7 @@ public class AuthenticationService : IAuthenticationService
             AttachedData = new AuthenticatedResponse(userDtoIn.Id, requestAt, accessToken, expiredIn)
         };
     }
+
     public async Task<OneOf<ServiceSuccess, ServiceError>> AdminLoginWithEmail(EmailLoginRecord dto, string consumerName, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(dto, nameof(EmailLoginRecord));

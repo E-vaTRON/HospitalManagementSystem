@@ -1,4 +1,6 @@
-﻿namespace HospitalManagementSystem.Blazor;
+﻿using OneOf;
+
+namespace HospitalManagementSystem.Blazor;
 
 public partial class Login : LayoutComponentBase
 {
@@ -52,8 +54,26 @@ public partial class Login : LayoutComponentBase
     private async Task HandleValidSubmit()
     {
         State.IsBusy = true;
-        State.UserNameLoginModel = new UserNameLoginRecord(State.LoginMode.LoginValue!, State.LoginMode.Password!);
-        var response = await AuthenticationService.LoginWithUserName(State.UserNameLoginModel, "Web", default);
+        var response = new OneOf<ServiceSuccess, ServiceError>();
+        // Check if LoginValue is an email
+        if (new EmailAddressAttribute().IsValid(State.LoginMode.LoginValue))
+        {
+            var model = new EmailLoginRecord(State.LoginMode.LoginValue!, State.LoginMode.Password!);
+            response = await AuthenticationService.LoginWithEmail(model, "Web", default);
+        }
+        // Check if LoginValue is a phone number
+        else if (new PhoneAttribute().IsValid(State.LoginMode.LoginValue))
+        {
+            var model = new PhoneNumberLoginRecord(State.LoginMode.LoginValue!, State.LoginMode.Password!);
+            response = await AuthenticationService.LoginWithPhoneNumber(model, "Web", default);
+        }
+        // If it's not an email or a phone number, assume it's a username
+        else
+        {
+            var model = new UserNameLoginRecord(State.LoginMode.LoginValue!, State.LoginMode.Password!);
+            response = await AuthenticationService.LoginWithUserName(model, "Web", default);
+        }
+
         response.TryPickT0(out var result, out var error);
         if (result is null)
         {
@@ -62,16 +82,16 @@ public partial class Login : LayoutComponentBase
             return;
         }
 
-        //var token = result.accessToken;
-        //if (token is null)
-        //{
-        //    ToastService.ShowToast(ToastIntent.Error, "Can't get token");
-        //    State.IsBusy = false;
-        //    return;
-        //}
+        var authResponse = result.AttachedData as AuthenticatedResponse;
+        if (authResponse is null)
+        {
+            ToastService.ShowToast(ToastIntent.Error, "Can't get token");
+            State.IsBusy = false;
+            return;
+        }
 
-        //await LocalStorageService.SetItemAsStringAsync("token", token);
-        //await LocalStorageService.SetItemAsStringAsync("userId", result.userGuid);
+        await LocalStorageService.SetItemAsStringAsync("token", authResponse.accessToken);
+        await LocalStorageService.SetItemAsStringAsync("userId", authResponse.userId);
 
         State.IsBusy = false;
         StateHasChanged();

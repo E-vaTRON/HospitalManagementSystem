@@ -7,7 +7,7 @@ public static class BookingAppointmentExtensions
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(medicalExam));
 
-        if (bookingAppointment.MedicalExam is null)
+        if (bookingAppointment.MedicalExam is not null)
         {
             return bookingAppointment;
         }
@@ -23,6 +23,12 @@ public static class BookingAppointmentExtensions
     public static BookingAppointment AddMedicalExam(this BookingAppointment bookingAppointment)
     {
         return bookingAppointment.AddMedicalExam(MedicalExamFactory.Create());
+    }
+
+    public static BookingAppointment RemoveRelated(this BookingAppointment bookingAppointment)
+    {
+        bookingAppointment.MedicalExam = null!;
+        return bookingAppointment;
     }
     #endregion
 }

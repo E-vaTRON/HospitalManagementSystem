@@ -8,4 +8,9 @@ public class RoleClaim : IdentityRoleClaim<string>, IEntity<int>, IHasCreatedOn,
     public DateTime?    DeleteOn        { get; set; }
 
     public Role Role { get; set; } = default!;
+
+    public RoleClaim()
+    {
+        IsDeleted = false;
+    }
 }

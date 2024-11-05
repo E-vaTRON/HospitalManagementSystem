@@ -2,6 +2,6 @@
 
 public record InputAnalysisTestDTO : AnalysisTestDTO
 {
-    public string? DeviceServiceDTOId       { get; init; }
+    public string? DeviceInventoryDTOId     { get; init; }
     public string? MedicalExamEpisodeDTOId  { get; init; }
 }

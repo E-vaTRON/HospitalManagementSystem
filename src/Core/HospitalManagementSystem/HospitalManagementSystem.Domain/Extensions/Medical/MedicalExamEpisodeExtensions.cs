@@ -18,7 +18,7 @@ public static class MedicalExamEpisodeExtensions
         return medicalExamEpisode;
     }
 
-    private static MedicalExamEpisode AddDiagnosis(this MedicalExamEpisode medicalExamEpisode, Diagnosis diagnosis)
+    private static MedicalExamEpisode AddDiagnosis(this MedicalExamEpisode medicalExamEpisode, Diagnosis diagnosis, ICDCode iCDCode)
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(diagnosis));
 
@@ -29,11 +29,14 @@ public static class MedicalExamEpisodeExtensions
 
         diagnosis.MedicalExamEpisodeId = medicalExamEpisode.Id;
         diagnosis.MedicalExamEpisode = medicalExamEpisode;
+        diagnosis.ICDCodeId = iCDCode.Id;
+        diagnosis.ICDCode = iCDCode;
         medicalExamEpisode.Diagnoses.Add(diagnosis);
+        iCDCode.Diagnoses.Add(diagnosis);
         return medicalExamEpisode;
     }
 
-    private static MedicalExamEpisode AddRoomAllocation(this MedicalExamEpisode medicalExamEpisode, RoomAllocation roomAllocation)
+    private static MedicalExamEpisode AddRoomAllocation(this MedicalExamEpisode medicalExamEpisode, RoomAllocation roomAllocation, Room room)
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(roomAllocation));
 
@@ -44,7 +47,10 @@ public static class MedicalExamEpisodeExtensions
 
         roomAllocation.MedicalExamEpisodeId = medicalExamEpisode.Id;
         roomAllocation.MedicalExamEpisode = medicalExamEpisode;
+        roomAllocation.RoomId = room.Id;
+        roomAllocation.Room = room;
         medicalExamEpisode.RoomAllocations.Add(roomAllocation);
+        room.RoomAllocations.Add(roomAllocation);
         return medicalExamEpisode;
     }
 
@@ -78,11 +84,44 @@ public static class MedicalExamEpisodeExtensions
         return medicalExamEpisode;
     }
 
+    private static MedicalExamEpisode AddServiceEpisode(this MedicalExamEpisode medicalExamEpisode, ServiceEpisode serviceEpisode)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(nameof(serviceEpisode));
+
+        if (medicalExamEpisode.ServiceEpisodes.Any(x => x.Id == serviceEpisode.Id))
+        {
+            return medicalExamEpisode;
+        }
+
+        serviceEpisode.MedicalExamEpisodeId = medicalExamEpisode.Id;
+        serviceEpisode.MedicalExamEpisode = medicalExamEpisode;
+        medicalExamEpisode.ServiceEpisodes.Add(serviceEpisode);
+        return medicalExamEpisode;
+    }
+
+    private static MedicalExamEpisode AddServiceEpisodeWithService(this MedicalExamEpisode medicalExamEpisode, MedicalService medicalService, ServiceEpisode serviceEpisode)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(nameof(serviceEpisode));
+
+        if (medicalExamEpisode.ServiceEpisodes.Any(x => x.Id == serviceEpisode.Id))
+        {
+            return medicalExamEpisode;
+        }
+
+        serviceEpisode.MedicalExamEpisodeId = medicalExamEpisode.Id;
+        serviceEpisode.MedicalExamEpisode = medicalExamEpisode;
+        serviceEpisode.MedicalServiceId = medicalService.Id;
+        serviceEpisode.MedicalService = medicalService;
+        medicalService.ServiceEpisodes.Add(serviceEpisode);
+        medicalExamEpisode.ServiceEpisodes.Add(serviceEpisode);
+        return medicalExamEpisode;
+    }
+
     private static MedicalExamEpisode AddBill(this MedicalExamEpisode medicalExamEpisode, Bill bill)
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(bill));
 
-        if (medicalExamEpisode.Bill is null)
+        if (medicalExamEpisode.Bill is not null)
         {
             return medicalExamEpisode;
         }
@@ -97,7 +136,7 @@ public static class MedicalExamEpisodeExtensions
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(reExamAppointment));
 
-        if (medicalExamEpisode.ReExamAppointment is null)
+        if (medicalExamEpisode.ReExamAppointment is not null)
         {
             return medicalExamEpisode;
         }
@@ -115,44 +154,34 @@ public static class MedicalExamEpisodeExtensions
         return medicalExamEpisode.AddAssignmentHistory(AssignmentHistoryFactory.Create());
     }
 
-    public static MedicalExamEpisode AddAssignmentHistory(this MedicalExamEpisode medicalExamEpisode, string assignmentStatus, string doctorId, string medicalExamEpisodeId, string referralDoctorId)
+    public static MedicalExamEpisode AddAssignmentHistory(this MedicalExamEpisode medicalExamEpisode, string assignmentStatus, string doctorId, string referralDoctorId)
     {
-        return medicalExamEpisode.AddAssignmentHistory(AssignmentHistoryFactory.Create(assignmentStatus, doctorId, medicalExamEpisodeId, referralDoctorId));
+        return medicalExamEpisode.AddAssignmentHistory(AssignmentHistoryFactory.Create(assignmentStatus, doctorId, referralDoctorId));
     }
 
-    public static MedicalExamEpisode AddAssignmentHistory(this MedicalExamEpisode medicalExamEpisode, string assignmentStatus, string doctorId, string medicalExamEpisodeId)
+    public static MedicalExamEpisode AddAssignmentHistory(this MedicalExamEpisode medicalExamEpisode, string assignmentStatus, string doctorId)
     {
-        return medicalExamEpisode.AddAssignmentHistory(AssignmentHistoryFactory.Create(assignmentStatus, doctorId, medicalExamEpisodeId));
+        return medicalExamEpisode.AddAssignmentHistory(AssignmentHistoryFactory.Create(assignmentStatus, doctorId));
     }
 
-    public static MedicalExamEpisode AddDiagnosis(this MedicalExamEpisode medicalExamEpisode)
+    public static MedicalExamEpisode AddDiagnosis(this MedicalExamEpisode medicalExamEpisode, ICDCode iCDCode)
     {
-        return medicalExamEpisode.AddDiagnosis(DiagnosisFactory.Create());
+        return medicalExamEpisode.AddDiagnosis(DiagnosisFactory.Create(), iCDCode);
+    } 
+
+    public static MedicalExamEpisode AddDiagnosis(this MedicalExamEpisode medicalExamEpisode, ICDCode iCDCode, string diagnosisCode, string description)
+    {
+        return medicalExamEpisode.AddDiagnosis(DiagnosisFactory.Create(diagnosisCode, description), iCDCode);
     }
 
-    public static MedicalExamEpisode AddDiagnosis(this MedicalExamEpisode medicalExamEpisode, string diagnosisCode, string description, string icdId, string medicalExamEpisodeId)
+    public static MedicalExamEpisode AddRoomAllocation(this MedicalExamEpisode medicalExamEpisode, Room room)
     {
-        return medicalExamEpisode.AddDiagnosis(DiagnosisFactory.Create(diagnosisCode, description, icdId, medicalExamEpisodeId));
+        return medicalExamEpisode.AddRoomAllocation(RoomAllocationFactory.Create(), room);
     }
 
-    public static MedicalExamEpisode AddDiagnosis(this MedicalExamEpisode medicalExamEpisode, string diagnosisCode, string icdId, string medicalExamEpisodeId)
+    public static MedicalExamEpisode AddRoomAllocation(this MedicalExamEpisode medicalExamEpisode, Room room, DateTime startTime, DateTime endTime, string patientId, string employeeId)
     {
-        return medicalExamEpisode.AddDiagnosis(DiagnosisFactory.Create(diagnosisCode, icdId, medicalExamEpisodeId));
-    }
-
-    public static MedicalExamEpisode AddRoomAllocation(this MedicalExamEpisode medicalExamEpisode)
-    {
-        return medicalExamEpisode.AddRoomAllocation(RoomAllocationFactory.Create());
-    }
-
-    public static MedicalExamEpisode AddRoomAllocation(this MedicalExamEpisode medicalExamEpisode, DateTime startTime, DateTime endTime, string patientId, string employeeId, string roomId, string medicalExamEpisodeId)
-    {
-        return medicalExamEpisode.AddRoomAllocation(RoomAllocationFactory.Create(startTime, endTime, patientId, employeeId, roomId, medicalExamEpisodeId));
-    }
-
-    public static MedicalExamEpisode AddRoomAllocation(this MedicalExamEpisode medicalExamEpisode, DateTime endTime, string patientId, string employeeId, string roomId)
-    {
-        return medicalExamEpisode.AddRoomAllocation(RoomAllocationFactory.Create(endTime, patientId, employeeId, roomId));
+        return medicalExamEpisode.AddRoomAllocation(RoomAllocationFactory.Create(startTime, endTime, patientId, employeeId), room);
     }
 
     public static MedicalExamEpisode AddDrugPrescription(this MedicalExamEpisode medicalExamEpisode)
@@ -170,14 +199,24 @@ public static class MedicalExamEpisodeExtensions
         return medicalExamEpisode.AddAnalysisTest(AnalysisTestFactory.Create());
     }
 
-    public static MedicalExamEpisode AddAnalysisTest(this MedicalExamEpisode medicalExamEpisode, string doctorComment, string result, string deviceServiceId, string medicalExamEpisodeId)
+    public static MedicalExamEpisode AddAnalysisTest(this MedicalExamEpisode medicalExamEpisode, string doctorComment, string result)
     {
-        return medicalExamEpisode.AddAnalysisTest(AnalysisTestFactory.Create(doctorComment, result, deviceServiceId, medicalExamEpisodeId));
+        return medicalExamEpisode.AddAnalysisTest(AnalysisTestFactory.Create(doctorComment, result));
     }
 
-    public static MedicalExamEpisode AddAnalysisTest(this MedicalExamEpisode medicalExamEpisode, string result, string deviceServiceId, string medicalExamEpisodeId)
+    public static MedicalExamEpisode AddAnalysisTest(this MedicalExamEpisode medicalExamEpisode, string result)
     {
-        return medicalExamEpisode.AddAnalysisTest(AnalysisTestFactory.Create(result, deviceServiceId, medicalExamEpisodeId));
+        return medicalExamEpisode.AddAnalysisTest(AnalysisTestFactory.Create(result));
+    }
+
+    public static MedicalExamEpisode AddServiceEpisode(this MedicalExamEpisode medicalExamEpisode)
+    {
+        return medicalExamEpisode.AddServiceEpisode(ServiceEpisodeFactory.Create());
+    }
+
+    public static MedicalExamEpisode AddServiceEpisodeWithService(this MedicalExamEpisode medicalExamEpisode, MedicalService medicalService)
+    {
+        return medicalExamEpisode.AddServiceEpisodeWithService(medicalService, ServiceEpisodeFactory.Create());
     }
 
     public static MedicalExamEpisode AddBill(this MedicalExamEpisode medicalExamEpisode)
@@ -187,22 +226,18 @@ public static class MedicalExamEpisodeExtensions
 
     public static MedicalExamEpisode AddBill(this MedicalExamEpisode medicalExamEpisode, DateTime deadline, DateTime? paidDate, string status,
                 decimal totalAmount, decimal excessAmount, decimal underPaidAmount,
-                decimal discountAmount, decimal adjustmentAmount, string paymentMethod,
-                string medicalExamEpisodeId)
+                decimal discountAmount, decimal adjustmentAmount, string paymentMethod)
     {
         return medicalExamEpisode.AddBill(BillFactory.Create(deadline, paidDate, status,
                 totalAmount, excessAmount, underPaidAmount,
-                discountAmount, adjustmentAmount, paymentMethod,
-                medicalExamEpisodeId));
+                discountAmount, adjustmentAmount, paymentMethod));
     }
 
     public static MedicalExamEpisode AddBill(this MedicalExamEpisode medicalExamEpisode, string status, decimal totalAmount, decimal excessAmount, decimal underPaidAmount,
-                decimal discountAmount, decimal adjustmentAmount, string paymentMethod,
-                string medicalExamEpisodeId)
+                decimal discountAmount, decimal adjustmentAmount, string paymentMethod)
     {
         return medicalExamEpisode.AddBill(BillFactory.Create(status, totalAmount, excessAmount, underPaidAmount,
-                discountAmount, adjustmentAmount, paymentMethod,
-                medicalExamEpisodeId));
+                discountAmount, adjustmentAmount, paymentMethod));
     }
 
     public static MedicalExamEpisode AddReExamAppointment(this MedicalExamEpisode medicalExamEpisode)
@@ -210,14 +245,27 @@ public static class MedicalExamEpisodeExtensions
         return medicalExamEpisode.AddReExamAppointment(ReExamAppointmentFactory.Create());
     }
 
-    public static MedicalExamEpisode AddReExamAppointment(this MedicalExamEpisode medicalExamEpisode, string patientId, string medicalExamEpisodeId, string notes, DateTime dateTime)
+    public static MedicalExamEpisode AddReExamAppointment(this MedicalExamEpisode medicalExamEpisode, string patientId, string notes, DateTime dateTime)
     {
-        return medicalExamEpisode.AddReExamAppointment(ReExamAppointmentFactory.Create(patientId, medicalExamEpisodeId, notes, dateTime));
+        return medicalExamEpisode.AddReExamAppointment(ReExamAppointmentFactory.Create(patientId, notes, dateTime));
     }
 
-    public static MedicalExamEpisode AddReExamAppointment(this MedicalExamEpisode medicalExamEpisode, string patientId, string medicalExamEpisodeId, string notes)
+    public static MedicalExamEpisode AddReExamAppointment(this MedicalExamEpisode medicalExamEpisode, string patientId, string notes)
     {
-        return medicalExamEpisode.AddReExamAppointment(ReExamAppointmentFactory.Create(patientId, medicalExamEpisodeId, notes));
+        return medicalExamEpisode.AddReExamAppointment(ReExamAppointmentFactory.Create(patientId, notes));
+    }
+
+    public static MedicalExamEpisode RemoveRelated(this MedicalExamEpisode medicalExamEpisode)
+    {
+        medicalExamEpisode.MedicalExam = null!;
+        medicalExamEpisode.ReExamAppointment = null!;
+        medicalExamEpisode.Bill = null!;
+        medicalExamEpisode.AssignmentHistories.Clear();
+        medicalExamEpisode.AnalysisTests.Clear();
+        medicalExamEpisode.Diagnoses.Clear();
+        medicalExamEpisode.RoomAllocations.Clear();
+        medicalExamEpisode.DrugPrescriptions.Clear();
+        return medicalExamEpisode;
     }
     #endregion
 }

@@ -2,6 +2,6 @@
 
 public record OutputDiagnosisSuggestionDTO : DiagnosisSuggestionDTO
 {
-    public OutputAnalysisTestDTO?     AnalysisTestDTO     { get; init; }
-    public OutputDiagnosisDTO?        DiagnosisDTO        { get; init; }
+    public OutputAnalysisTestDTO?     AnalysisTest     { get; init; }
+    public OutputDiagnosisDTO?        Diagnosis        { get; init; }
 }

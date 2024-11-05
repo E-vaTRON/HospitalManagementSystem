@@ -3,19 +3,6 @@
 public static class ICDVersionExtensions
 {
     #region [ Private Methods ]
-    private static ICDVersion AddICDCodeVersion(this ICDVersion icdVersion, ICDCodeVersion icdCodeVersion)
-    {
-        if (icdVersion.ICDCodeVersions.Any(iv => iv.Id == icdCodeVersion.Id))
-        {
-            return icdVersion;
-        }
-
-        icdCodeVersion.ICDVersionId = icdVersion.Id;
-        icdCodeVersion.ICDVersion = icdVersion;
-        icdVersion.ICDCodeVersions.Add(icdCodeVersion);
-        return icdVersion;
-    }
-
     private static ICDVersion AddICDCodeVersion(this ICDVersion icdVersion, ICDCodeVersion icdCodeVersion, ICDCode icdCode)
     {
         if (icdVersion.ICDCodeVersions.Any(iv => iv.Id == icdCodeVersion.Id))
@@ -34,19 +21,15 @@ public static class ICDVersionExtensions
     #endregion
 
     #region [ Public Methods ]
-    public static ICDVersion AddICDCodeVersion(this ICDVersion icdVersion)
+    public static ICDVersion AddICDCodeVersion(this ICDVersion icdVersion, ICDCode icdCode)
     {
-        return icdVersion.AddICDCodeVersion(ICDCodeVersionFactory.Create());
+        return icdVersion.AddICDCodeVersion(ICDCodeVersionFactory.Create(), icdCode);
     }
 
-    public static ICDVersion AddICDCodeVersion(this ICDVersion icdVersion, string icdCodeId, string icdVersionId)
+    public static ICDVersion RemoveRelated(this ICDVersion icdVersion)
     {
-        return icdVersion.AddICDCodeVersion(ICDCodeVersionFactory.Create(icdCodeId, icdVersionId));
-    }
-
-    public static ICDVersion AddICDCodeVersion(this ICDVersion icdVersion, ICDCode icdCode, string icdCodeId, string icdVersionId)
-    {
-        return icdVersion.AddICDCodeVersion(ICDCodeVersionFactory.Create(icdCodeId, icdVersionId), icdCode);
+        icdVersion.ICDCodeVersions.Clear();
+        return icdVersion;
     }
     #endregion
 }

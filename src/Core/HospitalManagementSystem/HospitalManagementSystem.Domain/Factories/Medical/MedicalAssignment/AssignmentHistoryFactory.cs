@@ -7,24 +7,22 @@ public static class AssignmentHistoryFactory
         return new AssignmentHistory();
     }
 
-    public static AssignmentHistory Create(string assignmentStatus, string doctorId, string medicalExamEpisodeId, string referralDoctorId)
+    public static AssignmentHistory Create(string assignmentStatus, string doctorId, string referralDoctorId)
     {
         return new AssignmentHistory()
         {
             AssignmentStatus = assignmentStatus,
             DoctorId = doctorId,
-            MedicalExamEpisodeId = medicalExamEpisodeId,
             ReferralDoctorId = referralDoctorId
         };
     }
 
-    public static AssignmentHistory Create(string assignmentStatus, string doctorId, string medicalExamEpisodeId)
+    public static AssignmentHistory Create(string assignmentStatus, string doctorId)
     {
         return new AssignmentHistory()
         {
             AssignmentStatus = assignmentStatus,
             DoctorId = doctorId,
-            MedicalExamEpisodeId = medicalExamEpisodeId,
             ReferralDoctorId = string.Empty
         };
     }

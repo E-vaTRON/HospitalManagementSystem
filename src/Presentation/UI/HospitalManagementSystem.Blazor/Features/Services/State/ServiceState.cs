@@ -6,7 +6,7 @@ public class ServiceState : StateBase
     private int         currentPage;
     private int         itemsPerPage;
     private int[]       paginationCount;
-    private List<OutputServiceDTO>?             services;
+    private List<OutputMedicalServiceDTO>?             services;
     private List<ServiceWithDeviceModel>?       modifiedServices;
     #endregion
 
@@ -14,7 +14,7 @@ public class ServiceState : StateBase
     public ServiceState()
     {
         paginationCount = [];
-        services = new List<OutputServiceDTO>();
+        services = new List<OutputMedicalServiceDTO>();
     }
     #endregion
 
@@ -37,7 +37,7 @@ public class ServiceState : StateBase
         set { this.SetProperty(ref this.paginationCount, value); }
     }
 
-    public List<OutputServiceDTO> Services
+    public List<OutputMedicalServiceDTO> Services
     {
         get { return this.services!; }
         set { this.SetProperty(ref this.services, value); }

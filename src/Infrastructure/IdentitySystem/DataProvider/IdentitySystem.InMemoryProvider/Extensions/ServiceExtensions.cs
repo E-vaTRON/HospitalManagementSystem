@@ -4,7 +4,7 @@ public static class ServiceExtensions
 {
     #region [ Public Methods - Add ]
 
-    public static void AddHospitalManagementSystemInMemoryDataProviders(this IServiceCollection services,string databaseName = "HospitalDataBase") 
+    public static void AddIdentitySystemInMemoryDataProviders(this IServiceCollection services,string databaseName = "HospitalIdentityDataBase") 
     {
         var options = new DbContextOptions<IdentitySystemDbContext>();
         var optionsBuilder = new DbContextOptionsBuilder<IdentitySystemDbContext>(options);
@@ -20,9 +20,20 @@ public static class ServiceExtensions
 #endif
 
         });
+        //Context
+        services.AddTransient<IdentitySystemDbContext>(p => p.GetRequiredService<IDbContextFactory<IdentitySystemDbContext>>()
+                                                             .CreateDbContext());
+        //services.AddDbContext<IdentitySystemDbContext>((serviceProvider, optionsBuilder) =>
+        //{
+        //    optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString());
+        //    optionsBuilder.UseModel(SQLDatabaseModelBuilder.SQLModel.GetModel())
+        //                  .EnableSensitiveDataLogging(true)
+        //                  .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        //}, ServiceLifetime.Singleton);
 
         //Providers
         services.AddIdentitySystemDataProviders();
+        services.AddIdentitySystemSeedDataProviders();
 
     }
     #endregion

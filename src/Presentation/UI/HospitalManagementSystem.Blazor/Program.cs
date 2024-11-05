@@ -36,6 +36,9 @@ builder.Services.AddIdentitySystemApplicationServices(configuration);
 builder.Services.AddIdentitySystemSqlServerDataProviders(configuration);
 builder.Services.AddHospitalManagementSystemSqlServerDataProviders(configuration);
 
+//builder.Services.AddIdentitySystemInMemoryDataProviders();
+//builder.Services.AddHospitalManagementSystemInMemoryDataProviders();
+
 builder.Services.AddIdentitySystemAuthenticationProvider(configuration);
 builder.Services.AddIdentitySystemServicesProvider(configuration);
 builder.Services.AddHospitalManagementSystemServicesProvider(configuration);
@@ -64,6 +67,11 @@ app.UseAuthorization();
 //app.MapBlazorHub();
 //app.MapFallbackToPage("/Host");
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+   .AddInteractiveServerRenderMode();
+
+#if DEBUG
+app.UseHMSInMemoryDataProviders();
+app.UseISInMemoryDataProviders();
+#endif
 
 app.Run();

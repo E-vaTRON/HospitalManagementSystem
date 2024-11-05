@@ -3,7 +3,7 @@
 public static class StorageExtensions
 {
     #region [ Private Methods ]
-    private static Storage AddDrugInventory(this Storage storage, DrugInventory drugInventory)
+    private static Storage AddDrugInventory(this Storage storage, Drug drug, DrugInventory drugInventory)
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(drugInventory));
 
@@ -14,11 +14,14 @@ public static class StorageExtensions
 
         drugInventory.StorageId = storage.Id;
         drugInventory.Storage = storage;
+        drugInventory.DrugId = drug.Id;
+        drugInventory.Drug = drug;
+        drug.DrugInventories.Add(drugInventory);
         storage.DrugInventories.Add(drugInventory);
         return storage;
     }
 
-    private static Storage AddDeviceInventory(this Storage storage, DeviceInventory deviceInventory)
+    private static Storage AddDeviceInventory(this Storage storage, MedicalDevice medicalDevice, DeviceInventory deviceInventory)
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(deviceInventory));
 
@@ -29,35 +32,20 @@ public static class StorageExtensions
 
         deviceInventory.StorageId = storage.Id;
         deviceInventory.Storage = storage;
+        deviceInventory.MedicalDeviceId = medicalDevice.Id;
+        deviceInventory.MedicalDevice = medicalDevice;
+        medicalDevice.DeviceInventories.Add(deviceInventory);
         storage.DeviceInventories.Add(deviceInventory);
         return storage;
     }
     #endregion
 
     #region [ Public Methods ]
-    public static Storage AddDrugInventory(this Storage storage)
+    public static Storage RemoveRelated(this Storage storage)
     {
-        return storage.AddDrugInventory(DrugInventoryFactory.Create());
-    }
-
-    public static Storage AddDrugInventory(this Storage storage, string goodInformation, DateTime expiryDate, int orinaryAmount, string importationId, string drugId)
-    {
-        return storage.AddDrugInventory(DrugInventoryFactory.Create(goodInformation, expiryDate, orinaryAmount, importationId, drugId));
-    }
-
-    public static Storage AddDrugInventory(this Storage storage, int currentAmount, string goodInformation, DateTime expiryDate, int orinaryAmount, string importationId, string drugId, string storageId)
-    {
-        return storage.AddDrugInventory(DrugInventoryFactory.Create(currentAmount, goodInformation, expiryDate, orinaryAmount, importationId, drugId, storageId));
-    }
-
-    public static Storage AddDeviceInventory(this Storage storage)
-    {
-        return storage.AddDeviceInventory(DeviceInventoryFactory.Create());
-    }
-
-    public static Storage AddDeviceInventory(this Storage storage, int currentAmount, string medicalDeviceId, string storageId)
-    {
-        return storage.AddDeviceInventory(DeviceInventoryFactory.Create(currentAmount, medicalDeviceId, storageId));
+        storage.DeviceInventories.Clear();
+        storage.DrugInventories.Clear();
+        return storage;
     }
     #endregion
 }

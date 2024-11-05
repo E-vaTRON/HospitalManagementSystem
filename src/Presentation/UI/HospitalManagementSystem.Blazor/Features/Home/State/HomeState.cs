@@ -18,7 +18,7 @@ public class HomeState : StateBase
     private Option<string>?                 selectedYear;
     private List<string>?                   monthlyList;
     private Random?                         random;
-    private List<OutputServiceDTO>              services;
+    private List<OutputMedicalServiceDTO>              services;
     private List<OutputBillDTO>                 bills;
     private List<HomeServiceWithAmountModel>    modifiedServices;
     private List<HomeBillWithServicesModel>?    modifiedBills;
@@ -27,7 +27,7 @@ public class HomeState : StateBase
     #region [ CTor ]
     public HomeState()
     {
-        services = new List<OutputServiceDTO>();
+        services = new List<OutputMedicalServiceDTO>();
         bills = new List<OutputBillDTO>();
         modifiedBills = new List<HomeBillWithServicesModel>() { };
         modifiedServices = new List<HomeServiceWithAmountModel>() { };
@@ -105,7 +105,7 @@ public class HomeState : StateBase
         set { this.SetProperty(ref this.lineChartData, value); }
     }
 
-    public List<OutputServiceDTO> Services
+    public List<OutputMedicalServiceDTO> Services
     {
         get { return this.services!; }
         set { this.SetProperty(ref this.services, value); }

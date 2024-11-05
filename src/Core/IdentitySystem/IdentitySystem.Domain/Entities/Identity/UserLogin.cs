@@ -9,4 +9,10 @@ public class UserLogin : IdentityUserLogin<string>, IEntity<string>, IHasCreated
     public DateTime?    DeleteOn        { get; set; }
 
     public User User { get; set; } = default!;
+
+    public UserLogin()
+    {
+        Id = Guid.NewGuid().ToString();
+        IsDeleted = false;
+    }
 }

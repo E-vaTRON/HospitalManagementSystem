@@ -51,6 +51,9 @@ public abstract class IdentityServiceProviderBase<TOutputDto, TInputDto, TDId, T
     protected virtual Expression<Func<TEntity, bool>> MapToEntityPredicate(Expression<Func<TInputDto, bool>>? dtoPredicate)
         => Mapper.Map<Expression<Func<TEntity, bool>>>(dtoPredicate);
 
+    [DebuggerStepThrough]
+    protected virtual IQueryable<TOutputDto> MapToDTOAsQueryable(IQueryable<TEntity>? entities)
+        => Mapper.ProjectTo<TOutputDto>(entities);
     #endregion
     #endregion
 
@@ -69,7 +72,7 @@ public abstract class IdentityServiceProviderBase<TOutputDto, TInputDto, TDId, T
     {
         var entityPredicate = dtoPredicate != null ? MapToEntityPredicate(dtoPredicate) : null;
         var entities = DataProvider.FindAll(entityPredicate);
-        return MapToDTOs(entities).AsQueryable();
+        return MapToDTOAsQueryable(entities).AsQueryable();
     }
 
     public async Task<IReadOnlyCollection<TOutputDto>> FindByMultipleGuidsAsync(TDId[] ids)

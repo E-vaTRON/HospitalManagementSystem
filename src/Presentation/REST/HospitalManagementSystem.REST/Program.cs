@@ -28,6 +28,9 @@ builder.Services.AddIdentitySystemApplicationServices(configuration);
 builder.Services.AddIdentitySystemSqlServerDataProviders(configuration);
 builder.Services.AddHospitalManagementSystemSqlServerDataProviders(configuration);
 
+builder.Services.AddIdentitySystemInMemoryDataProviders();
+builder.Services.AddHospitalManagementSystemInMemoryDataProviders();
+
 builder.Services.AddIdentitySystemAuthenticationProvider(configuration);
 builder.Services.AddIdentitySystemServicesProvider(configuration);
 builder.Services.AddHospitalManagementSystemServicesProvider(configuration);
@@ -52,6 +55,10 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+#if DEBUG
+app.UseHMSInMemoryDataProviders();
+app.UseISInMemoryDataProviders();
+#endif
 
+app.MapControllers();
 app.Run();

@@ -24,4 +24,10 @@ public class User : IdentityUser<string>, IEntity<string>,  IHasCreatedOn, IHasL
     public virtual ICollection<Notification>        Notifications       { get; set; } = new HashSet<Notification>();
     public virtual ICollection<UserSpecialization>  UserSpecializations { get; set; } = new HashSet<UserSpecialization>();
     public virtual ICollection<ScheduleDay>         ScheduleDays        { get; set; } = new HashSet<ScheduleDay>();
+
+    public User()
+    {
+        Id = Guid.NewGuid().ToString();
+        IsDeleted = false;
+    }
 }

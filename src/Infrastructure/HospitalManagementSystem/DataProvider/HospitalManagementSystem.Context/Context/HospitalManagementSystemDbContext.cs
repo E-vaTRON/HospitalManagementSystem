@@ -50,11 +50,15 @@ public partial class HospitalManagementSystemDbContext : DbContext
     public virtual DbSet<Treatment>             Treatments              { get; set; } = null!; 
     //public virtual DbSet<TreatmentExamEpisode>  TreatmentExamEpisodes   { get; set; } = null!;
 
-    public virtual DbSet<DeviceService>     DeviceServices  { get; set; } = null!;
-    public virtual DbSet<MedicalDevice>     MedicalDevices  { get; set; } = null!;
-    public virtual DbSet<Service>           Services        { get; set; } = null!;
-    public virtual DbSet<AnalysisTest>      AnalysisTests   { get; set; } = null!;
+    public virtual DbSet<ServiceEpisode>    ServiceEpisodes     { get; set; } = null!;
+    public virtual DbSet<FormType>          FormTypes           { get; set; } = null!;
+    public virtual DbSet<MeasurementUnit>   MeasurementUnits    { get; set; } = null!;
+    public virtual DbSet<MedicalDevice>     MedicalDevices      { get; set; } = null!;
+    public virtual DbSet<DeviceUnit>        DeviceUnits         { get; set; } = null!;
+    public virtual DbSet<MedicalDeviceForm> MedicalDeviceForms  { get; set; } = null!;
+    public virtual DbSet<MedicalService>    MedicalServices     { get; set; } = null!;
+    public virtual DbSet<AnalysisTest>      AnalysisTests       { get; set; } = null!;
 
-    public virtual DbSet<Bill>              Bills           { get; set; } = null!;
+    public virtual DbSet<Bill>          Bills       { get; set; } = null!;
     #endregion
 }

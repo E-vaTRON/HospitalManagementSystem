@@ -6,13 +6,4 @@ public class UserSpecializationFactory
     {
         return new UserSpecialization();
     }
-
-    public static UserSpecialization Create(string userId, string specializationId)
-    {
-        return new UserSpecialization()
-        {
-            UserId = userId,
-            SpecializationId = specializationId
-        };
-    }
 }

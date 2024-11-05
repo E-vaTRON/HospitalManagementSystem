@@ -18,13 +18,13 @@ public static class ServiceExtension
 
         var options = new DbContextOptions<IdentitySystemDbContext>();
         var optionsBuilder = new DbContextOptionsBuilder<IdentitySystemDbContext>(options);
-        optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString);
+        optionsBuilder.UseSqlServer(DatabaseConfiguration.ISConnection);
         optionsBuilder.EnableSensitiveDataLogging(false);
 
         services.AddPooledDbContextFactory<IdentitySystemDbContext>(options =>
         {
             options.UseModel(SQLDatabaseModelBuilder.SQLModel.GetModel());
-            options.UseSqlServer(DatabaseConfiguration.ConnectionString, sqlServerOptionsAction => sqlServerOptionsAction.EnableRetryOnFailure());
+            options.UseSqlServer(DatabaseConfiguration.ISConnection, sqlServerOptionsAction => sqlServerOptionsAction.EnableRetryOnFailure());
 #if DEBUG
             options.EnableDetailedErrors();
             options.EnableSensitiveDataLogging();
@@ -36,6 +36,7 @@ public static class ServiceExtension
 
         //Providers
         services.AddIdentitySystemDataProviders();
+        services.AddIdentitySystemSeedDataProviders();
     }
     #endregion
 }

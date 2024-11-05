@@ -7,43 +7,6 @@ public static class UserFactory
         return new User();
     }
 
-    public static User Create(string userName, string normalizedUserName, 
-        string email, string normalizedEmail, bool emailConfirmed, 
-        string passwordHash, string securityStamp, string concurrencyStamp, 
-        string phoneNumber, bool phoneNumberConfirmed, 
-        bool twoFactorEnabled, DateTimeOffset? lockoutEnd, bool lockoutEnabled, int accessFailedCount, 
-        string firstName, string lastName, int age, DateTime dayOfBirth, bool gender, string address, 
-        string cardID, int? specialistLevel, bool verified)
-    {
-        return new User()
-        {
-            UserName = userName,
-            NormalizedUserName = normalizedUserName,
-            Email = email,
-            NormalizedEmail = normalizedEmail,
-            EmailConfirmed = emailConfirmed,
-            PasswordHash = passwordHash,
-            SecurityStamp = securityStamp,
-            ConcurrencyStamp = concurrencyStamp,
-            PhoneNumber = phoneNumber,
-            PhoneNumberConfirmed = phoneNumberConfirmed,
-            TwoFactorEnabled = twoFactorEnabled,
-            LockoutEnd = lockoutEnd,
-            LockoutEnabled = lockoutEnabled,
-            AccessFailedCount = accessFailedCount,
-            FirstName = firstName,
-            LastName = lastName,
-            Age = age,
-            DayOfBirth = dayOfBirth,
-            Gender = gender,
-            Address = address,
-            CardID = cardID,
-            SpecialistLevel = specialistLevel,
-            Verified = verified
-        };
-    }
-
-
     public static User Create(string userName, string email, string firstName, string lastName, int age, 
         DateTime dayOfBirth, bool gender, string cardID, int? specialistLevel, DateTime? lastUpdatedOn)
     {
@@ -67,23 +30,25 @@ public static class UserFactory
         };
     }
 
-    public static User Create(string userName, string normalizedUserName, string email, 
-        string normalizedEmail, bool emailConfirmed, string passwordHash, 
-        string securityStamp, string concurrencyStamp, 
-        string phoneNumber, bool phoneNumberConfirmed, 
-        bool twoFactorEnabled, bool lockoutEnabled, 
-        int accessFailedCount, 
-        string firstName, string lastName, int age, bool gender, string address, 
+    public static User Create(string id, 
+                              string userName, string normalizedUserName, 
+                              string email, string normalizedEmail, bool emailConfirmed,
+                              string securityStamp, string concurrencyStamp, 
+                              string phoneNumber, bool phoneNumberConfirmed, 
+                              bool twoFactorEnabled, bool lockoutEnabled, int accessFailedCount, 
+        string firstName, string lastName, int age, 
+        //DateTime dayOfBirth, 
+        bool gender, string address, 
         string cardID, int? specialistLevel, bool verified)
     {
         return new User()
         {
+            Id = id,
             UserName = userName,
             NormalizedUserName = normalizedUserName,
             Email = email,
             NormalizedEmail = normalizedEmail,
             EmailConfirmed = emailConfirmed,
-            PasswordHash = passwordHash,
             SecurityStamp = securityStamp,
             ConcurrencyStamp = concurrencyStamp,
             PhoneNumber = phoneNumber,
@@ -94,11 +59,13 @@ public static class UserFactory
             FirstName = firstName,
             LastName = lastName,
             Age = age,
+            DayOfBirth = DateTime.UtcNow.AddYears(-age),
             Gender = gender,
             Address = address,
             CardID = cardID,
             SpecialistLevel = specialistLevel,
-            Verified = verified
+            Verified = verified,
+            CreatedOn = DateTime.UtcNow,
         };
     }
 }
