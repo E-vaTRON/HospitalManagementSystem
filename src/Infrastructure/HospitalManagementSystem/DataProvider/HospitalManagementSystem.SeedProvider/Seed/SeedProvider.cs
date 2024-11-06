@@ -73,16 +73,16 @@ public class SeedProvider
     public List<Domain.Importation>         Importations        { get; private set; }
     public List<Domain.DeviceInventory>     DeviceInventories   { get; private set; }
 
-    public List<Domain.AssignmentHistory>       AssignmentHistories     { get; private set; }
-    public List<Domain.Diagnosis>               Diagnoses               { get; private set; }
+    public List<Domain.AssignmentHistory>   AssignmentHistories     { get; private set; }
+    public List<Domain.Diagnosis>           Diagnoses               { get; private set; }
     //public virtual DbSet<DiagnosisSuggestion>   DiagnosisSuggestions    { get; set; }
-    public List<Domain.Diseases>                Diseases                { get; private set; }
-    public List<Domain.ICDCode>                 ICDCodes                { get; private set; }
-    public List<Domain.ICDCodeVersion>          ICDCodeVersions         { get; private set; }
-    public List<Domain.ICDVersion>              ICDVersions             { get; private set; }
-    public List<Domain.MedicalExam>             MedicalExams            { get; private set; }
-    public List<Domain.MedicalExamEpisode>      MedicalExamEpisodes     { get; private set; }
-    public List<Domain.Treatment>               Treatments              { get; private set; }
+    public List<Domain.Diseases>            Diseases                { get; private set; }
+    public List<Domain.ICDCode>             ICDCodes                { get; private set; }
+    public List<Domain.ICDCodeVersion>      ICDCodeVersions         { get; private set; }
+    public List<Domain.ICDVersion>          ICDVersions             { get; private set; }
+    public List<Domain.MedicalExam>         MedicalExams            { get; private set; }
+    public List<Domain.MedicalExamEpisode>  MedicalExamEpisodes     { get; private set; }
+    public List<Domain.Treatment>           Treatments              { get; private set; }
     //public List<Domain.TreatmentExamEpisode>    TreatmentExamEpisodes   { get; private set; }
 
     public List<Domain.ServiceEpisode>      ServiceEpisodes     { get; private set; }
@@ -143,7 +143,7 @@ public class SeedProvider
         DeviceInventories.Clear();      //
 
         AssignmentHistories.Clear();
-        Diagnoses.Clear();              
+        Diagnoses.Clear();
         Diseases.Clear();               //
         ICDCodes.Clear();               //
         ICDCodeVersions.Clear();        //
@@ -843,7 +843,7 @@ public class SeedProvider
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-11")!, "1A62", "")
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-11")!, "1A62.2", "Symptomatic Late Syphilis of other sites");
         #endregion
-         
+
         #region [ Cardiology Department ]
         this.Diseases.FirstOrDefault(x => x.Name.Equals("Disorders of Lipoprotein Metabolism and Other Lipidaemias"))!
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-10")!, "E78", "")
@@ -1789,7 +1789,6 @@ public class SeedProvider
         this.MedicalDevices.Add(MedicalDeviceFactory.Create("GE Optima XR220amx X-ray Machine", "Japan", "", "", 30, 300));
         this.MedicalDevices.Add(MedicalDeviceFactory.Create("Philips DigitalDiagnost C90 X-ray Machine", "Japan", "", "", 30, 300));
 
-
         // Magnetic Resonance Imaging (MRI) Machines
         this.MedicalDevices.Add(MedicalDeviceFactory.Create("GE SIGNA Premier MRI Machine", "USA", "", "", 40, 400));
         this.MedicalDevices.Add(MedicalDeviceFactory.Create("Philips Ingenia Elition MRI Machine", "USA", "", "", 40, 400));
@@ -1813,6 +1812,57 @@ public class SeedProvider
         // Dialysis Machines
         this.MedicalDevices.Add(MedicalDeviceFactory.Create("Fresenius 2008K Dialysis Machine", "Japan", "", "", 90, 900));
         this.MedicalDevices.Add(MedicalDeviceFactory.Create("Baxter HomeChoice Pro Dialysis Machine", "Japan", "", "", 90, 900));
+
+        // Allergy Testing Machines
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Phadia 250 ImmunoCAP", "Sweden", "", "", 5, 50));
+
+        // Dermatoscope
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("HEINE DELTA 30 Dermatoscope", "Germany", "", "", 3, 30));
+
+        // Blood Pressure Monitors
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("OMRON BP785 IntelliWrap", "Japan", "", "", 10, 100));
+
+        // Blood Glucose Meters
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Accu-Chek Guide", "Germany", "", "", 15, 150));
+
+        // Cholesterol Meters
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("CardioChek Plus Analyzer", "USA", "", "", 7, 70));
+
+        //Blood Test
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Thermo Fisher Scientific Multidrop Combi Reagent Dispenser", "USA", "", "", 6, 60));
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Technicon AutoAnalyzer II", "USA", "", "", 4, 40));
+
+        // Colonoscope for Colonoscopy
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Olympus CF-HQ190L Colonoscope", "Japan", "", "", 8, 80));
+
+        // Cytology Processor for Pap Smear
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Hologic ThinPrep 5000", "USA", "", "", 10, 100));
+
+        // Eye Examination
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Reichert Tono-Pen AVIA", "USA", "", "", 5, 50));
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Topcon KR-800 Autorefractor", "Japan", "", "", 5, 50));
+
+        // Phoropter for Vision Assessment
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Nidek RT-5100 Phoropter", "Japan", "", "", 4, 40));
+
+        // Spirometer for Pulmonary Function Test
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("CareFusion MicroLab", "USA", "", "", 5, 50));
+
+        // Pulse Oximeter for Oxygen Therapy Evaluation
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Nonin Onyx Vantage 9590", "USA", "", "", 5, 50));
+
+        // Urine Analyzer for Urologic Assessment
+        this.MedicalDevices.Add(MedicalDeviceFactory.Create("Siemens CLINITEK Advantus", "Germany", "", "", 10, 100));
+    }
+
+    private void LoadMeasurementUnit()
+    {
+        
+    }
+
+    private void LoadDeviceUnit()
+    {
+
     }
 
     private void LoadMedicalDeviceForm()
@@ -2589,54 +2639,125 @@ public class SeedProvider
 
     private void LoadAnalysisTest()
     {
+        //Patient 1
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("f8d46725-b3d9-4c3f-b5ed-d0561e437f56"))!.MedicalExamEpisodes
-                         .ToList() 
-                         .ForEach(episode => episode.AddAnalysisTest());
+                         .ToList()[0].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Phadia 250 ImmunoCAP"))!.DeviceInventories.ToList()[0], 
+                                                                "Positive for pollen", "IgE: 120 IU/mL", "userId", "TechnicianSignature")
+                                     .AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("HEINE DELTA 30 Dermatoscope"))!.DeviceInventories.ToList()[0], 
+                                                                "Benign", "Lesion size: 5mm", "userId", "TechnicianSignature");
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("f8d46725-b3d9-4c3f-b5ed-d0561e437f56"))!.MedicalExamEpisodes
+                         .ToList()[1].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("OMRON BP785 IntelliWrap"))!.DeviceInventories.ToList()[0], 
+                                                                "Normal", "Blood Pressure: 120/80 mmHg", "userId", "TechnicianSignature");
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("f8d46725-b3d9-4c3f-b5ed-d0561e437f56"))!.MedicalExamEpisodes
+                         .ToList()[2].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Accu-Chek Guide"))!.DeviceInventories.ToList()[0], 
+                                                                "Healthy", "Blood sugar: 90 mg/dL", "userId", "TechnicianSignature");
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("f8d46725-b3d9-4c3f-b5ed-d0561e437f56"))!.MedicalExamEpisodes
+                         .ToList()[4].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("CardioChek Plus Analyzer"))!.DeviceInventories.ToList()[0], 
+                                                                "Normal", "Cholesterol: 180 mg/dL", "userId", "TechnicianSignature");
 
+        //Patient 2
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("60b1647e-1474-4fae-95cf-43213dd070ae"))!.MedicalExamEpisodes
-                         .ToList()
-                         .ForEach(episode => episode.AddAnalysisTest());
-
+                         .ToList()[0].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Accu-Chek Guide"))!.DeviceInventories.ToList()[0],
+                                                                "Healthy", "Blood sugar: 90 mg/dL", "userId", "TechnicianSignature")
+                                     .AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Thermo Fisher Scientific Multidrop Combi Reagent Dispenser"))!.DeviceInventories.ToList()[0],
+                                                                "Normal", "Hemoglobin: 13.5 g/dL", "userId", "TechnicianSignature");
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("60b1647e-1474-4fae-95cf-43213dd070ae"))!.MedicalExamEpisodes
+                         .ToList()[1].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("OMRON BP785 IntelliWrap"))!.DeviceInventories.ToList()[0],
+                                                                "Normal", "Blood Pressure: 120/80 mmHg", "userId", "TechnicianSignature")
+                                     .AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("CardioChek Plus Analyzer"))!.DeviceInventories.ToList()[0],
+                                                                "Normal", "Cholesterol: 180 mg/dL", "userId", "TechnicianSignature");
+        //Patient 3
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("1c1217f4-4375-4a8d-a67e-8dd89bf99f41"))!.MedicalExamEpisodes
-                         .ToList()
-                         .ForEach(episode => episode.AddAnalysisTest());
+                         .ToList()[0].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Accu-Chek Guide"))!.DeviceInventories.ToList()[0],
+                                                                "Healthy", "Blood sugar: 90 mg/dL", "userId", "TechnicianSignature");
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("1c1217f4-4375-4a8d-a67e-8dd89bf99f41"))!.MedicalExamEpisodes
+                         .ToList()[1].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("CardioChek Plus Analyzer"))!.DeviceInventories.ToList()[0],
+                                                                "Normal", "Cholesterol: 180 mg/dL", "userId", "TechnicianSignature");
 
+        //Patient 4
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c2ecb78c-4bd2-40f6-a966-8eb1472382ce"))!.MedicalExamEpisodes
-                         .ToList()
-                         .ForEach(episode => episode.AddAnalysisTest());
-
+                         .ToList()[0].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Accu-Chek Guide"))!.DeviceInventories.ToList()[0],
+                                                                "Healthy", "Blood sugar: 90 mg/dL", "userId", "TechnicianSignature");
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c2ecb78c-4bd2-40f6-a966-8eb1472382ce"))!.MedicalExamEpisodes
-                         .ToList()
-                         .ForEach(episode => episode.AddAnalysisTest());
+                         .ToList()[1].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("CardioChek Plus Analyzer"))!.DeviceInventories.ToList()[0],
+                                                                "Normal", "Cholesterol: 180 mg/dL", "userId", "TechnicianSignature");
 
+        //Patient 5
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c2ecb78c-4bd2-40f6-a966-8eb1472382ce"))!.MedicalExamEpisodes
+                         .ToList()[0].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Accu-Chek Guide"))!.DeviceInventories.ToList()[0],
+                                                                "Healthy", "Blood sugar: 90 mg/dL", "userId", "TechnicianSignature")
+                                     .AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Hologic ThinPrep 5000"))!.DeviceInventories.ToList()[0],
+                                                                "Normal", "Cytology: Cell Count: 10^4 cells/mL", "userId", "TechnicianSignature")
+                                     .AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Olympus CF-HQ190L Colonoscope"))!.DeviceInventories.ToList()[0],
+                                                                "No polyps detected", "Colonoscopy: 0 polyps", "userId", "TechnicianSignature");
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c2ecb78c-4bd2-40f6-a966-8eb1472382ce"))!.MedicalExamEpisodes
+                         .ToList()[1].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("CardioChek Plus Analyzer"))!.DeviceInventories.ToList()[0],
+                                                                "Normal", "Cholesterol: 180 mg/dL", "userId", "TechnicianSignature")
+                                     .AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Hologic ThinPrep 5000"))!.DeviceInventories.ToList()[0],
+                                                                "Normal", "Cytology: Cell Count: 10^4 cells/mL", "userId", "TechnicianSignature");
+
+        //Patient 6
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("77204cd1-fba2-4faf-9fb6-ee258fddaa8d"))!.MedicalExamEpisodes
-                         .ToList()
-                         .ForEach(episode => episode.AddAnalysisTest());
+                         .ToList()[0].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Accu-Chek Guide"))!.DeviceInventories.ToList()[0],
+                                                                "Healthy", "Blood sugar: 90 mg/dL", "userId", "TechnicianSignature")
+                                     .AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Topcon KR-800 Autorefractor"))!.DeviceInventories.ToList()[0],
+                                                                "Normal vision", "Vision: 20/20", "userId", "TechnicianSignature");
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("77204cd1-fba2-4faf-9fb6-ee258fddaa8d"))!.MedicalExamEpisodes
+                         .ToList()[1].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Nidek RT-5100 Phoropter"))!.DeviceInventories.ToList()[0],
+                                                                "Prescription needed", "Visual acuity: -1.5 D", "userId", "TechnicianSignature");
 
+        //Patient 7
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("17e9c247-4bc1-492a-9f33-219e288ae5a9"))!.MedicalExamEpisodes
-                         .ToList()
-                         .ForEach(episode => episode.AddAnalysisTest());
+                         .ToList()[0].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Accu-Chek Guide"))!.DeviceInventories.ToList()[0],
+                                                                "Healthy", "Blood sugar: 90 mg/dL", "userId", "TechnicianSignature");
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("17e9c247-4bc1-492a-9f33-219e288ae5a9"))!.MedicalExamEpisodes
+                         .ToList()[1].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("CardioChek Plus Analyzer"))!.DeviceInventories.ToList()[0],
+                                                                "Normal", "Cholesterol: 180 mg/dL", "userId", "TechnicianSignature");
 
+        //Patient 8
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("7f2287a6-011c-4f51-8ea0-9bb1857c05f9"))!.MedicalExamEpisodes
-                         .ToList()
-                         .ForEach(episode => episode.AddAnalysisTest());
+                         .ToList()[0].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Accu-Chek Guide"))!.DeviceInventories.ToList()[0],
+                                                                "Healthy", "Blood sugar: 90 mg/dL", "userId", "TechnicianSignature")
+                                     .AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("CareFusion MicroLab"))!.DeviceInventories.ToList()[0],
+                                                                "Normal lung function", "FEV1: 3.5 L", "userId", "TechnicianSignature");
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("7f2287a6-011c-4f51-8ea0-9bb1857c05f9"))!.MedicalExamEpisodes
+                         .ToList()[1].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Accu-Chek Guide"))!.DeviceInventories.ToList()[0],
+                                                                "Healthy", "Blood sugar: 90 mg/dL", "userId", "TechnicianSignature")
+                                     .AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Nonin Onyx Vantage 9590"))!.DeviceInventories.ToList()[0],
+                                                                "Oxygen saturation normal", "SpO2: 98%", "userId", "TechnicianSignature");
 
+        //Patient 9
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("b28a4b05-8609-4f90-a484-73f69b1bc1c9"))!.MedicalExamEpisodes
-                         .ToList()
-                         .ForEach(episode => episode.AddAnalysisTest());
+                         .ToList()[0].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Accu-Chek Guide"))!.DeviceInventories.ToList()[0],
+                                                                "Healthy", "Blood sugar: 90 mg/dL", "userId", "TechnicianSignature")
+                                     .AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Technicon AutoAnalyzer II"))!.DeviceInventories.ToList()[0],
+                                                                "No inflammation", "CRP: 1.0 mg/L", "userId", "TechnicianSignature");
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("b28a4b05-8609-4f90-a484-73f69b1bc1c9"))!.MedicalExamEpisodes
+                         .ToList()[1].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("CardioChek Plus Analyzer"))!.DeviceInventories.ToList()[0],
+                                                                "Normal", "Cholesterol: 180 mg/dL", "userId", "TechnicianSignature");
 
+        //Patient 10
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c364faa0-652d-4aad-a5d4-9978989629dd"))!.MedicalExamEpisodes
-                         .ToList()
-                         .ForEach(episode => episode.AddAnalysisTest());
+                         .ToList()[0].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Accu-Chek Guide"))!.DeviceInventories.ToList()[0],
+                                                               "Healthy", "Blood sugar: 90 mg/dL", "userId", "TechnicianSignature")
+                                     .AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Siemens CLINITEK Advantus"))!.DeviceInventories.ToList()[0],
+                                                                "Normal urine analysis", "Urine pH: 6.0", "userId", "TechnicianSignature");
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c364faa0-652d-4aad-a5d4-9978989629dd"))!.MedicalExamEpisodes
+                         .ToList()[1].AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("CardioChek Plus Analyzer"))!.DeviceInventories.ToList()[0],
+                                                                 "Normal", "Cholesterol: 180 mg/dL", "userId", "TechnicianSignature")
+                                     .AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Siemens CLINITEK Advantus"))!.DeviceInventories.ToList()[0],
+                                                                 "Normal urine analysis", "Urine pH: 6.0", "userId", "TechnicianSignature");
+
 
         foreach (var item in this.MedicalExamEpisodes)
         {
-            this.Diagnoses.AddRange(item.Diagnoses);
+            this.AnalysisTests.AddRange(item.AnalysisTests);
         }
     }
 
     private void LoadServiceEpisode()
     {
+        //Patient 1
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("f8d46725-b3d9-4c3f-b5ed-d0561e437f56"))!.MedicalExamEpisodes
                          .ToList()[0].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Allergy Testing"))!)
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Counseling and Support"))!)
@@ -2650,6 +2771,7 @@ public class SeedProvider
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("f8d46725-b3d9-4c3f-b5ed-d0561e437f56"))!.MedicalExamEpisodes
                          .ToList()[4].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Health Metrics Tracking"))!);
 
+        //Patient 2
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("60b1647e-1474-4fae-95cf-43213dd070ae"))!.MedicalExamEpisodes
                          .ToList()[0].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Routine Check-up"))!)
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Blood Test"))!)
@@ -2658,14 +2780,15 @@ public class SeedProvider
                          .ToList()[1].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Health Metrics Tracking"))!)
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Routine Check-up"))!)
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Counseling and Support"))!);
-
+        //Patient 3
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("1c1217f4-4375-4a8d-a67e-8dd89bf99f41"))!.MedicalExamEpisodes
                          .ToList()[0].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Routine Check-up"))!)
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Colonoscopy"))!);
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("1c1217f4-4375-4a8d-a67e-8dd89bf99f41"))!.MedicalExamEpisodes
                          .ToList()[1].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Routine Check-up"))!)
-                                     .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Diet and Lifestyle Counseling"))!); 
+                                     .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Diet and Lifestyle Counseling"))!);
 
+        //Patient 4
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c2ecb78c-4bd2-40f6-a966-8eb1472382ce"))!.MedicalExamEpisodes
                          .ToList()[0].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Routine Check-up"))!)
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Ultrasound"))!);
@@ -2673,6 +2796,7 @@ public class SeedProvider
                          .ToList()[1].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Routine Check-up"))!)
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Diet and Lifestyle Counseling"))!);
 
+        //Patient 5
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c2ecb78c-4bd2-40f6-a966-8eb1472382ce"))!.MedicalExamEpisodes
                          .ToList()[0].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Routine Check-up"))!)
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Pap Smear"))!)
@@ -2682,12 +2806,14 @@ public class SeedProvider
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Pap Smear"))!)
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Diet and Lifestyle Counseling"))!);
 
+        //Patient 6
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("77204cd1-fba2-4faf-9fb6-ee258fddaa8d"))!.MedicalExamEpisodes
                          .ToList()[0].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Routine Check-up"))!)
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Eye Examination"))!);
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("77204cd1-fba2-4faf-9fb6-ee258fddaa8d"))!.MedicalExamEpisodes
                          .ToList()[1].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Vision Assessment"))!);
 
+        //Patient 7
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("17e9c247-4bc1-492a-9f33-219e288ae5a9"))!.MedicalExamEpisodes
                          .ToList()[0].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Routine Check-up"))!)
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Psychiatric Evaluation"))!);
@@ -2695,13 +2821,14 @@ public class SeedProvider
                          .ToList()[1].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Routine Check-up"))!)
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Physical Therapy Session"))!);
 
+        //Patient 8
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("7f2287a6-011c-4f51-8ea0-9bb1857c05f9"))!.MedicalExamEpisodes
                          .ToList()[0].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Routine Check-up"))!)
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Pulmonary Function Test"))!);
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("7f2287a6-011c-4f51-8ea0-9bb1857c05f9"))!.MedicalExamEpisodes
                          .ToList()[1].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Routine Check-up"))!)
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Oxygen Therapy Evaluation"))!);
-
+        //Patient 9
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("b28a4b05-8609-4f90-a484-73f69b1bc1c9"))!.MedicalExamEpisodes
                          .ToList()[0].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Routine Check-up"))!)
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Rheumatologic Assessment"))!);
@@ -2709,6 +2836,7 @@ public class SeedProvider
                          .ToList()[1].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Routine Check-up"))!)
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Physical Therapy Session"))!);
 
+        //Patient 10
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c364faa0-652d-4aad-a5d4-9978989629dd"))!.MedicalExamEpisodes
                          .ToList()[0].AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Routine Check-up"))!)
                                      .AddServiceEpisodeWithService(this.MedicalServices.FirstOrDefault(x => x.Name.Equals("Urologic Assessment"))!);
@@ -2722,6 +2850,12 @@ public class SeedProvider
         }
     }
 
+    private void LoadDrugPrescription()
+    {
+        
+    }
+
+    #region [ Remove Method ]
     private void LoadMedicalExamEpisodeRelated()
     {
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("f8d46725-b3d9-4c3f-b5ed-d0561e437f56"))!.MedicalExamEpisodes
@@ -2729,10 +2863,6 @@ public class SeedProvider
                                                 {
                                                     episode.AddAssignmentHistory("Completed", "b1af80b4-cb25-4b15-858b-27c992d647a9");
                                                     episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("L63.9"))!, "", "");
-                                                    episode.AddAnalysisTest();
-                                                    episode.AddDrugPrescription()
-                                                           .AddDrugPrescription()
-                                                           .AddDrugPrescription();
                                                     episode.AddRoomAllocation(this.Departments.FirstOrDefault(x => x.Name.Equals("Dermatology"))!.Rooms.OrderBy(x => Guid.NewGuid()).First(), 
                                                                               episode.RecordDay, episode.RecordDay.AddHours(1), 
                                                                               "f8d46725-b3d9-4c3f-b5ed-d0561e437f56", "");
@@ -2743,10 +2873,6 @@ public class SeedProvider
                                                {
                                                    episode.AddAssignmentHistory("Completed", "b1af80b4-cb25-4b15-858b-27c992d647a9");
                                                    episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("E10"))!, "", "");
-                                                   episode.AddAnalysisTest();
-                                                   episode.AddDrugPrescription()
-                                                          .AddDrugPrescription()
-                                                          .AddDrugPrescription();
                                                    episode.AddRoomAllocation(this.Departments.FirstOrDefault(x => x.Name.Equals("Endocrinology"))!.Rooms.OrderBy(x => Guid.NewGuid()).First(), 
                                                                              episode.RecordDay, episode.RecordDay.AddHours(1), 
                                                                              "f8d46725-b3d9-4c3f-b5ed-d0561e437f56", "");
@@ -2757,10 +2883,6 @@ public class SeedProvider
                                                {
                                                    episode.AddAssignmentHistory("Completed", "b1af80b4-cb25-4b15-858b-27c992d647a9");
                                                    episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("DB35.0"))!, "", "");
-                                                   episode.AddAnalysisTest();
-                                                   episode.AddDrugPrescription()
-                                                          .AddDrugPrescription()
-                                                          .AddDrugPrescription();
                                                    episode.AddRoomAllocation(this.Departments.FirstOrDefault(x => x.Name.Equals("Gastroenterology"))!.Rooms.OrderBy(x => Guid.NewGuid()).First(), 
                                                                              episode.RecordDay, episode.RecordDay.AddHours(1), 
                                                                              "f8d46725-b3d9-4c3f-b5ed-d0561e437f56", "");
@@ -2771,10 +2893,6 @@ public class SeedProvider
                                                {
                                                    episode.AddAssignmentHistory("Completed", "b1af80b4-cb25-4b15-858b-27c992d647a9");
                                                    episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("Q61"))!, "", "");
-                                                   episode.AddAnalysisTest();
-                                                   episode.AddDrugPrescription()
-                                                          .AddDrugPrescription()
-                                                          .AddDrugPrescription();
                                                    episode.AddRoomAllocation(this.Departments.FirstOrDefault(x => x.Name.Equals("Nephrology"))!.Rooms.OrderBy(x => Guid.NewGuid()).First(), 
                                                                              episode.RecordDay, episode.RecordDay.AddHours(1), 
                                                                              "f8d46725-b3d9-4c3f-b5ed-d0561e437f56", "");
@@ -2785,10 +2903,6 @@ public class SeedProvider
                                                {
                                                    episode.AddAssignmentHistory("Completed", "7baac533-bca9-40a8-9e69-c7df24170efa");
                                                    episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("N87.0"))!, "", "");
-                                                   episode.AddAnalysisTest();
-                                                   episode.AddDrugPrescription()
-                                                          .AddDrugPrescription()
-                                                          .AddDrugPrescription();
                                                    episode.AddRoomAllocation(this.Departments.FirstOrDefault(x => x.Name.Equals("Obstetrics and Gynecology"))!.Rooms.OrderBy(x => Guid.NewGuid()).First(), 
                                                                              episode.RecordDay, episode.RecordDay.AddHours(1), 
                                                                              "f8d46725-b3d9-4c3f-b5ed-d0561e437f56", "");
@@ -2799,10 +2913,6 @@ public class SeedProvider
                                                {
                                                    episode.AddAssignmentHistory("Completed", "65410c16-c252-4c9d-accd-c4917fa87bd0");
                                                    episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("H52.1"))!, "", "");
-                                                   episode.AddAnalysisTest();
-                                                   episode.AddDrugPrescription()
-                                                          .AddDrugPrescription()
-                                                          .AddDrugPrescription();
                                                    episode.AddRoomAllocation(this.Departments.FirstOrDefault(x => x.Name.Equals("Ophthalmology"))!.Rooms.OrderBy(x => Guid.NewGuid()).First(),
                                                                              episode.RecordDay, episode.RecordDay.AddHours(1),
                                                                              "f8d46725-b3d9-4c3f-b5ed-d0561e437f56", "");
@@ -2813,10 +2923,6 @@ public class SeedProvider
                                                {
                                                    episode.AddAssignmentHistory("Completed", "65410c16-c252-4c9d-accd-c4917fa87bd0");
                                                    episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("F41.1"))!, "", "");
-                                                   episode.AddAnalysisTest();
-                                                   episode.AddDrugPrescription()
-                                                          .AddDrugPrescription()
-                                                          .AddDrugPrescription();
                                                    episode.AddRoomAllocation(this.Departments.FirstOrDefault(x => x.Name.Equals("Psychiatry"))!.Rooms.OrderBy(x => Guid.NewGuid()).First(),
                                                                              episode.RecordDay, episode.RecordDay.AddHours(1),
                                                                              "f8d46725-b3d9-4c3f-b5ed-d0561e437f56", "");
@@ -2827,10 +2933,6 @@ public class SeedProvider
                                                {
                                                    episode.AddAssignmentHistory("Completed", "65410c16-c252-4c9d-accd-c4917fa87bd0");
                                                    episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("J44.9"))!, "", "");
-                                                   episode.AddAnalysisTest();
-                                                   episode.AddDrugPrescription()
-                                                          .AddDrugPrescription()
-                                                          .AddDrugPrescription();
                                                    episode.AddRoomAllocation(this.Departments.FirstOrDefault(x => x.Name.Equals("Pulmonology"))!.Rooms.OrderBy(x => Guid.NewGuid()).First(),
                                                                              episode.RecordDay, episode.RecordDay.AddHours(1),
                                                                              "f8d46725-b3d9-4c3f-b5ed-d0561e437f56", "");
@@ -2841,10 +2943,6 @@ public class SeedProvider
                                                {
                                                    episode.AddAssignmentHistory("Completed", "65410c16-c252-4c9d-accd-c4917fa87bd0");
                                                    episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("M06.9"))!, "", "");
-                                                   episode.AddAnalysisTest();
-                                                   episode.AddDrugPrescription()
-                                                          .AddDrugPrescription()
-                                                          .AddDrugPrescription();
                                                    episode.AddRoomAllocation(this.Departments.FirstOrDefault(x => x.Name.Equals("Rheumatology"))!.Rooms.OrderBy(x => Guid.NewGuid()).First(),
                                                                              episode.RecordDay, episode.RecordDay.AddHours(1),
                                                                              "f8d46725-b3d9-4c3f-b5ed-d0561e437f56", "");
@@ -2855,15 +2953,12 @@ public class SeedProvider
                                                {
                                                    episode.AddAssignmentHistory("Completed", "65410c16-c252-4c9d-accd-c4917fa87bd0");
                                                    episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("N40"))!, "", "");
-                                                   episode.AddAnalysisTest();
-                                                   episode.AddDrugPrescription()
-                                                          .AddDrugPrescription()
-                                                          .AddDrugPrescription();
                                                    episode.AddRoomAllocation(this.Departments.FirstOrDefault(x => x.Name.Equals("Urology"))!.Rooms.OrderBy(x => Guid.NewGuid()).First(),
                                                                              episode.RecordDay, episode.RecordDay.AddHours(1),
                                                                              "f8d46725-b3d9-4c3f-b5ed-d0561e437f56", "");
                                                });
     }
+    #endregion
 
     private void LoadBills()
     {
