@@ -1,4 +1,6 @@
-﻿namespace HospitalManagementSystem.DataProvider;
+﻿using System.Reflection.PortableExecutable;
+
+namespace HospitalManagementSystem.DataProvider;
 
 public class SeedProvider
 {
@@ -87,7 +89,9 @@ public class SeedProvider
 
     public List<Domain.ServiceEpisode>      ServiceEpisodes     { get; private set; }
     public List<Domain.FormType>            FormTypes           { get; private set; }
+    public List<Domain.MeasurementUnit>     MeasurementUnits    { get; private set; }
     public List<Domain.MedicalDevice>       MedicalDevices      { get; private set; }
+    public List<Domain.DeviceUnit>          DeviceUnits         { get; private set; }
     public List<Domain.MedicalDeviceForm>   MedicalDeviceForms  { get; private set; }
     public List<Domain.MedicalService>      MedicalServices     { get; private set; }
     public List<Domain.AnalysisTest>        AnalysisTests       { get; private set; }
@@ -105,6 +109,8 @@ public class SeedProvider
         LoadTreatments();
         LoadFormType();
         LoadMedicalDevice();
+        LoadMeasurementUnit();
+        LoadDeviceUnit();
         LoadMedicalDeviceForm();
         LoadMedicalService();
         LoadStorage();
@@ -1857,12 +1863,412 @@ public class SeedProvider
 
     private void LoadMeasurementUnit()
     {
-        
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Micrometer", "µm"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Millimeter", "mm"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Centimeter", "cm"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Meter", "m"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Square Micrometer", "µm²"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Square Millimeter", "mm²"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Square Centimeter", "cm²"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Cubic Micrometer", "µm³"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Cubic Millimeter", "mm³"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Cubic Centimeter", "cm³"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Centimeters per Second", "cm/s"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Meters per Second", "m/s"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Hertz", "Hz"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Kilohertz", "kHz"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Megahertz", "MHz"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Gram", "g"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Kilogram", "kg"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Second", "s"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Minute", "min"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Hour", "h"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Milliampere", "mA"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Ampere", "A"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Celsius", "°C"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Fahrenheit", "°F"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Microliter", "µL"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Milliliter", "mL"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Liter", "L"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Milliliter per Minute", "mL/min"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Liter per Hour", "L/h"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Cells per Milliliter", "cells/mL"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Millimole per Liter", "mmol/L"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("International Unit per Milliliter", "IU/mL"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Nanogram per Milliliter", "ng/mL"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Microgram per Milliliter", "µg/mL"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Milligram per Deciliter", "mg/dL"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Centimeter of Water", "cmH₂O"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Millimeter of Mercury", "mmHg"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Pascal", "Pa"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Kilopascal", "kPa"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Bar", "bar"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("International Unit per Milliliter", "IU/mL"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Milligram per Deciliter", "mg/dL"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Gram per Deciliter", "g/dL"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Diopter", "D"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Watt per Square Centimeter", "W/cm²"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Joule", "J"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Tesla", "T"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Millivolt", "mV"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Volt", "V"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Kilovolt", "kV"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Milligray", "mGy"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Hounsfield Unit", "HU"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Becquerel", "Bq"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Kilobecquerel", "kBq"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Megabecquerel", "MBq"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Percent", "%"));
+
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Beats per Minute", "bpm"));
     }
 
     private void LoadDeviceUnit()
     {
+        // Ultrasound Machine
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("GE Voluson E10 Ultrasound Machine"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeters per Second"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Megahertz"))!);
 
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Philips EPIQ Elite Ultrasound Machine"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeters per Second"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Megahertz"))!);
+
+        // Electrocardiogram(ECG) Machines
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("GE MAC 5500 HD ECG Machine"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millivolt"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millisecond"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Second"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Hertz"))!);
+
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Philips PageWriter TC70 ECG Machine"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millivolt"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millisecond"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Second"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Hertz"))!);
+
+        // X-ray Machine
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("GE Optima XR220amx X-ray Machine"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milligray"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Kilohertz"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Kilovolt"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliampere"))!);
+
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Philips DigitalDiagnost C90 X-ray Machine"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milligray"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Kilohertz"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Kilovolt"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliampere"))!);
+
+        // Magnetic Resonance Imaging (MRI) Machines
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("GE SIGNA Premier MRI Machine"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Tesla"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Hertz"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Megahertz"))!);
+
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Philips Ingenia Elition MRI Machine"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Tesla"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Hertz"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Megahertz"))!);
+
+        // Computed Tomography (CT) Scanners
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("GE Revolution CT Scanner"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Hounsfield Unit"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milligray"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Kilohertz"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Kilovolt"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliampere"))!);
+
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Philips Incisive CT Scanner"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Hounsfield Unit"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milligray"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Kilohertz"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Kilovolt"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliampere"))!);
+
+        // Positron Emission Tomography (PET) Scanners
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("GE Discovery MI PET Scanner"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Becquerel"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Kilobecquerel"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Megabecquerel"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milligray"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Kilohertz"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Kilovolt"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliampere"))!);
+
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Philips Vereos PET Scanner"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Becquerel"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Kilobecquerel"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Megabecquerel"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milligray"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Kilohertz"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Kilovolt"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliampere"))!);
+
+        // Defibrillators
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("GE Responder 2000 Defibrillator"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Joule"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Volt"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Ampere"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliampere"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Second"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millisecond"))!);
+
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Philips HeartStart XL Defibrillator"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Joule"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Volt"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Ampere"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliampere"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Second"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millisecond"))!);
+
+        // Ventilators
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("GE CARESCAPE R860 Ventilator"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Liter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeter of Water"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter of Mercury"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Pascal"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Liters per Minute"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Second"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Minute"))!);
+
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Philips V680 Ventilator"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Liter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeter of Water"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter of Mercury"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Pascal"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Liters per Minute"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Second"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Minute"))!);
+
+        // Dialysis Machines
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Fresenius 2008K Dialysis Machine"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliliter per Minute"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Liter per Hour"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Liter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milligram per Deciliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimole per Liter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter of Mercury"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Pascal"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Minute"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Hour"))!);
+
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Baxter HomeChoice Pro Dialysis Machine"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliliter per Minute"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Liter per Hour"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Liter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milligram per Deciliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimole per Liter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter of Mercury"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Pascal"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Minute"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Hour"))!);
+
+        // Allergy Testing Machines
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Phadia 250 ImmunoCAP"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("International Unit per Milliliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Nanogram per Milliliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Microgram per Milliliter"))!);
+
+        // Dermatoscope
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("HEINE DELTA 30 Dermatoscope"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Micrometer"))!);
+
+        // Blood Pressure Monitors
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("OMRON BP785 IntelliWrap"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter of Mercury"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Second"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Minute"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Hertz"))!);
+
+        // Blood Glucose Meters
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Accu-Chek Guide"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milligram per Deciliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimole per Liter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Microliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Second"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Minute"))!);
+
+        // Cholesterol Meters
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("CardioChek Plus Analyzer"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milligram per Deciliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimole per Liter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Microliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Second"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Minute"))!);
+
+        // Blood Test
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Thermo Fisher Scientific Multidrop Combi Reagent Dispenser"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Microliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Liter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Nanogram per Milliliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Microgram per Milliliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milligram per Deciliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimole per Liter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Second"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Minute"))!);
+
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Technicon AutoAnalyzer II"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Microliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Liter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Nanogram per Milliliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Microgram per Milliliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milligram per Deciliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimole per Liter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Second"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Minute"))!);
+
+
+        // Colonoscope for Colonoscopy
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Olympus CF-HQ190L Colonoscope"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Square Centimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cubic Centimeter"))!);
+
+        // Cytology Processor for Pap Smear
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Hologic ThinPrep 5000"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Microliter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Cells per Milliliter"))!)    
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Nanogram per Milliliter"))!);
+
+        // Eye Examination
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Reichert Tono-Pen AVIA"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter of Mercury"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Micrometer"))!);
+
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Topcon KR-800 Autorefractor"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Diopter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Micrometer"))!);
+
+        // Phoropter for Vision Assessment
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Reichert Tono-Pen AVIA"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter of Mercury"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Micrometer"))!);
+
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Topcon KR-800 Autorefractor"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Diopter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Micrometer"))!);
+
+        // Spirometer for Pulmonary Function Test
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("CareFusion MicroLab"))!
+                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Liter"))!)
+                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliliter"))!)
+                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Liter per Minute"))!)
+                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Milliliter per Second"))!)
+                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeter of Water"))!)
+                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Pascal"))!)
+                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Second"))!)
+                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Minute"))!);
+
+        // Pulse Oximeter for Oxygen Therapy Evaluation
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Nonin Onyx Vantage 9590"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Percent"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Beats per Minute"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Second"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Minute"))!);
+
+        // Urine Analyzer for Urologic Assessment
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Nonin Onyx Vantage 9590"))!
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Percent"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Beats per Minute"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Second"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Minute"))!);
     }
 
     private void LoadMedicalDeviceForm()
@@ -1991,6 +2397,37 @@ public class SeedProvider
                            .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
         this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Philips DigitalDiagnost C90 X-ray Machine"))!
                            .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Phadia 250 ImmunoCAP"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("HEINE DELTA 30 Dermatoscope"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("OMRON BP785 IntelliWrap"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Accu-Chek Guide"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("CardioChek Plus Analyzer"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Thermo Fisher Scientific Multidrop Combi Reagent Dispenser"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Technicon AutoAnalyzer II"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Olympus CF-HQ190L Colonoscope"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Hologic ThinPrep 5000"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Reichert Tono-Pen AVIA"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Topcon KR-800 Autorefractor"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Nidek RT-5100 Phoropter"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("CareFusion MicroLab"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Nonin Onyx Vantage 9590"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+        this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("Siemens CLINITEK Advantus"))!
+                           .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!);
+
 
         this.MedicalDevices.FirstOrDefault(x => x.Name.Equals("GE SIGNA Premier MRI Machine"))!
                            .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 2"))!);

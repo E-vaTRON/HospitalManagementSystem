@@ -58,6 +58,11 @@ public static class MedicalDeviceExtensions
     #endregion
 
     #region [ Public Methods ]
+    public static MedicalDevice AddDeviceUnit(this MedicalDevice medicalDevice, MeasurementUnit measurementUnit)
+    {
+        return medicalDevice.AddDeviceUnit(measurementUnit, DeviceUnitFactory.Create());
+    }
+
     public static MedicalDevice AddDeviceInventory(this MedicalDevice medicalDevice)
     {
         return medicalDevice.AddDeviceInventory(DeviceInventoryFactory.Create());
