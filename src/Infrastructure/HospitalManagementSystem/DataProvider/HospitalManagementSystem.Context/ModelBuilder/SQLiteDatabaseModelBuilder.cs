@@ -846,13 +846,28 @@ public class SQLiteDatabaseModelBuilder
 
         modelBuilder.Entity<AnalysisTest>()
                     .Property(x => x.DoctorComment)
-                    .HasColumnType("TEXT")
+                    .HasColumnType("nvarchar")
                     .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<AnalysisTest>()
-                    .Property(x => x.Result)
-                    .HasColumnType("TEXT")
+                    .Property(x => x.ResultSummary)
+                    .HasColumnType("nvarchar")
                     .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<AnalysisTest>()
+                    .Property(x => x.SpecificMeasurements)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<AnalysisTest>()
+                    .Property(x => x.TechnicianSignature)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<AnalysisTest>()
+                    .Property(x => x.UserId)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH);
 
         modelBuilder.Entity<AnalysisTest>()
                     .HasOne(at => at.DeviceInventory)

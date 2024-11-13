@@ -332,6 +332,7 @@ public class SQLDatabaseModelBuilder
                     .HasForeignKey(di => di.StorageId)
                     .OnDelete(DeleteBehavior.Cascade);
     }
+
     private void DrugModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<Drug>(modelBuilder, nameof(Drug));
@@ -909,7 +910,7 @@ public class SQLDatabaseModelBuilder
 
         modelBuilder.Entity<MedicalService>()
                     .Property(x => x.HealthInsurancePrice)
-                    .HasColumnType("int");
+                    .HasColumnType("int"); 
     }
     private void AnalysisTestModelBuilder(ModelBuilder modelBuilder)
     {
@@ -921,9 +922,24 @@ public class SQLDatabaseModelBuilder
                     .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
 
         modelBuilder.Entity<AnalysisTest>()
-                    .Property(x => x.Result)
+                    .Property(x => x.ResultSummary)
                     .HasColumnType("nvarchar")
                     .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<AnalysisTest>()
+                    .Property(x => x.SpecificMeasurements)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<AnalysisTest>()
+                    .Property(x => x.TechnicianSignature)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
+
+        modelBuilder.Entity<AnalysisTest>()
+                    .Property(x => x.UserId)
+                    .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH);
 
         modelBuilder.Entity<AnalysisTest>()
                     .HasOne(at => at.DeviceInventory)

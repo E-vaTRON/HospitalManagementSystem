@@ -126,8 +126,11 @@ public class SeedProvider
         //LoadMedicalExamEpisodeRelated();
         LoadAssignmentHistory();
         LoadDiagnosis();
-        LoadAnalysisTest();
         LoadServiceEpisode();
+        LoadAnalysisTest();
+        LoadDrugPrescription();
+
+        LoadBills();
     }
 
     private void Clear()
@@ -2565,10 +2568,6 @@ public class SeedProvider
                                           "Common side effects include dizziness, lightheadedness, and tiredness", 
                                           Domain.Units.Tablets, "ACE inhibitors", 220, 110, "USA", "A23"));
 
-        this.Drugs.Add(DrugFactory.Create("Glucophage", "Metformin", 
-                                          "Can interact with cephalexin", 
-                                          "Common side effects include stomach upset, nausea, and diarrhea", 
-                                          Domain.Units.Tablets, "Biguanides", 230, 115, "USA", "A24"));
         //
         this.Drugs.Add(DrugFactory.Create("Zocor", "Simvastatin", 
                                           "Can interact with red yeast rice", 
@@ -2605,6 +2604,79 @@ public class SeedProvider
                                           "Common side effects include nausea, vomiting, and diarrhea", 
                                           Domain.Units.Capsules, "Penicillins", 300, 150, "USA", "A31"));
 
+        this.Drugs.Add(DrugFactory.Create("Methotrexate", "Methotrexate",
+                                          "Can interact with NSAIDs and certain antibiotics",
+                                          "Common side effects include nausea, vomiting, and liver toxicity",
+                                          Domain.Units.Tablets, "Antimetabolites", 500, 250, "USA", "A32"));
+
+        this.Drugs.Add(DrugFactory.Create("Loniten", "Minoxidil",
+                                          "Can interact with other medications",
+                                          "Common side effects include dizziness and fluid retention",
+                                          Domain.Units.Tablets, "Oral", 300, 150, "USA", "A33")); ///
+
+        this.Drugs.Add(DrugFactory.Create("Dermovate", "Clobetasol",
+                                          "Can interact with systemic corticosteroids",
+                                          "Common side effects include headache and fatigue",
+                                          Domain.Units.Tablets, "Oral", 400, 200, "USA", "A34")); ///
+
+        this.Drugs.Add(DrugFactory.Create("Humalog", "Insulin Lispro",
+                                          "Can interact with oral hypoglycemic agents",
+                                          "Common side effects include hypoglycemia",
+                                          Domain.Units.Injection, "Insulin", 500, 250, "USA", "A35"));
+
+        this.Drugs.Add(DrugFactory.Create("Asacol", "Mesalamine",
+                                          "Can interact with other anti-inflammatory drugs",
+                                          "Common side effects include nausea and headache",
+                                          Domain.Units.Tablets, "Anti-Inflammatory", 600, 300, "USA", "A36"));
+
+        this.Drugs.Add(DrugFactory.Create("Protonix", "Pantoprazole",
+                                          "Can interact with antiretroviral drugs",
+                                          "Common side effects include diarrhea and headache",
+                                          Domain.Units.Tablets, "Proton Pump Inhibitor", 700, 350, "USA", "A37"));
+        //
+        this.Drugs.Add(DrugFactory.Create("Aldara", "Imiquimod",
+                                          "Can interact with other topical treatments",
+                                          "Common side effects include redness and irritation",
+                                          Domain.Units.Tablets, "Topical", 300, 150, "USA", "A38")); ///
+
+        this.Drugs.Add(DrugFactory.Create("Flagyl", "Metronidazole",
+                                          "Can interact with alcohol and blood thinners",
+                                          "Common side effects include nausea and headache",
+                                          Domain.Units.Tablets, "Antibiotic", 400, 200, "USA", "A39"));
+
+
+        this.Drugs.Add(DrugFactory.Create("Ocuvite", "Eye Vitamins",
+                                          "No known significant interactions",
+                                          "Common side effects include stomach upset",
+                                          Domain.Units.Tablets, "Eye Health", 300, 150, "USA", "A40"));
+
+        this.Drugs.Add(DrugFactory.Create("Lexapro", "Escitalopram",
+                                          "Can interact with other antidepressants and CNS depressants",
+                                          "Common side effects include nausea and drowsiness",
+                                          Domain.Units.Tablets, "Antidepressant", 300, 150, "USA", "A41"));
+
+        this.Drugs.Add(DrugFactory.Create("Ativan", "Lorazepam",
+                                          "Can interact with other CNS depressants",
+                                          "Common side effects include drowsiness and dizziness",
+                                          Domain.Units.Tablets, "Anxiolytic", 400, 200, "USA", "A42"));
+
+        this.Drugs.Add(DrugFactory.Create("Ibuprofen", "Ibuprofen",
+                                          "Can interact with other NSAIDs and anticoagulants",
+                                          "Common side effects include gastrointestinal bleeding and kidney damage",
+                                          Domain.Units.Tablets, "NSAID", 400, 200, "USA", "A46"));
+
+        this.Drugs.Add(DrugFactory.Create("Flomax", "Tamsulosin",
+                                          "Can interact with other alpha-blockers and antihypertensives",
+                                          "Common side effects include dizziness and fainting",
+                                          Domain.Units.Tablets, "Alpha-Blocker", 300, 150, "USA", "A47"));
+
+        this.Drugs.Add(DrugFactory.Create("Proscar", "Finasteride",
+                                          "Can interact with other 5-alpha-reductase inhibitors",
+                                          "Common side effects include decreased libido and erectile dysfunction",
+                                          Domain.Units.Tablets, "5-Alpha-Reductase Inhibitor", 400, 200, "USA", "A48"));
+
+        //
+
         this.Drugs.Add(DrugFactory.Create("Vicodin", "Hydrocodone/Acetaminophen", 
                                           "Can interact with azelastine", 
                                           "Common side effects include lightheadedness, dizziness, and nausea", 
@@ -2625,40 +2697,15 @@ public class SeedProvider
                                           "Common side effects include headache, abdominal pain, and nausea", 
                                           Domain.Units.Capsules, "Proton pump inhibitors", 340, 170, "USA", "A35"));
 
-        this.Drugs.Add(DrugFactory.Create("Norvasc", "Amlodipine", 
-                                          "Can interact with dantrolene and simvastatin", 
-                                          "Common side effects include swelling of the ankles/feet, dizziness, and flushing", 
-                                          Domain.Units.Tablets, "Calcium channel blockers", 350, 175, "USA", "A36"));
-
         this.Drugs.Add(DrugFactory.Create("Glucophage", "Metformin", 
                                           "Can interact with cephalexin", 
                                           "Common side effects include stomach upset, nausea, and diarrhea", 
                                           Domain.Units.Tablets, "Biguanides", 360, 180, "USA", "A37"));
 
-        this.Drugs.Add(DrugFactory.Create("Zocor", "Simvastatin", 
-                                          "Can interact with red yeast rice", 
-                                          "Common side effects include muscle pain, tenderness, and weakness", 
-                                          Domain.Units.Tablets, "Statins", 370, 185, "USA", "A38"));
-
-        this.Drugs.Add(DrugFactory.Create("Microzide", "Hydrochlorothiazide", 
-                                          "Can interact with dofetilide", 
-                                          "Common side effects include dizziness, lightheadedness, and blurred vision", 
-                                          Domain.Units.Tablets, "Thiazides", 380, 190, "USA", "A39"));
-
-        this.Drugs.Add(DrugFactory.Create("Synthroid", "Levothyroxine", 
-                                          "Can interact with estrogens", 
-                                          "Common side effects include hair loss, sweating, and heat intolerance", 
-                                          Domain.Units.Tablets, "Thyroid drugs", 390, 195, "USA", "A40"));
-
         this.Drugs.Add(DrugFactory.Create("Gleevec", "Imatinib",
                                           "Can interact with grapefruit juice, St. John’s wort, and others",
                                           "Common side effects include edema, nausea, vomiting, muscle cramps, bone pain, diarrhea, rash, fatigue, and abdominal pain",
                                           Domain.Units.Tablets, "Tyrosine-Kinase Inhibitor", 1000, 500, "USA", "B01"));
-
-        this.Drugs.Add(DrugFactory.Create("Herceptin", "Trastuzumab",
-                                          "Can interact with anthracycline-based chemotherapy drugs",
-                                          "Common side effects include fever, nausea, vomiting, infusion reactions, diarrhea, infections, increased cough, headache, fatigue, shortness of breath, rash, neutropenia, anemia, and myalgia",
-                                          Domain.Units.Injection, "Monoclonal Antibody", 2000, 1000, "USA", "B02"));
 
         this.Drugs.Add(DrugFactory.Create("Revlimid", "Lenalidomide",
                                           "Can interact with digoxin and warfarin",
@@ -2710,11 +2757,6 @@ public class SeedProvider
                                 this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 2"))!, 
                                 "Clopidogrel", DateTime.Now.AddYears(2), 100);
 
-        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Advair Diskus"))!
-                  .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!, 
-                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 2"))!, 
-                                "Fluticasone/Salmeterol", DateTime.Now.AddYears(2), 100);
-
         this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Abilify"))!
                   .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!, 
                                 this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!, 
@@ -2734,6 +2776,97 @@ public class SeedProvider
                   .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!, 
                                 this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 2"))!, 
                                 "Rosuvastatin", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Minoxidil"))!
+                  .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 2"))!, 
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 3"))!, 
+                                "Minoxidil", DateTime.Now.AddYears(2), 100); 
+        
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Clobetasol"))!
+                  .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 2"))!, 
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 3"))!, 
+                                "Clobetasol", DateTime.Now.AddYears(2), 100); 
+        
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Glucophage"))!
+                  .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 2"))!, 
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 3"))!, 
+                                "Metformin", DateTime.Now.AddYears(2), 100); 
+        
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Cozaar"))!
+                  .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 2"))!, 
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 3"))!, 
+                                "Losartan", DateTime.Now.AddYears(2), 100); 
+        
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Humalog"))!
+                  .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 2"))!, 
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 3"))!, 
+                                "Insulin Lispro", DateTime.Now.AddYears(2), 100);
+
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Asacol"))!
+                    .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!,
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!,
+                                "Mesalamine", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Protonix"))!
+                    .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!,
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!,
+                                "Pantoprazole", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Aldara"))!
+                    .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!,
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!,
+                                "Imiquimod", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Flagyl"))!
+                    .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!,
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!,
+                                "Metronidazole", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Ocuvite"))!
+                    .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!,
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!,
+                                "Eye Vitamins", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Lexapro"))!
+                    .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!,
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!,
+                                "Escitalopram", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Ativan"))!
+                    .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!,
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!,
+                                "Lorazepam", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Spiriva"))!
+                    .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!,
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!,
+                                "Tiotropium", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Advair Diskus"))!
+                    .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!,
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!,
+                                "Fluticasone/Salmeterol", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Methotrexate"))!
+                    .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!,
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!,
+                                "Methotrexate", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Ibuprofen"))!
+                    .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!,
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!,
+                                "Ibuprofen", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Flomax"))!
+                    .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!,
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!,
+                                "Tamsulosin", DateTime.Now.AddYears(2), 100);
+
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Proscar"))!
+                    .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 1"))!,
+                                this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 1"))!,
+                                "Finasteride", DateTime.Now.AddYears(2), 100);
 
         // Rare case drugs
         this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Gleevec"))!
@@ -2924,50 +3057,55 @@ public class SeedProvider
 
     private void LoadMedicalExamEpisode()
     {
-        // Patient ID: f8d46725-b3d9-4c3f-b5ed-d0561e437f56
+        // Patient 1 ID: f8d46725-b3d9-4c3f-b5ed-d0561e437f56
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("f8d46725-b3d9-4c3f-b5ed-d0561e437f56"))!
-                         .AddMedicalExamEpisode(new DateTime(2024, 1, 2), 1, new DateTime(2024, 1, 2), 100)
-                         .AddMedicalExamEpisode(new DateTime(2024, 2, 2), 2, new DateTime(2024, 2, 2), 120)
-                         .AddMedicalExamEpisode(new DateTime(2024, 3, 2), 3, new DateTime(2024, 3, 2), 130)
-                         .AddMedicalExamEpisode(new DateTime(2024, 4, 2), 4, new DateTime(2024, 4, 2), 140)
-                         .AddMedicalExamEpisode(new DateTime(2024, 5, 2), 5, new DateTime(2024, 5, 2), 150);
+                         .AddMedicalExamEpisode(new DateTime(2024, 1, 2), 1, new DateTime(2024, 1, 2), 120)
+                         .AddMedicalExamEpisode(new DateTime(2024, 2, 2), 2, new DateTime(2024, 2, 2), 100)
+                         .AddMedicalExamEpisode(new DateTime(2024, 3, 2), 3, new DateTime(2024, 3, 2), 100)
+                         .AddMedicalExamEpisode(new DateTime(2024, 4, 2), 4, new DateTime(2024, 4, 2), 100)
+                         .AddMedicalExamEpisode(new DateTime(2024, 5, 2), 5, new DateTime(2024, 5, 2), 100);
 
-        // Patient ID: 60b1647e-1474-4fae-95cf-43213dd070ae
+        // Patient 2 ID: 60b1647e-1474-4fae-95cf-43213dd070ae
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("60b1647e-1474-4fae-95cf-43213dd070ae"))!
-                         .AddMedicalExamEpisode(new DateTime(2024, 2, 4), 1, new DateTime(2024, 2, 4), 160)
-                         .AddMedicalExamEpisode(new DateTime(2024, 3, 4), 2, new DateTime(2024, 3, 4), 170);
+                         .AddMedicalExamEpisode(new DateTime(2024, 2, 4), 1, new DateTime(2024, 2, 4), 150)
+                         .AddMedicalExamEpisode(new DateTime(2024, 2, 18), 2, new DateTime(2024, 2, 18), 100); // 2 weeks later
 
-        // Patient ID: 1c1217f4-4375-4a8d-a67e-8dd89bf99f41
+        // Patient 3 ID: 1c1217f4-4375-4a8d-a67e-8dd89bf99f41
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("1c1217f4-4375-4a8d-a67e-8dd89bf99f41"))!
-                         .AddMedicalExamEpisode(new DateTime(2024, 3, 4), 1, new DateTime(2024, 3, 4), 180)
-                         .AddMedicalExamEpisode(new DateTime(2024, 4, 4), 2, new DateTime(2024, 4, 4), 190);
+                         .AddMedicalExamEpisode(new DateTime(2024, 3, 4), 1, new DateTime(2024, 3, 4), 130)
+                         .AddMedicalExamEpisode(new DateTime(2024, 4, 4), 2, new DateTime(2024, 4, 4), 100);
 
-        // Patient ID: c2ecb78c-4bd2-40f6-a966-8eb1472382ce
+        // Patient 4 ID: c2ecb78c-4bd2-40f6-a966-8eb1472382ce
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c2ecb78c-4bd2-40f6-a966-8eb1472382ce"))!
-                         .AddMedicalExamEpisode(new DateTime(2024, 4, 17), 1, new DateTime(2024, 4, 17), 180)
-                         .AddMedicalExamEpisode(new DateTime(2024, 5, 17), 2, new DateTime(2024, 5, 17), 190);
+                         .AddMedicalExamEpisode(new DateTime(2024, 4, 17), 1, new DateTime(2024, 4, 17), 150)
+                         .AddMedicalExamEpisode(new DateTime(2024, 5, 17), 2, new DateTime(2024, 5, 17), 110);
 
-        // Patient ID: 77204cd1-fba2-4faf-9fb6-ee258fddaa8d
+        // Patient 5 ID: 7baac533-bca9-40a8-9e69-c7df24170efa
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c2ecb78c-4bd2-40f6-a966-8eb1472382ce"))!
+                         .AddMedicalExamEpisode(new DateTime(2024, 4, 17), 1, new DateTime(2024, 4, 17), 150)
+                         .AddMedicalExamEpisode(new DateTime(2024, 5, 1), 2, new DateTime(2024, 5, 17), 110); // 2 weeks later
+
+        // Patient 6 ID: 77204cd1-fba2-4faf-9fb6-ee258fddaa8d
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("77204cd1-fba2-4faf-9fb6-ee258fddaa8d"))!
-                         .AddMedicalExamEpisode(new DateTime(2024, 1, 22), 1, new DateTime(2024, 1, 22), 180)
-                         .AddMedicalExamEpisode(new DateTime(2024, 2, 22), 2, new DateTime(2024, 2, 22), 190);
+                         .AddMedicalExamEpisode(new DateTime(2024, 1, 22), 1, new DateTime(2024, 1, 22), 120)
+                         .AddMedicalExamEpisode(new DateTime(2024, 2, 22), 2, new DateTime(2024, 2, 22), 100);
 
-        // Patient ID: 17e9c247-4bc1-492a-9f33-219e288ae5a9
+        // Patient 7 ID: 17e9c247-4bc1-492a-9f33-219e288ae5a9
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("17e9c247-4bc1-492a-9f33-219e288ae5a9"))!
-                         .AddMedicalExamEpisode(new DateTime(2024, 2, 15), 1, new DateTime(2024, 2, 16), 180)
-                         .AddMedicalExamEpisode(new DateTime(2024, 3, 15), 2, new DateTime(2024, 3, 15), 190);
+                         .AddMedicalExamEpisode(new DateTime(2024, 2, 15), 1, new DateTime(2024, 2, 15), 180)
+                         .AddMedicalExamEpisode(new DateTime(2024, 2, 29), 2, new DateTime(2024, 2, 29), 190); // 2 weeks later
 
-        // Patient ID: 7f2287a6-011c-4f51-8ea0-9bb1857c05f9
+        // Patient 8 ID: 7f2287a6-011c-4f51-8ea0-9bb1857c05f9
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("7f2287a6-011c-4f51-8ea0-9bb1857c05f9"))!
                          .AddMedicalExamEpisode(new DateTime(2024, 4, 12), 1, new DateTime(2024, 4, 12), 180)
-                         .AddMedicalExamEpisode(new DateTime(2024, 5, 12), 2, new DateTime(2024, 5, 13), 190);
+                         .AddMedicalExamEpisode(new DateTime(2024, 4, 26), 2, new DateTime(2024, 4, 26), 190); // 2 weeks later
 
-        // Patient ID: b28a4b05-8609-4f90-a484-73f69b1bc1c9
+        // Patient 9 ID: b28a4b05-8609-4f90-a484-73f69b1bc1c9
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("b28a4b05-8609-4f90-a484-73f69b1bc1c9"))!
                          .AddMedicalExamEpisode(new DateTime(2024, 5, 3), 1, new DateTime(2024, 5, 3), 180)
                          .AddMedicalExamEpisode(new DateTime(2024, 6, 3), 2, new DateTime(2024, 6, 3), 190);
 
-        // Patient ID: c364faa0-652d-4aad-a5d4-9978989629dd
+        // Patient 10 ID: c364faa0-652d-4aad-a5d4-9978989629dd
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c364faa0-652d-4aad-a5d4-9978989629dd"))!
                          .AddMedicalExamEpisode(new DateTime(2024, 5, 24), 1, new DateTime(2024, 5, 25), 180)
                          .AddMedicalExamEpisode(new DateTime(2024, 6, 24), 2, new DateTime(2024, 6, 24), 190);
@@ -2980,42 +3118,52 @@ public class SeedProvider
 
     private void LoadDiagnosis()
     {
+        // Patient ID: f8d46725-b3d9-4c3f-b5ed-d0561e437f56
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("f8d46725-b3d9-4c3f-b5ed-d0561e437f56"))!.MedicalExamEpisodes
                          .ToList()
                          .ForEach(episode => episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("L63.9"))!, "", ""));
 
+        // Patient ID: 60b1647e-1474-4fae-95cf-43213dd070ae
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("60b1647e-1474-4fae-95cf-43213dd070ae"))!.MedicalExamEpisodes
                          .ToList()
                          .ForEach(episode => episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("E10"))!, "", ""));
 
+        // Patient ID: 1c1217f4-4375-4a8d-a67e-8dd89bf99f41
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("1c1217f4-4375-4a8d-a67e-8dd89bf99f41"))!.MedicalExamEpisodes
                          .ToList()
                          .ForEach(episode => episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("DB35.0"))!, "", ""));
 
+        // Patient ID: c2ecb78c-4bd2-40f6-a966-8eb1472382ce
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c2ecb78c-4bd2-40f6-a966-8eb1472382ce"))!.MedicalExamEpisodes
                          .ToList()
                          .ForEach(episode => episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("Q61"))!, "", ""));
 
-        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c2ecb78c-4bd2-40f6-a966-8eb1472382ce"))!.MedicalExamEpisodes
+        // Patient ID: 7baac533-bca9-40a8-9e69-c7df24170efa
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("7baac533-bca9-40a8-9e69-c7df24170efa"))!.MedicalExamEpisodes
                          .ToList()
                          .ForEach(episode => episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("N87.0"))!, "", ""));
 
+        // Patient ID: 77204cd1-fba2-4faf-9fb6-ee258fddaa8d
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("77204cd1-fba2-4faf-9fb6-ee258fddaa8d"))!.MedicalExamEpisodes
                          .ToList()
                          .ForEach(episode => episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("H52.1"))!, "", ""));
 
+        // Patient ID: 17e9c247-4bc1-492a-9f33-219e288ae5a9
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("17e9c247-4bc1-492a-9f33-219e288ae5a9"))!.MedicalExamEpisodes
                          .ToList()
                          .ForEach(episode => episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("F41.1"))!, "", ""));
 
+        // Patient ID: 7f2287a6-011c-4f51-8ea0-9bb1857c05f9
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("7f2287a6-011c-4f51-8ea0-9bb1857c05f9"))!.MedicalExamEpisodes
                          .ToList()
-                         .ForEach(episode => episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("J44.9"))!, "", ""));
+                         .ForEach(episode => episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("F41.1"))!, "", ""));
 
+        // Patient ID: b28a4b05-8609-4f90-a484-73f69b1bc1c9
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("b28a4b05-8609-4f90-a484-73f69b1bc1c9"))!.MedicalExamEpisodes
                          .ToList()
                          .ForEach(episode => episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("M06.9"))!, "", ""));
 
+        // Patient ID: c364faa0-652d-4aad-a5d4-9978989629dd
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c364faa0-652d-4aad-a5d4-9978989629dd"))!.MedicalExamEpisodes
                          .ToList()
                          .ForEach(episode => episode.AddDiagnosis(this.ICDCodes.FirstOrDefault(x => x.Code!.Equals("N40"))!, "", ""));
@@ -3185,7 +3333,6 @@ public class SeedProvider
                                      .AddAnalysisTestWithDevice(MedicalDevices.FirstOrDefault(x => x.Name.Equals("Siemens CLINITEK Advantus"))!.DeviceInventories.ToList()[0],
                                                                  "Normal urine analysis", "Urine pH: 6.0", "userId", "TechnicianSignature");
 
-
         foreach (var item in this.MedicalExamEpisodes)
         {
             this.AnalysisTests.AddRange(item.AnalysisTests);
@@ -3289,7 +3436,76 @@ public class SeedProvider
 
     private void LoadDrugPrescription()
     {
-        
+        //Patient 1
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("f8d46725-b3d9-4c3f-b5ed-d0561e437f56"))!.MedicalExamEpisodes
+                         .ToList().ForEach(episode =>
+                            episode.AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Minoxidil"))!, 90)
+                                   .AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Clobetasol"))!, 4));
+
+        // Patient 2
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("60b1647e-1474-4fae-95cf-43213dd070ae"))!.MedicalExamEpisodes
+                         .ToList().ForEach(episode =>
+                            episode.AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Glucophage"))!, 30)
+                                   .AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Cozaar"))!, 30)
+                                   .AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Lipitor"))!, 30)
+                                   .AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Humalog"))!, 30));
+
+        // Patient 3
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("1c1217f4-4375-4a8d-a67e-8dd89bf99f41"))!.MedicalExamEpisodes
+                         .ToList().ForEach(episode =>
+                            episode.AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Asacol"))!, 60)
+                                   .AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Protonix"))!, 30));
+
+        // Patient 4
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c2ecb78c-4bd2-40f6-a966-8eb1472382ce"))!.MedicalExamEpisodes
+                         .ToList().ForEach(episode =>
+                            episode.AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Lipitor"))!, 60)
+                                   .AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Cozaar"))!, 30));
+
+        // Patient 5
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c2ecb78c-4bd2-40f6-a966-8eb1472382ce"))!.MedicalExamEpisodes
+                         .ToList().ForEach(episode =>
+                            episode.AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Aldara"))!, 15)
+                                    .AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Flagyl"))!, 15));
+
+        // Patient 6
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("77204cd1-fba2-4faf-9fb6-ee258fddaa8d"))!.MedicalExamEpisodes
+                         .ToList().ForEach(episode =>
+                            episode.AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Ocuvite"))!, 60));
+
+        // Patient 7
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("17e9c247-4bc1-492a-9f33-219e288ae5a9"))!.MedicalExamEpisodes
+                         .ToList().ForEach(episode =>
+                            episode.AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Lexapro"))!, 30)
+                                   .AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Ativan"))!, 30));
+
+
+        // Patient 8
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("7f2287a6-011c-4f51-8ea0-9bb1857c05f9"))!.MedicalExamEpisodes
+                         .ToList().ForEach(episode =>
+                            episode.AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Spiriva"))!, 30)
+                                   .AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Advair"))!, 30));
+
+        // Patient 9
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("b28a4b05-8609-4f90-a484-73f69b1bc1c9"))!.MedicalExamEpisodes
+                         .ToList().ForEach(episode =>
+                            episode.AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Methotrexate"))!, 60)
+                                   .AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Ibuprofen"))!, 30));
+
+
+        // Patient 10
+        this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("c364faa0-652d-4aad-a5d4-9978989629dd"))!.MedicalExamEpisodes
+                         .ToList().ForEach(episode =>
+                            episode.AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Flomax"))!, 60)
+                                   .AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Proscar"))!, 60));
+
+
+
+        foreach (var item in this.MedicalExamEpisodes)
+        {
+            this.DrugPrescriptions.AddRange(item.DrugPrescriptions);
+        }
+
     }
 
     #region [ Remove Method ]
@@ -3399,18 +3615,22 @@ public class SeedProvider
 
     private void LoadBills()
     {
-        //this.MedicalExamEpisodes.ForEach(episode =>
-        //{
-        //    episode.AddBill(episode.DateTakeExam.AddDays(7), 
-        //                    episode.DateTakeExam.AddDays(7), 
-        //                    "Completed", 
-        //                    episode.DrugPrescriptions.Sum(drug => drug.Amount * drug.DrugInventory.Drug!.UnitPrice) + episode.AnalysisTests.Sum(test => test.DeviceService.Service.ServicePrice),
-        //                    0, 0, 0, 0, "");
-        //});
+        this.MedicalExamEpisodes.ForEach(episode =>
+        {
+            var totalDrugCost = episode.DrugPrescriptions.Sum(drug => drug.Amount * drug.DrugInventory.Drug!.UnitPrice); 
+            var totalServiceCost = episode.ServiceEpisodes.Sum(service => service.MedicalService.ServicePrice); 
+            var totalAmount = totalDrugCost + totalServiceCost;
+
+            episode.AddBill(episode.DateTakeExam.AddDays(7),
+                            episode.DateTakeExam.AddDays(1),
+                            "Unpay",
+                            totalAmount,
+                            0, 0, 0, 0, "");
+        });
 
         foreach (var item in this.MedicalExamEpisodes)
         {
-            this.Bills.Add(item.Bill);
+            this.Bills.Add(item.Bill!);
         }
     }
     #endregion

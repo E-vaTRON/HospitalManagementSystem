@@ -69,6 +69,24 @@ public static class MedicalExamEpisodeExtensions
         return medicalExamEpisode;
     }
 
+    private static MedicalExamEpisode AddDrugPrescriptionInStorage(this MedicalExamEpisode medicalExamEpisode, DrugInventory drugInventory, DrugPrescription drugPrescription)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(nameof(drugPrescription));
+
+        if (medicalExamEpisode.DrugPrescriptions.Any(x => x.Id == drugPrescription.Id))
+        {
+            return medicalExamEpisode;
+        }
+
+        drugPrescription.MedicalExamEpisodeId = medicalExamEpisode.Id;
+        drugPrescription.MedicalExamEpisode = medicalExamEpisode;
+        drugPrescription.DrugInventoryId = drugInventory.Id;
+        drugPrescription.DrugInventory = drugInventory;
+        medicalExamEpisode.DrugPrescriptions.Add(drugPrescription);
+        drugInventory.DrugPrescriptions.Add(drugPrescription);
+        return medicalExamEpisode;
+    }
+
     private static MedicalExamEpisode AddAnalysisTest(this MedicalExamEpisode medicalExamEpisode, AnalysisTest analysisTest)
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(analysisTest));
@@ -202,14 +220,14 @@ public static class MedicalExamEpisodeExtensions
         return medicalExamEpisode.AddRoomAllocation(RoomAllocationFactory.Create(startTime, endTime, patientId, employeeId), room);
     }
 
-    public static MedicalExamEpisode AddDrugPrescription(this MedicalExamEpisode medicalExamEpisode)
+    public static MedicalExamEpisode AddDrugPrescription(this MedicalExamEpisode medicalExamEpisode, int amount)
     {
-        return medicalExamEpisode.AddDrugPrescription(DrugPrescriptionFactory.Create());
+        return medicalExamEpisode.AddDrugPrescription(DrugPrescriptionFactory.Create(amount));
     }
 
-    public static MedicalExamEpisode AddDrugPrescription(this MedicalExamEpisode medicalExamEpisode, string medicalExamEpisodeId, string drugInventoryId)
+    public static MedicalExamEpisode AddDrugPrescriptionInStorage(this MedicalExamEpisode medicalExamEpisode, DrugInventory drugInventory, int amount)
     {
-        return medicalExamEpisode.AddDrugPrescription(DrugPrescriptionFactory.Create(medicalExamEpisodeId, drugInventoryId));
+        return medicalExamEpisode.AddDrugPrescriptionInStorage(drugInventory, DrugPrescriptionFactory.Create(amount));
     }
 
     public static MedicalExamEpisode AddAnalysisTest(this MedicalExamEpisode medicalExamEpisode)
