@@ -7,12 +7,11 @@ public static class DrugPrescriptionFactory
         return new DrugPrescription();
     }
 
-    public static DrugPrescription Create(string medicalExamEpisodeId, string drugInventoryId)
+    public static DrugPrescription Create(int amount)
     {
         return new DrugPrescription()
         {
-            MedicalExamEpisodeId = medicalExamEpisodeId,
-            DrugInventoryId = drugInventoryId
+            Amount = amount,
         };
     }
 }

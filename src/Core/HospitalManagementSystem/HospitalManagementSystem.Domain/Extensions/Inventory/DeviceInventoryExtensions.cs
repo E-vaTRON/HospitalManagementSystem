@@ -20,19 +20,19 @@ public static class DeviceInventoryExtensions
     #endregion
 
     #region [ Public Methods ]
-    public static DeviceInventory AddDeviceService(this DeviceInventory deviceInventory)
+    public static DeviceInventory AddAnalysisTest(this DeviceInventory deviceInventory)
     {
         return deviceInventory.AddAnalysisTest(AnalysisTestFactory.Create());
     }
 
-    public static DeviceInventory AddDeviceService(this DeviceInventory deviceInventory, string result)
+    public static DeviceInventory AddAnalysisTest(this DeviceInventory deviceInventory, string doctorComment, string resultSummary, string specificMeasurements, string userId, string technicianSignature)
     {
-        return deviceInventory.AddAnalysisTest(AnalysisTestFactory.Create(result));
+        return deviceInventory.AddAnalysisTest(AnalysisTestFactory.Create(doctorComment, resultSummary, specificMeasurements, userId, technicianSignature));
     }
 
-    public static DeviceInventory AddDeviceService(this DeviceInventory deviceInventory, string doctorComment, string result)
+    public static DeviceInventory AddAnalysisTest(this DeviceInventory deviceInventory, string resultSummary, string specificMeasurements, string userId, string technicianSignature)
     {
-        return deviceInventory.AddAnalysisTest(AnalysisTestFactory.Create(doctorComment, result));
+        return deviceInventory.AddAnalysisTest(AnalysisTestFactory.Create(resultSummary, specificMeasurements, userId, technicianSignature));
     }
 
     public static DeviceInventory RemoveRelated(this DeviceInventory deviceInventory)

@@ -69,6 +69,24 @@ public static class MedicalExamEpisodeExtensions
         return medicalExamEpisode;
     }
 
+    private static MedicalExamEpisode AddDrugPrescriptionInStorage(this MedicalExamEpisode medicalExamEpisode, DrugInventory drugInventory, DrugPrescription drugPrescription)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(nameof(drugPrescription));
+
+        if (medicalExamEpisode.DrugPrescriptions.Any(x => x.Id == drugPrescription.Id))
+        {
+            return medicalExamEpisode;
+        }
+
+        drugPrescription.MedicalExamEpisodeId = medicalExamEpisode.Id;
+        drugPrescription.MedicalExamEpisode = medicalExamEpisode;
+        drugPrescription.DrugInventoryId = drugInventory.Id;
+        drugPrescription.DrugInventory = drugInventory;
+        medicalExamEpisode.DrugPrescriptions.Add(drugPrescription);
+        drugInventory.DrugPrescriptions.Add(drugPrescription);
+        return medicalExamEpisode;
+    }
+
     private static MedicalExamEpisode AddAnalysisTest(this MedicalExamEpisode medicalExamEpisode, AnalysisTest analysisTest)
     {
         ArgumentException.ThrowIfNullOrEmpty(nameof(analysisTest));
@@ -81,6 +99,24 @@ public static class MedicalExamEpisodeExtensions
         analysisTest.MedicalExamEpisodeId = medicalExamEpisode.Id;
         analysisTest.MedicalExamEpisode = medicalExamEpisode;
         medicalExamEpisode.AnalysisTests.Add(analysisTest);
+        return medicalExamEpisode;
+    }
+
+    private static MedicalExamEpisode AddAnalysisTestWithDevice(this MedicalExamEpisode medicalExamEpisode, DeviceInventory deviceInventory, AnalysisTest analysisTest)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(nameof(analysisTest));
+
+        if (medicalExamEpisode.AnalysisTests.Any(x => x.Id == analysisTest.Id))
+        {
+            return medicalExamEpisode;
+        }
+
+        analysisTest.MedicalExamEpisodeId = medicalExamEpisode.Id;
+        analysisTest.MedicalExamEpisode = medicalExamEpisode;
+        analysisTest.DeviceInventoryId = deviceInventory.Id;
+        analysisTest.DeviceInventory = deviceInventory;
+        medicalExamEpisode.AnalysisTests.Add(analysisTest);
+        deviceInventory.AnalysisTests.Add(analysisTest);
         return medicalExamEpisode;
     }
 
@@ -184,14 +220,14 @@ public static class MedicalExamEpisodeExtensions
         return medicalExamEpisode.AddRoomAllocation(RoomAllocationFactory.Create(startTime, endTime, patientId, employeeId), room);
     }
 
-    public static MedicalExamEpisode AddDrugPrescription(this MedicalExamEpisode medicalExamEpisode)
+    public static MedicalExamEpisode AddDrugPrescription(this MedicalExamEpisode medicalExamEpisode, int amount)
     {
-        return medicalExamEpisode.AddDrugPrescription(DrugPrescriptionFactory.Create());
+        return medicalExamEpisode.AddDrugPrescription(DrugPrescriptionFactory.Create(amount));
     }
 
-    public static MedicalExamEpisode AddDrugPrescription(this MedicalExamEpisode medicalExamEpisode, string medicalExamEpisodeId, string drugInventoryId)
+    public static MedicalExamEpisode AddDrugPrescriptionInStorage(this MedicalExamEpisode medicalExamEpisode, DrugInventory drugInventory, int amount)
     {
-        return medicalExamEpisode.AddDrugPrescription(DrugPrescriptionFactory.Create(medicalExamEpisodeId, drugInventoryId));
+        return medicalExamEpisode.AddDrugPrescriptionInStorage(drugInventory, DrugPrescriptionFactory.Create(amount));
     }
 
     public static MedicalExamEpisode AddAnalysisTest(this MedicalExamEpisode medicalExamEpisode)
@@ -199,14 +235,19 @@ public static class MedicalExamEpisodeExtensions
         return medicalExamEpisode.AddAnalysisTest(AnalysisTestFactory.Create());
     }
 
-    public static MedicalExamEpisode AddAnalysisTest(this MedicalExamEpisode medicalExamEpisode, string doctorComment, string result)
+    public static MedicalExamEpisode AddAnalysisTestWithDevice(this MedicalExamEpisode medicalExamEpisode, DeviceInventory deviceInventory, string resultSummary, string specificMeasurements, string userId, string technicianSignature)
     {
-        return medicalExamEpisode.AddAnalysisTest(AnalysisTestFactory.Create(doctorComment, result));
+        return medicalExamEpisode.AddAnalysisTestWithDevice(deviceInventory, AnalysisTestFactory.Create(resultSummary, specificMeasurements, userId, technicianSignature));
     }
 
-    public static MedicalExamEpisode AddAnalysisTest(this MedicalExamEpisode medicalExamEpisode, string result)
+    public static MedicalExamEpisode AddAnalysisTest(this MedicalExamEpisode medicalExamEpisode, string doctorComment, string resultSummary, string specificMeasurements, string userId, string technicianSignature)
     {
-        return medicalExamEpisode.AddAnalysisTest(AnalysisTestFactory.Create(result));
+        return medicalExamEpisode.AddAnalysisTest(AnalysisTestFactory.Create(doctorComment, resultSummary, specificMeasurements, userId, technicianSignature));
+    }
+
+    public static MedicalExamEpisode AddAnalysisTest(this MedicalExamEpisode medicalExamEpisode, string resultSummary, string specificMeasurements, string userId, string technicianSignature)
+    {
+        return medicalExamEpisode.AddAnalysisTest(AnalysisTestFactory.Create(resultSummary, specificMeasurements, userId, technicianSignature));
     }
 
     public static MedicalExamEpisode AddServiceEpisode(this MedicalExamEpisode medicalExamEpisode)

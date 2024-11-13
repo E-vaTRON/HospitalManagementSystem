@@ -2,7 +2,7 @@
 
 public class DeviceInventory : EntityBase
 {
-    public int CurrentAmount { get; set; }       //số lượng hiện tại
+    public int CurrentAmount { get; set; }       //số lượng hiện tại ???
 
     public string?          MedicalDeviceId     { get; set; }       //mã hàng
     public MedicalDevice    MedicalDevice       { get; set; } = default!;
