@@ -82,19 +82,29 @@ public class DefaultMappingProfile : Profile
         CreateMap<MedicalExamEpisode,    Domain.MedicalExamEpisode >().ForMember(x => x.MedicalExam, opt => opt.Ignore())
                                                                      .ForMember(x => x.ReExamAppointment, opt => opt.Ignore())
                                                                      .ForMember(x => x.Bill, opt => opt.Ignore());
-        CreateMap<Treatment, Domain.Treatment>();
+        CreateMap<Treatment,             Domain.Treatment>();
 
-        CreateMap<Domain.ServiceEpisode,   ServiceEpisode>();
-        CreateMap<Domain.MedicalDevice,    MedicalDevice>();
-        CreateMap<Domain.MedicalService,   MedicalService>();
-        CreateMap<Domain.AnalysisTest,     AnalysisTest>();
+        CreateMap<Domain.ServiceEpisode,    ServiceEpisode>();
+        CreateMap<Domain.FormType,          FormType>();
+        CreateMap<Domain.MeasurementUnit,   MeasurementUnit>();
+        CreateMap<Domain.MedicalDevice,     MedicalDevice>();
+        CreateMap<Domain.DeviceUnit,        DeviceUnit>();
+        CreateMap<Domain.MedicalDeviceForm, MedicalDeviceForm>();
+        CreateMap<Domain.MedicalService,    MedicalService>();
+        CreateMap<Domain.AnalysisTest,      AnalysisTest>();
 
         CreateMap<ServiceEpisode,    Domain.ServiceEpisode>().ForMember(x => x.MedicalExamEpisode, opt => opt.Ignore())
                                                              .ForMember(x => x.MedicalService, opt => opt.Ignore());
-        CreateMap<MedicalDevice,    Domain.MedicalDevice>();
-        CreateMap<MedicalService,   Domain.MedicalService>();
-        CreateMap<AnalysisTest,     Domain.AnalysisTest>().ForMember(x => x.MedicalExamEpisode, opt => opt.Ignore())
-                                                          .ForMember(x => x.DeviceInventory, opt => opt.Ignore());
+        CreateMap<FormType,          Domain.FormType>();
+        CreateMap<MeasurementUnit,   Domain.MeasurementUnit>();
+        CreateMap<MedicalDevice,     Domain.MedicalDevice>();
+        CreateMap<DeviceUnit,        Domain.DeviceUnit>().ForMember(x => x.MedicalDevice, opt => opt.Ignore())
+                                                         .ForMember(x => x.MeasurementUnit, opt => opt.Ignore());
+        CreateMap<MedicalDeviceForm, Domain.MedicalDeviceForm>().ForMember(x => x.FormType, opt => opt.Ignore())
+                                                                .ForMember(x => x.MedicalDevice, opt => opt.Ignore());
+        CreateMap<MedicalService,    Domain.MedicalService>();
+        CreateMap<AnalysisTest,      Domain.AnalysisTest>().ForMember(x => x.MedicalExamEpisode, opt => opt.Ignore())
+                                                           .ForMember(x => x.DeviceInventory, opt => opt.Ignore());
 
         CreateMap<Domain.Bill, Bill>(); 
         

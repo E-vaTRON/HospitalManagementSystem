@@ -1,4 +1,5 @@
-﻿using System.Reflection.PortableExecutable;
+﻿using HospitalManagementSystem.Domain;
+using System.Reflection.PortableExecutable;
 
 namespace HospitalManagementSystem.DataProvider;
 
@@ -43,7 +44,11 @@ public class SeedProvider
         Treatments = new();
 
         ServiceEpisodes = new();
+        FormTypes = new();
+        MeasurementUnits = new();
         MedicalDevices = new();
+        DeviceUnits = new();
+        MedicalDeviceForms = new();
         MedicalServices = new();
         AnalysisTests = new();
 
@@ -142,17 +147,17 @@ public class SeedProvider
 
         Departments.Clear();            //
         Rooms.Clear();                  //
-        RoomAllocations.Clear();
+        RoomAllocations.Clear();        //
 
         Drugs.Clear();                  //
         DrugInventories.Clear();        //
-        DrugPrescriptions.Clear();
+        DrugPrescriptions.Clear();      //
         Storages.Clear();               //
         Importations.Clear();           //
         DeviceInventories.Clear();      //
 
-        AssignmentHistories.Clear();
-        Diagnoses.Clear();
+        AssignmentHistories.Clear();    //
+        Diagnoses.Clear();              //
         Diseases.Clear();               //
         ICDCodes.Clear();               //
         ICDCodeVersions.Clear();        //
@@ -162,11 +167,15 @@ public class SeedProvider
         Treatments.Clear();             //
 
         ServiceEpisodes.Clear();        //
-        FormTypes.Clear();
+        FormTypes.Clear();              //
+        MeasurementUnits.Clear();       //
         MedicalDevices.Clear();         //
-        MedicalDeviceForms.Clear();
+        DeviceUnits.Clear();            //
+        MedicalDeviceForms.Clear();     //
         MedicalServices.Clear();        //
-        AnalysisTests.Clear();
+        AnalysisTests.Clear();          //
+
+        Bills.Clear();                  //
     }
 
     private void Clean()
@@ -198,9 +207,15 @@ public class SeedProvider
         Treatments.ForEach(x => x.RemoveRelated());
 
         ServiceEpisodes.ForEach(x => x.RemoveRelated());
+        FormTypes.ForEach(x => x.RemoveRelated());
+        MeasurementUnits.ForEach(x => x.RemoveRelated());
+        DeviceUnits.ForEach(x => x.RemoveRelated());
+        MedicalDeviceForms.ForEach(x => x.RemoveRelated());
         MedicalDevices.ForEach(x => x.RemoveRelated());
         MedicalServices.ForEach(x => x.RemoveRelated());
         AnalysisTests.ForEach(x => x.RemoveRelated());
+
+        Bills.ForEach(x => x.RemoveRelated());
     }
     #endregion
 
@@ -691,6 +706,9 @@ public class SeedProvider
         this.Diseases.Add(DiseasesFactory.Create("Anxiety, Dissociative and Somatoform Disorders",
                                                  "This category encompasses a range of disorders characterized by anxiety, dissociation, and somatic symptoms. Disorders include generalized anxiety disorder, panic disorder, phobic disorders, obsessive-compulsive disorder, and somatoform disorders. These conditions often involve significant distress and impairment in functioning.",
                                                  Domain.CodeStatus.Active));
+        this.Diseases.Add(DiseasesFactory.Create("Other Anxiety Disorders",
+                                                 "This category includes anxiety disorders that do not fall under specific classifications like generalized anxiety disorder, panic disorder, or phobic disorders. These conditions are characterized by significant anxiety or fear that leads to distress or impairment in social, occupational, or other important areas of functioning. Symptoms may vary widely but often include excessive worry, agitation, and physical symptoms such as increased heart rate and sweating.",
+                                                 Domain.CodeStatus.Active));
         this.Diseases.Add(DiseasesFactory.Create("Generalised Anxiety Disorder",
                                                  "A mental health condition characterized by persistent and excessive worry about various aspects of daily life. Symptoms can include restlessness, fatigue, difficulty concentrating, irritability, muscle tension, and sleep disturbances. Treatment may involve therapy, medication, or a combination of both.",
                                                  Domain.CodeStatus.Active));
@@ -1128,9 +1146,9 @@ public class SeedProvider
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-11")!, "L40.5", "Arthropathic psoriasis")
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-11")!, "L40.9", "Psoriasis, unspecified");
 
-        this.Diseases.FirstOrDefault(x => x.Name.Equals("Psoriatic arthritis"))!
+        this.Diseases.FirstOrDefault(x => x.Name.Equals("Psoriatic Arthritis"))!
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-11")!, "FA21", "")
-                     .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-11")!, "FA21.Z", "Psoriatic arthritis, unspecified");
+                     .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-11")!, "FA21.Z", "Psoriatic arthritis, unspecified"); //
 
         this.Diseases.FirstOrDefault(x => x.Name.Equals("Diffuse Diseases of Connective Tissue"))!
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-9")!, "710", "")
@@ -1307,7 +1325,7 @@ public class SeedProvider
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-10")!, "K57.2", "Diverticular disease of large intestine with perforation and abscess")
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-10")!, "K57.9", "Diverticular disease of intestine, part unspecified, without perforation or abscess");
         //
-        this.Diseases.FirstOrDefault(x => x.Name.Equals("Diverticulosis of Unspecified part of Intestine without Haemorrhage"))!
+        this.Diseases.FirstOrDefault(x => x.Name.Equals("Diverticulosis of Unspecified Part of Intestine without Haemorrhage"))!
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-11")!, "DD01", "")
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-11")!, "DD01.1", "Diverticulosis of unspecified part of intestine without haemorrhage");
 
@@ -1412,7 +1430,7 @@ public class SeedProvider
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-10")!, "N10", "")
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-11")!, "GB50", "");
 
-        this.Diseases.FirstOrDefault(x => x.Name.Equals("Infections of kidney"))!
+        this.Diseases.FirstOrDefault(x => x.Name.Equals("Infections of Kidney"))!
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-11")!, "590", "")
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-11")!, "590.1", "Acute pyelonephritis");
 
@@ -1589,7 +1607,7 @@ public class SeedProvider
         this.Diseases.FirstOrDefault(x => x.Name.Equals("Chronic Airway Obstruction, Not Elsewhere Classified"))!
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-9")!, "496", "");
 
-        this.Diseases.FirstOrDefault(x => x.Name.Equals("Other Chronic Obstructive Pulmonary Diseas"))!
+        this.Diseases.FirstOrDefault(x => x.Name.Equals("Other Chronic Obstructive Pulmonary Disease"))!
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-10")!, "J44", "")
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-10")!, "J44.9", "Chronic obstructive pulmonary disease, unspecified");
 
@@ -1605,14 +1623,14 @@ public class SeedProvider
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-11")!, "CA40", "")
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-11")!, "CA40.Z", "Pneumonia, organism unspecified");
 
-        this.Diseases.FirstOrDefault(x => x.Name.Equals("Pulmonary tuberculosis"))!
+        this.Diseases.FirstOrDefault(x => x.Name.Equals("Pulmonary Tuberculosis"))!
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-9")!, "011", "");
 
-        this.Diseases.FirstOrDefault(x => x.Name.Equals("Respiratory tuberculosis, bacteriologically and histologically confirmed"))!
+        this.Diseases.FirstOrDefault(x => x.Name.Equals("Respiratory Tuberculosis, Bacteriologically and Histologically Confirmed"))!
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-10")!, "A15", "")
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-10")!, "A15.0", "Tuberculosis of lung, confirmed by sputum microscopy with or without culture");
 
-        this.Diseases.FirstOrDefault(x => x.Name.Equals("Tuberculosis of the respiratory system"))!
+        this.Diseases.FirstOrDefault(x => x.Name.Equals("Tuberculosis of the Respiratory System"))!
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-11")!, "1B10", "");
 
         this.Diseases.FirstOrDefault(x => x.Name.Equals("Malignant Neoplasm of Trachea, Bronchus, and Lung"))!
@@ -1681,7 +1699,7 @@ public class SeedProvider
         this.Diseases.FirstOrDefault(x => x.Name.Equals("Malignant Neoplasms of Prostate"))!
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-11")!, "2C82", "");
 
-        this.Diseases.FirstOrDefault(x => x.Name.Equals("Malignant neoplasm of bladder"))!
+        this.Diseases.FirstOrDefault(x => x.Name.Equals("Malignant Neoplasm of Bladder"))!
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-9")!, "188", "")
                      .AddICDCodeWithVersion(this.ICDVersions.FirstOrDefault(v => v.Version == "ICD-10")!, "C67", "");
 
@@ -1889,6 +1907,7 @@ public class SeedProvider
         this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Gram", "g"));
         this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Kilogram", "kg"));
 
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Millisecond", "ms"));
         this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Second", "s"));
         this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Minute", "min"));
         this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Hour", "h"));
@@ -1903,8 +1922,11 @@ public class SeedProvider
         this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Milliliter", "mL"));
         this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Liter", "L"));
 
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Milliliter per Second", "mL/s"));
         this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Milliliter per Minute", "mL/min"));
-        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Liter per Hour", "L/h"));
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Liter per Hour", "L/h")); 
+        this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Liter per Minute", "L/min"));
+
 
         this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Cells per Milliliter", "cells/mL"));
         this.MeasurementUnits.Add(MeasurementUnitFactory.Create("Millimole per Liter", "mmol/L"));
@@ -2109,7 +2131,7 @@ public class SeedProvider
                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeter of Water"))!)
                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter of Mercury"))!)
                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Pascal"))!)
-                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Liters per Minute"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Liter per Minute"))!)
                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Second"))!)
                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Minute"))!);
 
@@ -2119,7 +2141,7 @@ public class SeedProvider
                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Centimeter of Water"))!)
                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Millimeter of Mercury"))!)
                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Pascal"))!)
-                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Liters per Minute"))!)
+                           .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Liter per Minute"))!)
                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Second"))!)
                            .AddDeviceUnit(MeasurementUnits.FirstOrDefault(x => x.Name.Equals("Minute"))!);
 
@@ -2738,6 +2760,7 @@ public class SeedProvider
     {
         this.Importations.Add(ImportationFactory.Create("Receipt 1", "Bill 1", DateTime.Now, DateTime.Now.AddDays(1), 10, 1000, "Company 1"));
         this.Importations.Add(ImportationFactory.Create("Receipt 2", "Bill 2", DateTime.Now, DateTime.Now.AddDays(2), 20, 2000, "Company 2"));
+        this.Importations.Add(ImportationFactory.Create("Receipt 3", "Bill 3", DateTime.Now, DateTime.Now.AddDays(2), 20, 2000, "Company 3"));
     }
 
     private void LoadDrugInventories()
@@ -2777,12 +2800,12 @@ public class SeedProvider
                                 this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 2"))!, 
                                 "Rosuvastatin", DateTime.Now.AddYears(2), 100);
 
-        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Minoxidil"))!
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Loniten"))!
                   .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 2"))!, 
                                 this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 3"))!, 
                                 "Minoxidil", DateTime.Now.AddYears(2), 100); 
         
-        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Clobetasol"))!
+        this.Drugs.FirstOrDefault(x => x.GoodName.Equals("Dermovate"))!
                   .AddToStorage(this.Storages.FirstOrDefault(x => x.Location.Equals("Location 2"))!, 
                                 this.Importations.FirstOrDefault(x => x.ReceiptNumber.Equals("Receipt 3"))!, 
                                 "Clobetasol", DateTime.Now.AddYears(2), 100); 
@@ -3439,8 +3462,8 @@ public class SeedProvider
         //Patient 1
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("f8d46725-b3d9-4c3f-b5ed-d0561e437f56"))!.MedicalExamEpisodes
                          .ToList().ForEach(episode =>
-                            episode.AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Minoxidil"))!, 90)
-                                   .AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Clobetasol"))!, 4));
+                            episode.AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Loniten"))!, 90)
+                                   .AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Dermovate"))!, 4));
 
         // Patient 2
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("60b1647e-1474-4fae-95cf-43213dd070ae"))!.MedicalExamEpisodes
@@ -3484,7 +3507,7 @@ public class SeedProvider
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("7f2287a6-011c-4f51-8ea0-9bb1857c05f9"))!.MedicalExamEpisodes
                          .ToList().ForEach(episode =>
                             episode.AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Spiriva"))!, 30)
-                                   .AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Advair"))!, 30));
+                                   .AddDrugPrescriptionInStorage(DrugInventories.FirstOrDefault(x => x.Drug!.GoodName.Equals("Advair Diskus"))!, 30));
 
         // Patient 9
         this.MedicalExams.FirstOrDefault(x => x.BookingAppointment!.PatientId!.Equals("b28a4b05-8609-4f90-a484-73f69b1bc1c9"))!.MedicalExamEpisodes

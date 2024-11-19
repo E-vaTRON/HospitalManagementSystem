@@ -5,6 +5,7 @@ public class DataTypeHelpers
     public const int ID_FIELD_LENGTH = 36;
     public const int NAME_FIELD_LENGTH = 64;
     public const int DESCRIPTION_NAME_FIELD_LENGTH = 512;
+    public const int DESCRIPTION_NAME_FIELD_LENGTH_LARGE = 1024;
     public const int BIOGRAPHY_FIELD_LENGTH = 512;
     public const int TITLE_FIELD_LENGTH = 64;
     public const int PASSWORD_FIELD_LENGTH = 12;

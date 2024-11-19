@@ -89,23 +89,26 @@ public abstract class DataProviderBase<TEntity, TEId, TModel, TMId> : IDataProvi
         return MapToEntity(dbEntity);
     }
 
-    public virtual async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public virtual async Task AddAsync(TEntity entity, bool saveImmediately = true, CancellationToken cancellationToken = default)
     {
         var dbEntity = MapToDataModel(entity);
         ArgumentNullException.ThrowIfNull(dbEntity, nameof(dbEntity));
         await DbSet.AddAsync(dbEntity, cancellationToken);
-        await DbContext.SaveChangesAsync(cancellationToken);
+        if (saveImmediately) 
+        { 
+            await DbContext.SaveChangesAsync(cancellationToken); 
+        }
     }
 
-    public virtual async Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+    public virtual async Task AddRangeAsync(IEnumerable<TEntity> entities, bool saveImmediately = true, CancellationToken cancellationToken = default)
     {
         var dbEntities = MapToDbEntities(entities);
         await DbSet.AddRangeAsync(dbEntities, cancellationToken);
         await DbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public virtual Task AddRangeAsync(CancellationToken cancellationToken = default, params TEntity[] entities)
-        => AddRangeAsync(entities, cancellationToken);
+    public virtual Task AddRangeAsync(CancellationToken cancellationToken = default, bool saveImmediately = true, params TEntity[] entities)
+        => AddRangeAsync(entities, saveImmediately, cancellationToken);
 
     public virtual async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {

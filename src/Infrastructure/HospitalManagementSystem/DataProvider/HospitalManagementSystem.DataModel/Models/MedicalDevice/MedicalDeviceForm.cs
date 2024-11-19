@@ -2,8 +2,8 @@
 
 public class MedicalDeviceForm : ModelBase
 {
-    public string           MedicalDeviceId     { get; set; } = string.Empty;
+    public Guid?            MedicalDeviceId     { get; set; }
     public MedicalDevice    MedicalDevice       { get; set; } = default!;
-    public string           FormTypeId          { get; set; } = string.Empty;
+    public Guid?            FormTypeId          { get; set; }
     public FormType         FormType            { get; set; } = default!;
 }

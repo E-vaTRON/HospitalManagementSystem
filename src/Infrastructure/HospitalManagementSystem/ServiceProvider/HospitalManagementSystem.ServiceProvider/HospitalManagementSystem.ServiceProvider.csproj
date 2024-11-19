@@ -8,16 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\..\Core\HospitalManagementSystem\HospitalManagementSystem.Application\HospitalManagementSystem.Application.csproj" />
-    <ProjectReference Include="..\..\DataProvider\HospitalManagementSystem.Context\HospitalManagementSystem.Context.csproj" />
     <ProjectReference Include="..\..\DataProvider\HospitalManagementSystem.DataProvider\HospitalManagementSystem.DataProvider.csproj" />
   </ItemGroup>
 

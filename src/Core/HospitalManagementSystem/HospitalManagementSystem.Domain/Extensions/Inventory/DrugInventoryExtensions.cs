@@ -25,11 +25,6 @@ public static class DrugInventoryExtensions
         return drugInventory.AddDrugPrescription(DrugPrescriptionFactory.Create());
     }
 
-    public static DrugInventory AddDrugPrescription(this DrugInventory drugInventory, string medicalExamEpisodeId, string drugInventoryId)
-    {
-        return drugInventory.AddDrugPrescription(DrugPrescriptionFactory.Create(medicalExamEpisodeId, drugInventoryId));
-    }
-
     public static DrugInventory RemoveRelated(this DrugInventory drugInventory)
     {
         drugInventory.Drug = null!;

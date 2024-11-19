@@ -1,7 +1,4 @@
-﻿using HospitalManagementSystem.Application;
-using HospitalManagementSystem.Domain;
-
-namespace HospitalManagementSystem.DataProvider;
+﻿namespace HospitalManagementSystem.DataProvider;
 
 public class DataContext
 {

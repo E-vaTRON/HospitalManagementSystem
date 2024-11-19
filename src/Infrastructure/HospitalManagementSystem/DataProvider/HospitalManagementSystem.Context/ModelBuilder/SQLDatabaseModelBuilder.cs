@@ -510,11 +510,13 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<AssignmentHistory>()
                     .Property(x => x.AssignmentStatus)
                     .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.NAME_FIELD_LENGTH)
                     .IsRequired(true);
 
         modelBuilder.Entity<AssignmentHistory>()
                     .Property(x => x.DoctorId)
                     .HasColumnType("nvarchar")
+                    .HasMaxLength(DataTypeHelpers.ID_FIELD_LENGTH)
                     .IsRequired(true);
 
         modelBuilder.Entity<AssignmentHistory>()
@@ -587,6 +589,7 @@ public class SQLDatabaseModelBuilder
                     .WithMany(i => i.DiagnosisTreatments)
                     .HasForeignKey(t => t.DiagnosisId);
     }
+
     //private void DiagnosisSuggestionModelBuilder(ModelBuilder modelBuilder)  // Bản này có thể không tạo
     //{
     //    this.BaseModelBuilder<DiagnosisSuggestion>(modelBuilder, nameof(DiagnosisSuggestion));
@@ -612,6 +615,7 @@ public class SQLDatabaseModelBuilder
     //                .WithMany(d => d.DiagnosisSuggestions)
     //                .HasForeignKey(ds => ds.DiagnosisId);
     //}
+
     private void DiseasesModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<Diseases>(modelBuilder, nameof(Diseases));
@@ -625,7 +629,7 @@ public class SQLDatabaseModelBuilder
         modelBuilder.Entity<Diseases>()
                     .Property(x => x.Description)
                     .HasColumnType("nvarchar")
-                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH);
+                    .HasMaxLength(DataTypeHelpers.DESCRIPTION_NAME_FIELD_LENGTH_LARGE);
 
         modelBuilder.Entity<Diseases>()
                     .Property(x => x.Status)
@@ -912,6 +916,7 @@ public class SQLDatabaseModelBuilder
                     .Property(x => x.HealthInsurancePrice)
                     .HasColumnType("int"); 
     }
+
     private void AnalysisTestModelBuilder(ModelBuilder modelBuilder)
     {
         this.BaseModelBuilder<AnalysisTest>(modelBuilder, nameof(AnalysisTest));

@@ -306,6 +306,7 @@ public static class MedicalExamEpisodeExtensions
         medicalExamEpisode.Diagnoses.Clear();
         medicalExamEpisode.RoomAllocations.Clear();
         medicalExamEpisode.DrugPrescriptions.Clear();
+        medicalExamEpisode.ServiceEpisodes.Clear();
         return medicalExamEpisode;
     }
     #endregion

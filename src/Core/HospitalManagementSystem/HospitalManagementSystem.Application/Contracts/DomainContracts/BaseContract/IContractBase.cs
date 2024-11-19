@@ -10,11 +10,11 @@ public interface IContractBase<TOutputEntity, TInputEntity, TEId>
 
     Task<TOutputEntity?> FindByIdAsync(TEId id, CancellationToken cancellationToken = default!, bool isQuickFind = true);
 
-    Task AddAsync(TInputEntity entity, CancellationToken cancellationToken = default!);
+    Task AddAsync(TInputEntity entity, bool saveImmediately = true, CancellationToken cancellationToken = default!);
 
-    Task AddRangeAsync(IEnumerable<TInputEntity> entities, CancellationToken cancellationToken = default!);
+    Task AddRangeAsync(IEnumerable<TInputEntity> entities, bool saveImmediately = true, CancellationToken cancellationToken = default!);
 
-    Task AddRangeAsync(CancellationToken cancellationToken = default!, params TInputEntity[] entities);
+    Task AddRangeAsync(CancellationToken cancellationToken = default!, bool saveImmediately = true, params TInputEntity[] entities);
 
     Task UpdateAsync(TInputEntity entity, CancellationToken cancellationToken = default!);
 
