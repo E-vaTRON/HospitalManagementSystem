@@ -1,4 +1,7 @@
-﻿namespace HospitalManagementSystem.DataProvider;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+namespace HospitalManagementSystem.DataProvider;
 
 public class SeedServiceProvider : ISeedProvider
 {
@@ -8,11 +11,11 @@ public class SeedServiceProvider : ISeedProvider
     #endregion
 
     #region [ CTor ]
-    public SeedServiceProvider( DataContext dataContexts,
-                         IDbContextFactory<HospitalManagementSystemDbContext> dbContextFactory)
+    public SeedServiceProvider(DataContext dataContexts,
+                               HospitalManagementSystemDbContext dbContextFactory)
     {
         DataContexts = dataContexts;
-        DbContext = dbContextFactory.CreateDbContext();
+        DbContext = dbContextFactory;
     }
     #endregion
 
@@ -75,39 +78,62 @@ public class SeedServiceProvider : ISeedProvider
 
     public async Task SeedDatabaseAsync()
     {
-        await DataContexts.Diseases.SeedAsync(SeedProvider.Seed.Diseases);
-        await DataContexts.ICDVersions.SeedAsync(SeedProvider.Seed.ICDVersions);
-        await DataContexts.ICDCodes.SeedAsync(SeedProvider.Seed.ICDCodes);
-        await DataContexts.ICDCodeVersions.SeedAsync(SeedProvider.Seed.ICDCodeVersions);
-        await DataContexts.Treatments.SeedAsync(SeedProvider.Seed.Treatments);
+        var strategy = DbContext.Database.CreateExecutionStrategy();
+        await strategy.ExecuteAsync(async () =>
+        {
+            using (var transaction = await DbContext.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    await DataContexts.Diseases.SeedAsync(SeedProvider.Seed.Diseases, false);
+                    await DataContexts.ICDVersions.SeedAsync(SeedProvider.Seed.ICDVersions, false);
+                    await DataContexts.ICDCodes.SeedAsync(SeedProvider.Seed.ICDCodes, false);
+                    await DataContexts.ICDCodeVersions.SeedAsync(SeedProvider.Seed.ICDCodeVersions, false);
+                    await DataContexts.Treatments.SeedAsync(SeedProvider.Seed.Treatments, false);
 
-        await DataContexts.FormTypes.SeedAsync(SeedProvider.Seed.FormTypes);
-        await DataContexts.MedicalServices.SeedAsync(SeedProvider.Seed.MedicalServices);
-        await DataContexts.MedicalDevices.SeedAsync(SeedProvider.Seed.MedicalDevices);
-        await DataContexts.MedicalDeviceForms.SeedAsync(SeedProvider.Seed.MedicalDeviceForms);
-        await DataContexts.MeasurementUnits.SeedAsync(SeedProvider.Seed.MeasurementUnits);
-        await DataContexts.DeviceUnits.SeedAsync(SeedProvider.Seed.DeviceUnits);
+                    await DataContexts.FormTypes.SeedAsync(SeedProvider.Seed.FormTypes, false);
+                    await DataContexts.MedicalServices.SeedAsync(SeedProvider.Seed.MedicalServices, false);
+                    await DataContexts.MedicalDevices.SeedAsync(SeedProvider.Seed.MedicalDevices, false);
+                    await DataContexts.MedicalDeviceForms.SeedAsync(SeedProvider.Seed.MedicalDeviceForms, false);
+                    await DataContexts.MeasurementUnits.SeedAsync(SeedProvider.Seed.MeasurementUnits, false);
+                    await DataContexts.DeviceUnits.SeedAsync(SeedProvider.Seed.DeviceUnits, false);
 
-        await DataContexts.Drugs.SeedAsync(SeedProvider.Seed.Drugs);
-        await DataContexts.Importations.SeedAsync(SeedProvider.Seed.Importations);
+                    await DataContexts.Drugs.SeedAsync(SeedProvider.Seed.Drugs, false);
+                    await DataContexts.Importations.SeedAsync(SeedProvider.Seed.Importations, false);
 
-        await DataContexts.Storages.SeedAsync(SeedProvider.Seed.Storages);
-        await DataContexts.DeviceInventories.SeedAsync(SeedProvider.Seed.DeviceInventories);
-        await DataContexts.DrugInventories.SeedAsync(SeedProvider.Seed.DrugInventories);
+                    await DataContexts.Storages.SeedAsync(SeedProvider.Seed.Storages, false);
+                    await DataContexts.DeviceInventories.SeedAsync(SeedProvider.Seed.DeviceInventories, false);
+                    await DataContexts.DrugInventories.SeedAsync(SeedProvider.Seed.DrugInventories, false);
 
-        await DataContexts.Departments.SeedAsync(SeedProvider.Seed.Departments);
-        await DataContexts.Rooms.SeedAsync(SeedProvider.Seed.Rooms);
+                    await DataContexts.Departments.SeedAsync(SeedProvider.Seed.Departments, false);
+                    await DataContexts.Rooms.SeedAsync(SeedProvider.Seed.Rooms, false);
 
-        await DataContexts.BookingAppointments.SeedAsync(SeedProvider.Seed.BookingAppointments);
-        await DataContexts.MedicalExams.SeedAsync(SeedProvider.Seed.MedicalExams);
-        await DataContexts.MedicalExamEpisodes.SeedAsync(SeedProvider.Seed.MedicalExamEpisodes);
-        await DataContexts.AssignmentHistories.SeedAsync(SeedProvider.Seed.AssignmentHistories);
-        await DataContexts.Diagnoses.SeedAsync(SeedProvider.Seed.Diagnoses);
-        await DataContexts.ServiceEpisodes.SeedAsync(SeedProvider.Seed.ServiceEpisodes);
-        await DataContexts.AnalysisTests.SeedAsync(SeedProvider.Seed.AnalysisTests);
-        await DataContexts.DrugPrescriptions.SeedAsync(SeedProvider.Seed.DrugPrescriptions);
+                    await DataContexts.BookingAppointments.SeedAsync(SeedProvider.Seed.BookingAppointments, false);
+                    await DataContexts.MedicalExams.SeedAsync(SeedProvider.Seed.MedicalExams, false);
+                    await DataContexts.MedicalExamEpisodes.SeedAsync(SeedProvider.Seed.MedicalExamEpisodes, false);
+                    await DataContexts.AssignmentHistories.SeedAsync(SeedProvider.Seed.AssignmentHistories, false);
+                    await DataContexts.Diagnoses.SeedAsync(SeedProvider.Seed.Diagnoses, false);
+                    await DataContexts.ServiceEpisodes.SeedAsync(SeedProvider.Seed.ServiceEpisodes, false);
+                    await DataContexts.AnalysisTests.SeedAsync(SeedProvider.Seed.AnalysisTests, false);
+                    await DataContexts.DrugPrescriptions.SeedAsync(SeedProvider.Seed.DrugPrescriptions, false);
 
-        await DataContexts.Bills.SeedAsync(SeedProvider.Seed.Bills);
+                    await DataContexts.Bills.SeedAsync(SeedProvider.Seed.Bills, false);
+
+                    await DbContext.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                }
+                catch (Exception ex)
+                {
+                    // Output the exception details to the debug window
+                    Debug.WriteLine($"An error occurred during database seeding: {ex.Message}");
+                    Debug.WriteLine(ex.StackTrace);
+
+                    // Rollback transaction on error
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
+        });
     }
     #endregion
 }

@@ -82,6 +82,7 @@ public static class MedicalDeviceExtensions
     {
         medicalDevice.DeviceInventories.Clear();
         medicalDevice.MedicalDeviceForms.Clear();
+        medicalDevice.DeviceUnits.Clear();
         return medicalDevice;
     }
     #endregion

@@ -78,25 +78,25 @@ public abstract class ServiceProviderBase<TOutputDto, TInputDto, TDId, TEntity, 
         return MapToDTO(entity);
     }
 
-    public Task AddAsync(TInputDto? dto, CancellationToken cancellationToken = default)
+    public Task AddAsync(TInputDto? dto, bool saveImmediately = true, CancellationToken cancellationToken = default)
     {
         var entity = MapToEntity(dto);
         ArgumentNullException.ThrowIfNull(entity, nameof(entity));
-        return DataProvider.AddAsync(entity, cancellationToken);
+        return DataProvider.AddAsync(entity, saveImmediately, cancellationToken);
     }
 
-    public Task AddRangeAsync(IEnumerable<TInputDto> dtos, CancellationToken cancellationToken = default)
+    public Task AddRangeAsync(IEnumerable<TInputDto> dtos, bool saveImmediately = true, CancellationToken cancellationToken = default)
     {
         var entities = MapToEntities(dtos);
         ArgumentNullException.ThrowIfNull(entities, nameof(entities));
-        return DataProvider.AddRangeAsync(entities, cancellationToken);
+        return DataProvider.AddRangeAsync(entities, saveImmediately, cancellationToken);
     }
 
-    public Task AddRangeAsync(CancellationToken cancellationToken = default, params TInputDto[] dtos)
+    public Task AddRangeAsync(CancellationToken cancellationToken = default, bool saveImmediately = true, params TInputDto[] dtos)
     {
         var entities = MapToEntities(dtos);
         ArgumentNullException.ThrowIfNull(entities, nameof(entities));
-        return DataProvider.AddRangeAsync(cancellationToken, entities);
+        return DataProvider.AddRangeAsync(cancellationToken, saveImmediately, entities);
     }
 
     public Task UpdateAsync(TInputDto? dto, CancellationToken cancellationToken = default)

@@ -48,6 +48,7 @@ public static class ICDCodeExtensions
     {
         icdCode.Diseases = null!;
         icdCode.ICDCodeVersions.Clear();
+        icdCode.Diagnoses.Clear();
         return icdCode;
     }
     #endregion

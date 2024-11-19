@@ -6,14 +6,24 @@ public static class HostExtensions
     public static void UseHMSInMemoryDataProviders(this IHost host)
     {
         //var database = host.Services.GetService<ISeedProvider>();
-        //database?.EnsureDatabaseAsync().Wait();
-        //database?.SeedDatabaseAsync().Wait();
-
         using (var scope = host.Services.CreateScope())
         {
             var database = scope.ServiceProvider.GetRequiredService<ISeedProvider>();
-            database?.EnsureDatabaseAsync().Wait();
-            database?.SeedDatabaseAsync().Wait();
+            try
+            {
+                database?.EnsureDatabaseAsync().Wait();
+                database?.SeedDatabaseAsync().Wait();
+            }
+            catch (AggregateException aggEx)
+            {
+                foreach (var ex in aggEx.InnerExceptions)
+                {
+                    // Log or handle each exception
+                    Debug.WriteLine($"An error occurred: {ex.Message}");
+                    Debug.WriteLine(ex.StackTrace);
+                }
+                throw;
+            }
         }
     }
     #endregion

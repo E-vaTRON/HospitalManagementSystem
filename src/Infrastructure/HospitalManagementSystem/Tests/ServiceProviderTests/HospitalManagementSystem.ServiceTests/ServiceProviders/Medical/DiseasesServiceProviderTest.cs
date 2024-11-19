@@ -26,13 +26,13 @@ public class DiseasesServiceProviderTest : ServiceProviderTestBase
                                  .With(i => i.Id, Guid.NewGuid().ToString())
                                  .Create();
         var diseasesAdd = Mapper.Map<Domain.Diseases>(diseasesDtoAdd);
-        DataProvider.Setup(dp => dp.AddAsync(diseasesAdd, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+        DataProvider.Setup(dp => dp.AddAsync(diseasesAdd, true, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
         // Act
         await ServiceProvider.AddAsync(diseasesDtoAdd);
 
         // Assert
-        DataProvider.Verify(dp => dp.AddAsync(diseasesAdd, It.IsAny<CancellationToken>()), Times.Once());
+        DataProvider.Verify(dp => dp.AddAsync(diseasesAdd, true, It.IsAny<CancellationToken>()), Times.Once());
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class DiseasesServiceProviderTest : ServiceProviderTestBase
         //Arrange
         var diseasesDtoAdd = default(InputDiseasesDTO);
         var diseasesAdd = Mapper.Map<Domain.Diseases>(diseasesDtoAdd);
-        DataProvider.Setup(dp => dp.AddAsync(It.IsAny<Domain.Diseases>(), It.IsAny<CancellationToken>())).Throws<Exception>();
+        DataProvider.Setup(dp => dp.AddAsync(It.IsAny<Domain.Diseases>(), true, It.IsAny<CancellationToken>())).Throws<Exception>();
 
         //Act
         var add = async () => await ServiceProvider.AddAsync(diseasesDtoAdd!);
