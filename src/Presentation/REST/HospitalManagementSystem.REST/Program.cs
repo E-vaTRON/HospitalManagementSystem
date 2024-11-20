@@ -25,6 +25,9 @@ builder.Services.AddLocalization();
 builder.Services.AddHospitalManagementSystemApplicationServices(configuration);
 builder.Services.AddIdentitySystemApplicationServices(configuration);
 
+builder.Services.AddHospitalManagementSystemDataProviders();
+builder.Services.AddIdentitySystemDataProviders();
+
 builder.Services.AddIdentitySystemSqlServerDataProviders(configuration);
 builder.Services.AddHospitalManagementSystemSqlServerDataProviders(configuration);
 

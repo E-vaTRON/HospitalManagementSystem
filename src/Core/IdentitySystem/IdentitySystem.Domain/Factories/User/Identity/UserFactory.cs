@@ -7,29 +7,6 @@ public static class UserFactory
         return new User();
     }
 
-    public static User Create(string userName, string email, string firstName, string lastName, int age, 
-        DateTime dayOfBirth, bool gender, string cardID, int? specialistLevel, DateTime? lastUpdatedOn)
-    {
-        return new User()
-        {
-            UserName = userName,
-            Email = email,
-            FirstName = firstName,
-            LastName = lastName,
-            Age = age,
-            DayOfBirth = dayOfBirth,
-            Gender = gender,
-            Address = string.Empty,
-            CardID = cardID,
-            SpecialistLevel = specialistLevel,
-            Verified = false,
-            IsDeleted = false,
-            IsExpired = false,
-            CreatedOn = DateTime.UtcNow,
-            LastUpdatedOn = lastUpdatedOn
-        };
-    }
-
     public static User Create(string id, 
                               string userName, string normalizedUserName, 
                               string email, string normalizedEmail, bool emailConfirmed,
@@ -65,7 +42,7 @@ public static class UserFactory
             CardID = cardID,
             SpecialistLevel = specialistLevel,
             Verified = verified,
-            CreatedOn = DateTime.UtcNow,
+            //CreatedOn = DateTime.UtcNow,
         };
     }
 }

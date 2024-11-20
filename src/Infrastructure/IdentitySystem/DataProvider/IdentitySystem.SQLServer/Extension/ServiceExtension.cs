@@ -35,7 +35,6 @@ public static class ServiceExtension
         services.AddIdentitySystemDataBaseContextProviders();
 
         //Providers
-        services.AddIdentitySystemDataProviders();
         services.AddIdentitySystemSeedDataProviders();
     }
     #endregion

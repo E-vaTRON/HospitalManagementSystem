@@ -49,5 +49,12 @@ public static class RoleExtensions
     {
         return role.AddRoleClaim(RoleClaimFactory.Create(id, claimType, claimValue));
     }
+
+    public static Role RemoveRelated(this Role role)
+    {
+        role.UserRoles.Clear();
+        role.RoleClaims.Clear();
+        return role;
+    }
     #endregion
 }

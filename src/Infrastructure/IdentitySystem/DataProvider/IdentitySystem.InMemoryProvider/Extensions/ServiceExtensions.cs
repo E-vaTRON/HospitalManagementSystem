@@ -32,7 +32,6 @@ public static class ServiceExtensions
         //}, ServiceLifetime.Singleton);
 
         //Providers
-        services.AddIdentitySystemDataProviders();
         services.AddIdentitySystemSeedDataProviders();
 
     }

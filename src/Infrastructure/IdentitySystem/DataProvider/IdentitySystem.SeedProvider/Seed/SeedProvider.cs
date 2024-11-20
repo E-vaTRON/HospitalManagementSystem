@@ -1,6 +1,4 @@
-﻿using IdentitySystem.Domain;
-
-namespace IdentitySystem.DataProvider;
+﻿namespace IdentitySystem.DataProvider;
 
 public class SeedProvider
 {
@@ -34,6 +32,7 @@ public class SeedProvider
 
         Clear();
         Load();
+        Clean();
     }
     #endregion
 
@@ -85,6 +84,25 @@ public class SeedProvider
 
         Specializations.Clear();
         UserSpecializations.Clear();
+    }
+
+    private void Clean()
+    {
+        Notifications.ForEach(x => x.RemoveRelated());
+
+        ScheduleDays.ForEach(x => x.RemoveRelated());
+        ScheduleSlots.ForEach(x => x.RemoveRelated());
+
+        Users.ForEach(x => x.RemoveRelated());
+        Roles.ForEach(x => x.RemoveRelated());
+        UserRoles.ForEach(x => x.RemoveRelated());
+        RoleClaims.ForEach(x => x.RemoveRelated());
+        UserClaims.ForEach(x => x.RemoveRelated());
+        UserTokens.ForEach(x => x.RemoveRelated());
+        UserLogins.ForEach(x => x.RemoveRelated());
+
+        Specializations.ForEach(x => x.RemoveRelated());
+        UserSpecializations.ForEach(x => x.RemoveRelated());
     }
     #endregion
 
@@ -232,18 +250,18 @@ public class SeedProvider
     private void LoadRoles()
     {
         // Admin
-        this.Roles.Add(RoleFactory.Create("Admin"));
+        this.Roles.Add(RoleFactory.Create("Admin", "ADMIN", "CONCURRENCY_STAMP"));
 
         // Patient
-        this.Roles.Add(RoleFactory.Create("Patient"));
+        this.Roles.Add(RoleFactory.Create("Patient", "PATIENT", "CONCURRENCY_STAMP"));
 
         // Medical roles
-        this.Roles.Add(RoleFactory.Create("Doctor"));
-        this.Roles.Add(RoleFactory.Create("Pharmacist"));
-        this.Roles.Add(RoleFactory.Create("Nurse"));
-        this.Roles.Add(RoleFactory.Create("Radiologist"));
-        this.Roles.Add(RoleFactory.Create("Pathologist"));
-        this.Roles.Add(RoleFactory.Create("Anesthesiologist"));
+        this.Roles.Add(RoleFactory.Create("Doctor", "DOCTOR", "CONCURRENCY_STAMP")); 
+        this.Roles.Add(RoleFactory.Create("Pharmacist", "PHARMACIST", "CONCURRENCY_STAMP")); 
+        this.Roles.Add(RoleFactory.Create("Nurse", "NURSE", "CONCURRENCY_STAMP")); 
+        this.Roles.Add(RoleFactory.Create("Radiologist", "RADIOLOGIST", "CONCURRENCY_STAMP")); 
+        this.Roles.Add(RoleFactory.Create("Pathologist", "PATHOLOGIST", "CONCURRENCY_STAMP")); 
+        this.Roles.Add(RoleFactory.Create("Anesthesiologist", "ANESTHESIOLOGIST", "CONCURRENCY_STAMP"));
 
         // Specialized nursing roles
         //this.Roles.Add(RoleFactory.Create("Pediatric Nurse"));
@@ -256,11 +274,11 @@ public class SeedProvider
         //this.Roles.Add(RoleFactory.Create("Surgical Nurse"));
 
         // Non-medical roles
-        this.Roles.Add(RoleFactory.Create("Receptionist"));
-        this.Roles.Add(RoleFactory.Create("Accountant"));
-        this.Roles.Add(RoleFactory.Create("HR"));
-        this.Roles.Add(RoleFactory.Create("Biomedical Engineer"));
-        this.Roles.Add(RoleFactory.Create("IT"));
+        this.Roles.Add(RoleFactory.Create("Receptionist", "RECEPTIONIST", "CONCURRENCY_STAMP")); 
+        this.Roles.Add(RoleFactory.Create("Accountant", "ACCOUNTANT", "CONCURRENCY_STAMP")); 
+        this.Roles.Add(RoleFactory.Create("HR", "HR", "CONCURRENCY_STAMP")); 
+        this.Roles.Add(RoleFactory.Create("Biomedical Engineer", "BIOMEDICAL ENGINEER", "CONCURRENCY_STAMP")); 
+        this.Roles.Add(RoleFactory.Create("IT", "IT", "CONCURRENCY_STAMP"));
     }
 
     private void LoadUserRoles()
@@ -295,11 +313,6 @@ public class SeedProvider
         foreach (var item in this.Users)
         {
             this.UserRoles.AddRange(item.UserRoles);
-            item.UserRoles.Clear();
-        }
-        foreach (var item in this.Roles)
-        {
-            item.UserRoles.Clear();
         }
     }
 
@@ -312,7 +325,6 @@ public class SeedProvider
         foreach (var item in this.Users)
         {
             this.UserClaims.AddRange(item.UserClaims);
-            item.UserClaims.Clear();
         }
     }
 
@@ -325,7 +337,6 @@ public class SeedProvider
         foreach (var item in this.Roles)
         {
             this.RoleClaims.AddRange(item.RoleClaims);
-            item.RoleClaims.Clear();
         }
     }
 
@@ -361,7 +372,6 @@ public class SeedProvider
         foreach (var item in this.Users)
         {
             this.UserLogins.AddRange(item.UserLogins);
-            item.UserLogins.Clear();
         }
     }
 
@@ -407,7 +417,6 @@ public class SeedProvider
         foreach (var item in this.Users)
         {
             this.UserSpecializations.AddRange(item.UserSpecializations);
-            item.UserSpecializations.Clear();
         }
     }
 

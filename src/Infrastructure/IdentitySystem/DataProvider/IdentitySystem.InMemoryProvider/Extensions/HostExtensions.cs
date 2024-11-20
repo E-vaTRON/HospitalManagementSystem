@@ -7,9 +7,22 @@ public static class HostExtensions
     {
         using (var scope = host.Services.CreateScope())
         {
-            var database = scope.ServiceProvider.GetRequiredService<ISeedProvider>();
-            database?.EnsureDatabaseAsync().Wait();
-            database?.SeedDatabaseAsync().Wait();
+            var database = scope.ServiceProvider.GetRequiredService<ISeedDataProvider>();
+            try
+            {
+                database?.EnsureDatabaseAsync().Wait();
+                database?.SeedDatabaseAsync().Wait();
+            }
+            catch (AggregateException aggException)
+            {
+                foreach (var exception in aggException.InnerExceptions)
+                {
+                    // Log or handle each exception
+                    Debug.WriteLine($"An error occurred: {exception.Message}");
+                    Debug.WriteLine(exception.StackTrace);
+                }
+                throw;
+            }
         }
     }
     #endregion

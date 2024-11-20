@@ -1,7 +1,4 @@
-﻿using HospitalManagementSystem.Domain;
-using System.Reflection.PortableExecutable;
-
-namespace HospitalManagementSystem.DataProvider;
+﻿namespace HospitalManagementSystem.DataProvider;
 
 public class SeedProvider
 {

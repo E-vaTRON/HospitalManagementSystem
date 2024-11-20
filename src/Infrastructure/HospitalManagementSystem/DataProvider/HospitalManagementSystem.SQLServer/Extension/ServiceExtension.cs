@@ -35,7 +35,6 @@ public static class ServiceExtension
         services.AddHospitalManagementSystemDataBaseContextProviders();
 
         //Providers
-        services.AddHospitalManagementSystemDataProviders();
         services.AddHospitalManagementSystemSeedDataProviders();
     }
     #endregion

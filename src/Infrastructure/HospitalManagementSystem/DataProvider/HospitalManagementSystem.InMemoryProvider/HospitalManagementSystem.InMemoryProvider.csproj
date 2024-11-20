@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HospitalManagementSystem.DataProvider\HospitalManagementSystem.DataProvider.csproj" />
+    <ProjectReference Include="..\HospitalManagementSystem.Context\HospitalManagementSystem.Context.csproj" />
     <ProjectReference Include="..\HospitalManagementSystem.SeedProvider\HospitalManagementSystem.SeedProvider.csproj" />
   </ItemGroup>
 

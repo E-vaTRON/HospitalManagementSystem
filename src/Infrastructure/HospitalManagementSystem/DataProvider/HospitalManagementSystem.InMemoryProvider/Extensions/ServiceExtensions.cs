@@ -26,7 +26,6 @@ public static class ServiceExtensions
                                                                        .CreateDbContext());
 
         //Providers
-        services.AddHospitalManagementSystemDataProviders();
         services.AddHospitalManagementSystemSeedDataProviders();
 
     }

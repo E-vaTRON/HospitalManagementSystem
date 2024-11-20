@@ -109,5 +109,17 @@ public static class UserExtensions
     {
         return user.AddUserSpecialization(specialization, UserSpecializationFactory.Create());
     }
+
+    public static User RemoveRelated(this User user)
+    {
+        user.UserRoles.Clear();
+        user.UserClaims.Clear();
+        user.UserLogins.Clear();
+        user.UserTokens.Clear();
+        user.Notifications.Clear();
+        user.UserSpecializations.Clear();
+        user.ScheduleDays.Clear();
+        return user;
+    }
     #endregion
 }

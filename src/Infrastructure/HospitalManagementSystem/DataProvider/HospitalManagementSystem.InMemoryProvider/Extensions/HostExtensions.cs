@@ -8,19 +8,19 @@ public static class HostExtensions
         //var database = host.Services.GetService<ISeedProvider>();
         using (var scope = host.Services.CreateScope())
         {
-            var database = scope.ServiceProvider.GetRequiredService<ISeedProvider>();
+            var database = scope.ServiceProvider.GetRequiredService<ISeedDataProvider>();
             try
             {
                 database?.EnsureDatabaseAsync().Wait();
                 database?.SeedDatabaseAsync().Wait();
             }
-            catch (AggregateException aggEx)
+            catch (AggregateException aggException)
             {
-                foreach (var ex in aggEx.InnerExceptions)
+                foreach (var exception in aggException.InnerExceptions)
                 {
                     // Log or handle each exception
-                    Debug.WriteLine($"An error occurred: {ex.Message}");
-                    Debug.WriteLine(ex.StackTrace);
+                    Debug.WriteLine($"An error occurred: {exception.Message}");
+                    Debug.WriteLine(exception.StackTrace);
                 }
                 throw;
             }

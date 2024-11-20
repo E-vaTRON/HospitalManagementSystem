@@ -1,4 +1,6 @@
-﻿namespace HospitalManagementSystem.DataProvider;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+
+namespace HospitalManagementSystem.DataProvider;
 
 public class DataContext
 {
@@ -84,7 +86,7 @@ public class DataContext
     }
     #endregion
 
-    #region [ Methods ]
+    #region [ Properties ]
     #region [ Fuction ]
     public IBookingAppointmentDataProvider  BookingAppointments { get; set; }
     public IReExamAppointmentDataProvider   ReExamAppointments  { get; set; }

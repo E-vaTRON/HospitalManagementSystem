@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\DataProvider\HospitalManagementSystem.DataProvider\HospitalManagementSystem.DataProvider.csproj" />
     <ProjectReference Include="..\..\..\DataProvider\HospitalManagementSystem.InMemoryProvider\HospitalManagementSystem.InMemoryProvider.csproj" />
     <ProjectReference Include="..\..\..\DataProvider\HospitalManagementSystem.SQLServer\HospitalManagementSystem.SQLServer.csproj" />
   </ItemGroup>

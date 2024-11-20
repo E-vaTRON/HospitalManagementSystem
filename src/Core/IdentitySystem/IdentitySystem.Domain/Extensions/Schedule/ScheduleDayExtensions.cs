@@ -29,5 +29,12 @@ public static class ScheduleDayExtensions
     {
         return role.AddUserRole(ScheduleSlotFactory.Create(startTime, endTime, task));
     }
+
+    public static ScheduleDay RemoveRelated(this ScheduleDay scheduleDay)
+    {
+        scheduleDay.User = null!;
+        scheduleDay.ScheduleSlots.Clear();
+        return scheduleDay;
+    }
     #endregion
 }

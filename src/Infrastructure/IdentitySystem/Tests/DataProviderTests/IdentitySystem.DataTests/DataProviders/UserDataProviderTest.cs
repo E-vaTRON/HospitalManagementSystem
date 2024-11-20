@@ -1,9 +1,4 @@
-﻿using AutoFixture;
-using Microsoft.AspNetCore.Identity;
-using System.Net.Mail;
-using System.Security.Claims;
-
-namespace IdentitySystem.Tests;
+﻿namespace IdentitySystem.Tests;
 
 public class UserDataProviderTest : DataProviderTestBase
 {

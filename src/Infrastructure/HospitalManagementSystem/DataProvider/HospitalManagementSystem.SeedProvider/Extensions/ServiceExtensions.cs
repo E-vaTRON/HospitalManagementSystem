@@ -6,7 +6,7 @@ public static class ServiceExtensions
 
     public static void AddHospitalManagementSystemSeedDataProviders(this IServiceCollection services,string databaseName = "HospitalDataBase") 
     {
-        services.AddTransient<ISeedProvider, SeedServiceProvider>();
+        services.AddTransient<ISeedDataProvider, SeedDataProvider>();
     }
     #endregion
 }

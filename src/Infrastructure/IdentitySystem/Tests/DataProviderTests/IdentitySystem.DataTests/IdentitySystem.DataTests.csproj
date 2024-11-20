@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\DataProvider\IdentitySystem.DataProvider\IdentitySystem.DataProvider.csproj" />
     <ProjectReference Include="..\..\..\DataProvider\IdentitySystem.InMemoryProvider\IdentitySystem.InMemoryProvider.csproj" />
     <ProjectReference Include="..\..\..\DataProvider\IdentitySystem.SQLiteProvider\IdentitySystem.SQLite.csproj" />
     <ProjectReference Include="..\..\..\DataProvider\IdentitySystem.SQLServer\IdentitySystem.SQLServer.csproj" />

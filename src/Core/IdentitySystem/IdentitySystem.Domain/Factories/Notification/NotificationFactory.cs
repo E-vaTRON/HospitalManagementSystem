@@ -7,14 +7,13 @@ public static class NotificationFactory
         return new Notification();
     }
 
-    public static Notification Create(string status, string message, string redirectUrl, string userId)
+    public static Notification Create(string status, string message, string redirectUrl)
     {
         return new Notification()
         {
             Status = status,
             Message = message,
-            RedirectUrl = redirectUrl,
-            UserId = userId
+            RedirectUrl = redirectUrl
         };
     }
 

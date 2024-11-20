@@ -7,12 +7,14 @@ public static class RoleFactory
         return new Role();
     }
 
-    public static Role Create(string roleName)
+    public static Role Create(string roleName, string normalizedName, string concurrencyStamp)
     {
         return new Role()
         {
             Name = roleName,
-            CreatedOn = DateTime.UtcNow,
+            NormalizedName = normalizedName,
+            ConcurrencyStamp = concurrencyStamp
+            //CreatedOn = DateTime.UtcNow,
         };
     }
 }

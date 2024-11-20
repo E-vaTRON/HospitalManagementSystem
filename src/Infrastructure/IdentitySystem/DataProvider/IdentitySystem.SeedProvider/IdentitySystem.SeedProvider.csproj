@@ -9,7 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Core\IdentitySystem\IdentitySystem.Application\IdentitySystem.Application.csproj" />
     <ProjectReference Include="..\..\..\..\Core\IdentitySystem\IdentitySystem.Domain\IdentitySystem.Domain.csproj" />
-    <ProjectReference Include="..\IdentitySystem.DataProvider\IdentitySystem.DataProvider.csproj" />
+    <ProjectReference Include="..\IdentitySystem.Context\IdentitySystem.Context.csproj" />
   </ItemGroup>
 
 </Project>

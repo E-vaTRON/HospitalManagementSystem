@@ -30,12 +30,12 @@ public partial class HospitalManagementSystemDbContext : DbContext
     //public virtual DbSet<RoomAssignment>    RoomAssignments { get; set; } = null!;
 
     public virtual DbSet<Drug>              Drugs               { get; set; } = null!;
-    public virtual DbSet<DrugInventory>     DrugInventorys      { get; set; } = null!;
+    public virtual DbSet<DrugInventory>     DrugInventories      { get; set; } = null!;
     public virtual DbSet<DrugPrescription>  DrugPrescriptions   { get; set; } = null!;
     public virtual DbSet<Storage>           Storages            { get; set; } = null!;
     //public virtual DbSet<GoodSuppling>      GoodSupplings       { get; set; } = null!;
     public virtual DbSet<Importation>       Importations        { get; set; } = null!;
-    public virtual DbSet<DeviceInventory>   DeviceInventorys    { get; set; } = null!;
+    public virtual DbSet<DeviceInventory>   DeviceInventories    { get; set; } = null!;
 
     public virtual DbSet<AssignmentHistory>     AssignmentHistories     { get; set; } = null!;
     public virtual DbSet<Diagnosis>             Diagnoses               { get; set; } = null!;

@@ -1,52 +1,35 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace IdentitySystem.DataProvider;
+﻿namespace IdentitySystem.DataProvider;
 
 public static class SeedProviderHelpers
 {
     #region [ Seed ]
-    public static async Task SeedAsync<TEntity, TEId>(this IDataProviderBase<TEntity, TEId> dataProvider, List<TEntity> entities, bool onlySeedIfEmpty = true)
-        where TEntity : class, IEntity<TEId>
-    {
-
-        var dbResults = await dataProvider.FindAllAsync();
-        if (dbResults.Any() && onlySeedIfEmpty)
-        {
-            return;
-        }
-
-        foreach (var entity in entities)
-        {
-            await dataProvider.AddAsync(entity);
-        }
-    }
-
-    public static async Task SeedIdentityAsync<TEntity, TEId>(this IIdentityDataProviderBase<TEntity, TEId> dataProvider, List<TEntity> entities, bool onlySeedIfEmpty = true)
+    public static async Task SeedAsync<TEntity, TModel>(this DbSet<TModel> dbSet, List<TEntity> domainEntities, IMapper mapper,  bool onlySeedIfEmpty = true)
         where TEntity : class
+        where TModel : class
     {
-
-        var dbResults = await dataProvider.FindAll().ToListAsync();
+        var dbResults = await dbSet.ToListAsync();
         if (dbResults.Any() && onlySeedIfEmpty)
         {
             return;
         }
 
-        if (dataProvider is IUserDataProvider userDataProvider)
-        {
-            foreach (var entity in entities)
-            {
-                if (entity is Domain.User user)
-                    await userDataProvider.CreateAsync(user, "12345");
-            }
-        }
+        var dataEntities = mapper.Map<List<TModel>>(domainEntities);
 
-        if (dataProvider is IRoleDataProvider roleDataProvider)
+        if (typeof(TModel) != typeof(User)) 
         {
-            foreach (var entity in entities)
+            await dbSet.AddRangeAsync(dataEntities);
+        } 
+        else 
+        {
+            var passwordHasher = new PasswordHasher<User>();
+            foreach (var entity in dataEntities)
             {
-                if (entity is Domain.Role role)
-                    await roleDataProvider.CreateAsync(role);
+                if (entity is User user)
+                {
+                    user.PasswordHash = passwordHasher.HashPassword(user, "12345");
+                }
             }
+            await dbSet.AddRangeAsync(dataEntities);
         }
     }
     #endregion

@@ -1,8 +1,8 @@
 ﻿namespace IdentitySystem.DataProvider;
 
-public class MappingHelper : Profile
+public class DefaultMappingProfile : Profile
 {
-    public MappingHelper()
+    public DefaultMappingProfile()
     {
         AllowNullCollections = true;
         AllowNullDestinationValues = true;

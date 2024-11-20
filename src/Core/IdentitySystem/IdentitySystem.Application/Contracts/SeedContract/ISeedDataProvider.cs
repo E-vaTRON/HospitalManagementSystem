@@ -1,6 +1,6 @@
-﻿namespace HospitalManagementSystem.Application;
+﻿namespace IdentitySystem.Application;
 
-public interface ISeedProvider
+public interface ISeedDataProvider
 {
     #region [ Methods - Database ]
     Task EnsureDatabaseAsync(Action action = null!);
